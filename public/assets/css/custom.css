@@ -1,0 +1,48 @@
+.carousel .slides li img {
+    max-width: 100%;
+}
+.sort{
+	display: inline-block;
+	vertical-align: middle;
+}
+.select-wrapper span.caret:after{
+	position: absolute;
+    background: #fff;
+    right: -5px;
+}
+.select-wrapper span.caret{
+	right: 15px;
+}
+.form .input-field.submit_in button[type='submit'] {
+    border: 1px solid #ff6f00;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    width: auto;
+    line-height: 1em;
+    height: 100%;
+    padding: 0px 10px;
+    background-color: #ff6f00;
+    color: #fff;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    text-indent: 0;
+}
+label.error{
+	color: #fff;
+}
+.alert-block{
+    text-align: center;
+}
+.notification{
+    text-align: center;
+}
+.inline{
+    display: inline-block;
+}
+.avatar{
+    width: 210px !important;
+    top: 15px !important;
+
+}

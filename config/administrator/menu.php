@@ -48,18 +48,33 @@ return [
                 'icon' => 'fa fa-file-text-o'
             ],
             'products' => [
-                'icon' => 'fa fa-opencart'
+                'icon' => 'fa fa-shopping-cart'
             ],
             'sellers' => [
                 'icon' => 'fa fa-shopping-bag'
             ]
         ]
     ],
-    'Relations(dev)' => [
+    'Advanced Content' => [
+        'page_header' => 'advanced content site',
+        'pages' => [
+            'socials' => [
+                'icon' => 'fa fa-hashtag'
+            ],
+            'partners' => [
+                'icon' => 'fa fa-group'
+            ],
+            'banners' => [
+                'icon' => 'fa fa-object-group'
+            ]
+        ]
+    ],
+    'Relations' => [
         'page_header' => 'relationship tables',
+        'icon' => 'fa fa-sitemap',
         'pages' => [
             'users_products' => [
-                'icon' => 'fa fa-share-alt'
+                'icon' => 'fa fa-circle-o'
             ]
         ]
     ]

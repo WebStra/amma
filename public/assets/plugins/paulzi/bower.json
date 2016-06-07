@@ -1,0 +1,35 @@
+{
+  "name": "paulzi-form",
+  "version": "2.5.2",
+  "description": "JavaScript form helpers",
+  "main": [
+    "paulzi-form.js"
+  ],
+  "dependencies": {
+    "jquery": ">=1.5.0"
+  },
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "form",
+    "ajax"
+  ],
+  "authors": [
+    {
+      "name": "PaulZi",
+      "email": "pavel.zimakoff@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulzi/paulzi-form.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

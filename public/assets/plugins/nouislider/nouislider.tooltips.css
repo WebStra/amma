@@ -1,0 +1,28 @@
+.noUi-tooltip {
+    display: block;
+    position: absolute;
+    border-radius: 3px;
+    padding: 2px 5px;
+    text-align: center;
+    width: 100px;
+    font-size: 11px;
+    background-color: transparent;
+    left: -30px;
+    color: #ff6f00;
+}
+
+.noUi-horizontal .noUi-handle-lower .noUi-tooltip {
+    top: -20px;
+}
+
+.noUi-horizontal .noUi-handle-upper .noUi-tooltip {
+    bottom: -20px;
+}
+
+.noUi-vertical .noUi-handle-lower .noUi-tooltip {
+    left: 120%;
+}
+
+.noUi-vertical .noUi-handle-upper .noUi-tooltip {
+    right: 120%;
+}

@@ -16,6 +16,13 @@
                 {{--@include('administrator::partials.badges')--}}
 
                 <li>
+                    <a class="dropdown-toggle active" href="{{ route('home') }}">
+                        <i class="fa fa-arrow-circle-right"></i>
+                        Go to Site
+                    </a>
+                </li>
+
+                <li>
                     <a class="dropdown-toggle active" href="{{ route('admin_model_index', ['page' => 'languages']) }}">
                         <i class="fa fa-envelope"></i>
                         Languages
