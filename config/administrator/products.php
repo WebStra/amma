@@ -131,12 +131,15 @@ return [
     |
     */
     'filters' => [
+        'id' => filter_hidden(),
+
         'name' => filter_text(),
 
         'price' => filter_number_range('Price Range', [
             'min' => '100',
             'max' => '10000'
-        ]),
+        ]
+        ),
 
         'type' => filter_select('Type', [
             '' => '-- Any --',
@@ -148,11 +151,17 @@ return [
                 return $query->whereType('old');
         }),
 
-        'status' => filter_select('Active', [
+        'status' => filter_select('Status', [
             '' => '-- Any --',
             'published' => '-- Published --',
             'drafted' => '-- Drafted --',
             'completed' => '-- Completed --'
+        ]),
+
+        'active' => filter_select('Active', [
+            '' => '-- Any --',
+            '1' => '-- Active --',
+            '0' => '-- None Active --',
         ]),
 
         'created_at' => filter_daterange('Created period'),

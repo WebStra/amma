@@ -49,6 +49,17 @@ return [
             ],
             'products' => [
                 'icon' => 'fa fa-opencart'
+            ],
+            'sellers' => [
+                'icon' => 'fa fa-shopping-bag'
+            ]
+        ]
+    ],
+    'Relations(dev)' => [
+        'page_header' => 'relationship tables',
+        'pages' => [
+            'users_products' => [
+                'icon' => 'fa fa-share-alt'
             ]
         ]
     ]

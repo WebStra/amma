@@ -20,6 +20,7 @@ abstract class Seeder extends BaseSeeder
         if(! isset($instance))
             $instance = $this->instance;
 
-        \DB::table($instance->getTable())->delete();
+        if(\Schema::hasTable($instance->getTable()))
+            \DB::table($instance->getTable())->delete();
     }
 }

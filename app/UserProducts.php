@@ -26,7 +26,7 @@ class UserProducts extends Repository
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
@@ -34,7 +34,7 @@ class UserProducts extends Repository
      */
     public function seller()
     {
-        return $this->belongsTo(Seller::class, 'id', 'seller_id');
+        return $this->belongsTo(Seller::class, 'seller_id', 'id');
     }
 
     /**
@@ -42,6 +42,6 @@ class UserProducts extends Repository
      */
     public function product()
     {
-        return $this->belongsTo(Product::class, 'id', 'product_id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

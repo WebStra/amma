@@ -97,6 +97,8 @@ return [
     |
     */
     'filters' => [
+        'id' => filter_hidden(),
+        
         'role_id' => [
             'label' => 'Role',
             'type' => 'select',

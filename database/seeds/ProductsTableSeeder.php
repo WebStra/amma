@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Product;
+use App\UserProducts;
 use Faker\Factory as Faker;
 
 class ProductsTableSeeder extends Seeder
@@ -15,6 +16,16 @@ class ProductsTableSeeder extends Seeder
      * @var int
      */
     protected $count;
+
+    /**
+     * @var User
+     */
+    protected $user;
+
+    /**
+     * @var UserProducts
+     */
+    protected $userProducts;
 
     /**
      * Type.
@@ -47,12 +58,21 @@ class ProductsTableSeeder extends Seeder
      * ProductsTableSeeder constructor.
      * @param Product $product
      * @param Faker $faker
+     * @param User $user
+     * @param UserProducts $userProducts
      */
-    public function __construct(Product $product, Faker $faker)
+    public function __construct(
+        Product $product, 
+        Faker $faker, 
+        User $user,
+        UserProducts $userProducts
+    )
     {
         $this->instance = $product;
         $this->faker = $faker->create();
-        $this->count = 25;
+        $this->user = $user;
+        $this->count = rand(1, 3);
+        $this->userProducts = $userProducts;
     }
 
     /**
@@ -62,22 +82,31 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('products')->delete();
-        
-        $allusers = User::all();
+        $this->deleteTable();
 
-        $allusers->each(function($user) {
-            for ($i = 0; $i < $this->count; $i++) {
-                $this->instance->create([
-                    'name' => $this->faker->sentence($this->faker->numberBetween(2, 4)),
-                    'price' => $this->faker->randomFloat(2, 300, 5000),
-                    'sale' => $this->sales[array_rand($this->sales, 1)],
-                    'count' => $this->faker->numberBetween(10, 100),
-                    'type' => $this->type[array_rand($this->type, 1)],
-                    'status' => $this->status[array_rand($this->status, 1)],
-                    'published_date' => $this->faker->date('Y-m-d H:i:s'),
-                    'expiration_date' => $this->faker->date('Y-m-d H:i:s')
-                ]);
+        $this->user->all()->each(function ($user) {
+
+            if(count($user->sellers)) {
+                $user->sellers->each(function($seller) use ($user){
+                    for ($i = 0; $i < $this->count; $i++) {
+                        $product = $this->instance->create([
+                            'name' => $this->faker->sentence($this->faker->numberBetween(2, 4)),
+                            'price' => $this->faker->randomFloat(2, 300, 5000),
+                            'sale' => $this->sales[array_rand($this->sales, 1)],
+                            'count' => $this->faker->numberBetween(10, 100),
+                            'type' => $this->type[array_rand($this->type, 1)],
+                            'status' => $this->status[array_rand($this->status, 1)],
+                            'published_date' => $this->faker->date('Y-m-d H:i:s'),
+                            'expiration_date' => $this->faker->date('Y-m-d H:i:s')
+                        ]);
+
+                        $this->userProducts->create([
+                            'user_id' => $user->id,
+                            'product_id' => $product->id,
+                            'seller_id' => $seller->id
+                        ]);
+                    }
+                });
             }
         });
     }

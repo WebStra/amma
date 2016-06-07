@@ -31,17 +31,21 @@ class SellersTableSeeder extends Seeder
 
     public function run()
     {
-        $this->deleteTable($this->instance);
+        $this->deleteTable();
 
-        $this->user->get()
+        $this->user
+            ->all()
             ->each(function ($user) {
-                $this->instance->create([
-                    'user_id' => $user->id,
-                    'name' => $this->faker->sentence(2),
-                    'phone' => $this->faker->phoneNumber,
-                    'description' => $this->faker->sentence(10),
-                    'active' => 1
-                ]);
+                $count_sellers = rand(1, 3);
+                for($i = 0; $i < $count_sellers; $i++) {
+                    $this->instance->create([
+                        'user_id' => $user->id,
+                        'name' => $this->faker->sentence(2),
+                        'phone' => $this->faker->phoneNumber,
+                        'description' => $this->faker->sentence(10),
+                        'active' => 1
+                    ]);
+                }
             });
     }
 }
