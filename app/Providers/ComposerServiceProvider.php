@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Repositories\BannerRepository;
-use App\Repositories\PartnerRepository;
-use App\Repositories\SocialRepository;
+use App\Http\ViewComposers\BannerComposer;
+use App\Http\ViewComposers\PartnerComposer;
+use App\Http\ViewComposers\SocialComposer;
 use Illuminate\Support\ServiceProvider;
 
 class ComposerServiceProvider extends ServiceProvider
@@ -16,35 +16,11 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('partials.footer.partners', function ($view) {
-            $partnerRepository = new PartnerRepository();
-            
-            return $view->with('partners', $partnerRepository->getFooterList());
-        });
+        view()->composer('partials.footer.partners', PartnerComposer::class);
 
-        view()->composer('partials.footer.socials', function ($view) {
-            $socialRepository = new SocialRepository();
+        view()->composer('partials.footer.socials', SocialComposer::class);
 
-            return $view->with('socials', $socialRepository->getFooterList());
-        });
-
-        view()->composer('partials.banners.extended', function ($view) {
-            $bannerRepository = new BannerRepository();
-
-            return $view->with('banners', $bannerRepository->getExtendedAddBlocks(2));
-        });
-
-        view()->composer('partials.banners.small', function ($view) {
-            $bannerRepository = new BannerRepository();
-
-            return $view->with('banners', $bannerRepository->getSmallAddBlocks(2));
-        });
-
-        view()->composer('partials.banners.sidebar', function ($view) {
-            $bannerRepository = new BannerRepository();
-
-            return $view->with('banners', $bannerRepository->getRightSideBarAddBlocks(1));
-        });
+        view()->composer('partials.banners.*', BannerComposer::class);
     }
 
     /**

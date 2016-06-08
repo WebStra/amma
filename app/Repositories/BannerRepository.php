@@ -20,7 +20,7 @@ class BannerRepository extends Repository
      * @param $count
      * @return mixed
      */
-    public function getExtendedAddBlocks($count = null)
+    public function getBigAdBlocks($count = null)
     {
         return self::getModel()
             ->take(isset($count) ? $count : 2)
@@ -29,7 +29,13 @@ class BannerRepository extends Repository
             ->get();
     }
 
-    public function getSmallAddBlocks($count = null)
+    /**
+     * Get small adblocks for homepage.
+     *
+     * @param null $count
+     * @return mixed
+     */
+    public function getSmallAdBlocks($count = null)
     {
         return self::getModel()
             ->take(isset($count) ? $count : 2)
@@ -38,7 +44,13 @@ class BannerRepository extends Repository
             ->get();
     }
 
-    public function getRightSideBarAddBlocks($count = null)
+    /**
+     * Get adblocks for right sidebar of homepage.
+     *
+     * @param null $count
+     * @return mixed
+     */
+    public function getRightSideBarAdBlocks($count = null)
     {
         return self::getModel()
             ->take(isset($count) ? $count : 1)

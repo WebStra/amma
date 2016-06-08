@@ -280,7 +280,7 @@
                         </div>
                         @include('partials.banners.small')
 
-                        @include('partials.banners.sidebar')
+                        @include('partials.banners.r_sidebar')
                     </div><!-- / top_block-->
                 </div>
             </div>
@@ -1059,7 +1059,7 @@
                 </div>
             </div>
 
-            @include('partials.banners.extended')
+            @include('partials.banners.big')
 
             <div class="cf row">
                 <div class="col l12 m12 s12 divide-top">
