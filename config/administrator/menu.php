@@ -44,20 +44,23 @@ return [
     'Content' => [
         'page_header' => 'main content site',
         'pages' => [
-            'pages' => [
-                'icon' => 'fa fa-file-text-o'
+            'categories' => [
+                'icon' => 'fa fa-tags'
             ],
             'products' => [
                 'icon' => 'fa fa-shopping-cart'
             ],
             'sellers' => [
                 'icon' => 'fa fa-shopping-bag'
-            ]
+            ],
         ]
     ],
-    'Advanced Content' => [
-        'page_header' => 'advanced content site',
+    'Secondary Content' => [
+        'page_header' => 'secondary content site',
         'pages' => [
+            'pages' => [
+                'icon' => 'fa fa-file-text-o'
+            ],
             'socials' => [
                 'icon' => 'fa fa-hashtag'
             ],

@@ -4,7 +4,7 @@
             <li>
                 <a href="{{ $partner->link }}">
                     {{--todo: add images--}}
-                    <img src="assets/images/p2.png" alt="{{ $partner->name }}">
+                    <img src="/assets/images/p2.png" alt="{{ $partner->name }}">
                 </a>
             </li>
         @endforeach

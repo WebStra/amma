@@ -2,15 +2,7 @@
     <div class="display-table links ">
         <div class="td">
             <h4>Categorii</h4>
-            <ul>
-                <li><a href="#">Electronice</a></li>
-                <li><a href="#">Termo</a></li>
-                <li><a href="#">Electronice</a></li>
-                <li><a href="#">Ceasuri</a></li>
-                <li><a href="#">Imbracaminte</a></li>
-                <li><a href="#">Jele</a></li>
-                <li><a href="#">Electronice</a></li>
-            </ul>
+            @include('partials.categories.footer')
         </div>
         <div class="td">
             <h4>Pagini</h4>

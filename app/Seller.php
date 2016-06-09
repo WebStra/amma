@@ -23,4 +23,12 @@ class Seller extends Repository
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, UserProducts::class, 'seller_id', 'product_id', 'id');
+    }
 }

@@ -6,19 +6,7 @@
             <div class="row">
                 <div class="col l3 m4 s12 hide-on-small-only">
 
-                    <ul class='categories_list bordered'>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 1</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 2</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 3</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 4</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 5</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 2</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 3</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 4</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 5</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 2</a></li>
-                        <li><a href="#!"><i class="icon-grid-cube"></i> categorie 2</a></li>
-                    </ul>
+                    @include('partials.categories.l_sidebar')
 
                 </div>
                 <div class="col l9 m8 s12">
@@ -293,7 +281,8 @@
 
                             <li class="product">
                                 <div class="collapsible-header active">
-                                    <span>1</span><p> SAMSUNG GALAXI  PRIME SUPER</p>
+                                    <span>1</span>
+                                    <p> SAMSUNG GALAXI PRIME SUPER</p>
                                     <span class="line_animate"></span>
                                 </div>
                                 <div class="collapsible-body">
@@ -336,51 +325,8 @@
                             </li>
                             <li class="product">
                                 <div class="collapsible-header ">
-                                    <span>1</span><p> SSony mjd M34 PRIME SUPER</p>
-                                    <span class="line_animate"></span>
-                                </div>
-                                <div class="collapsible-body">
-                                    <div class="display-table">
-                                        <div class="wrapp_img with_hover td">
-
-                                            <div class="hover">
-                                                <a href="#">
-                                                    <i class="icon-favorite"></i>
-                                                    Adaugă la Favorite
-                                                </a>
-                                                <a href="#">
-                                                    <i class="icon-basket"></i>
-                                                    Adaugă în coș
-                                                </a>
-                                            </div>
-                                            <img src="assets/images/produs.jpg" alt=""/>
-                                        </div>
-                                    </div>
-                                    <h4 class="title"><a href="produs_interior.php">SONY EXPERIA BN-100</a></h4>
-                                    <div class="wrapp_info">
-                                        <ul class="star_rating" data-rating_value="3">
-                                            <li class="icon-star"></li>
-                                            <li class="icon-star"></li>
-                                            <li class="icon-star"></li>
-                                            <li class="icon-star"></li>
-                                            <li class="icon-star"></li>
-                                        </ul>
-                                        <div class="price">
-                                            <div class="curent_price">8 987 Lei</div>
-                                            <div class="old_price">11 987 Lei</div>
-                                        </div>
-                                        <div class="stock">
-                                            22/50
-                                            <div class="progress">
-                                                <div class="determinate" style="width: 42%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product">
-                                <div class="collapsible-header ">
-                                    <span>1</span><p> SSony mjd M34 PRIME SUPER</p>
+                                    <span>1</span>
+                                    <p> SSony mjd M34 PRIME SUPER</p>
                                     <span class="line_animate"></span>
                                 </div>
                                 <div class="collapsible-body">
@@ -424,7 +370,8 @@
                             </li>
                             <li class="product">
                                 <div class="collapsible-header ">
-                                    <span>1</span><p> SSony mjd M34 PRIME SUPER</p>
+                                    <span>1</span>
+                                    <p> SSony mjd M34 PRIME SUPER</p>
                                     <span class="line_animate"></span>
                                 </div>
                                 <div class="collapsible-body">
@@ -468,7 +415,53 @@
                             </li>
                             <li class="product">
                                 <div class="collapsible-header ">
-                                    <span>1</span><p> SSony mjd M34 PRIME SUPER</p>
+                                    <span>1</span>
+                                    <p> SSony mjd M34 PRIME SUPER</p>
+                                    <span class="line_animate"></span>
+                                </div>
+                                <div class="collapsible-body">
+                                    <div class="display-table">
+                                        <div class="wrapp_img with_hover td">
+
+                                            <div class="hover">
+                                                <a href="#">
+                                                    <i class="icon-favorite"></i>
+                                                    Adaugă la Favorite
+                                                </a>
+                                                <a href="#">
+                                                    <i class="icon-basket"></i>
+                                                    Adaugă în coș
+                                                </a>
+                                            </div>
+                                            <img src="assets/images/produs.jpg" alt=""/>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="produs_interior.php">SONY EXPERIA BN-100</a></h4>
+                                    <div class="wrapp_info">
+                                        <ul class="star_rating" data-rating_value="3">
+                                            <li class="icon-star"></li>
+                                            <li class="icon-star"></li>
+                                            <li class="icon-star"></li>
+                                            <li class="icon-star"></li>
+                                            <li class="icon-star"></li>
+                                        </ul>
+                                        <div class="price">
+                                            <div class="curent_price">8 987 Lei</div>
+                                            <div class="old_price">11 987 Lei</div>
+                                        </div>
+                                        <div class="stock">
+                                            22/50
+                                            <div class="progress">
+                                                <div class="determinate" style="width: 42%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="product">
+                                <div class="collapsible-header ">
+                                    <span>1</span>
+                                    <p> SSony mjd M34 PRIME SUPER</p>
                                     <span class="line_animate"></span>
                                 </div>
                                 <div class="collapsible-body">
@@ -520,22 +513,30 @@
                             <div class="item article">
                                 <img src="assets/images/img1.jpg">
                                 <h4 class="title">ARTICOLUL DESPRE CEVA</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that.</p>
+                                <p>It is a long established fact that a reader will be distracted by the readable
+                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                    that.</p>
                             </div>
                             <div class="item article">
                                 <img src="assets/images/img1.jpg">
                                 <h4 class="title">ARTICOLUL DESPRE CEVA 2</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that.</p>
+                                <p>It is a long established fact that a reader will be distracted by the readable
+                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                    that.</p>
                             </div>
                             <div class="item article">
                                 <img src="assets/images/img1.jpg">
                                 <h4 class="title">ARTICOLUL si CEVA</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that.</p>
+                                <p>It is a long established fact that a reader will be distracted by the readable
+                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                    that.</p>
                             </div>
                             <div class="item article">
                                 <img src="assets/images/img1.jpg">
                                 <h4 class="title">ARTICOLUL NU CEVA</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that.</p>
+                                <p>It is a long established fact that a reader will be distracted by the readable
+                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                    that.</p>
                             </div>
 
                         </div>
@@ -739,9 +740,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="banner_wide">
-                        <img src="assets/images/banner_wide.png">
-                    </div>
+
+                    @include('partials.banners.wide')
 
                     <div class="cf row">
                         <div class="col l12 m12 s12 no_paddl_l- divide-top">
@@ -1740,7 +1740,6 @@
                     </div>
                 </div>
             </div>
-
 
 
         </div><!--container-->

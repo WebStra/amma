@@ -16,7 +16,7 @@
     <div class="foot cf">
         <div class="container">
             <span class="left">&copy; eCommerce 2015. Toate drepturile sunt rezervate.</span>
-            <a href="#" class="right"><img src="assets/images/lp_logo.png"></a>
+            <a href="#" class="right"><img src="/assets/images/lp_logo.png"></a>
         </div>
     </div>
 </footer>

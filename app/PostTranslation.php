@@ -2,11 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Libraries\TranslatableModel;
 
-class PostTranslation extends Model
+class PostTranslation extends TranslatableModel
 {
     protected $fillable = ['*'];
-
-    public $timestamps = false;
 }

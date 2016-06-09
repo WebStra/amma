@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\BannerComposer;
+use App\Http\ViewComposers\CategoryComposer;
 use App\Http\ViewComposers\PartnerComposer;
 use App\Http\ViewComposers\SocialComposer;
 use Illuminate\Support\ServiceProvider;
@@ -21,6 +22,8 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('partials.footer.socials', SocialComposer::class);
 
         view()->composer('partials.banners.*', BannerComposer::class);
+        
+        view()->composer('partials.categories.*', CategoryComposer::class);
     }
 
     /**

@@ -11,12 +11,26 @@
 |
 */
 
-Route::multilingual(function() {
+use App\Repositories\CategoryRepository;
 
+Route::bind('category', function($slug)
+{
+    $categories = new CategoryRepository();
+    
+    return $categories->findBySlug($slug);
+});
+
+
+Route::multilingual(function() {
     Route::get('/', [
         'as' => 'home',
         'uses' => function () {
             return view('home');
         }
+    ]);
+    
+    Route::get('category/{category}', [
+        'as' => 'view_category',
+        'uses' => 'CategoriesController@show'
     ]);
 });

@@ -25,6 +25,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function sellers()
     {
         return $this->hasMany(Seller::class);
