@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\ViewComposers\BannerComposer;
 use App\Http\ViewComposers\CategoryComposer;
+use App\Http\ViewComposers\LanguageComposer;
 use App\Http\ViewComposers\PartnerComposer;
 use App\Http\ViewComposers\SocialComposer;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +25,8 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('partials.banners.*', BannerComposer::class);
         
         view()->composer('partials.categories.*', CategoryComposer::class);
+        
+        view()->composer('partials.header.language-bar', LanguageComposer::class);
     }
 
     /**

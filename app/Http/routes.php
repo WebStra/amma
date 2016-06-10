@@ -20,7 +20,6 @@ Route::bind('category', function($slug)
     return $categories->findBySlug($slug);
 });
 
-
 Route::multilingual(function() {
     Route::get('/', [
         'as' => 'home',
