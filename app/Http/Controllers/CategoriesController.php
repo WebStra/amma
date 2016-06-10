@@ -17,10 +17,9 @@ class CategoriesController extends Controller
      * CategoriesController constructor.
      * @param CategoryRepository $categoryRepository
      */
-    public function __construct(CategoryRepository $categoryRepository, ProductsRepository $productsRepository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categories = $categoryRepository;
-        $this->products = $productsRepository;
     }
 
     /**

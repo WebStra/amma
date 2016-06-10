@@ -19,7 +19,12 @@ class Categoryable extends Eloquent
     /**
      * @var array
      */
-    protected $fillable = ['categoryable_id', 'categoryable_type', 'category_id', 'type', 'active'];
+    protected $guarded = ['id'];
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['categoryable_id', 'categoryable_type', 'category_id', 'active'];
 
     public $timestamps = false;
 
@@ -32,25 +37,11 @@ class Categoryable extends Eloquent
     }
 
     /**
-     * Where type parent scope.
-     *
-     * @param $query
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function scopeParent($query)
+    public function category()
     {
-        return $query->whereType('parent');
-    }
-
-    /**
-     * Where type child scope.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeChild($query)
-    {
-        return $query->whereType('child');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     /**
@@ -70,7 +61,7 @@ class Categoryable extends Eloquent
      * @param $query
      * @return mixed
      */
-    public function scopeSubcategories($query)
+    public function scopeCategories($query)
     {
         return $query->where('categoryable_type', Category::class);
     }

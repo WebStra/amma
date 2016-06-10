@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Category;
 use App\CategoryTranslation;
 use App\Contracts\TranslatableRepositoryContract;
-use App\Libraries\Categoryable\Model as Categoryable;
+use App\Libraries\Categoryable\Categoryable;
 
 class CategoryRepository extends Repository implements TranslatableRepositoryContract
 {
@@ -66,6 +66,7 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     {
        return self::getModel()
            ->where('show_in_sidebar', 1)
+           ->parent()
            ->active()
            ->ranked()
            ->get();
@@ -79,7 +80,8 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     public function getFooterCollection()
     {
         return self::getModel()
-            ->where('show_in_footer', 1)
+            ->where('show_in_footer', '=', 1)
+            ->parent()
             ->active()
             ->ranked()
             ->get();

@@ -52,7 +52,7 @@ class CategoriesTableSeeder extends Seeder
         $this->languages = $languagesRepository;
         $this->instance = $categoryRepository->getModel();
         $this->faker = $faker->create();
-        $this->count = rand(10, 11);
+        $this->count = rand(20, 25);
         $this->products = $productsRepository;
     }
 
@@ -92,8 +92,7 @@ class CategoriesTableSeeder extends Seeder
                     ->create([
                         'categoryable_id' => $product->id,
                         'categoryable_type' => get_class($this->products->getModel()),
-                        'category_id' => $category->id,
-                        'type' => 'parent'
+                        'category_id' => $category->id
                     ]);
             });
         }
@@ -117,10 +116,12 @@ class CategoriesTableSeeder extends Seeder
      */
     private function createInstanceRecord($increment)
     {
+        $type= rand(1, 2);
         return $this->instance->create([
             'show_in_sidebar' => 1,
             'show_in_footer' => rand(0, 1),
-            'rank' => $increment
+            'rank' => $increment,
+            'type' => ($type == 1) ? 'parent' : 'child'
         ]);
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 use App\Category;
+use App\Libraries\Categoryable\Categoryable;
 
 return [
-    'title' => 'Categories',
+    'title' => 'SubCategories',
 
-    'description' => 'Parent categories',
+    'description' => 'Here you can create subcategories for <a href="/admin/categories">categories</a>.',
 
     'model' => Category::class,
 
@@ -23,35 +24,25 @@ return [
 
         'name',
 
-        'slug',
+        'belongs' => [
+            'title' => 'Belongs to (parent)',
+            'output' => function ($row) {
+                $categoryable = Categoryable::select("*")
+                    ->where('categoryable_id', $row->id)
+                    ->categories()
+                    ->first();
 
-        'show' => [
-            'title' => 'Show in',
-            'elements' => [
-                'show_in_footer' => [
-                    'title' => 'footer',
-                    'output' => function($row) {
-                        if($row->show_in_footer == 1)
-                            return '<b>Yes</b>';
+                if (!is_null($categoryable))
+                    return $categoryable->category->name;
 
-                        return '<b>No</b>';
-                    }
-                ],
-                'show_in_sidebar' => [
-                    'title' => 'sidebar',
-                    'output' => function($row) {
-                        if($row->show_in_sidebar == 1)
-                            return '<b>Yes</b>';
-
-                        return '<b>No</b>';
-                    }
-                ]
-            ]
+                return 'no parent';
+            }
         ],
 
         'active' => [
-            'visible' => function() {},
-            'output' => function($row) {
+            'visible' => function () {
+            },
+            'output' => function ($row) {
                 return output_boolean($row);
             }
         ],
@@ -97,7 +88,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query->parent();
+        return $query->child();
     },
 
     /*
@@ -113,21 +104,28 @@ return [
 
         'name' => filter_text('Name', function ($query, $value) {
             return $query->select('*')
-                ->where('name', 'like', '%'.$value.'%')
+                ->where('name', 'like', '%' . $value . '%')
                 ->translated();
         }),
 
-        'show_in_footer' => filter_select('Show in footer only', [
-            '' => '-- Any --',
-            '1' => '-- Yes --',
-            '0' => '-- No --',
-        ]),
+        'parent' => filter_select('Parent', function () {
+            return Category::select("*")
+                ->parent()
+                ->active()
+                ->translated()
+                ->get()
+                ->pluck('name', 'id')
+                ->prepend('-- Any --', '');
+        }, function ($query, $value) {
+            $parent = Category::whereId($value)->first();
 
-        'show_in_sidebar' => filter_select('Show in sidebar only', [
-            '' => '-- Any --',
-            '1' => '-- Yes --',
-            '0' => '-- No --',
-        ]),
+            $childrens = [];
+            $parent->categoryables->each(function ($child) use (&$childrens){
+                $childrens[] = $child->categoryable->id;
+            });
+
+            return $query->whereIn('id', $childrens);
+        }),
 
         'active' => filter_select('Active', [
             '' => '-- Any --',
@@ -152,18 +150,22 @@ return [
 
         'type' => [
             'type' => 'hidden',
-            'value' => 'parent'
+            'value' => 'child'
         ],
+
+//        'slug' => form_text() + translatable(),
+
+//        'rank' => form_text(),
 
         'show_in_footer' => form_select('Show in footer', [
             0 => '-- No --',
             1 => '-- Yes --'
         ]),
 
-        'show_in_sidebar' => form_select('Show in sidebar', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'show_in_sidebar' => [
+            'type' => 'hidden',
+            'value' => '0'
+        ],
 
         'active' => form_select('Active', [
             1 => '-- Yes --',

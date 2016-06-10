@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->boolean('show_in_sidebar')->default(0)->index();
             $table->boolean('show_in_footer')->default(0)->index();
+            $table->enum('type', ['parent', 'child'])->default('parent');
             $table->boolean('active')->default(1)->index();
             $table->integer('rank');
             $table->timestamps();
@@ -42,7 +43,6 @@ class CreateCategoriesTable extends Migration
             $table->morphs('categoryable');
 
             $table->integer('category_id')->unsigned()->nullable();
-            $table->enum('type', ['parent', 'child'])->nullable();
             $table->boolean('active')->default(1)->index();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

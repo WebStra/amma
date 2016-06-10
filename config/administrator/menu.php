@@ -44,15 +44,28 @@ return [
     'Content' => [
         'page_header' => 'main content site',
         'pages' => [
-            'categories' => [
-                'icon' => 'fa fa-tags'
-            ],
             'products' => [
                 'icon' => 'fa fa-shopping-cart'
             ],
             'sellers' => [
                 'icon' => 'fa fa-shopping-bag'
             ],
+        ]
+    ],
+    'Categories' => [
+        'icon' => 'fa fa-tags',
+        'pages' => [
+            'categories' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+
+            'sub_categories' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+
+            'category_rel' => [
+                'icon' => 'fa fa-circle-o'
+            ]
         ]
     ],
     'Secondary Content' => [

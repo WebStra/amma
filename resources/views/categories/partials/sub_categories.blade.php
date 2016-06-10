@@ -1,4 +1,5 @@
-<?php $subCategories = $category->categoryables()->subcategories()->child()->get(); ?>
+<?php
+$subCategories = $category->categoryables()->categories()->get(); ?>
 @if(count($subCategories))
     <div class="elements bordered divide-top border_bottom hide-on-med-and-down">
         <ul class="categories">

@@ -12,6 +12,6 @@ trait RankedableTrait
      */
     public function scopeRanked($query)
     {
-        return $this->orderBy('rank', 'ASC');
+        return $query->orderBy('rank', 'ASC');
     }
 }

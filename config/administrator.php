@@ -4,8 +4,8 @@ use Illuminate\Contracts\Auth\Guard;
 
 return [
     'prefix'          => 'admin',
-    'title'           => 'Admin <b>panel</b>',
-    'title_mini'      => '<b>AP</b>',
+    'title'           => 'Admin dashboard',
+    'title_mini'      => 'Dashboard',
     'auth_identity'   => 'email',
     'auth_credential' => 'password',
     'auth_conditions' => [

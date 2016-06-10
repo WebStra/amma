@@ -1,13 +1,14 @@
 <?php
 
 use App\Category;
+use App\Libraries\Categoryable\Categoryable;
 
 return [
-    'title' => 'Categories',
+    'title' => 'Relations',
 
-    'description' => 'Parent categories',
+    'description' => 'Here you can organize hierarchy structure of categories and subcategories.',
 
-    'model' => Category::class,
+    'model' => Categoryable::class,
 
     /*
     |-------------------------------------------------------
@@ -21,32 +22,18 @@ return [
     'columns' => [
         'id',
 
-        'name',
+        'belongs' => [
+            'title' => 'Belongs to',
+            'output' => function($row) {
+                return '<a href="#">' . $row->category->name .'</a>';
+            }
+        ],
 
-        'slug',
-
-        'show' => [
-            'title' => 'Show in',
-            'elements' => [
-                'show_in_footer' => [
-                    'title' => 'footer',
-                    'output' => function($row) {
-                        if($row->show_in_footer == 1)
-                            return '<b>Yes</b>';
-
-                        return '<b>No</b>';
-                    }
-                ],
-                'show_in_sidebar' => [
-                    'title' => 'sidebar',
-                    'output' => function($row) {
-                        if($row->show_in_sidebar == 1)
-                            return '<b>Yes</b>';
-
-                        return '<b>No</b>';
-                    }
-                ]
-            ]
+        'attached' => [
+            'title' => 'Child category',
+            'output' => function ($row) {
+                return $row->categoryable->name;
+            }
         ],
 
         'active' => [
@@ -54,13 +41,6 @@ return [
             'output' => function($row) {
                 return output_boolean($row);
             }
-        ],
-
-        'dates' => [
-            'elements' => [
-                'created_at',
-                'updated_at'
-            ]
         ]
     ],
 
@@ -97,7 +77,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query->parent();
+        return $query->categories();
     },
 
     /*
@@ -111,23 +91,13 @@ return [
     'filters' => [
         'id' => filter_hidden(),
 
-        'name' => filter_text('Name', function ($query, $value) {
-            return $query->select('*')
-                ->where('name', 'like', '%'.$value.'%')
-                ->translated();
+        'category_id' => filter_select('Belongs to', function () {
+            return Category::select('*')
+                ->parent()
+                ->get()
+                ->pluck('name', 'id')
+                ->prepend('-- Any --', '');
         }),
-
-        'show_in_footer' => filter_select('Show in footer only', [
-            '' => '-- Any --',
-            '1' => '-- Yes --',
-            '0' => '-- No --',
-        ]),
-
-        'show_in_sidebar' => filter_select('Show in sidebar only', [
-            '' => '-- Any --',
-            '1' => '-- Yes --',
-            '0' => '-- No --',
-        ]),
 
         'active' => filter_select('Active', [
             '' => '-- Any --',
@@ -148,22 +118,37 @@ return [
 
         'id' => form_key(),
 
-        'name' => form_text() + translatable(),
-
-        'type' => [
+        'categoryable_type' => [
             'type' => 'hidden',
-            'value' => 'parent'
+            'value' => Category::class
         ],
 
-        'show_in_footer' => form_select('Show in footer', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'category_id' => [
+            'label' => 'Choose parent category',
+            'type' => 'select',
+            'options' => function () {
+                return Category::select('*')
+                    ->parent()
+                    ->get()
+                    ->pluck('name', 'id');
+            },
+            'attributes' => [
+                'value' => function () {
+                    return 2;
+                }
+            ]
+        ],
 
-        'show_in_sidebar' => form_select('Show in sidebar', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'categoryable_id' => [
+            'label' => 'Choose child category',
+            'type' => 'select',
+            'options' => function () {
+                return Category::select('*')
+                    ->child()
+                    ->get()
+                    ->pluck('name', 'id');
+            }
+        ],
 
         'active' => form_select('Active', [
             1 => '-- Yes --',
