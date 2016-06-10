@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\BannerComposer;
+use App\Http\ViewComposers\BlogComposer;
 use App\Http\ViewComposers\CategoryComposer;
 use App\Http\ViewComposers\LanguageComposer;
 use App\Http\ViewComposers\PartnerComposer;
@@ -27,6 +28,8 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('partials.categories.*', CategoryComposer::class);
         
         view()->composer('partials.header.language-bar', LanguageComposer::class);
+
+        view()->composer('blog.partials.popular-sidebar', BlogComposer::class);
     }
 
     /**

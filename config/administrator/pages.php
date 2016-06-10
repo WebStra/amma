@@ -114,13 +114,8 @@ return [
 
         'title'    => form_text() + translatable(),
 
-//        'body'    => form_ckeditor() + translatable(),
         'body'    => form_wysi_html5() + translatable(),
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
-
+        'active' => form_boolean()
     ]
 ];

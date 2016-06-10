@@ -21,6 +21,26 @@ return [
 
         'name',
 
+        'status' => [
+            'output' => function ($row){
+                switch ($row->status) {
+                    case 'published':
+                        $status = '<b style="color: #605ca8;">Publish</b>';
+                        break;
+                    case 'drafted':
+                        $status = '<b style="color: #d04b3f">Drafted</b>';
+                        break;
+                    case 'completed':
+                        $status = '<b style="color: #00a65a">Completed</b>';
+                        break;
+                }
+
+                return $status;
+            }
+        ],
+
+        'type',
+
         'price_info' => [
             'title' => 'Price Information',
             'elements' => [
@@ -48,29 +68,6 @@ return [
                     'title' => 'Remains',
                     'output' => function ($row) {
                         return sprintf('%s штук.', $row->count);
-                    }
-                ]
-            ]
-        ],
-
-        'tags' => [
-            'elements' => [
-                'type',
-                'status' => [
-                    'output' => function ($row){
-                        switch ($row->status) {
-                            case 'published':
-                                $status = '<b style="color: #0c84bf;">Publish</b>';
-                                break;
-                            case 'drafted':
-                                $status = '<b style="color: #d07e3a">Drafted</b>';
-                                break;
-                            case 'completed':
-                                $status = '<b style="color: #00a65a">Completed</b>';
-                                break;
-                        }
-
-                        return $status;
                     }
                 ]
             ]
@@ -146,7 +143,7 @@ return [
             'old_product' => '-- Old --',
             'new' => '-- New --',
         ], function ($query, $value){
-            // This stuff is hardcoded, it used because keyword 'old' is reserved.
+            // This stuff is hardcoded, it was used because keyword 'old' is reserved.
             if ($value == 'old_product')
                 return $query->whereType('old');
         }),
@@ -183,9 +180,6 @@ return [
 
         'name' => form_ckeditor(),
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
+        'active' => form_boolean()
     ]
 ];

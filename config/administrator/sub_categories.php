@@ -157,19 +157,13 @@ return [
 
 //        'rank' => form_text(),
 
-        'show_in_footer' => form_select('Show in footer', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'show_in_footer' => form_boolean(),
 
         'show_in_sidebar' => [
             'type' => 'hidden',
             'value' => '0'
         ],
 
-        'active' => form_select('Active', [
-            1 => '-- Yes --',
-            0 => '-- No --'
-        ]),
+        'active' => form_boolean()
     ]
 ];

@@ -122,9 +122,6 @@ return [
 
         'description' => form_wysi_html5(),
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
+        'active' => form_boolean()
     ]
 ];

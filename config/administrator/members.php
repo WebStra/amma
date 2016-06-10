@@ -162,10 +162,6 @@ return [
             'type' => 'text'
         ],
 
-        'active' => [
-            'title' => 'Active',
-            'type' => 'select',
-            'options' => ['Disable', 'Active']
-        ]
+        'active' => form_boolean()
     ]
 ];

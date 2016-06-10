@@ -21,6 +21,8 @@
     <link href="<?= asset($assets . '/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
 
     <link href="<?= asset($assets . '/plugins/bootstrap-slider/slider.css') ?>" rel="stylesheet" type="text/css" />
+
+    <link href="<?= asset($assets . '/plugins/iCheck/minimal/purple.css') ?>" rel="stylesheet">
     <!-- Theme Skins -->
     <link href="<?= asset($assets . '/css/main.css') ?>" rel="stylesheet" type="text/css">
     @yield('css')
@@ -92,11 +94,12 @@
 <script src="<?= asset($assets . '/js/app.min.js') ?>" type="text/javascript"></script>
 <!-- Admin Main Js -->
 <script src="<?= asset($assets . '/js/main.js') ?>" type="text/javascript"></script>
-
+<!-- Plugins -->
 <script src="<?= asset($assets . '/plugins/daterangepicker/moment.min.js') ?>"></script>
 <script src="<?= asset($assets . '/plugins/datepicker/bootstrap-datepicker.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/daterangepicker/daterangepicker.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/bootstrap-slider/bootstrap-slider.js') ?>" type="text/javascript"></script>
+<script src="<?= asset($assets . '/plugins/iCheck/icheck.min.js') ?>" type="text/javascript"></script>
 
 @yield('js')
 

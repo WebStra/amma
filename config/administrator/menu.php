@@ -68,20 +68,28 @@ return [
             ]
         ]
     ],
+    'Blog' => [
+        'icon' => 'fa fa-archive',
+        'pages' => [
+            'posts' => [
+                'icon' => 'fa fa-file-text-o'
+            ]
+        ]
+    ],
     'Secondary Content' => [
         'page_header' => 'secondary content site',
         'pages' => [
             'pages' => [
-                'icon' => 'fa fa-file-text-o'
-            ],
-            'socials' => [
-                'icon' => 'fa fa-hashtag'
+                'icon' => 'fa fa-clone'
             ],
             'partners' => [
                 'icon' => 'fa fa-group'
             ],
             'banners' => [
                 'icon' => 'fa fa-object-group'
+            ],
+            'socials' => [
+                'icon' => 'fa fa-facebook'
             ]
         ]
     ],

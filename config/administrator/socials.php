@@ -102,9 +102,6 @@ return [
 
         'link' => form_text(),
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
+        'active' => form_boolean()
     ]
 ];

@@ -117,9 +117,6 @@ return [
 
         'rank' => form_text(),
 
-        'active' => form_select('Active', [
-            '1' => '-- Yes --',
-            '0' => '-- No --'
-        ]),
+        'active' => form_boolean()
     ]
 ];

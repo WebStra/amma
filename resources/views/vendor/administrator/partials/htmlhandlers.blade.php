@@ -31,6 +31,14 @@ $(function()
                 fn.addClass('hidden');
             }
         });
-    })
+    });
+
+    $(document).ready(function(){
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_minimal-purple',
+            radioClass: 'iradio_minimal-purple',
+            increaseArea: '20%' // optional
+        });
+    });
 });
 </script>

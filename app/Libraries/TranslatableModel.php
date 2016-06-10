@@ -10,4 +10,9 @@ class TranslatableModel extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function parent()
+    {
+//        return 
+    }
 }

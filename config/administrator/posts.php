@@ -1,14 +1,13 @@
 <?php
 
-use App\Category;
-use App\Libraries\Categoryable\Categoryable;
+use App\Post;
 
 return [
-    'title' => 'Relations',
+    'title' => 'Posts',
 
-    'description' => 'Here you can organize hierarchy structure of categories and subcategories.',
+    'description' => 'Amma\'s blog posts',
 
-    'model' => Categoryable::class,
+    'model' => Post::class,
 
     /*
     |-------------------------------------------------------
@@ -22,17 +21,28 @@ return [
     'columns' => [
         'id',
 
-        'belongs' => [
-            'title' => 'Belongs to',
+        'title',
+
+        'status' => [
+            'title' => 'Status',
             'output' => function($row) {
-                return sprintf('<a href="/admin/categories?id=%s">%s</a>', $row->category->id, $row->category->name);
+                switch ($row->status) {
+                    case 'published':
+                        $status = '<b style="color: #605ca8;">Published</b>';
+                        break;
+                    case 'drafted':
+                        $status = '<b style="color: #d04b3f">Drafted</b>';
+                        break;
+                }
+
+                return $status;
             }
         ],
 
-        'attached' => [
-            'title' => 'Child category',
-            'output' => function ($row) {
-                return $row->categoryable->name;
+        'body' => [
+            'title' => 'Post content',
+            'output' => function ($row){
+                return sprintf('%s ...', substr($row->body, 0, 175));
             }
         ],
 
@@ -41,6 +51,13 @@ return [
             'output' => function($row) {
                 return output_boolean($row);
             }
+        ],
+
+        'dates' => [
+            'elements' => [
+                'created_at',
+                'updated_at'
+            ]
         ]
     ],
 
@@ -77,7 +94,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query->categories();
+        return $query;
     },
 
     /*
@@ -91,13 +108,17 @@ return [
     'filters' => [
         'id' => filter_hidden(),
 
-        'category_id' => filter_select('Belongs to', function () {
-            return Category::select('*')
-                ->parent()
-                ->get()
-                ->pluck('name', 'id')
-                ->prepend('-- Any --', '');
+        'title' => filter_text('Title', function ($query, $value) {
+            return $query->select('*')
+                ->where('name', 'like', '%'.$value.'%')
+                ->translated();
         }),
+
+        'status' => filter_select('Status', [
+            '' => '-- Any --',
+            'published' => '-- Published --',
+            'drafted' => '-- Drafted --',
+        ]),
 
         'active' => filter_select('Active', [
             '' => '-- Any --',
@@ -118,32 +139,23 @@ return [
 
         'id' => form_key(),
 
-        'categoryable_type' => [
-            'type' => 'hidden',
-            'value' => Category::class
+        'title' => form_text() + translatable(),
+
+        'body' => form_wysi_html5() + translatable(),
+
+        'status' => [
+            'type' => 'select',
+            'options' => [
+                'published' => 'Publish',
+                'drafted' => 'Keep draft'
+            ]
         ],
 
-        'category_id' => [
-            'label' => 'Choose parent category',
-            'type' => 'select',
-            'options' => function () {
-                return Category::select('*')
-                    ->parent()
-                    ->get()
-                    ->pluck('name', 'id');
-            }
-        ],
+        'seo_title' => form_text('Seo Title') + translatable(),
 
-        'categoryable_id' => [
-            'label' => 'Choose child category',
-            'type' => 'select',
-            'options' => function () {
-                return Category::select('*')
-                    ->child()
-                    ->get()
-                    ->pluck('name', 'id');
-            }
-        ],
+        'seo_description' => form_wysi_html5() + translatable(),
+
+        'seo_keywords' => form_text() + translatable(),
 
         'active' => form_boolean()
     ]

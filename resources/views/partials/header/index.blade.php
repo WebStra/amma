@@ -23,7 +23,7 @@
             <div class="navbar_area cf">
                 <nav class="navbar">
                     <div class="nav-wrapper">
-                        <a href="pages_list.html" class="brand-logo valign-wrapper left ">
+                        <a href="{{ route('home') }}" class="brand-logo valign-wrapper left ">
                             <img src="/assets/images/logo.png" class="valign" alt="">
                         </a>
 
@@ -38,7 +38,7 @@
                             <li><a href='#'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
                             <li><a href="">OFERTE NOI</a></li>
-                            <li><a href="">BLOG</a></li>
+                            <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
                             <li><a href="">CONTACTE</a></li>
 
@@ -48,7 +48,7 @@
                             <li><a href='#'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
                             <li><a href="">OFERTE NOI</a></li>
-                            <li><a href="">BLOG</a></li>
+                            <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
                             <li><a href="">CONTACTE</a></li>
                         </ul>

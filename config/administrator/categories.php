@@ -155,19 +155,10 @@ return [
             'value' => 'parent'
         ],
 
-        'show_in_footer' => form_select('Show in footer', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'show_in_footer' => form_boolean(),
 
-        'show_in_sidebar' => form_select('Show in sidebar', [
-            0 => '-- No --',
-            1 => '-- Yes --'
-        ]),
+        'show_in_sidebar' => form_boolean(),
 
-        'active' => form_select('Active', [
-            1 => '-- Yes --',
-            0 => '-- No --'
-        ]),
+        'active' => form_boolean()
     ]
 ];
