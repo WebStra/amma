@@ -2,7 +2,7 @@
     <h2 class="title">{{ $item->present()->renderTitle() }}</h2>
     <p>
         <span><i class="icon-clock"></i> Postat <span class="c_base">{{ $item->present()->renderPublishedDate() }}</span></span>
-        <span><i class="icon-watch"></i> Vizualizări  <span class="c_base">15 147</span></span>
+        <span><i class="icon-watch"></i> Vizualizări  <span class="c_base">{{ $item->present()->renderPostViews() }}</span></span>
     </p>
     <div class="wrapp_img">
         <img src="/assets/images/img3.jpg">

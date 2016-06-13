@@ -24,4 +24,5 @@
 
 <!-- Scripts -->
 @include('partials.assets.js')
+@yield('js')
 </body>

@@ -20,7 +20,7 @@ class Post extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['status', 'active'];
+    protected $fillable = ['status', 'active', 'view_count'];
 
     /**
      * @var array

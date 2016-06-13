@@ -68,4 +68,14 @@ class PostsRepository extends Repository
             ->active()
             ->first();
     }
+
+    /**
+     * Increment view_counter by 1.
+     *
+     * @param Post $post
+     */
+    public function incrementViewCount($post)
+    {
+        $post->increment('view_count');
+    }
 }

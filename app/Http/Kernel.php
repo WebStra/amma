@@ -31,6 +31,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
+        // Middleware for views pages.
+        'viewed' => [
+            \App\Http\Middleware\ViewPostThrottleMiddleware::class
+        ],
+
         'api' => [
             'throttle:60,1',
         ],

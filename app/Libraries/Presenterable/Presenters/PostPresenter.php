@@ -43,4 +43,14 @@ class PostPresenter extends Presenter
 
         return $date->format($format);
     }
+
+    /**
+     * Render post's views.
+     *
+     * @return string
+     */
+    public function renderPostViews()
+    {
+        return $this->model->view_count;
+    }
 }

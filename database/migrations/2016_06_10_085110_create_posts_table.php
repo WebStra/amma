@@ -15,6 +15,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('status', ['published', 'drafted'])->default('published');
+            $table->integer('view_count')->default(0);
             $table->boolean('active')->default(1)->index();
             $table->timestamps();
         });

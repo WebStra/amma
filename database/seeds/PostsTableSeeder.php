@@ -64,7 +64,8 @@ class PostsTableSeeder extends Seeder
 
         for($i = 1; $i < $this->count; $i++) {
             $post = $this->instance->create([
-                'status' => $this->status[array_rand($this->status, 1)]
+                'status' => $this->status[array_rand($this->status, 1)],
+                'view_count' => rand(300, 301)
             ]);
 
             $this->languages->getPublic()->each(function ($language) use ($post){

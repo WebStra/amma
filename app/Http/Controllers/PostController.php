@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Event;
+use App\Events\PostWasViewed;
 use App\Repositories\PostsRepository;
 
 class PostController extends Controller
@@ -40,6 +42,10 @@ class PostController extends Controller
      */
     public function show($post)
     {
-        return view('blog.post')->with('post', $post);
+        Event::fire(new PostWasViewed($post));
+
+        $post  = $this->posts->find($post->id);
+        
+        return view('blog.post')->withItem($post);
     }
 }
