@@ -8,7 +8,7 @@
         <img src="/assets/images/img3.jpg">
     </div>
     <div class="text">
-        {{ $item->present()->renderShortDescription(300) }}
+        {!! $item->present()->renderShortDescription(300) !!}
     </div>
     <a href="{{ route('view_post', ['slug' => $item->slug]) }}" class="link">
         Citește articolul întreg <i class="icon-arrow-to-right"></i>

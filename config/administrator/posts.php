@@ -139,7 +139,11 @@ return [
 
         'id' => form_key(),
 
-        'title' => form_text() + translatable(),
+        'title' => [
+            'type' => 'text',
+            'translatable' => true,
+            'description' => '<span style="color: red">Pls fill all title inputs for all languages.</span>'
+        ],
 
         'body' => form_wysi_html5() + translatable(),
 

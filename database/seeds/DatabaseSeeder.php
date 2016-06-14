@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         BannersTableSeeder::class,
         UsersTableSeeder::class,
         PagesTableSeeder::class,
-        SellersTableSeeder::class,
+        VendorsTableSeeder::class,
         ProductsTableSeeder::class,
         CategoriesTableSeeder::class,
         PostsTableSeeder::class

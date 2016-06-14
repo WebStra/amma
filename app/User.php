@@ -13,7 +13,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -28,8 +28,8 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function sellers()
+    public function vendors()
     {
-        return $this->hasMany(Seller::class);
+        return $this->hasMany(Vendor::class);
     }
 }

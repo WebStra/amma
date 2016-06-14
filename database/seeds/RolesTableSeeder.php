@@ -1,8 +1,8 @@
 <?php
 
-use App\Seller;
 use App\User;
 use App\UserProducts;
+use App\Vendor;
 use Keyhunter\Administrator\Model\Role;
 
 class RolesTableSeeder extends Seeder
@@ -18,9 +18,9 @@ class RolesTableSeeder extends Seeder
     protected $usersProducts;
 
     /**
-     * @var Seller
+     * @var Vendor
      */
-    protected $seeler;
+    protected $vendor;
 
 
     /**
@@ -28,14 +28,14 @@ class RolesTableSeeder extends Seeder
      * @param Role $role
      * @param User $user
      * @param UserProducts $usersProducts
-     * @param Seller $seller
+     * @param Vendor $vendor
      */
-    public function __construct(Role $role, User $user, UserProducts $usersProducts, Seller $seller)
+    public function __construct(Role $role, User $user, UserProducts $usersProducts, Vendor $vendor)
     {
         $this->instance = $role;
         $this->user = $user;
         $this->usersProducts = $usersProducts;
-        $this->seeler = $seller;
+        $this->vendor = $vendor;
     }
     
     /**
@@ -46,7 +46,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         $this->deleteTable($this->usersProducts);
-        $this->deleteTable($this->seeler);
+        $this->deleteTable($this->vendor);
         $this->deleteTable($this->user);
         $this->deleteTable();
 

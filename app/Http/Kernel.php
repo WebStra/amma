@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\ViewPostThrottleMiddleware::class
     ];
 
     /**
@@ -29,11 +30,6 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-        ],
-
-        // Middleware for views pages.
-        'viewed' => [
-            \App\Http\Middleware\ViewPostThrottleMiddleware::class
         ],
 
         'api' => [

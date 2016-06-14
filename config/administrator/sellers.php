@@ -1,11 +1,13 @@
 <?php
 
+use App\Vendor;
+
 return [
-    'title' => 'Sellers',
+    'title' => 'Vendors',
 
-    'description' => 'Every user can create the seller and add for it multiple products.',
+    'description' => 'Every user can create the vendor and add for it multiple products.',
 
-    'model' => 'App\Seller',
+    'model' => Vendor::class,
 
     /*
     |-------------------------------------------------------

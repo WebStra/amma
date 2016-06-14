@@ -1,10 +1,10 @@
 <?php
 
-use App\Seller;
+use App\Vendor;
 use App\User;
 use Faker\Factory as Faker;
 
-class SellersTableSeeder extends Seeder
+class VendorsTableSeeder extends Seeder
 {
     /**
      * @var Faker
@@ -17,14 +17,14 @@ class SellersTableSeeder extends Seeder
     protected $user;
 
     /**
-     * SellersTableSeeder constructor.
-     * @param Seller $seller
+     * VendorsTableSeeder constructor.
+     * @param Vendor $vendor
      * @param $faker
      * @param User $user
      */
-    public function __construct(Seller $seller, Faker $faker, User $user)
+    public function __construct(Vendor $vendor, Faker $faker, User $user)
     {
-        $this->instance = $seller;
+        $this->instance = $vendor;
         $this->faker = $faker->create();
         $this->user = $user;
     }
@@ -33,14 +33,14 @@ class SellersTableSeeder extends Seeder
     {
         $this->deleteTable();
 
-        $this->user
-            ->all()
+        $this->user->all()
             ->each(function ($user) {
-                $count_sellers = rand(1, 3);
-                for($i = 0; $i < $count_sellers; $i++) {
+                $count = rand(1, 3);
+                for($i = 0; $i < $count; $i++) {
                     $this->instance->create([
                         'user_id' => $user->id,
                         'name' => $this->faker->sentence(2),
+                        'email' => $this->faker->email,
                         'phone' => $this->faker->phoneNumber,
                         'description' => $this->faker->sentence(10),
                         'active' => 1

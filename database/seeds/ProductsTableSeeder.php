@@ -86,8 +86,8 @@ class ProductsTableSeeder extends Seeder
 
         $this->user->all()->each(function ($user) {
 
-            if(count($user->sellers)) {
-                $user->sellers->each(function($seller) use ($user){
+            if(count($user->vendors)) {
+                $user->vendors->each(function($vendor) use ($user){
                     for ($i = 0; $i < $this->count; $i++) {
                         $product = $this->instance->create([
                             'name' => $this->faker->sentence($this->faker->numberBetween(2, 4)),
@@ -103,7 +103,7 @@ class ProductsTableSeeder extends Seeder
                         $this->userProducts->create([
                             'user_id' => $user->id,
                             'product_id' => $product->id,
-                            'seller_id' => $seller->id
+                            'vendor_id' => $vendor->id
                         ]);
                     }
                 });

@@ -135,8 +135,7 @@ return [
         'price' => filter_number_range('Price Range', [
             'min' => '100',
             'max' => '10000'
-        ]
-        ),
+        ]),
 
         'type' => filter_select('Type', [
             '' => '-- Any --',

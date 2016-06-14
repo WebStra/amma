@@ -1,11 +1,13 @@
 <?php
 
+use App\UserProducts;
+
 return [
     'title' => 'Users Products',
 
     'description' => 'Users products relations list.',
 
-    'model' => 'App\UserProducts',
+    'model' => UserProducts::class,
 
     /*
     |-------------------------------------------------------
@@ -33,8 +35,8 @@ return [
             }
         ],
 
-        'seller_id' => [
-            'title' => 'Seller',
+        'vendor_id' => [
+            'title' => 'Vendor',
             'output' => function ($row){
                 return sprintf('<a href="/admin/sellers?id=%s">go to seller: %s</a>', $row->seller->id, $row->seller->name);
             }
@@ -87,18 +89,18 @@ return [
     */
     'filters' => [
         'user_id' => filter_select('User', function (){
-            return \App\Seller::leftJoin('users', 'sellers.user_id', '=', 'users.id')
-                ->select('users.email', 'sellers.*')
+            return \App\Vendor::leftJoin('users', 'vendors.user_id', '=', 'users.id')
+                ->select('users.email', 'vendors.*')
                 ->get()
                 ->pluck('email', 'user_id')
                 ->prepend('-- Any --', '');
         }),
 
-        'seller_id' => filter_select('Seller', function (){
-            return \App\UserProducts::leftJoin('sellers', 'users_products.seller_id', '=', 'sellers.id')
-                ->select('sellers.name', 'users_products.*')
+        'vendor_id' => filter_select('Vendor', function (){
+            return \App\UserProducts::leftJoin('vendors', 'users_products.vendor_id', '=', 'vendors.id')
+                ->select('vendors.name', 'users_products.*')
                 ->get()
-                ->pluck('name', 'seller_id')
+                ->pluck('name', 'vendor_id')
                 ->prepend('-- Any --', '');
         })
     ],

@@ -21,5 +21,3 @@
 <!-- google map todo: replace it in template which uses google map
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 -->
-
-@yield('js')

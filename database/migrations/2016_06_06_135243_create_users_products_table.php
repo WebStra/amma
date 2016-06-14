@@ -23,11 +23,11 @@ class CreateUsersProductsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('product_id')->unsigned();
-            $table->integer('seller_id')->unsigned()->nullable();
+            $table->integer('vendor_id')->unsigned()->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
-            $table->foreign('seller_id')->references('id')->on('sellers')->onUpdate('CASCADE');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onUpdate('CASCADE');
         });
     }
 

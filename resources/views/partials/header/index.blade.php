@@ -4,17 +4,8 @@
             <div class="left"><i class="icon-phone"></i> Telefon: +373 695 24 115</div>
             <div class="left"><i class="icon-pin"></i> Address: Moldova, Chișinău str. Drumul Viilor 147</div>
             @include('partials.header.language-bar')
-            <div class="right top-bar-profile">
-                <a href='#' data-activates='dropdown_top-bar-profile' class="dropdown_top_bar"><i class="icon-user"></i>
-                    Contul meu <i class="icon-la-down"></i></a>
-                <ul id='dropdown_top-bar-profile' class='dropdown-content'>
-                    <li><a href="#!">Istoria cumpărăturilor</a></li>
-                    <li><a href="#!">Vouchere</a></li>
-                    <!-- <li class="divider"></li> -->
-                    <li><a href="#!">Produse favorite</a></li>
-                </ul>
-            </div>
 
+            @include('partials.header.profile-bar')
         </div>
     </div>
 
@@ -75,7 +66,9 @@
                             </div>
                         </div>
                         <div class="wrapp_submit">
-                            <button type="submit"><i class="icon-search"></i><span class="hide_767_down">Cauta</span>
+                            <button type="submit">
+                                <i class="icon-search"></i>
+                                <span class="hide_767_down">Cauta</span>
                             </button>
                         </div>
                     </form>

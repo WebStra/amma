@@ -14,7 +14,7 @@ class UserProducts extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'product_id', 'seller_id'];
+    protected $fillable = ['user_id', 'product_id', 'vendor_id'];
 
     /**
      * @var bool
@@ -30,11 +30,11 @@ class UserProducts extends Repository
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function seller()
+    public function vendor()
     {
-        return $this->belongsTo(Seller::class, 'seller_id', 'id');
+        return $this->hasOne(Vendor::class, 'vendor_id', 'id');
     }
 
     /**
@@ -42,6 +42,6 @@ class UserProducts extends Repository
      */
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 }

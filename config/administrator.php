@@ -1,5 +1,6 @@
 <?php
 
+use App\Repositories\RolesRepository;
 use Illuminate\Contracts\Auth\Guard;
 
 return [
@@ -11,7 +12,7 @@ return [
     'auth_conditions' => [
         'active' => 1,
         'role_id'   => function () {
-            return \Keyhunter\Administrator\Model\Role::whereName('admin')->first()->id;
+            return (new RolesRepository)->getAdminRole()->id;
         }
     ],
     'auth_model'      => 'App\User',
@@ -32,6 +33,10 @@ return [
      * Basic user validation
      */
     'permission'      => function (Guard $user) {
+        if($user->user()) {
+            return (new RolesRepository)->getAdminRole()->id == $user->user()->role_id;
+        }
+
         return ! ($user->guest());
     },
     /**

@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->integer('count');
             $table->enum('type', ['old', 'new']);
             $table->enum('status', ['published', 'drafted', 'completed']);
+            $table->boolean('active')->default(1)->index();
             $table->timestamp('published_date');
             $table->timestamp('expiration_date');
 

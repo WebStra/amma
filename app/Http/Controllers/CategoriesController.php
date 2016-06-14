@@ -30,6 +30,6 @@ class CategoriesController extends Controller
      */
     public function show($category)
     {
-        return view('categories.index')->with('category', $category);
+        return view('categories.index', compact('category'));
     }
 }
