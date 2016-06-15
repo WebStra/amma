@@ -1,13 +1,15 @@
 <?php
 
+use App\Image;
 use App\Partner;
+use App\Repositories\PartnerRepository;
 
 return [
-    'title' => 'Partners',
+    'title' => 'Partners Images',
 
-    'description' => 'Partners list',
+    'description' => 'Partners images',
 
-    'model' => Partner::class,
+    'model' => Image::class,
 
     /*
     |-------------------------------------------------------
@@ -20,41 +22,29 @@ return [
     */
     'columns' => [
         'id',
+        
+//        'original' => [
+//            'title' => 'Original name'
+//        ],
 
-        'name',
+        'image' => column_element('', true, '<img src="(:image)" width="100" />'),
 
-        'image' => [
-            'title' => 'Logo',
+        'origin' => [
             'output' => function($row)
             {
-                $image = $row->images()->cover()->first();
-
-                return $image ? output_image($image->image) : '';
+                if ($imageable = $row->imageable)
+                {
+                    return '<a href="/admin/partners?id='.$imageable->id.'">' . ($imageable->getTable() . ': ' . $imageable->name) . '</a>';
+                }
             }
         ],
 
-        'link' => [
-            'title' => 'Link',
-            'output' => function ($row){
-                return sprintf('<a href="%s">%s</a>', $row->link, $row->link);
-            }
-        ],
-
-        'show_in_footer' => [
-            'visible' => function() {},
-            'output' => function($row) {
-                return output_boolean($row);
-            }
-        ],
-
-        'active' => [
-            'visible' => function() {},
-            'output' => function($row) {
-                return output_boolean($row);
-            }
-        ],
-
-        'rank'
+        'dates' => [
+            'elements' => [
+                'created_at',
+                'updated_at'
+            ]
+        ]
     ],
 
     /*
@@ -90,7 +80,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query;
+        return $query->where('imageable_type', Partner::class);
     },
 
     /*
@@ -102,27 +92,7 @@ return [
     |
     */
     'filters' => [
-        'id' => filter_hidden(),
-
-        'show_in_footer' => [
-            'label' => 'Show only in footer',
-            'type' => 'select',
-            'options' => [
-                '' => '-- Any --',
-                1 => '-- Yes --',
-                0 => '-- No --'
-            ]
-        ],
-
-        'active' => [
-            'label' => 'Active',
-            'type' => 'select',
-            'options' => [
-                '' => '-- Any --',
-                1 => '-- Active --',
-                0 => '-- None Active --'
-            ]
-        ]
+        //
     ],
 
     /*
@@ -136,17 +106,37 @@ return [
     'edit_fields' => [
         'id' => form_key(),
 
-        'name' => form_text(),
+        'imageable_type' => [
+            'type' => 'hidden',
+            'value' => Partner::class
+        ],
 
-        'link' => form_text(),
+        'type' => [
+            'type' => 'hidden',
+            'value' => 'cover'
+        ],
 
-        'show_in_footer' => form_select('Show in footer', [
-            '1' => '-- Yes --',
-            '0' => '-- No --'
-        ]),
+        'imageable_id' => [
+            'type' => 'select',
+            'label' => 'Choose partner',
+            'options' => function()
+            {
+                return (new PartnerRepository)->lists('name', 'id', true);
+            }
+        ],
 
-        'rank' => form_text(),
+        'original' => [
+            'title' => 'Image Name',
+            'type' => 'text',
+            'description' => 'Will be used for `alt` attribute image <strong>(*Optional)</strong>'
+        ],
 
-        'active' => form_boolean()
+        'image' => [
+            'type' => 'image',
+            'location' => '/upload/partners/(:tag_id)',
+//            'sizes' => [
+//                'big'     => '1024x1024',
+//            ]
+        ]
     ]
 ];

@@ -82,15 +82,23 @@ return [
             'pages' => [
                 'icon' => 'fa fa-clone'
             ],
-            'partners' => [
-                'icon' => 'fa fa-group'
-            ],
             'banners' => [
                 'icon' => 'fa fa-object-group'
             ],
             'socials' => [
                 'icon' => 'fa fa-facebook'
             ]
+        ]
+    ],
+    'Partners' => [
+        'icon' => 'fa fa-group',
+        'pages' => [
+            'partners' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+            'partners_images' => [
+                'icon' => 'fa fa-circle-o'
+            ],
         ]
     ],
     'Relations' => [
