@@ -30,8 +30,8 @@ class DashboardController extends Controller
 
     public function myVendors()
     {
-        dd($this->auth->user()->vendors);
+        $vendors = $this->auth->user()->vendors;
 
-        return $this->auth->user()->vendors();
+        return view('dashboard.my-vendors', compact('vendors'));
     }
 }

@@ -4,7 +4,7 @@
         <div class="person_card">
             <div class="display_flex border_bottom">
                 <div class="wrapp_img">
-                    <img src="/assets/images/avatar1.jpg">
+                    <img src="{{ $item->cover() }}">
                 </div>
                 <div class="content">
                     <h4>{{ $item->present()->renderTitle()}}</h4>
@@ -29,7 +29,7 @@
                 <div class="buttons row">
                     <div class="col s12 padd_l_half">
                         <a href=""
-                           class="btn_ btn_white waves-effect waves-teal f_small right full_width">Edit vendor settings</a>
+                           class="btn_ btn_white waves-effect waves-teal f_small right full_width">Edit vendor</a>
                     </div>
                 </div>
             @else

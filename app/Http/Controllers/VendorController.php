@@ -54,4 +54,9 @@ class VendorController extends Controller
     {
         return view('vendors.show')->withItem($vendor);
     }
+
+    public function edit()
+    {
+        // todo: implement edit method;
+    }
 }

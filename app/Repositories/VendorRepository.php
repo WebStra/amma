@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Services\ImageProcessor;
 use App\Vendor;
 use Auth;
 
@@ -21,7 +22,7 @@ class VendorRepository extends Repository
      */
     public function create(array $data)
     {
-        return self::getModel()
+        $vendor = self::getModel()
             ->create([
                 'user_id' => Auth::id(),
                 'name' => $data['name'],
@@ -29,5 +30,14 @@ class VendorRepository extends Repository
                 'phone' => $data['phone'],
                 'description' => $data['description']
             ]);
+
+        $file = $data['image'];
+        $data = ['attach' => $vendor];
+        $location = 'upload/vendors/'. $vendor->id;
+
+        $processor = new ImageProcessor();
+        $processor->uploadAndCreate($file, $data, $location);
+
+        return $vendor;
     }
 }
