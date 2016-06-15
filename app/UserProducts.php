@@ -34,7 +34,7 @@ class UserProducts extends Repository
      */
     public function vendor()
     {
-        return $this->hasOne(Vendor::class, 'vendor_id', 'id');
+        return $this->hasOne(Vendor::class, 'id', 'vendor_id');
     }
 
     /**

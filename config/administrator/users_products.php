@@ -38,7 +38,7 @@ return [
         'vendor_id' => [
             'title' => 'Vendor',
             'output' => function ($row){
-                return sprintf('<a href="/admin/sellers?id=%s">go to seller: %s</a>', $row->seller->id, $row->seller->name);
+                return sprintf('<a href="/admin/vendors?id=%s">go to vendors: %s</a>', $row->vendor->id, $row->vendor->name);
             }
         ]
     ],

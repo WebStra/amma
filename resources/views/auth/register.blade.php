@@ -10,20 +10,32 @@
                 @include('partials.errors.list')
                 <div class="col s12">
                     <div class="input-field">
+                        <span class="label">Your First Name*</span>
+                        <input type="text" name="firstname" required placeholder="Firstname" value="{{ old('firstname') }}">
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <span class="label">Your Last Name*</span>
+                        <input type="text" name="lastname" required placeholder="Lastname" value="{{ old('lastname') }}">
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
                         <span class="label">ADRESA ELECTRONICA*</span>
-                        <input type="email" name="email" placeholder="Ex: maria@gmail.com" value="{{ old('email') }}">
+                        <input type="email" name="email" required placeholder="Ex: maria@gmail.com" value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="col s12">
                     <div class="input-field">
                         <span class="label">PAROLA*</span>
-                        <input type="password" name="password">
+                        <input type="password" required name="password" placeholder="Enter password">
                     </div>
                 </div>
                 <div class="col s12">
                     <div class="input-field">
                         <span class="label">CONFIRMA PAROLA*</span>
-                        <input type="password" name="password_confirmation">
+                        <input type="password" required name="password_confirmation" placeholder="Confirm password">
                     </div>
                 </div>
                 <div class="col s12">

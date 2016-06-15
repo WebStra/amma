@@ -22,12 +22,15 @@ return [
         'id',
 
         'user_id' => [
+            'title' => 'User',
             'output' => function ($row){
                 return $row->user->email;
             }
         ],
         
         'name',
+
+        'email',
         
         'phone',
         
@@ -40,12 +43,12 @@ return [
             }
         ],
 
-        'dates' => [
-            'elements' => [
-                'created_at',
-                'updated_at'
-            ]
-        ]
+//        'dates' => [
+//            'elements' => [
+//                'created_at',
+//                'updated_at'
+//            ]
+//        ]
     ],
 
     /*

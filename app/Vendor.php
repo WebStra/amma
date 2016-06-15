@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Libraries\Presenterable\Presenterable;
+use App\Libraries\Presenterable\Presenters\VendorPresenter;
 use App\Traits\ActivateableTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
@@ -9,12 +11,17 @@ use Keyhunter\Administrator\Repository;
 
 class Vendor extends Repository implements SluggableInterface
 {
-    use ActivateableTrait, SluggableTrait;
+    use ActivateableTrait, SluggableTrait, Presenterable;
 
     /**
      * @var string
      */
     protected $table = 'vendors';
+
+    /**
+     * @var VendorPresenter
+     */
+    protected $presenter = VendorPresenter::class;
 
     /**
      * @var array

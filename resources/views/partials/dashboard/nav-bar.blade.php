@@ -6,9 +6,8 @@
                     <img src="/assets/images/avatar1.jpg">
                 </div>
                 <div class="content">
-                    <h4>{{ \Auth::user()->email }}</h4>
-                    <a href="#" class="btn_ btn_small btn_base waves-effect waves-teal f_small">Adaugă
-                        un produs</a>
+                    <h4>{{ \Auth::user()->present()->renderName() }}</h4>
+                    <a href="{{ route('my_vendors') }}" class="btn_ btn_small btn_base waves-effect waves-teal f_small">My Vendors</a>
                 </div>
             </div>
             <div class="buttons">

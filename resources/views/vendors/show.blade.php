@@ -21,6 +21,8 @@
                                 @include('partials.products.big-item-block', ['item' => $product->product])
                             @endforeach
                         </ul>
+                    @else
+                        <p>This vendor don't have a products.</p>
                     @endif
                 </div><!--right block-->
             </div>

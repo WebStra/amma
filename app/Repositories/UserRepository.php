@@ -13,12 +13,22 @@ class UserRepository extends Repository
     private $roles;
 
     /**
+     * @var 
+     */
+    private $profile;
+
+    /**
      * UserRepository constructor.
      * @param RolesRepository $rolesRepository
+     * @param ProfileRepository $profileRepository
      */
-    public function __construct(RolesRepository $rolesRepository)
+    public function __construct(
+        RolesRepository $rolesRepository, 
+        ProfileRepository $profileRepository
+    )
     {
         $this->roles = $rolesRepository;
+        $this->profile = $profileRepository;
     }
 
     /**
@@ -35,12 +45,20 @@ class UserRepository extends Repository
      */
     public function createSimpleUser(array $data)
     {
-        return self::getModel()
+        $user = self::getModel()
             ->create([
                 'email'     => $data['email'],
                 'password'  => bcrypt($data['password']),
                 'role_id'   => $this->getSimpleUser()->id
             ]);
+        
+        $this->profile->getModel()->create([
+            'user_id' => $user->id,
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname']
+        ]);
+
+        return $user;
     }
 
     public function createAdminUser(array $data)

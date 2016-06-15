@@ -84,6 +84,11 @@ Route::multilingual(function () {
             'as' => 'update_vendor',
             'uses' => 'VendorController@update'
         ]);
+        
+        Route::get('my-vendors', [
+            'as' => 'my_vendors',
+            'uses' => 'DashboardController@myVendors'
+        ]);
     });
     
     Route::get('vendors/view/{vendor}', [
