@@ -5,13 +5,14 @@ namespace App;
 use App\Libraries\Categoryable\CategoryableTrait;
 use App\Libraries\Categoryable\Categoryable;
 use App\Traits\ActivateableTrait;
+use App\Traits\HasImages;
 use App\Traits\RankedableTrait;
 use Keyhunter\Administrator\Repository;
 use Keyhunter\Translatable\HasTranslations;
 
 class Category extends Repository
 {
-    use HasTranslations, CategoryableTrait, ActivateableTrait, RankedableTrait;
+    use HasTranslations, CategoryableTrait, ActivateableTrait, RankedableTrait, HasImages;
 
     /**
      * @var string

@@ -22,6 +22,16 @@ return [
     'columns' => [
         'id',
 
+        'image' => [
+            'title' => 'Cover',
+            'output' => function($row)
+            {
+                $image = $row->images()->cover()->first();
+
+                return $image ? output_image($image->image, null, ['width' => '100']) : '';
+            }
+        ],
+
         'name',
 
         'belongs' => [
@@ -35,7 +45,7 @@ return [
                 if (!is_null($categoryable))
                     return $categoryable->category->name;
 
-                return 'no parent';
+                return '';
             }
         ],
 

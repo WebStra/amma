@@ -21,6 +21,16 @@ return [
     'columns' => [
         'id',
 
+        'image' => [
+            'title' => 'Cover',
+            'output' => function($row)
+            {
+                $image = $row->images()->cover()->first();
+
+                return $image ? output_image($image->image, null, ['width' => '100']) : '';
+            }
+        ],
+
         'name',
 
         'slug',

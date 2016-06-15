@@ -27,26 +27,4 @@ class PartnerRepository extends Repository
             ->orderBy('rank', self::ASC)
             ->get();
     }
-
-    /**
-     * Lists the columns.
-     *
-     * @param $column
-     * @param null $key
-     * @param bool $all
-     * @return array
-     */
-    public function lists($column, $key = null, $all = false)
-    {
-        $items = [];
-
-        $collection = $all ? self::getModel()->all() : self::getModel()->active()->get();
-
-        foreach ($collection as $item)
-        {
-            $items[$item->$key] = $item->$column;
-        }
-
-        return $items;
-    }
 }

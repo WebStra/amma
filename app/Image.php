@@ -2,14 +2,23 @@
 
 namespace App;
 
+use App\Libraries\Presenterable\Presenterable;
+use App\Libraries\Presenterable\Presenters\ImagePresenter;
 use Keyhunter\Administrator\Repository;
 
 class Image extends Repository
 {
+    use Presenterable;
+
     /**
      * @var array
      */
     protected $fillable = ['type', 'original', 'image', 'imageable_type', 'imageable_id'];
+
+    /**
+     * @var ImagePresenter
+     */
+    protected $presenter = ImagePresenter::class;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo

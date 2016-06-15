@@ -8,7 +8,7 @@ $subCategories = $category->categoryables()->categories()->get(); ?>
                 <li>
                     <a href="{{ route('view_category', ['category' => $item->slug]) }}">
                         <div class="wrapp_img">
-                            <img src="/assets/images/img5.jpg">
+                            <img src="{{ $item->cover() }}">
                         </div>
                         <h4>{{ $item->name }}</h4>
                     </a>

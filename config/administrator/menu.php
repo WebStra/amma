@@ -65,6 +65,10 @@ return [
 
             'category_rel' => [
                 'icon' => 'fa fa-circle-o'
+            ],
+
+            'category_images' => [
+                'icon' => 'fa fa-circle-o'
             ]
         ]
     ],
