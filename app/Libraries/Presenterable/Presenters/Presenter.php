@@ -9,7 +9,7 @@ abstract class Presenter
     /**
      * @var Model
      */
-    protected $model;
+    public $model;
 
     /**
      * Presenter constructor.

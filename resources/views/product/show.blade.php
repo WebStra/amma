@@ -1,14 +1,5 @@
 @extends('layout')
 
-@section('breadcrumbs')
-    <div class="container">
-        <ul class="breadcrumbs">
-            <li><a href="#" class="icon-home"></a></li>
-            <li><a href="{{ route('home') }}">Product /</a>&#160;{{ $item->name }}</li>
-        </ul>
-    </div>
-@endsection
-
 @section('content')
     <section class="produs">
         <div class="container">

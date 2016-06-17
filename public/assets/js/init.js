@@ -566,9 +566,8 @@ $(document).ready(function() {
         });
     }
 
-
-    if (($(".addseller").length != 0)) {
-        var subscribe = $(".addseller");
+    if (($(".validate-it").length != 0)) {
+        var subscribe = $(".validate-it");
         var validator = subscribe.validate({
             onkeyup: false,
             errorClass: 'error',

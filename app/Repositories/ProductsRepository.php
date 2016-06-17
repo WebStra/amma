@@ -2,7 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Libraries\Categoryable\Categoryable;
 use App\Product;
+use App\ProductsColors;
+use App\Services\ImageProcessor;
+use App\UserProducts;
+use Illuminate\Http\UploadedFile;
 
 class ProductsRepository extends Repository
 {
@@ -24,6 +29,46 @@ class ProductsRepository extends Repository
         return self::getModel()
             ->published()
             ->get();
+    }
+
+    /**
+     * @param array $data
+     * @param $vendor
+     * @return Product
+     */
+    public function create(array $data)
+    {
+        return self::getModel()
+            ->create([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'sale' => (isset($data['sale'])) ? $data['sale'] : 0,
+                'count' => (isset($data['count'])) ? $data['count'] : 1,
+                'type' => (isset($data['type'])) ? $data['type'] : 'new',
+                'status' => 'drafted',
+                'published_date' => $data['published_date'],
+                'expiration_date' => $data['expiration_date'],
+
+            ]);
+
+        // todo: change it for other stuff.
+        UserProducts::create([
+            'user_id' => \Auth::id(),
+            'product_id' => $product->id,
+            'vendor_id' => $vendor->id
+        ]);
+
+        if (isset($data['images'])) {
+            array_walk($data['images'], function($image) use($product) {
+                if($image instanceof UploadedFile) {
+                    $location = 'upload/products/' . $product->id;
+                    $processor = new ImageProcessor();
+                    $processor->uploadAndCreate($image, $product, null, $location);
+                }
+            });
+        }
+
+        return $product;
     }
 
     /**

@@ -16,7 +16,7 @@
 <body>
 @include('partials.header.index')
 
-@yield('breadcrumbs')
+@include('partials.breadcrumbs')
 
 @yield('content')
 

@@ -15,8 +15,10 @@ class VendorRepository extends Repository
     {
         return new Vendor();
     }
-    
+
     /**
+     * Create method.
+     *
      * @param array $data
      * @return Vendor
      */
@@ -31,13 +33,41 @@ class VendorRepository extends Repository
                 'description' => $data['description']
             ]);
 
-        $file = $data['image'];
-        $data = ['attach' => $vendor];
-        $location = 'upload/vendors/'. $vendor->id;
-
-        $processor = new ImageProcessor();
-        $processor->uploadAndCreate($file, $data, $location);
+        if (isset($data['image'])) {
+            $file = $data['image'];
+            $location = 'upload/vendors/' . $vendor->id;
+            $processor = new ImageProcessor();
+            $processor->uploadAndCreate($file, $vendor, $data, $location);
+        }
 
         return $vendor;
+    }
+
+    /**
+     * Update method.
+     *
+     * @param Vendor $vendor
+     * @param $data
+     * @throws \Exception
+     */
+    public function update(Vendor $vendor, $data)
+    {
+        $vendor->fill([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'description' => $data['description'],
+            'phone' => $data['phone']
+        ]);
+
+        if (isset($data['image'])) {
+            $file = $data['image'];
+            $location = 'upload/vendors/' . $vendor->id;
+            $processor = new ImageProcessor();
+            $processor->destroy($vendor->images()->first()); // delete old logo.
+
+            $processor->uploadAndCreate($file, $vendor, $data, $location);
+        }
+
+        $vendor->save();
     }
 }

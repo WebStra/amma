@@ -20,29 +20,47 @@ class ImageProcessor
         return new Image();
     }
 
-    public function uploadAndCreate($image, $data, $location = null)
+    /**
+     * Upload and create image for imageable instance.
+     *
+     * @param $image
+     * @param $imageable
+     * @param null $data
+     * @param null $location
+     * @return static
+     * @throws Exception
+     */
+    public function uploadAndCreate($image, $imageable, $data = null, $location = null)
     {
-        if ($image instanceof \Illuminate\Http\UploadedFile) {
-            if ($data['attach'] instanceof Model) {
-                $original = $image->getClientOriginalName();
-                if(isset($location))
-                    $this->setLocation($location);
+        if($this->validateImage($image)) {
+            $original = $image->getClientOriginalName();
+            if (isset($location))
+                $this->setLocation($location);
 
-                if($imageInfo = $this->upload($image))
-                    return $this->getModel()->create([
-                        'imageable_id' => $data['attach']->id,
-                        'imageable_type' => get_class($data['attach']),
-                        'type' => isset($data['type'])? $data['type'] : 'cover',
-                        'original' => $original,
-                        'image' => str_replace(base_path('public'), '', $imageInfo->getPathname())
-                    ]);
-
-            } else {
-                throw new \Exception('Invalid attach model!');
-            }
-        } else {
-            throw new \Exception('Invalid uploaded image!');
+            // todo: find a way to delete previous files
+            if ($imageInfo = $this->upload($image))
+                return $this->getModel()->create([
+                    'imageable_id' => $imageable->id,
+                    'imageable_type' => get_class($imageable),
+                    'type' => isset($data['type']) ? $data['type'] : 'cover',
+                    'original' => $original,
+                    'image' => str_replace(base_path('public'), '', $imageInfo->getPathname())
+                ]);
         }
+    }
+
+    /**
+     * Validate incoming image.
+     *
+     * @param $image
+     * @return bool
+     */
+    private function validateImage($image)
+    {
+        if ($image instanceof \Illuminate\Http\UploadedFile)
+            return true;
+
+        return false;
     }
 
     /**
@@ -55,7 +73,8 @@ class ImageProcessor
     {
         $hash = md5_file($image->getRealPath());
         $ext = $image->getClientOriginalExtension();
-        return "{$hash}.{$ext}";
+        $time = time();
+        return "{$time}_{$hash}.{$ext}";
     }
 
     /**
@@ -64,6 +83,19 @@ class ImageProcessor
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function destroy($image)
+    {
+        if($image) {
+            $location = ltrim($image->image, '/');
+            @unlink(base_path("public/{$location}"));
+
+            $image->delete();
+        }
     }
 
     /**

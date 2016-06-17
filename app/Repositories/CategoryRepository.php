@@ -48,11 +48,24 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     /**
      * Get active rows.
      *
-     * @return \Illuminate\Database\Eloquent\Collection;
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getPublic()
     {
         return self::getModel()
+            ->active()
+            ->get();
+    }
+
+    /**
+     * Get active subcategories.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPublicSubcategories()
+    {
+        return self::getModel()
+            ->child()
             ->active()
             ->get();
     }

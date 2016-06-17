@@ -1,14 +1,5 @@
 @extends('layout')
 
-@section('breadcrumbs')
-    <div class="container">
-        <ul class="breadcrumbs">
-            <li><a href="#" class="icon-home"></a></li>
-            <li>Blog</li>
-        </ul>
-    </div>
-@endsection
-
 @section('content')
     @include('blog.partials.subscribe_form')
 

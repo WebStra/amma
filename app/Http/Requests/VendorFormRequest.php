@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class VendorCreateFormRequest extends Request
+class VendorFormRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -3,7 +3,7 @@
         @foreach($partners as $key => $partner)
             <li>
                 <a href="{{ $partner->link }}">
-                    <img src="{{ $partner->cover() }}" alt="{{ $partner->name }}">
+                    <img src="{{ $partner->present()->cover() }}" alt="{{ $partner->name }}">
                 </a>
             </li>
         @endforeach

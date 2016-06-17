@@ -4,7 +4,7 @@
         <div class="person_card">
             <div class="display_flex border_bottom">
                 <div class="wrapp_img">
-                    <img src="{{ $item->cover() }}">
+                    <img src="{{ $item->present()->cover() }}">
                 </div>
                 <div class="content">
                     <h4>{{ $item->present()->renderTitle()}}</h4>
@@ -21,14 +21,14 @@
             @if($item->user->id == \Auth::id())
                 <div class="buttons row">
                     <div class="col s12 padd_l_half">
-                        <a href="#"
+                        <a href="{{ route('add_product', ['vendor' => $item->slug]) }}"
                            class="btn_ btn_white waves-effect waves-teal f_small right full_width">Add product</a>
                     </div>
                 </div>
 
                 <div class="buttons row">
                     <div class="col s12 padd_l_half">
-                        <a href=""
+                        <a href="{{ route('edit_vendor', ['vendor' => $item->slug]) }}"
                            class="btn_ btn_white waves-effect waves-teal f_small right full_width">Edit vendor</a>
                     </div>
                 </div>

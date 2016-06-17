@@ -5,12 +5,13 @@ namespace App;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\PostPresenter;
 use App\Traits\ActivateableTrait;
+use App\Traits\HasImages;
 use Keyhunter\Administrator\Repository;
 use Keyhunter\Translatable\HasTranslations;
 
 class Post extends Repository
 {
-    use HasTranslations, ActivateableTrait, Presenterable;
+    use HasTranslations, ActivateableTrait, Presenterable, HasImages;
 
     /**
      * @var PostPresenter

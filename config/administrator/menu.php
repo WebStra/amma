@@ -77,6 +77,10 @@ return [
         'pages' => [
             'posts' => [
                 'icon' => 'fa fa-file-text-o'
+            ],
+
+            'post_images' => [
+                'icon' => 'fa fa-file-text-o'
             ]
         ]
     ],

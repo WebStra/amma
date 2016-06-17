@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\VendorCreateFormRequest;
+use App\Http\Requests\VendorFormRequest;
+use App\Http\Requests\VendorUpdateFormRequest;
 use App\Repositories\VendorRepository;
 
 class VendorController extends Controller
@@ -22,26 +23,26 @@ class VendorController extends Controller
     }
 
     /**
-     * Get vendor's create form.
-     * 
+     * Create vendor.
+     *
+     * @param VendorFormRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCreate(VendorFormRequest $request)
+    {
+        $vendor = $this->vendors->create($request->all());
+
+        return redirect()->route('view_vendor', ['vendor' => $vendor->slug]);
+    }
+
+    /**
+     * Create form for vendor.
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getCreate()
     {
         return view('vendors.create');
-    }
-
-    /**
-     * Create vendor.
-     * 
-     * @param VendorCreateFormRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postCreate(VendorCreateFormRequest $request)
-    {
-        $vendor = $this->vendors->create($request->all());
-
-        return redirect()->route('view_vendor', ['vendor' => $vendor->slug]);
     }
 
     /**
@@ -55,8 +56,28 @@ class VendorController extends Controller
         return view('vendors.show')->withItem($vendor);
     }
 
-    public function edit()
+    /**
+     * Edit form for vendor.
+     *
+     * @param $vendor
+     * @return mixed
+     */
+    public function edit($vendor)
     {
-        // todo: implement edit method;
+        return view('vendors.edit')->withItem($vendor);
+    }
+
+    /**
+     * Update vendor.
+     * 
+     * @param VendorUpdateFormRequest $request
+     * @param $vendor
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(VendorUpdateFormRequest $request, $vendor)
+    {
+        $this->vendors->update($vendor, $request->all());
+
+        return redirect()->route('view_vendor', ['slug' => $vendor->slug]);
     }
 }

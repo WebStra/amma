@@ -4,6 +4,8 @@ namespace App;
 
 use App\Libraries\Categoryable\CategoryableTrait;
 use App\Libraries\Categoryable\Categoryable;
+use App\Libraries\Presenterable\Presenterable;
+use App\Libraries\Presenterable\Presenters\CategoryPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\HasImages;
 use App\Traits\RankedableTrait;
@@ -12,12 +14,14 @@ use Keyhunter\Translatable\HasTranslations;
 
 class Category extends Repository
 {
-    use HasTranslations, CategoryableTrait, ActivateableTrait, RankedableTrait, HasImages;
+    use HasTranslations, CategoryableTrait, ActivateableTrait, RankedableTrait, HasImages, Presenterable;
 
     /**
      * @var string
      */
     protected $table = 'categories';
+    
+    protected $presenter = CategoryPresenter::class;
 
     /**
      * @var array

@@ -89,6 +89,16 @@ Route::multilingual(function () {
             'as' => 'my_vendors',
             'uses' => 'DashboardController@myVendors'
         ]);
+        
+        Route::get('vendor/{vendor}/product/create', [
+            'as' => 'add_product',
+            'uses' => 'ProductsController@getCreate'
+        ]);
+        
+        Route::post('vendor/{vendor}/product/create', [
+            'as' => 'post_create_product',
+            'uses' => 'ProductsController@postCreate'
+        ]);
     });
     
     Route::get('vendors/view/{vendor}', [

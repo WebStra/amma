@@ -1,13 +1,18 @@
 @extends('layout')
 
 @section('content')
-    <ul>
-        @foreach($vendors as $item)
-            <li>
-                <a href="{{ route('view_vendor', ['slug' => $item->slug]) }}">{{ $item->present()->renderTitle() }}</a>
-                &nbsp;
-                <a href="{{ route('edit_vendor', ['slug' => $item->slug]) }}">Edit</a>
-            </li>
-        @endforeach
-    </ul>
+    <section class="">
+        <div class="container">
+            <div class="row">
+                @include('partials.dashboard.nav-bar')
+                <div class="col l9 m7 s12">
+                    <ul class="elements divide-top bordered pd_8">
+                    @foreach($vendors as $item)
+                        @include('vendors.partials.item-block')
+                    @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

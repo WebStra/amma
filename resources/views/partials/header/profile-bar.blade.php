@@ -3,6 +3,7 @@
         <a href='#' data-activates='dropdown_top-bar-profile' class="dropdown_top_bar"><i class="icon-user"></i>
             Contul meu <i class="icon-la-down"></i></a>
         <ul id='dropdown_top-bar-profile' class='dropdown-content'>
+            <li><a href="{{ route('my_vendors') }}">My Vendors</a></li>
             <li><a href="#!">Istoria cumpărăturilor</a></li>
             <li><a href="#!">Vouchere</a></li>
             <!-- <li class="divider"></li> -->

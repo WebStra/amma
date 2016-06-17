@@ -1,14 +1,5 @@
 @extends('layout')
 
-@section('breadcrumbs')
-    <div class="container">
-        <ul class="breadcrumbs">
-            <li><a href="{{ route('home') }}" class="icon-home"></a></li>
-            <li> {{ $category->name }}</li>
-        </ul>
-    </div>
-@endsection
-
 <?php $categoryable_products = $category->categoryables()->products()->get(); ?>
 
 @section('content')

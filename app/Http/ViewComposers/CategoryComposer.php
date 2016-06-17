@@ -45,6 +45,10 @@ class CategoryComposer extends Composer
             case "partials.categories.search_dropdown":
                 return $view->with('categories', $this->categories->getSidebarCollection()); // the same select like l_sidebar
                 break;
+
+            case "product.partials.form":
+                return $view->with('categories', $this->categories->getPublicSubcategories());
+                break;
         }
     }
 }

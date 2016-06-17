@@ -2,10 +2,13 @@
 
 namespace App\Libraries\Presenterable\Presenters;
 
+use App\Traits\HasImagesPresentable;
 use Jenssegers\Date\Date;
 
 class PostPresenter extends Presenter
 {
+    use HasImagesPresentable;
+
     /**
      * Render short description from post's body.
      *

@@ -2,8 +2,12 @@
 
 namespace App\Libraries\Presenterable\Presenters;
 
+use App\Traits\HasImagesPresentable;
+
 class VendorPresenter extends Presenter
 {
+    use HasImagesPresentable;
+    
     /**
      * Render vendor's title
      *
