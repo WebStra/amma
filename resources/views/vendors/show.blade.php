@@ -9,7 +9,7 @@
                     @if(count($products = $item->products))
                         <ul class="elements divide-top bordered pd_8">
                             @foreach($products as $product)
-                                @include('partials.products.big-item-block', ['item' => $product->product])
+                                @include('partials.products.big-item-block', ['item' => $product])
                             @endforeach
                         </ul>
                     @else

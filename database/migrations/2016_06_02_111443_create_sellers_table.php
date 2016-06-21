@@ -25,7 +25,7 @@ class CreateSellersTable extends Migration
             $table->boolean('active')->default(1)->index();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('CASCADE');
         });
     }
 

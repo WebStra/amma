@@ -12,7 +12,7 @@
         <a href="#" class=""><img src="/assets/images/produs2.jpg"></a>
     </div>
     <div class="content">
-        <h4>{{ $item->present()->renderNameSimple() }}</h4>
+        <h4><a href="{{ route('view_product', $item->id) }}">{{ $item->present()->renderNameSimple() }}</a></h4>
         <ul class="star_rating" data-rating_value="4">
             <li class="icon-star"></li>
             <li class="icon-star"></li>
@@ -30,21 +30,25 @@
             @endif
         </div>
         <div class="colors cf">
-            <span class="small">Culoare:</span>
+            <span class="small">Colors:</span>
             <ul>
-                <li><span class="color_view"
-                          style="background-color:#fff; border-color:#e0e0e0;"></span> Alb(1)
+                @foreach($item->colors as $color)
+                <li>
+                    <span class="color_view"
+                          style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
                 </li>
-                <li><span class="color_view"
-                          style="background-color:#e96500; border-color:#e96500;"></span>
-                    Oranj(4)
-                </li>
-                <li><span class="color_view"
-                          style="background-color:#e96500; border-color:#e96500;"></span>
-                    Oranj(4)
-                </li>
+                @endforeach
             </ul>
         </div>
+
+        <div class="colors cf">
+            <span class="small">Actions:</span>
+            <ul>
+                <li><a href="{{ route('edit_product', ['product' => $item]) }}">Edit</a></li>
+                <li><a href="#">Delete</a></li>
+            </ul>
+        </div>
+
         <div class="stock">
             42/50
             <div class="progress">

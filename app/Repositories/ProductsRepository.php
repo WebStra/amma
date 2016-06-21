@@ -2,12 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Libraries\Categoryable\Categoryable;
 use App\Product;
-use App\ProductsColors;
-use App\Services\ImageProcessor;
-use App\UserProducts;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Model;
+use Mockery\CountValidator\Exception;
 
 class ProductsRepository extends Repository
 {
@@ -21,7 +18,7 @@ class ProductsRepository extends Repository
 
     /**
      * Get all published products
-     * 
+     *
      * @return mixed
      */
     public function getPublic()
@@ -32,43 +29,87 @@ class ProductsRepository extends Repository
     }
 
     /**
-     * @param array $data
-     * @param $vendor
+     * Find product by id/slug.
+     *
+     * @param $slug
      * @return Product
+     */
+    public function find($slug)
+    {
+        if (is_numeric($slug))
+            return $this->getModel()
+                ->whereId((int) $slug)
+                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+                ->first();
+
+        return $this->getModel()
+            ->whereSlug($slug)
+            ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+            ->first();
+    }
+
+    /**
+     * Create product.
+     * 
+     * @param array $data
+     * @return static
      */
     public function create(array $data)
     {
         return self::getModel()
             ->create([
-                'name' => $data['name'],
-                'price' => $data['price'],
+                'vendor_id' => $data['vendor_id'],
+                'name' => (isset($data['name']) ? $data['name'] : ''),
+                'price' => (isset($data['price']) ? $data['price'] : ''),
                 'sale' => (isset($data['sale'])) ? $data['sale'] : 0,
                 'count' => (isset($data['count'])) ? $data['count'] : 1,
                 'type' => (isset($data['type'])) ? $data['type'] : 'new',
-                'status' => 'drafted',
-                'published_date' => $data['published_date'],
-                'expiration_date' => $data['expiration_date'],
-
+                'status' => (isset($data['status'])) ? $data['status'] : 'drafted',
+                'published_date' => (isset($data['published_date']) ? $data['published_date'] : ''),
+                'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : ''),
+                'active' => (isset($data['active']) ? $data['active'] : 0)
             ]);
+    }
 
-        // todo: change it for other stuff.
-        UserProducts::create([
-            'user_id' => \Auth::id(),
-            'product_id' => $product->id,
-            'vendor_id' => $vendor->id
+    /**
+     * Update data.
+     *
+     * @param $product
+     * @param $data
+     * @return mixed
+     */
+    public function update($product, $data)
+    {
+        if(! $product instanceof Model)
+            throw new Exception('First argument MUST be an instance of '.Model::class);
+
+        $product->fill([
+            'name' => (isset($data['name']) ? $data['name'] : ''),
+            'price' => (isset($data['price']) ? $data['price'] : ''),
+            'sale' => (isset($data['sale'])) ? $data['sale'] : 0,
+            'count' => (isset($data['count'])) ? $data['count'] : 1,
+            'type' => (isset($data['type'])) ? $data['type'] : 'new',
+            'status' => (isset($data['status'])) ? $data['status'] : 'notverified',
+            'published_date' => (isset($data['published_date']) ? $data['published_date'] : ''),
+            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : ''),
+            'active' => 1
         ]);
 
-        if (isset($data['images'])) {
-            array_walk($data['images'], function($image) use($product) {
-                if($image instanceof UploadedFile) {
-                    $location = 'upload/products/' . $product->id;
-                    $processor = new ImageProcessor();
-                    $processor->uploadAndCreate($image, $product, null, $location);
-                }
-            });
-        }
+        $product->save();
 
         return $product;
+    }
+
+    /**
+     * Remove product row from table.
+     *
+     * @param $id
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function delete($id)
+    {
+        return $this->find($id)->delete();
     }
 
     /**
@@ -76,7 +117,8 @@ class ProductsRepository extends Repository
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSomeRandomProducts() {
+    public function getSomeRandomProducts()
+    {
         $random_element_1 = rand(1, 2);
         $random_element_2 = rand(1, 2);
         $random_element_3 = rand(1, 2);
@@ -102,5 +144,19 @@ class ProductsRepository extends Repository
         }
 
         return $query->get();
+    }
+
+    /**
+     * Get drafted product by id.
+     * 
+     * @param $id
+     * @return mixed
+     */
+    public function findDrafted($id)
+    {
+        return self::getModel()
+            ->whereId($id)
+            ->drafted()
+            ->first();
     }
 }

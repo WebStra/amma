@@ -109,13 +109,4 @@ return [
             ],
         ]
     ],
-    'Relations' => [
-        'page_header' => 'relationship tables',
-        'icon' => 'fa fa-sitemap',
-        'pages' => [
-            'users_products' => [
-                'icon' => 'fa fa-circle-o'
-            ]
-        ]
-    ]
 ];

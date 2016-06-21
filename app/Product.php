@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Libraries\Categoryable\CategoryableTrait;
+use App\Libraries\Metaable\HasMeta;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
@@ -10,7 +11,7 @@ use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
-    use CategoryableTrait, ActivateableTrait, Presenterable;
+    use CategoryableTrait, ActivateableTrait, Presenterable, HasMeta;
     
     /**
      * @var string
@@ -31,8 +32,21 @@ class Product extends Repository
      * @var array
      */
     protected $fillable = [
-        'name', 'price', 'sale', 'count', 'type', 'status', 'published_date', 'expiration_date', 'active'
+        'vendor_id', 'name', 'price', 'sale', 'count', 'type', 'status', 'published_date', 'expiration_date', 'active'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function colors()
+    {
+        return $this->hasMany(ProductsColors::class, 'product_id', 'id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 
     /**
      * Drafted products scope.

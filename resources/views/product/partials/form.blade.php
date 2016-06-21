@@ -1,18 +1,4 @@
-<!--<div class="col l12 m12 s12">
-    <div class="file-field input-field">
-        <div class="wrapp_img left">
-            <img src="/assets/images/no-avatar2.png" height="150" width="150">
-        </div>
-        <div class="left">
-            <div class="btn_ btn_base input_file xsmall">
-                <span>Cover Image</span>
-                <input type="file" name="image" required class="avatar">
-            </div>
-        </div>
-        <p class="left">* JPG minim 150x150px, proportie 1:1</p>
-    </div>
-</div> -->
-
+Item: {{ $item->id }}
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('add images') }}</span>
@@ -30,7 +16,7 @@
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('name') }}</span>
-        <input type="text" required name="name" placeholder="Product's name">
+        <input type="text" required name="name" value="{{ old('name') }}" placeholder="Product's name">
     </div>
 </div>
 
@@ -87,8 +73,6 @@
         <input type="text" required name="count" placeholder="Product's count">
     </div>
 </div>
-
-{{--todo: use jQueryUI, this stuff not working for Firefox browser--}}
 <!--
 <div class="col l6 m6 s12">
     <div class="input-field" style="float:left; width: 45%">

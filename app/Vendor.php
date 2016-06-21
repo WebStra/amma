@@ -52,7 +52,6 @@ class Vendor extends Repository implements SluggableInterface
      */
     public function products()
     {
-//        return $this->hasManyThrough(Product::class, UserProducts::class, 'vendor_id', 'product_id');
-        return $this->hasMany(UserProducts::class);
+        return $this->hasMany(Product::class, 'vendor_id', 'id');
     }
 }

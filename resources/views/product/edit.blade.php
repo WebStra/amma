@@ -6,12 +6,12 @@
             <div class="row">
                 @include('partials.dashboard.nav-bar')
                 <div class="col l9 m7 s12">
-                    <form method="post" action="{{ route('post_create_product', ['vendor' => $vendor, 'product' => $item->id]) }}"
+                    <form method="post" action="{{ route('update_product', ['product' => $item]) }}"
                           class="form styled2 row validate-it" enctype="multipart/form-data">
                         @include('product.partials.form')
                         {!! csrf_field() !!}
                         <div class="col l12">
-                            <button type="submit" class="btn btn_base btn_submit">Create</button>
+                            <button type="submit" class="btn btn_base btn_submit">Update</button>
                         </div>
                     </form>
                 </div>

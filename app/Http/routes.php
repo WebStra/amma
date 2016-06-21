@@ -95,9 +95,19 @@ Route::multilingual(function () {
             'uses' => 'ProductsController@getCreate'
         ]);
         
-        Route::post('vendor/{vendor}/product/create', [
+        Route::post('vendor/{vendor}/product/{product}/create', [
             'as' => 'post_create_product',
-            'uses' => 'ProductsController@postCreate'
+            'uses' => 'ProductsController@postSave'
+        ]);
+
+        Route::get('product/{product}/edit', [
+            'as' => 'edit_product',
+            'uses' => 'ProductsController@getEditForm'
+        ]);
+
+        Route::post('product/{product}/edit', [
+            'as' => 'update_product',
+            'uses' => 'ProductsController@update'
         ]);
     });
     

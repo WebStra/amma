@@ -13,29 +13,17 @@ class RolesTableSeeder extends Seeder
     protected $user;
 
     /**
-     * @var UserProducts
-     */
-    protected $usersProducts;
-
-    /**
      * @var Vendor
      */
     protected $vendor;
 
-
     /**
      * RolesTableSeeder constructor.
      * @param Role $role
-     * @param User $user
-     * @param UserProducts $usersProducts
-     * @param Vendor $vendor
      */
-    public function __construct(Role $role, User $user, UserProducts $usersProducts, Vendor $vendor)
+    public function __construct(Role $role)
     {
         $this->instance = $role;
-        $this->user = $user;
-        $this->usersProducts = $usersProducts;
-        $this->vendor = $vendor;
     }
     
     /**
@@ -45,9 +33,6 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->deleteTable($this->usersProducts);
-        $this->deleteTable($this->vendor);
-        $this->deleteTable($this->user);
         $this->deleteTable();
 
         Role::create(['name' => 'member', 'active' => true, 'rank' => 1]);

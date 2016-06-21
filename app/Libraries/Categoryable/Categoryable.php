@@ -26,6 +26,9 @@ class Categoryable extends Eloquent
      */
     protected $fillable = ['categoryable_id', 'categoryable_type', 'category_id', 'active'];
 
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
