@@ -1,4 +1,4 @@
 <li>
-    <span class="">Sex:</span>
-    <span class="">Femeie</span>
+    <span class="">{{ $spec->key }}:</span>
+    <span class="">{{ $spec->value }}</span>
 </li>

@@ -100,7 +100,11 @@
                         </div>
                         <div id="about_product" class="col s12 tab_content">
                             <ul class="">
-                                @include('product.partials.meta-spec')
+                                @if(count($specifications = $item->getMetaFromGroup('spec')))
+                                    @foreach($specifications as $spec)
+                                        @include('product.partials.meta-spec')
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                         <div id="feedback" class="feedback_rating col s12 tab_content" style="display: none;">

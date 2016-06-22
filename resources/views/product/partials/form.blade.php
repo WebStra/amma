@@ -11,20 +11,20 @@ Item: {{ $item->id }}
     </div>
 
     <input class="files" type="file" name="images[]" multiple>
-</div>
+</div><!-- Images -->
 
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('name') }}</span>
-        <input type="text" required name="name" value="{{ old('name') }}" placeholder="Product's name">
+        <input type="text" required name="name" value="{{ (old('name')) ? old('name') : $item->name }}" placeholder="Product's name">
     </div>
-</div>
+</div><!-- Name -->
 
 <div class="col l6 m6 s12">
     <div style="float:left; width: 60%">
         <div class="input-field" style="float: left; width: 40%">
             <span class="label">{{ strtoupper('price') }}</span>
-            <input type="number" required name="price" placeholder="0.00">
+            <input type="number" required name="price" value="{{ old('price') ? old('price') : $item->price }}" placeholder="0.00">
         </div>
 
         <div class="input-field" style="float:right; width: 50%">
@@ -33,7 +33,15 @@ Item: {{ $item->id }}
             <select name="sale">
                 <option value="">0%</option>
                 @for($percent = 5; $percent <= 60; $percent = $percent + 10)
-                    <option value="{{ $percent }}">{{ $percent }}%</option>
+                    <?php
+                        if(old('sale'))
+                        {
+                            $selected = old('sale') == $percent ? 'selected' : '';
+                        } else {
+                            $selected = $item->sale == $percent ? 'selected' : '';
+                        }
+                    ?>
+                    <option value="{{ $percent }}" {{ $selected }}>{{ $percent }}%</option>
                 @endfor
             </select>
         </div>
@@ -41,9 +49,9 @@ Item: {{ $item->id }}
 
     <div id="new_price" class="input-field" style="float:right; width: 30%">
         <span class="label">{{ strtoupper('price with sale') }}</span>
-        <input type="text" id="out_new_price" style="color: #ff6f00" readonly placeholder="0.00">
+        <input type="text" id="out_new_price" value="{{ $item->present()->renderPriceWithSale(true) }}" style="color: #ff6f00" readonly placeholder="0.00">
     </div>
-</div>
+</div><!-- Price -->
 
 <div class="col l6 m6 s12">
     <div class="input-field">
@@ -55,7 +63,7 @@ Item: {{ $item->id }}
             @endforeach
         </select>
     </div>
-</div>
+</div><!-- Categories -->
 
 <div class="col l6 m6 s12">
     <div class="input-field">
@@ -65,16 +73,15 @@ Item: {{ $item->id }}
             <option value="old">Old</option>
         </select>
     </div>
-</div>
+</div><!-- Type -->
 
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('count') }}</span>
-        <input type="text" required name="count" placeholder="Product's count">
+        <input type="text" required name="count" value="{{ old('count') ? old('count') : $item->count }}" placeholder="Product's count">
     </div>
-</div>
-<!--
-<div class="col l6 m6 s12">
+</div><!-- Count -->
+<!--<div class="col l6 m6 s12">
     <div class="input-field" style="float:left; width: 45%">
         <span class="label">{{ strtoupper('published date(from)') }}</span>
         <input type="date" required name="published_date">
@@ -84,8 +91,7 @@ Item: {{ $item->id }}
         <span class="label">{{ strtoupper('expiration date(to)') }}</span>
         <input type="date" required name="expiration_date">
     </div>
-</div>
--->
+</div>--><!-- Datetime -->
 <div class="col l6 m6 s12" style="min-height: 84px">
     <div class="input-field">
         <span class="label">{{ strtoupper('colors') }}</span>
@@ -96,7 +102,7 @@ Item: {{ $item->id }}
     </div>
 
     <input type="hidden" name="colors" value='{}'>
-</div>
+</div><!-- Colors -->
 
 <div class="col l6 m6 s12">
     <div class="specification-bundle">
@@ -141,14 +147,15 @@ Item: {{ $item->id }}
     </div>
 
     <a class="btn" style="float: right" id="add_suite">Add</a>
-</div>
+</div><!-- Specifications -->
 
 @section('js')
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js" type="text/javascript"></script>
-    <script src="//github.com/fyneworks/multifile/blob/master/jQuery.MultiFile.min.js" type="text/javascript" language="javascript"></script>
+    <script src="//github.com/fyneworks/multifile/blob/master/jQuery.MultiFile.min.js" type="text/javascript"
+            language="javascript"></script>
 
     <script>
-        $(function() // Calculate saled price.
+        $(function () // Calculate saled price.
         {
             $('select[name=sale], input[name=price]').on('input change', function () {
                 var sale = $('select[name=sale]').val();
@@ -159,7 +166,7 @@ Item: {{ $item->id }}
             });
         });
 
-        $(function() // Add color patterns.
+        $(function () // Add color patterns.
         {
             var output_color_wrap = $('#colors_output');
             var selected_colors = $('input[name=colors]');
@@ -175,8 +182,8 @@ Item: {{ $item->id }}
                         var color = $(this).val();
                         var template =
                                 '<div class="col-md-1" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">' +
-                                    '<div style="width: 24px; height: 24px; background-color: ' + color + '" id="color_' + color + '"></div>' +
-                                    '<span ' + 'class="remove_color" data-color="' + color + '" style="color: red; cursor: pointer;margin-left: 16%;">x</span>' +
+                                '<div style="width: 24px; height: 24px; background-color: ' + color + '" id="color_' + color + '"></div>' +
+                                '<span ' + 'class="remove_color" data-color="' + color + '" style="color: red; cursor: pointer;margin-left: 16%;">x</span>' +
                                 '</div>';
 
                         try {
@@ -210,7 +217,7 @@ Item: {{ $item->id }}
             });
         });
 
-        $(function() // Add/remove specification
+        $(function () // Add/remove specification
         {
             var block_id = {value: 2};
 
@@ -231,23 +238,23 @@ Item: {{ $item->id }}
         function getSpecSuiteTemplate(block_id) // Get template of suite of specifications.
         {
             return '<div class="specification_suite" data-suite-spec="' + block_id + '" style="margin-top: 28px">'
-                        + '<div class="input-field" style="float: left; width: 42%">'
-                            + '<span class="label">{{ strtoupper('name') }}</span>'
-                            + '<input type="text" name="spec[' + block_id + '][key]">'
-                        + '</div>'
-                        + '<div class="input-field" style="float: left; width: 50%; margin-left: 2%">'
-                            + '<span class="label">{{ strtoupper('value') }}</span>'
-                            + '<input type="text" name="spec[' + block_id + '][value]">'
-                        + '</div>'
-                        + '<div class="input-field remove-spec" style="float: right; width: 4%; padding-top: 6%">'
-                            + '<a href="#remove-spec" class="remove-spec"><i class="icon-trash"></i></a>'
-                        + '</div>'
+                    + '<div class="input-field" style="float: left; width: 42%">'
+                    + '<span class="label">{{ strtoupper('name') }}</span>'
+                    + '<input type="text" name="spec[' + block_id + '][key]">'
+                    + '</div>'
+                    + '<div class="input-field" style="float: left; width: 50%; margin-left: 2%">'
+                    + '<span class="label">{{ strtoupper('value') }}</span>'
+                    + '<input type="text" name="spec[' + block_id + '][value]">'
+                    + '</div>'
+                    + '<div class="input-field remove-spec" style="float: right; width: 4%; padding-top: 6%">'
+                    + '<a href="#remove-spec" class="remove-spec"><i class="icon-trash"></i></a>'
+                    + '</div>'
                     + '</div>';
         }
 
-        $(function() // Image gallery
+        $(function () // Image gallery
         {
-            $( ".gallery" ).sortable({
+            $(".gallery").sortable({
 //                revert: true
             });
 

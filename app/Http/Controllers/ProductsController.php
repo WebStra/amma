@@ -101,8 +101,8 @@ class ProductsController extends Controller
         if(! is_null($images = $request->get('images')))
             $this->saveImages($images, $product);
 
-        if(! ($spec = $request->get('spec')))
-            $this->saveImages($images, $product);
+        if(! empty($spec = $request->get('spec')))
+            $this->saveSpecifications($spec, $product);
 
         $this->clearProductFromSession();
 

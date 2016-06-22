@@ -47,12 +47,15 @@ class ProductPresenter extends Presenter
     /**
      * Render price with calc. sale..
      *
+     * @param $onlyPrice false
      * @return string
      */
-    public function renderPriceWithSale()
+    public function renderPriceWithSale($onlyPrice = false)
     {
         $price = $this->reformatPrice($this->model->price - $this->getPriceAmountSale());
 //        $price = $this->getPriceAmountSale();
+        if($onlyPrice)
+            return $price;
 
         return sprintf('%s MDL', $price);
     }
