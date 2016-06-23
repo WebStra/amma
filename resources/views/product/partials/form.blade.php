@@ -109,8 +109,6 @@ Item: {{ $item->id }}
         <input type="color" style="position:absolute; left:-9999px; top:-9999px;"
                id="colorpicker">
     </div>
-
-    <input type="hidden" name="colors" value='{}'>
 </div><!-- Colors -->
 
 <div class="col l6 m6 s12">
