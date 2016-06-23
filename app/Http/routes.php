@@ -94,6 +94,18 @@ Route::multilingual(function () {
             'as' => 'add_product',
             'uses' => 'ProductsController@getCreate'
         ]);
+
+        Route::group(['middleware' => 'accept-ajax'], function () {
+            Route::post('product/{product}/add-color', [
+                'as' => 'add_product_color',
+                'uses' => 'ProductsController@addColor'
+            ]);
+    
+            Route::post('product/{product}/remove-color', [
+                'as' => 'remove_product_color',
+                'uses' => 'ProductsController@removeColor'
+            ]);
+        });
         
         Route::post('vendor/{vendor}/product/{product}/create', [
             'as' => 'post_create_product',

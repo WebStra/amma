@@ -95,7 +95,16 @@ Item: {{ $item->id }}
 <div class="col l6 m6 s12" style="min-height: 84px">
     <div class="input-field">
         <span class="label">{{ strtoupper('colors') }}</span>
-        <div id="colors_output" class="row" style="margin-left: 0; margin-right: 0; min-height: 51px;"></div>
+        <div id="colors_output" class="row" style="margin-left: 0; margin-right: 0; min-height: 51px;">
+            @if(count($item->colors))
+                @foreach($item->colors as $color)
+                    <div class="col-md-1" data-color-id="{{ $color->id }}" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">
+                        <div style="width: 24px; height: 24px; background-color: {{ $color->color_hash }}"></div>
+                        <span class="remove_color" style="color: red; cursor: pointer;margin-left: 16%;">x</span>
+                    </div>
+                @endforeach
+            @endif
+        </div>
         <a id="add_color" class="btn" style="float: right; margin-top: 5px">Add</a>
         <input type="color" style="position:absolute; left:-9999px; top:-9999px;"
                id="colorpicker">
@@ -151,8 +160,8 @@ Item: {{ $item->id }}
 
 @section('js')
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js" type="text/javascript"></script>
-    <script src="//github.com/fyneworks/multifile/blob/master/jQuery.MultiFile.min.js" type="text/javascript"
-            language="javascript"></script>
+    {{--<script src="//github.com/fyneworks/multifile/blob/master/jQuery.MultiFile.min.js" type="text/javascript"--}}
+            {{--language="javascript"></script>--}}
 
     <script>
         $(function () // Calculate saled price.
@@ -169,10 +178,10 @@ Item: {{ $item->id }}
         $(function () // Add color patterns.
         {
             var output_color_wrap = $('#colors_output');
-            var selected_colors = $('input[name=colors]');
             var color_input = $('#colorpicker');
+            var add_btn = $('#add_color');
 
-            $('#add_color')
+            add_btn
                     .on('click', function () {
                         color_input[0].click();
                     });
@@ -180,40 +189,40 @@ Item: {{ $item->id }}
             color_input
                     .on('input', function () {
                         var color = $(this).val();
-                        var template =
-                                '<div class="col-md-1" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">' +
-                                '<div style="width: 24px; height: 24px; background-color: ' + color + '" id="color_' + color + '"></div>' +
-                                '<span ' + 'class="remove_color" data-color="' + color + '" style="color: red; cursor: pointer;margin-left: 16%;">x</span>' +
-                                '</div>';
 
-                        try {
-                            var selected = JSON.parse(selected_colors.val());
-                        } catch (e) {
-                            var selected = {};
-                        }
-
-                        if (!selected.hasOwnProperty(color)) {
-                            output_color_wrap
-                                    .append(template);
-
-                            selected[color] = color;
-                            selected_colors.val(JSON.stringify(selected));
-                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('add_product_color', ['product' => $item->id]) }}",
+                            data: { _token: "{{ csrf_token() }}", color: color },
+                            success: function (response) {
+                                if (typeof response == 'object')
+                                {
+                                    output_color_wrap
+                                            .append(
+                                                '<div class="col-md-1" data-color-id="' + response.id + '" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">'
+                                                    + '<div style="width: 24px; height: 24px; background-color: ' + color + '"></div>'
+                                                    + '<span class="remove_color" style="color: red; cursor: pointer;margin-left: 16%;">x</span>'
+                                                + '</div>'
+                                            );
+                                }
+                            }
+                        });
                     });
 
             output_color_wrap.on('click', 'span.remove_color', function (e) {
                 e.preventDefault();
-                var color = $(this).data('color');
-                var selected = JSON.parse(selected_colors.val());
+                var color_block = $(this).parent();
+                var color_id = color_block.data('color-id');
 
-                delete selected[color]; // remove color from JSON.
-
-                $(this)
-                        .parent()
-                        .remove(); // remove color preview box.
-
-                selected_colors
-                        .val(JSON.stringify(selected));
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('remove_product_color', ['product' => $item->id]) }}",
+                    data: { _token: "{{ csrf_token() }}", color_id: color_id },
+                    success: function () {
+                        color_block
+                                .remove(); // remove color preview box.
+                    }
+                });
             });
         });
 

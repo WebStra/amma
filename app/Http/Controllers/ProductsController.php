@@ -6,6 +6,7 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Repositories\CategoryableRepository;
 use App\Repositories\ProductsColorsRepository;
 use App\Services\ImageProcessor;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Session\Store;
 use App\Repositories\ProductsRepository;
@@ -85,23 +86,24 @@ class ProductsController extends Controller
      * @param \App\Product $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postSave(ProductCreateRequest $request, $vendor = null, $product = null)
+    public function postSave(
+        ProductCreateRequest $request,
+        $vendor = null,
+        $product = null
+    )
     {
         $product = $this->products->update(
             $product,
             $request->all()
         );
 
-        if(! is_null($categories = $request->get('categories')))
+        if (!is_null($categories = $request->get('categories')))
             $this->saveCategories($categories, $product);
 
-        if(! is_null($colors = $request->get('colors')))
-            $this->saveColors($colors, $product);
-
-        if(! is_null($images = $request->get('images')))
+        if (!is_null($images = $request->get('images')))
             $this->saveImages($images, $product);
 
-        if(! empty($spec = $request->get('spec')))
+        if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);
 
         $this->clearProductFromSession();
@@ -167,42 +169,56 @@ class ProductsController extends Controller
     }
 
     /**
-     * @param $colors
-     * @param $product
-     */
-    private function saveColors($colors, $product)
-    {
-        $colors = json_decode($colors);
-
-        foreach ($colors as $color)
-        {
-            $this->productsColors->create($product, $color);
-        }
-    }
-
-    /**
      * @param $specifications
      * @param $product
      */
     private function saveSpecifications($specifications, $product)
     {
-        array_walk($specifications, function ($meta) use ($product){
+        array_walk($specifications, function ($meta) use ($product) {
             $product->setMeta($meta['key'], $meta['value'], 'spec');
         });
     }
 
     /**
+     * Save product images.
+     *
      * @param $images
      * @param $product
      */
     private function saveImages($images, $product)
     {
-        array_walk($images, function($image) use($product) {
+        array_walk($images, function ($image) use ($product) {
             if ($image instanceof UploadedFile) {
                 $location = 'upload/products/' . $product->id;
                 $processor = new ImageProcessor();
                 $processor->uploadAndCreate($image, $product, null, $location);
             }
         });
+    }
+
+    /**
+     * @ajax Add color to product.
+     *
+     * @param Request $request
+     * @param $product
+     * @return static
+     */
+    public function addColor(Request $request, $product)
+    {
+        if (!$this->productsColors->hasColor($product, $request->get('color')))
+            return $this->productsColors
+                ->create($product, $request->get('color'));
+    }
+
+    /**
+     * @ajax Remove color.
+     *
+     * @param Request $request
+     * @param $product
+     * @return void
+     */
+    public function removeColor(Request $request, $product)
+    {
+        $this->productsColors->delete($request->get('color_id'));
     }
 }
