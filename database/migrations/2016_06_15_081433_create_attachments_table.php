@@ -24,6 +24,9 @@ class CreateAttachmentsTable extends Migration
             $table->string('type', 255)->nullable();
             $table->string('image', 255);
             $table->string('original', 255);
+            $table->integer('rank')->nullable();
+            
+            $table->index('rank');
 
             $table->timestamps();
         });

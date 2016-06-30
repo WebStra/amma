@@ -156,6 +156,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\ObserverServiceProvider::class,
 
         Keyhunter\Administrator\ServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
@@ -209,4 +210,15 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Observer Logs
+    |--------------------------------------------------------------------------
+    |
+    | If is enabled(true), then all fired methods will be recorded to
+    | storage/laravel.log
+    |
+    */
+
+    'observers_logs' => true,
 ];

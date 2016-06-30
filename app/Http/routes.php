@@ -105,11 +105,31 @@ Route::multilingual(function () {
                 'as' => 'remove_product_color',
                 'uses' => 'ProductsController@removeColor'
             ]);
+
+            Route::post('product/{product}/add-image', [
+                'as' => 'add_product_image',
+                'uses' => 'ProductsController@addImage'
+            ]);
+
+            Route::post('product/{product}/remove-image', [
+                'as' => 'remove_product_image',
+                'uses' => 'ProductsController@removeImage'
+            ]);
+            
+            Route::post('product/{product}/remove-spec', [
+                'as' => 'remove_product_spec',
+                'uses' => 'ProductsController@removeSpec'
+            ]);
+
+            Route::post('product/{product}/image-sort', [
+                'as' => 'sort_product_image',
+                'uses' => 'ProductsController@saveImagesOrder'
+            ]);
         });
         
         Route::post('vendor/{vendor}/product/{product}/create', [
             'as' => 'post_create_product',
-            'uses' => 'ProductsController@postSave'
+            'uses' => 'ProductsController@create'
         ]);
 
         Route::get('product/{product}/edit', [

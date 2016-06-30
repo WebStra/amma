@@ -34,4 +34,30 @@ class Repository extends BaseRepository
                 'group' => (! is_null($group)) ? $group : 'other'
             ]);
     }
+
+    /**
+     * Deletes group
+     *
+     * @param $group
+     * @return mixed
+     */
+    public function removeGroup($group)
+    {
+        return self::getModel()
+            ->where('group', $group)
+            ->delete();
+    }
+
+    /**
+     * Remove by id.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function removeById($id)
+    {
+        return self::getModel()
+            ->find($id)
+            ->delete();
+    }
 }

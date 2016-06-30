@@ -84,14 +84,14 @@ class ProductsRepository extends Repository
             throw new Exception('First argument MUST be an instance of '.Model::class);
 
         $product->fill([
-            'name' => (isset($data['name']) ? $data['name'] : ''),
-            'price' => (isset($data['price']) ? $data['price'] : ''),
-            'sale' => (isset($data['sale'])) ? $data['sale'] : 0,
-            'count' => (isset($data['count'])) ? $data['count'] : 1,
-            'type' => (isset($data['type'])) ? $data['type'] : 'new',
-            'status' => (isset($data['status'])) ? $data['status'] : 'notverified',
-            'published_date' => (isset($data['published_date']) ? $data['published_date'] : ''),
-            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : ''),
+            'name' => (isset($data['name']) ? $data['name'] : $product->name),
+//            'price' => (isset($data['price']) ? $data['price'] : $product->price),
+//            'sale' => (isset($data['sale'])) ? $data['sale'] : $product->sale,
+            'count' => (isset($data['count'])) ? $data['count'] : $product->count,
+//            'type' => (isset($data['type'])) ? $data['type'] : 'new',
+            'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
+//            'published_date' => (isset($data['published_date']) ? $data['published_date'] : $product->published_date),
+//            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : $product->published_date),
             'active' => 1
         ]);
 

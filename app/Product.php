@@ -7,11 +7,12 @@ use App\Libraries\Metaable\HasMeta;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
+use App\Traits\HasImages;
 use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
-    use CategoryableTrait, ActivateableTrait, Presenterable, HasMeta;
+    use CategoryableTrait, ActivateableTrait, Presenterable, HasMeta, HasImages;
     
     /**
      * @var string

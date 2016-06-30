@@ -4,16 +4,18 @@ namespace App;
 
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ImagePresenter;
+use App\Libraries\Rankable\HasRank;
+use App\Listeners\Observers\ImageObserver;
 use Keyhunter\Administrator\Repository;
 
 class Image extends Repository
 {
-    use Presenterable;
+    use Presenterable, HasRank;
 
     /**
      * @var array
      */
-    protected $fillable = ['type', 'original', 'image', 'imageable_type', 'imageable_id'];
+    protected $fillable = ['type', 'original', 'image', 'imageable_type', 'imageable_id', 'rank'];
 
     /**
      * @var ImagePresenter

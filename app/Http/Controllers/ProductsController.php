@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
+use App\Image;
+use App\Product;
 use App\Repositories\CategoryableRepository;
 use App\Repositories\ProductsColorsRepository;
 use App\Services\ImageProcessor;
@@ -87,7 +90,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postSave(
-        ProductCreateRequest $request,
+        $request,
         $vendor = null,
         $product = null
     )
@@ -99,9 +102,6 @@ class ProductsController extends Controller
 
         if (!is_null($categories = $request->get('categories')))
             $this->saveCategories($categories, $product);
-
-        if (!is_null($images = $request->get('images')))
-            $this->saveImages($images, $product);
 
         if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);
@@ -121,13 +121,27 @@ class ProductsController extends Controller
     }
 
     /**
+     * Post create method action.
+     *
      * @param ProductCreateRequest $request
      * @param $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProductCreateRequest $request, $product)
+    public function create(ProductCreateRequest $request, $product)
     {
-        return $this->postSave($request, $product);
+        return $this->postSave($request, null, $product);
+    }
+
+    /**
+     * Post update method action.
+     *
+     * @param ProductUpdateRequest $request
+     * @param $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(ProductUpdateRequest $request, $product)
+    {
+        return $this->postSave($request, null, $product);
     }
 
     /**
@@ -180,21 +194,94 @@ class ProductsController extends Controller
     }
 
     /**
-     * Save product images.
+     * Add image to product.
      *
-     * @param $images
+     * @param Request $request
+     * @param $product
+     * @return mixed
+     * @throws \Exception
+     */
+    public function addImage(Request $request, $product)
+    {
+        $image = $request->file('file');
+
+        if ($image instanceof UploadedFile) {
+            $location = 'upload/products/' . $product->id;
+            $processor = new ImageProcessor();
+            $imageable = $processor->uploadAndCreate($image, $product, null, $location);
+        } else {
+            throw new \Exception('Invalid Image');
+        }
+
+        return $imageable;
+    }
+
+    /**
+     * @ajax Remove Image.
+     *
+     * @param Request $request
      * @param $product
      */
-    private function saveImages($images, $product)
+    public function removeImage(Request $request, $product)
     {
-        array_walk($images, function ($image) use ($product) {
-            if ($image instanceof UploadedFile) {
-                $location = 'upload/products/' . $product->id;
-                $processor = new ImageProcessor();
-                $processor->uploadAndCreate($image, $product, null, $location);
-            }
+        Image::find($request->get('image_id'))->delete();
+    }
+
+    public function saveImagesOrder(Request $request, $product)
+    {
+        $sorted = $request->get('item');
+
+        $newsort = [];
+        array_walk($sorted, function ($id, $k) use (&$newsort){
+            $image = Image::find($id);
+
+            $newsort[$k] = ['id' => $image->id, 'rank' => $image->rank];
+        });
+
+        $sortedOldImagesModels = $product->images()->ranked('asc')->get();
+
+        $oldsort = [];
+        $sortedOldImagesModels->each(function ($item, $k) use(&$oldsort)
+        {
+            $oldsort[$k] = ['id' => $item->id, 'rank' => $item->rank];
+        });
+//        dd($newsort, $oldsort);
+
+        $changed_positions = $this->getChangedSortPositions($newsort, $oldsort);
+        $tempdata = [];
+        array_walk($changed_positions, function ($position) use (
+            $oldsort, $newsort, $sortedOldImagesModels, &$tempdata
+        )
+        {
+            $tempdata['changes'][$newsort[$position]['id']] = $oldsort[$position]['rank'];
+
+            $image = Image::find($newsort[$position]['id']);
+
+            $image->setRank($oldsort[$position]['rank']);
         });
     }
+
+    private function getChangedSortPositions($newsort, $oldsort)
+    {
+        $temp = [];
+        array_walk($newsort, function ($sorted_attribs, $position) use ($oldsort, $newsort, &$temp)
+        {
+            if($oldsort[$position]['id'] !== $newsort[$position]['id'])
+            {
+                $temp[] = $position;
+            }
+        });
+
+        return $temp;
+    }
+
+//    private function method_sd($changed_positions)
+//    {
+//        $changes = [];
+//
+//
+//
+//    }
 
     /**
      * @ajax Add color to product.
@@ -220,5 +307,17 @@ class ProductsController extends Controller
     public function removeColor(Request $request, $product)
     {
         $this->productsColors->delete($request->get('color_id'));
+    }
+
+    /**
+     * @ajax Remove spec.
+     *
+     * @param Request $request
+     * @param $product
+     * @return void
+     */
+    public function removeSpec(Request $request, Product $product)
+    {
+        $product->removeMetaById($request->get('id'));
     }
 }

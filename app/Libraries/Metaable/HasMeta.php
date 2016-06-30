@@ -39,9 +39,33 @@ trait HasMeta
      */
     public function setMeta($key, $value, $group = null)
     {
-        if (!$meta = $this->getMeta($key, $group))
-            return (new MetaRepository)->create($this, $key, $value, $group);
+        if (!$meta = $this->getMeta($key, $group)) {
+            return $this->getRepository()->create($this, $key, $value, $group);
+        } else {
+            return $this->updateMeta($meta, $key, $value);
+        }
+    }
 
+    /**
+     * Update Meta.
+     * 
+     * @param $meta
+     * @param $key
+     * @param $value
+     * @param null $group
+     * @return mixed
+     */
+    public function updateMeta($meta, $key, $value, $group = null)
+    {
+        if(is_numeric($meta))
+            $meta = $this->getRepository()->getModel()->find((int) $meta)->first();
+
+        $meta->key = $key;
+        $meta->value = $value;
+        if(isset($group))
+            $meta->group = $group;
+
+        $meta->save();
         return $meta;
     }
 
@@ -58,16 +82,56 @@ trait HasMeta
     }
 
     /**
+     * Alias for unsetMeta method.
+     *
+     * @param $key
+     * @param null $group
+     * @return mixed
+     */
+    public function removeMeta($key, $group = null)
+    {
+        if(isset($group))
+            return $this->unsetMeta($key, $group);
+
+        return $this->unsetMeta($key);
+    }
+
+    /**
+     * Remove by id.
+     * 
+     * @param $id
+     */
+    public function removeMetaById($id)
+    {
+        $this->getRepository()->removeById((int) $id);
+    }
+
+    /**
      * Remove group of meta.
      *
+     * @param $groups
+     * @return $this
+     */
+    public function removeMetaGroups($groups)
+    {
+        if(is_array($groups)) {
+            array_walk($groups, function ($group) {
+                $this->getRepository()->removeGroup($group);
+            });
+        } else {
+            $this->getRepository()->removeGroup($groups);
+        }
+        
+        return $this;
+    }
+
+    /**
      * @param $group
      * @return $this
      */
-    public function removeMetaGroup($group)
+    public function removeGroup($group)
     {
-        (new MetaRepository)->removeGroup($group);
-
-        return $this;
+        return $this->removeMetaGroups($group);
     }
 
     /**
@@ -110,5 +174,24 @@ trait HasMeta
     public function getMetaFromGroup($group)
     {
         return $this->meta()->group($group)->get();
+    }
+
+    /**
+     * @param $group
+     * @return mixed
+     */
+    public function getMetaGroup($group)
+    {
+        return $this->getMetaFromGroup($group);
+    }
+
+    /**
+     * Get meta repository
+     *
+     * @return Repository
+     */
+    private function getRepository()
+    {
+        return new MetaRepository();
     }
 }

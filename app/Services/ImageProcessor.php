@@ -36,15 +36,14 @@ class ImageProcessor
             $original = $image->getClientOriginalName();
             if (isset($location))
                 $this->setLocation($location);
-
-            // todo: find a way to delete previous files
+            
             if ($imageInfo = $this->upload($image))
                 return $this->getModel()->create([
                     'imageable_id' => $imageable->id,
                     'imageable_type' => get_class($imageable),
                     'type' => isset($data['type']) ? $data['type'] : 'cover',
                     'original' => $original,
-                    'image' => str_replace(base_path('public'), '', $imageInfo->getPathname())
+                    'image' => str_replace(base_path('public'), '', $imageInfo->getPathname()),
                 ]);
         }
     }
@@ -96,6 +95,22 @@ class ImageProcessor
 
             $image->delete();
         }
+    }
+
+    /**
+     * Delete only image form folder.
+     *
+     * @param $image
+     * @return bool
+     */
+    public function destroyImageOnly($image)
+    {
+        if($image) {
+            $location = ltrim($image->image, '/');
+            return @unlink(base_path("public/{$location}"));
+        }
+        
+        return false;
     }
 
     /**

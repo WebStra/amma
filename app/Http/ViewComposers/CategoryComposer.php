@@ -46,7 +46,7 @@ class CategoryComposer extends Composer
                 return $view->with('categories', $this->categories->getSidebarCollection()); // the same select like l_sidebar
                 break;
 
-            case "product.partials.form":
+            case "product.partials.form.index":
                 return $view->with('categories', $this->categories->getPublicSubcategories());
                 break;
         }

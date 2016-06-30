@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\UserRepository;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -81,7 +82,20 @@ class AuthController extends Controller
         $credentials = $this->getCredentials($request);
 
         if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
-            return $this->handleUserWasAuthenticated($request, $throttles);
+
+            if ($throttles) {
+                $this->clearLoginAttempts($request);
+            }
+
+            if (method_exists($this, 'authenticated')) {
+                return $this->authenticated($request, Auth::guard($this->getGuard())->user());
+            }
+
+            // todo: HIGH. Fix it!!!
+//            if(session()->pull('url.intended', '/') == route('admin_login'))
+//                return redirect()->to('/');
+
+            return redirect()->intended($this->redirectPath());
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
