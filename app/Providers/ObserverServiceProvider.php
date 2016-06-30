@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Image;
 use App\Listeners\Observers\ImageObserver;
+use App\Listeners\Observers\ProductObserver;
+use App\Product;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -14,7 +16,8 @@ class ObserverServiceProvider extends ServiceProvider
      * @var array
      */
     protected $observers = [
-        Image::class => ImageObserver::class
+        Image::class => ImageObserver::class,
+        Product::class => ProductObserver::class,
     ];
 
     /**

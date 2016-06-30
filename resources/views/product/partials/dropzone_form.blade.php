@@ -17,7 +17,7 @@
     @endif
 </div>
 <br>
-<form action="{{ route('add_product_image', ['product' => $item]) }}" class="dropzone" id="dropzone_form">
+<form action="{{ route('add_product_image', ['product' => $item->id]) }}" class="dropzone" id="dropzone_form">
     <div class="fallback"></div>
     <input type="file" multiple id="images" style="display: none">
 </form>

@@ -85,13 +85,13 @@ class ProductsRepository extends Repository
 
         $product->fill([
             'name' => (isset($data['name']) ? $data['name'] : $product->name),
-//            'price' => (isset($data['price']) ? $data['price'] : $product->price),
-//            'sale' => (isset($data['sale'])) ? $data['sale'] : $product->sale,
+            'price' => (isset($data['price']) ? $data['price'] : $product->price),
+            'sale' => (isset($data['sale'])) ? $data['sale'] : $product->sale,
             'count' => (isset($data['count'])) ? $data['count'] : $product->count,
-//            'type' => (isset($data['type'])) ? $data['type'] : 'new',
+            'type' => (isset($data['type'])) ? $data['type'] : 'new',
             'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
-//            'published_date' => (isset($data['published_date']) ? $data['published_date'] : $product->published_date),
-//            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : $product->published_date),
+            'published_date' => (isset($data['published_date']) ? $data['published_date'] : $product->published_date),
+            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : $product->published_date),
             'active' => 1
         ]);
 

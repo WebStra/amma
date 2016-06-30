@@ -127,7 +127,7 @@ class ProductsController extends Controller
      * @param $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(ProductCreateRequest $request, $product)
+    public function create(ProductCreateRequest $request, $vendor, $product)
     {
         return $this->postSave($request, null, $product);
     }

@@ -39,7 +39,6 @@
                     init: function (file, response) {
                         this.on("success", function (file, response) {
                             var previewTemplate = $(file.previewTemplate);
-
                             previewTemplate.attr('id', 'item-' + response.id);
                         });
                         this.on("removedfile", function (file) {

@@ -63,16 +63,18 @@ class DraftedProductsCleaner
     {
         $this->request = $request;
 
-        if(! in_array($this->getCurrentRouteName(), $this->except))
+        if(! $request->ajax()) 
         {
-            $product_id = $this->getDraftedProduct();
-
-            if(! is_null($product_id))
+            if (!in_array($this->getCurrentRouteName(), $this->except))
             {
-                $this->cleanDraftedProduct();
+                $product_id = $this->getDraftedProduct();
 
-                if($product = $this->products->findDrafted($product_id))
-                    $product->delete();
+                if (!is_null($product_id)) {
+                    $this->cleanDraftedProduct();
+
+                    if ($product = $this->products->findDrafted($product_id))
+                        $product->delete();
+                }
             }
         }
 
