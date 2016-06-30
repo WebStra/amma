@@ -227,6 +227,12 @@ class ProductsController extends Controller
         Image::find($request->get('image_id'))->delete();
     }
 
+    /**
+     * @ajax Save image order.
+     *
+     * @param Request $request
+     * @param $product
+     */
     public function saveImagesOrder(Request $request, $product)
     {
         $sorted = $request->get('item');
@@ -238,50 +244,18 @@ class ProductsController extends Controller
             $newsort[$k] = ['id' => $image->id, 'rank' => $image->rank];
         });
 
-        $sortedOldImagesModels = $product->images()->ranked('asc')->get();
-
         $oldsort = [];
-        $sortedOldImagesModels->each(function ($item, $k) use(&$oldsort)
+        $product->images()->ranked('asc')->get()->each(function ($item, $k) use(&$oldsort)
         {
             $oldsort[$k] = ['id' => $item->id, 'rank' => $item->rank];
         });
-//        dd($newsort, $oldsort);
 
-        $changed_positions = $this->getChangedSortPositions($newsort, $oldsort);
-        $tempdata = [];
-        array_walk($changed_positions, function ($position) use (
-            $oldsort, $newsort, $sortedOldImagesModels, &$tempdata
-        )
-        {
-            $tempdata['changes'][$newsort[$position]['id']] = $oldsort[$position]['rank'];
-
-            $image = Image::find($newsort[$position]['id']);
-
-            $image->setRank($oldsort[$position]['rank']);
-        });
+        $this->setNewRankToChangedPositions(
+            $this->getChangedSortPositions($newsort, $oldsort),
+            $newsort,
+            $oldsort
+        );
     }
-
-    private function getChangedSortPositions($newsort, $oldsort)
-    {
-        $temp = [];
-        array_walk($newsort, function ($sorted_attribs, $position) use ($oldsort, $newsort, &$temp)
-        {
-            if($oldsort[$position]['id'] !== $newsort[$position]['id'])
-            {
-                $temp[] = $position;
-            }
-        });
-
-        return $temp;
-    }
-
-//    private function method_sd($changed_positions)
-//    {
-//        $changes = [];
-//
-//
-//
-//    }
 
     /**
      * @ajax Add color to product.
@@ -319,5 +293,43 @@ class ProductsController extends Controller
     public function removeSpec(Request $request, Product $product)
     {
         $product->removeMetaById($request->get('id'));
+    }
+
+    /**
+     * Get only changed positions of sorted elements.
+     *
+     * @param $newsort
+     * @param $oldsort
+     * @return array
+     */
+    private function getChangedSortPositions($newsort, $oldsort)
+    {
+        $temp = [];
+        array_walk($newsort, function ($sorted_attribs, $position) use ($oldsort, $newsort, &$temp)
+        {
+            if($oldsort[$position]['id'] !== $newsort[$position]['id'])
+            {
+                $temp[] = $position;
+            }
+        });
+
+        return $temp;
+    }
+
+    /**
+     * Save sorted ranks to changed positions.
+     *
+     * @param $changed_positions
+     * @param $newsort
+     * @param $oldsort
+     */
+    private function setNewRankToChangedPositions($changed_positions, $newsort, $oldsort)
+    {
+        array_walk($changed_positions, function ($position) use ($oldsort, $newsort)
+        {
+            $image = Image::find($newsort[$position]['id']);
+
+            $image->setRank($oldsort[$position]['rank']);
+        });
     }
 }
