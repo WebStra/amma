@@ -20,7 +20,9 @@
                     Adaugă în coș
                 </a>
             </div>
-            <img src="/assets/images/produs.jpg" alt="">
+
+            {{--<img src="{{ (count($item->images()-)) ? $item->present()->image() : '/assets/images/produs.jpg' }}" alt="">--}}
+            <img src="/assets/images/produs.jpg'" alt="">
         </div>
     </div>
     <h4 class="title"><a href="{{ route('view_product', ['product' => $item->id]) }}">{{ $item->name }}</a></h4>

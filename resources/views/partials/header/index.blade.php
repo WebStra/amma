@@ -73,7 +73,7 @@
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">
                                 <input placeholder="Cauta pe site" name="product" type="text"
-                                       value="{{ ($_GET['product']) ? $_GET['product'] : '' }}">
+                                       value="{{ (isset($_GET['product'])) ? $_GET['product'] : '' }}">
                             </div>
                         </div>
                         <div class="wrapp_submit">
