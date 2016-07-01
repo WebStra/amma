@@ -35,7 +35,9 @@
 
                             @if(count($pages))
                                 @foreach($pages as $page)
-                                    <li><a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a></li>
+                                    <li>
+                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a>
+                                    </li>
                                 @endforeach
                             @endif
                         </ul>
@@ -66,11 +68,12 @@
                     @include('partials.categories.header_dropdown')
                 </div>
                 <div class="col l9 m9 s12">
-                    <form class="top_search cf">
+                    <form class="top_search cf" method="get">
                         <div class="form_white_area cf">
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">
-                                <input placeholder="Cauta pe site" type="text">
+                                <input placeholder="Cauta pe site" name="product" type="text"
+                                       value="{{ ($_GET['product']) ? $_GET['product'] : '' }}">
                             </div>
                         </div>
                         <div class="wrapp_submit">

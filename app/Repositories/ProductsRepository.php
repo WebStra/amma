@@ -159,4 +159,31 @@ class ProductsRepository extends Repository
             ->drafted()
             ->first();
     }
+
+    public function search($filters)
+    {
+        $query = self::getModel()->select('products.*', 'categoryable.category_id');
+
+        $product = $filters['product'];
+        $category = $filters['category'];
+
+        if(isset($product))
+            if(isset($category))
+            {
+                $query->where('products.name', 'like', '%'.$product.'%');
+            } else
+            {
+                $query->where('name', 'like', '%'.$product.'%');
+            }
+
+        if(isset($category))
+            $query->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
+                ->where('categoryable.categoryable_type', get_class(self::getModel()))
+                ->where('categoryable.category_id', $category);
+
+        $query->where('products.active', 1)
+            ->whereIn('status', ['published', 'completed']);
+
+        return $query->get();
+    }
 }

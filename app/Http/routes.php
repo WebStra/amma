@@ -44,9 +44,7 @@ use App\Repositories\VendorRepository;
 Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
-        'uses' => function () {
-            return view('home');
-        }
+        'uses' => 'HomeController@index'
     ]);
     
     Route::get('page/{static_page}.html', [
