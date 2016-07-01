@@ -6,6 +6,7 @@ use App\Http\ViewComposers\BannerComposer;
 use App\Http\ViewComposers\BlogComposer;
 use App\Http\ViewComposers\CategoryComposer;
 use App\Http\ViewComposers\LanguageComposer;
+use App\Http\ViewComposers\PagesComposer;
 use App\Http\ViewComposers\PartnerComposer;
 use App\Http\ViewComposers\SocialComposer;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,10 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('partials.header.language-bar', LanguageComposer::class);
 
         view()->composer('blog.partials.popular-sidebar', BlogComposer::class);
+     
+        view()->composer([
+            'partials.header.index', 'partials.footer.navigation_sidebar'
+        ], PagesComposer::class);
     }
 
     /**

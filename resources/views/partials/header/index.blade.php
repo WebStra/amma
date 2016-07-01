@@ -33,6 +33,11 @@
                             <li><a href="">DESPRE NOI</a></li>
                             <li><a href="">CONTACTE</a></li>
 
+                            @if(count($pages))
+                                @foreach($pages as $page)
+                                    <li><a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a></li>
+                                @endforeach
+                            @endif
                         </ul>
                         <ul class="side-nav" id="mobile-navbar">
                             <li><a href='#'>ACASĂ</a></li>
@@ -49,7 +54,10 @@
                         </a>
                     </div>
                 </nav>
-                <a href="#" class="cart btn_"><span><i class="icon-basket"></i>În coș (2) </span></a>
+                {{--<a href="#" class="cart btn_"><span><i class="icon-basket"></i>În coș (2) </span></a>--}}
+                @if(Auth::check())
+                    <a href="#" class="cart btn_">Particip (0)</a>
+                @endif
             </div>
             <div class="top_categories row cf">
                 <div class="col l3 m3 s12 wrapp_categories">

@@ -12,6 +12,7 @@
 */
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\VendorRepository;
@@ -36,12 +37,21 @@ use App\Repositories\VendorRepository;
         return (new VendorRepository)->find($slug);
     });
 
+    Route::bind('static_page', function ($slug){
+        return (new PagesRepository())->find($slug);
+    });
+
 Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
         'uses' => function () {
             return view('home');
         }
+    ]);
+    
+    Route::get('page/{static_page}.html', [
+        'as' => 'show_page',
+        'uses' => 'PagesController@show'
     ]);
 
     Route::get('category/{category}', [
@@ -75,71 +85,87 @@ Route::multilingual(function () {
             'uses' => 'VendorController@postCreate'
         ]);
 
-        Route::get('vendor/{vendor}/edit', [
-            'as' => 'edit_vendor',
-            'uses' => 'VendorController@edit'
-        ]);
-
-        Route::post('vendor/{vendor}/edit', [
-            'as' => 'update_vendor',
-            'uses' => 'VendorController@update'
-        ]);
-        
         Route::get('my-vendors', [
             'as' => 'my_vendors',
             'uses' => 'DashboardController@myVendors'
         ]);
-        
+
+        Route::group(['middleware' => 'can_handle_action:vendor'], function ()
+        {
+            Route::get('vendor/{vendor}/edit', [
+                'as' => 'edit_vendor',
+                'uses' => 'VendorController@edit'
+            ]);
+
+            Route::post('vendor/{vendor}/edit', [
+                'as' => 'update_vendor',
+                'uses' => 'VendorController@update'
+            ]);
+        });
+
+        Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
+        {
+            Route::get('product/{product}/edit', [
+                'as' => 'edit_product',
+                'uses' => 'ProductsController@getEditForm'
+            ]);
+
+            Route::post('product/{product}/edit', [
+                'as' => 'update_product',
+                'uses' => 'ProductsController@update'
+            ]);
+
+            Route::group(['middleware' => 'accept-ajax'], function () {
+                Route::post('product/{product}/add-color', [
+                    'as' => 'add_product_color',
+                    'uses' => 'ProductsController@addColor'
+                ]);
+
+                Route::post('product/{product}/remove-color', [
+                    'as' => 'remove_product_color',
+                    'uses' => 'ProductsController@removeColor'
+                ]);
+
+                Route::post('product/{product}/add-image', [
+                    'as' => 'add_product_image',
+                    'uses' => 'ProductsController@addImage'
+                ]);
+
+                Route::post('product/{product}/remove-image', [
+                    'as' => 'remove_product_image',
+                    'uses' => 'ProductsController@removeImage'
+                ]);
+
+                Route::post('product/{product}/remove-spec', [
+                    'as' => 'remove_product_spec',
+                    'uses' => 'ProductsController@removeSpec'
+                ]);
+
+                Route::post('product/{product}/image-sort', [
+                    'as' => 'sort_product_image',
+                    'uses' => 'ProductsController@saveImagesOrder'
+                ]);
+            });
+        });
+
         Route::get('vendor/{vendor}/product/create', [
             'as' => 'add_product',
             'uses' => 'ProductsController@getCreate'
         ]);
+        
+        Route::get('involve/product/{product}', [
+            'as' => 'involve_product',
+            'uses' => 'UsersController@involveProductOffer'
+        ]);
 
-        Route::group(['middleware' => 'accept-ajax'], function () {
-            Route::post('product/{product}/add-color', [
-                'as' => 'add_product_color',
-                'uses' => 'ProductsController@addColor'
-            ]);
-    
-            Route::post('product/{product}/remove-color', [
-                'as' => 'remove_product_color',
-                'uses' => 'ProductsController@removeColor'
-            ]);
-
-            Route::post('product/{product}/add-image', [
-                'as' => 'add_product_image',
-                'uses' => 'ProductsController@addImage'
-            ]);
-
-            Route::post('product/{product}/remove-image', [
-                'as' => 'remove_product_image',
-                'uses' => 'ProductsController@removeImage'
-            ]);
-            
-            Route::post('product/{product}/remove-spec', [
-                'as' => 'remove_product_spec',
-                'uses' => 'ProductsController@removeSpec'
-            ]);
-
-            Route::post('product/{product}/image-sort', [
-                'as' => 'sort_product_image',
-                'uses' => 'ProductsController@saveImagesOrder'
-            ]);
-        });
+        Route::post('involve/product/{product}/cancel', [
+            'as' => 'involve_product_cancel',
+            'uses' => 'UsersController@quitProductOffer'
+        ]);
         
         Route::post('vendor/{vendor}/product/{product}/create', [
             'as' => 'post_create_product',
             'uses' => 'ProductsController@create'
-        ]);
-
-        Route::get('product/{product}/edit', [
-            'as' => 'edit_product',
-            'uses' => 'ProductsController@getEditForm'
-        ]);
-
-        Route::post('product/{product}/edit', [
-            'as' => 'update_product',
-            'uses' => 'ProductsController@update'
         ]);
     });
     

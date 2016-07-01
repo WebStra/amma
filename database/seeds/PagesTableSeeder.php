@@ -70,7 +70,7 @@ class PagesTableSeeder extends Seeder
                     $this->page_translation->create([
                         'language_id' => $language->id,
                         'page_id' => $page->id,
-                        'title' => $this->faker->title,
+                        'title' => $this->faker->word,
                         'body' => $this->faker->text(150)
                     ]);
                 });

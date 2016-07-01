@@ -29,6 +29,7 @@ class CreateProductsTable extends Migration
             $table->enum('type', ['old', 'new']);
             $table->enum('status', ['published', 'drafted', 'completed', 'notverified', 'deleted']);
             $table->boolean('active')->default(1)->index();
+            $table->boolean('featured')->default(0)->index();
             $table->timestamp('published_date');
             $table->timestamp('expiration_date');
 

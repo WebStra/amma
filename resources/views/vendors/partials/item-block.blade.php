@@ -37,10 +37,6 @@
             </div>
         </div>
         <div class="right_side">
-            <button class="btn_ btn_white small show_details" data-show-id="show_detail_product_1"><i
-                        class="icon-more"></i> Vezi detalii
-            </button>
-            <button class="btn_ btn_white small add_hover"><i class="icon-trash"></i> Șterge produsul</button>
             <a href="{{ route('edit_vendor', ['slug' => $item->slug]) }}" class="btn_ btn_white small">Edit vendor</a>
             <a href="{{ route('add_product', ['slug' => $item->slug]) }}" class="btn_ btn_white small">Add product</a>
         </div>

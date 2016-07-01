@@ -33,7 +33,7 @@ class Product extends Repository
      * @var array
      */
     protected $fillable = [
-        'vendor_id', 'name', 'price', 'sale', 'count', 'type', 'status', 'published_date', 'expiration_date', 'active'
+        'vendor_id', 'name', 'featured', 'price', 'sale', 'count', 'type', 'status', 'published_date', 'expiration_date', 'active'
     ];
 
     /**
@@ -47,6 +47,16 @@ class Product extends Repository
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    /**
+     * Get user through vendor.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->vendor->user();
     }
 
     /**

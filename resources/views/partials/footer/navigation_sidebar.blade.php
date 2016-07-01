@@ -4,20 +4,20 @@
             <h4>Categorii</h4>
             @include('partials.categories.footer')
         </div>
-        <div class="td">
-            <h4>Pagini</h4>
-            <ul>
-                <li><a href="#">Acasa</a></li>
-                <li><a href="#">Contacte</a></li>
-                <li><a href="#">Electronice</a></li>
-                <li><a href="#">Ceasuri</a></li>
-            </ul>
-        </div>
+        @if(count($pages))
+            <div class="td">
+                <h4>Pagini</h4>
+                <ul>
+                    @foreach($pages as $page)
+                        <li><a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="td">
             <h4>Colaborare</h4>
             <ul>
                 <li><a href="#">Sa colaboram</a></li>
-
             </ul>
         </div>
     </div>

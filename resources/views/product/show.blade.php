@@ -5,8 +5,9 @@
         <div class="container">
             <div class="row">
                 <div class="col l4 m6 s12">
-                    {{--todo: do not forgot to enable .--}}
-                    {{--@include('product.partials.gallery-slider')--}}
+                    @if(count($item->images))
+                        @include('product.partials.gallery-slider')
+                    @endif
 
                     @include('partials.about-seller')
                 </div>
@@ -78,13 +79,18 @@
                         <div class="counting col l6 m6 s12">
                             <div class="wrapp_input">
                                 <span class="minus left in"><i class="icon-minus"></i></span>
-                                <input type="text" readonly="readonly" value="4">
+                                <input type="text" readonly="readonly" value="1">
                                 <span class="plus right in"><i class="icon-plus"></i></span>
                             </div>
                         </div>
                         <div class="col l6 m6 s12">
-                            <a href="#" class="btn_ full_width btn_base  put_in_basket"><i class="icon-basket"></i><span
+                            @if(! $item->vendor->user->id == \Auth::id())
+                            <a href="{{ route('involve_product', ['product' => $item->id]) }}" class="btn_ full_width btn_base  put_in_basket"><i class="icon-basket"></i><span
                                         class="hide-on-med-only"><!--Adaugă în coș-->Учавствовать</span></a>
+                            @else
+                            <a href="{{ route('edit_product', ['product' => $item->id]) }}" class="btn_ full_width btn_base  put_in_basket"><i class="icon-edit"></i><span
+                                        class="hide-on-med-only"><!--Adaugă în coș-->edit</span></a>
+                            @endif
                         </div>
                     </form>
 

@@ -31,6 +31,16 @@ return [
             return output_boolean($row);
         }),
 
+        'show_in_header' => column_element('Show in header', false, function($row)
+        {
+            return output_boolean($row, 'show_in_header');
+        }),
+
+        'show_in_footer' => column_element('Show in footer', false, function($row)
+        {
+            return output_boolean($row, 'show_in_footer');
+        }),
+
         'dates' => [
             'elements' => [
                 'created_at',
@@ -116,6 +126,8 @@ return [
 
         'body'    => form_wysi_html5() + translatable(),
 
-        'active' => form_boolean()
+        'active' => form_boolean(),
+        'show_in_header' => form_boolean(),
+        'show_in_footer' => form_boolean()
     ]
 ];
