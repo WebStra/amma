@@ -164,24 +164,27 @@ class ProductsRepository extends Repository
 
     public function search($filters)
     {
-        $query = self::getModel()->select('products.*', 'categoryable.category_id');
+        $product = $filters['search'];
 
-        $product = $filters['product'];
-        $category = $filters['category'];
+        if(isset($filters['category']))
+            $category = $filters['category'];
 
-        if(isset($product))
-            if(isset($category))
-            {
-                $query->where('products.name', 'like', '%'.$product.'%');
-            } else
-            {
-                $query->where('name', 'like', '%'.$product.'%');
-            }
+        if(empty($product) && (!isset($category)))
+            return null;
 
         if(isset($category))
-            $query->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
+        {
+            $query = $this->getModel()
+                ->select('products.*', 'categoryable.category_id')
+                ->where('products.name', 'like', '%'.$product.'%')
+                ->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
                 ->where('categoryable.categoryable_type', get_class(self::getModel()))
                 ->where('categoryable.category_id', $category);
+        } else
+        {
+            $query = $this->getModel()
+                ->where('name', 'like', '%'.$product.'%');
+        }
 
         $query->where('products.active', 1)
             ->whereIn('status', ['published', 'completed']);

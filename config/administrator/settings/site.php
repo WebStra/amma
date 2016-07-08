@@ -25,9 +25,17 @@ return [
         'site::down' => [
             'type' => 'select',
             'options' => [
-                1 => 'enable',
-                0 => 'disable'
+                1 => '-- Enable --',
+                0 => '-- Disable --'
             ]
-        ]
+        ],
+
+        'site::testing_payment_period' => [
+            'label' => 'Activate testing payment wallets',
+            'type' => 'select',
+            'options' => [
+                0 => '-- Disable --',
+                1 => '-- Enable --'
+            ]],
     ]
 ];

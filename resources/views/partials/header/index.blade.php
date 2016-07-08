@@ -81,8 +81,8 @@
                         <div class="form_white_area cf">
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">
-                                <input placeholder="Cauta pe site" name="product" type="text"
-                                       value="{{ (isset($_GET['product'])) ? $_GET['product'] : '' }}">
+                                <input placeholder="Cauta pe site" name="search" type="text"
+                                       value="{{ (isset($_GET['search'])) ? $_GET['search'] : '' }}">
                             </div>
                         </div>
                         <div class="wrapp_submit">

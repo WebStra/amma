@@ -6,6 +6,7 @@ use App\Events\UserCreationRequestSent;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\UserRepository;
+use App\Repositories\WalletRepository;
 use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Events\Dispatcher;
@@ -40,6 +41,11 @@ class AuthController extends Controller
     protected $users;
 
     /**
+     * @var WalletRepository
+     */
+    protected $wallets;
+
+    /**
      * Login by email.
      * 
      * @var string
@@ -50,13 +56,16 @@ class AuthController extends Controller
      * AuthController constructor.
      *
      * @param UserRepository $userRepository
+     * @param WalletRepository $walletRepository
      */
     public function __construct(
-        UserRepository $userRepository = null
+        UserRepository $userRepository = null,
+        WalletRepository $walletRepository = null
     )
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
         $this->users = $userRepository;
+        $this->wallets = $walletRepository;
     }
 
     /**
@@ -134,6 +143,15 @@ class AuthController extends Controller
         $user = $this->users->createSimpleUser($request->all());
         
         $events->fire(new UserCreationRequestSent($user));
+
+        if(settings()->getOption('site::testing_payment_period'))
+        {
+            $wallet = $this->wallets->create($user, [
+                'type' => $this->wallets->getTest()
+            ]);
+
+            $this->wallets->refillWallet($wallet, config('testing_payment.amount'));
+        }
 
         Auth::guard($this->getGuard())->login($user);
 
