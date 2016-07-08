@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\UserCreationRequestSent;
+use App\Http\Requests\ResendConfirmationRequest;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -73,21 +74,21 @@ class VerifyUserController extends Controller
     /**
      * Resend verify form.
      *
+     * @param ResendConfirmationRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function resendVerify()
+    public function resendVerify(ResendConfirmationRequest $request)
     {
-        $this->resendConfirmCodeforAuthUser();
-
         return view('auth.resend_verify');
     }
 
     /**
      * Resend confirmation code.
      *
+     * @param ResendConfirmationRequest $request
      * @return void.
      */
-    private function resendConfirmCodeforAuthUser()
+    private function resendConfirmCodeforAuthUser(ResendConfirmationRequest $request)
     {
         $user = \Auth::user();
 
