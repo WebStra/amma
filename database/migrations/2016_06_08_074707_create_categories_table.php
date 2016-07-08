@@ -14,6 +14,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tax')->nullable();
             $table->boolean('show_in_sidebar')->default(0)->index();
             $table->boolean('show_in_footer')->default(0)->index();
             $table->enum('type', ['parent', 'child'])->default('parent');

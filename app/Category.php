@@ -20,13 +20,16 @@ class Category extends Repository
      * @var string
      */
     protected $table = 'categories';
-    
+
+    /**
+     * @var CategoryPresenter
+     */
     protected $presenter = CategoryPresenter::class;
 
     /**
      * @var array
      */
-    protected $fillable = ['active', 'show_in_footer', 'show_in_sidebar', 'rank', 'type'];
+    protected $fillable = ['tax', 'active', 'show_in_footer', 'show_in_sidebar', 'rank', 'type'];
 
     /**
      * @var array

@@ -33,6 +33,16 @@ return [
 
         'name',
 
+        'tax' => [
+            'title' => 'Tax',
+            'output' => function ($row)
+            {
+                $tax = empty($row->tax) ? '0%' : $row->tax. '%';
+
+                return $tax;
+            }
+        ],
+
         'slug',
 
         'show' => [
@@ -159,6 +169,8 @@ return [
         'id' => form_key(),
 
         'name' => form_text() + translatable(),
+
+        'tax' => form_number('Taxa (%)'),
 
         'type' => [
             'type' => 'hidden',

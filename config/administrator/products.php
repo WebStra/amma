@@ -21,6 +21,15 @@ return [
 
         'name',
 
+        'vendor' => [
+            'output' => function ($row) {
+                if($vendor = $row->vendor)
+                    return sprintf('Vendor: <a href="/admin/vendors?id=%s">%s</a>', $vendor->id, $vendor->present()->renderTitle());
+
+                return sprintf('No vendor');
+            }
+        ],
+
         'status' => [
             'output' => function ($row){
                 switch ($row->status) {
@@ -33,6 +42,13 @@ return [
                     case 'completed':
                         $status = '<b style="color: #00a65a">Completed</b>';
                         break;
+
+                    case 'notverified':
+                        $status = '<b style="color: #ffb336">Not Verified</b>';
+                        break;
+
+                    default:
+                        $status = '<b>No Status</b>';
                 }
 
                 return $status;
@@ -151,7 +167,8 @@ return [
             '' => '-- Any --',
             'published' => '-- Published --',
             'drafted' => '-- Drafted --',
-            'completed' => '-- Completed --'
+            'completed' => '-- Completed --',
+            'notverified' => '-- Not Verified --'
         ]),
 
         'active' => filter_select('Active', [
