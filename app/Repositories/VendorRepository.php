@@ -70,4 +70,12 @@ class VendorRepository extends Repository
 
         $vendor->save();
     }
+
+    public function getPublic($paginate = 9)
+    {
+        return $this->getModel()
+            ->active() //todo: get popular first...
+            ->orderBy('id', 'DESC')
+            ->paginate($paginate);
+    }
 }

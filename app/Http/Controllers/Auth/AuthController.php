@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserCreationRequestSent;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\UserRepository;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -50,7 +51,9 @@ class AuthController extends Controller
      *
      * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository = null)
+    public function __construct(
+        UserRepository $userRepository = null
+    )
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
         $this->users = $userRepository;
@@ -66,11 +69,13 @@ class AuthController extends Controller
         return view('auth.recover');
     }
 
-    public function postLogin(LoginUserRequest $request)
+    /**
+     * @param LoginUserRequest $request
+     * @param Dispatcher $events
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function postLogin(LoginUserRequest $request, Dispatcher $events)
     {
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
         $throttles = $this->isUsingThrottlesLoginsTrait();
 
         if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
@@ -80,6 +85,13 @@ class AuthController extends Controller
         }
 
         $credentials = $this->getCredentials($request);
+
+        if(Auth::validate($credentials))
+        {
+            if(! $this->users->getByEmail($credentials['email'])->active)
+                return redirect()->back()
+                    ->withErrors(['account' => 'This account has blocked. Please contact the support.']);
+        }
 
         if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
 
@@ -95,12 +107,14 @@ class AuthController extends Controller
 //            if(session()->pull('url.intended', '/') == route('admin_login'))
 //                return redirect()->to('/');
 
+            $user = Auth::user();
+
+            if(! $user->confirmed)
+                return redirect()->route('resend_verify_email_form');
+            
             return redirect()->intended($this->redirectPath());
         }
 
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
         if ($throttles && ! $lockedOut) {
             $this->incrementLoginAttempts($request);
         }
@@ -108,10 +122,21 @@ class AuthController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    public function postRegister(RegisterUserRequest $request)
+    /**
+     * Post register.
+     *
+     * @param RegisterUserRequest $request
+     * @param Dispatcher $events
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postRegister(RegisterUserRequest $request, Dispatcher $events)
     {
-        Auth::guard($this->getGuard())->login($this->users->createSimpleUser($request->all()));
+        $user = $this->users->createSimpleUser($request->all());
+        
+        $events->fire(new UserCreationRequestSent($user));
 
-        return redirect($this->redirectPath());
+        Auth::guard($this->getGuard())->login($user);
+
+        return redirect()->route('resend_verify_email_form');
     }
 }

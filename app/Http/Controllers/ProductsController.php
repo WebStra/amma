@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Image;
+use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Repositories\CategoryableRepository;
+use App\Repositories\InvolvedRepository;
 use App\Repositories\ProductsColorsRepository;
 use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
@@ -32,6 +34,11 @@ class ProductsController extends Controller
     protected $session;
 
     /**
+     * @var InvolvedRepository
+     */
+    protected $involved;
+
+    /**
      * @var ProductsColorsRepository
      */
     protected $productsColors;
@@ -48,13 +55,15 @@ class ProductsController extends Controller
         Store $session,
         ProductsRepository $productsRepository,
         CategoryableRepository $categoryableRepository,
-        ProductsColorsRepository $productsColorsRepository
+        ProductsColorsRepository $productsColorsRepository,
+        InvolvedRepository $involvedRepository
     )
     {
         $this->session = $session;
         $this->products = $productsRepository;
         $this->categoryable = $categoryableRepository;
         $this->productsColors = $productsColorsRepository;
+        $this->involved = $involvedRepository;
     }
 
     /**
@@ -65,7 +74,18 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        return view('product.show')->withItem($product);
+        $view = view('product.show')->withItem($product);
+
+        if(Auth::check()) {
+            $auth_is_involved = $this->involved
+                ->checkIfAuthInvolved($product);
+
+            return $view
+                ->withUserIsInvolved($auth_is_involved)
+                ->withInvolved($this->involved->getModelByUserAndProduct($product));
+        }
+
+        return $view;
     }
 
     /**

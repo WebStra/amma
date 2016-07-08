@@ -31,6 +31,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfTokenForRoutes::class,
             \App\Http\Middleware\DraftedProductsCleaner::class,
+            \App\Http\Middleware\UserConfirmed::class
         ],
         
         'api' => [
@@ -52,6 +53,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'accept-ajax' => \App\Http\Middleware\AcceptsAjaxOnly::class,
-        'can_handle_action' => \App\Http\Middleware\CanHandleActionMiddleware::class
+        'can_handle_action' => \App\Http\Middleware\CanHandleActionMiddleware::class,
+        'can_involve_product' => \App\Http\Middleware\UserCanInvolveProduct::class,
     ];
 }

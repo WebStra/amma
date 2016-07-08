@@ -6,21 +6,12 @@
             <div class="row">
                 <div class="col l4 m6 s12">
                     @if(count($item->images))
-                        @include('product.partials.gallery-slider')
+                        @include('product.partials.item.gallery-slider')
                     @endif
-
-                    @include('partials.about-seller')
                 </div>
                 <div class="col l5 m6 s12 product_info">
+                    @include('product.partials.item.notification')
                     <h1>{{ $item->present()->renderName() }}</h1>
-                    <ul class="star_rating" data-rating_value="4">
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                    </ul>
-                    <span class="star_rating_info">875 păreri</span>
 
                     <div class="display-table td_bordered_right display-list_bloks-m-down">
                         <div class="td">
@@ -33,37 +24,18 @@
                         </div>
 
                         <div class="td sell_amount">
-                            <div class="pie" data-procent="10" style="animation-delay: -67s"></div>
-                            67% este vândut
+                            <div class="pie" data-procent="10"
+                                 style="animation-delay: -{{ $item->present()->getSalesPercent() }}s"></div>
+                            {{ $item->present()->getSalesPercent() }}% este vândut
                         </div>
                     </div>
 
-                    <div class="count_down">
-                        <h5>PÂNĂ LA FINELE OFERTEI</h5>
-                        <div class="countdown big" data-endtime="{{ $item->present()->endDate() }}"> <!-- m/d/Y -->
-                            <span class="wrapp_span">
-                              <span class="days">{{ $item->present()->diffEndDate()->d }}</span>
-                              ZILE
-                            </span>
-                            <span class="wrapp_span">
-                              <span class="hours">{{ $item->present()->diffEndDate()->h }}</span>
-                              ORE
-                            </span>
-                            <span class="wrapp_span">
-                              <span class="minutes">{{ $item->present()->diffEndDate()->i }}</span>
-                              MINUTE
-                            </span>
-                            <span class="wrapp_span">
-                              <span class="seconds">{{ $item->present()->diffEndDate()->s }}</span>
-                              SECUNDE
-                            </span>
-                        </div>
-                    </div>
+                    @include('product.partials.item.countdown')
 
                     <div class="sell_info display-table td_bordered_right">
                         <div class="td">
                             <h5>PARTICIPANTI</h5>
-                            <p>7/10</p>
+                            <p>{{ count($item->involved()->active()->get()) }}</p>
                         </div>
                         <div class="td">
                             <h5>REDUCERE</h5>
@@ -75,32 +47,20 @@
                         </div>
                     </div>
 
-                    <form class="row childs_margin_top">
-                        <div class="counting col l6 m6 s12">
-                            <div class="wrapp_input">
-                                <span class="minus left in"><i class="icon-minus"></i></span>
-                                <input type="text" readonly="readonly" value="1">
-                                <span class="plus right in"><i class="icon-plus"></i></span>
-                            </div>
+                    @include('product.partials.item.form')
+
+                    <div class="row">
+                        <div class="col s12">
+                            <p>{{ $item->description }}</p>
                         </div>
-                        <div class="col l6 m6 s12">
-                            @if(! $item->vendor->user->id == \Auth::id())
-                            <a href="{{ route('involve_product', ['product' => $item->id]) }}" class="btn_ full_width btn_base  put_in_basket"><i class="icon-basket"></i><span
-                                        class="hide-on-med-only"><!--Adaugă în coș-->Учавствовать</span></a>
-                            @else
-                            <a href="{{ route('edit_product', ['product' => $item->id]) }}" class="btn_ full_width btn_base  put_in_basket"><i class="icon-edit"></i><span
-                                        class="hide-on-med-only"><!--Adaugă în coș-->edit</span></a>
-                            @endif
-                        </div>
-                    </form>
+                    </div>
 
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs" style="width: 100%;">
-                                <li class="tab" style="width: 50%;"><a class="active" href="#about_product">DESPRE
+                                <li class="tab" style="width: 50%;"><a class="active cursor-default"
+                                                                       href="#about_product">DESPRE
                                         PRODUS</a></li>
-                                <li class="tab" style="width: 50%;"><a href="#feedback">FEEDBACK</a></li>
-                                <div class="indicator" style="right: 235px; left: 0px;"></div>
                                 <div class="indicator" style="right: 235px; left: 0px;"></div>
                             </ul>
                         </div>
@@ -113,39 +73,17 @@
                                 @endif
                             </ul>
                         </div>
-                        <div id="feedback" class="feedback_rating col s12 tab_content" style="display: none;">
-                            <h6>Lasati un feedbak</h6>
-                            <div class="starbox">
-                                <div class="positioner">
-                                    <div class="stars">
-                                        <div class="ghost" style="display: none; width: 0px;"></div>
-                                        <div class="colorbar" style="width: 0px;"></div>
-                                        <div class="star_holder">
-                                            <div class="star star-0"></div>
-                                            <div class="star star-1"></div>
-                                            <div class="star star-2"></div>
-                                            <div class="star star-3"></div>
-                                            <div class="star star-4"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
 
                 </div><!--product_info-->
-                <div class="col l3 m12 s12">
-                    <div class="bordered  elements">
-                        <div class="block_title">EI AU PROCURAT DEJA</div>
-
-                        @include('product.partials.bought-block')
-
-                    </div>
+                <div class="col l3 m12 s12 product_vendor_block">
+                    @include('partials.about-seller')
                 </div>
+
+                @include('product.partials.item.involved_list')
             </div>
         </div><!-- / container-->
     </section>
 
-    {{--@include('partials.fb-comments')--}}
+    @include('partials.fb-comments')
 @endsection

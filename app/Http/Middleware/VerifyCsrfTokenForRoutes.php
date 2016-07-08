@@ -10,7 +10,10 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'add_product_image',
         'remove_product_image',
         'remove_product_spec',
-        'sort_product_image'
+        'sort_product_image',
+        'resend_verify_email',
+        'involve_product',
+        'involve_product_cancel'
     ];
 
     /**

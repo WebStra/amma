@@ -22,6 +22,13 @@ class VendorController extends Controller
         $this->vendors = $vendorRepository;
     }
 
+    public function index()
+    {
+        $vendors = $this->vendors->getPublic($paginate = 9);
+        
+        return view('vendors.index', compact('vendors'));
+    }
+
     /**
      * Create vendor.
      *

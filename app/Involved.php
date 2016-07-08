@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\ActivateableTrait;
 use Keyhunter\Administrator\Repository;
 
 class Involved extends Repository
 {
+    use ActivateableTrait;
+    
     /**
      * @var string
      */
@@ -14,7 +17,7 @@ class Involved extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'product_id', 'active'];
+    protected $fillable = ['user_id', 'product_id', 'active', 'count'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -29,6 +32,6 @@ class Involved extends Repository
      */
     public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 }

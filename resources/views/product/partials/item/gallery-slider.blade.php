@@ -34,7 +34,7 @@
         <div class="flex-viewport" style="overflow: hidden; position: relative;">
             <ul class="slides"
                 style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
-                @if($count = count($item->images) && $count >= 3)
+                @if(($count = count($item->images)))
                     <?php $i = 1; ?>
                     @foreach($item->images()->ranked('asc')->get() as $image)
                             <li {{ ($i == 1) ? 'class="flex-active-slide"' : '' }}

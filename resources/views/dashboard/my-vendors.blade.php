@@ -7,9 +7,13 @@
                 @include('partials.dashboard.nav-bar')
                 <div class="col l9 m7 s12">
                     <ul class="elements divide-top bordered pd_8">
-                    @foreach($vendors as $item)
-                        @include('vendors.partials.item-block')
-                    @endforeach
+                        @if(count($vendors))
+                            @foreach($vendors as $item)
+                                @include('vendors.partials.item-block')
+                            @endforeach
+                        @else
+                            <p>You don't have a vendors. <a href="{{ route('create_vendor') }}">Create one.</a></p>
+                        @endif
                     </ul>
                 </div>
             </div>

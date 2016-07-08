@@ -8,7 +8,6 @@
             @include('partials.header.profile-bar')
         </div>
     </div>
-
     <div class="top_content cf">
         <div class="container">
             <div class="navbar_area cf">
@@ -32,7 +31,7 @@
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
                             <li><a href="">CONTACTE</a></li>
-
+                            <li><a href="{{ route('vendors') }}">VENDORS</a></li>
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>
@@ -42,13 +41,21 @@
                             @endif
                         </ul>
                         <ul class="side-nav" id="mobile-navbar">
-                            <li><a href='#'>ACASĂ</a></li>
+                            <li><a href='{{ route('home') }}'>ACASĂ</a></li>
                             <li><a href='#'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
                             <li><a href="">OFERTE NOI</a></li>
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
                             <li><a href="">CONTACTE</a></li>
+                            <li><a href="{{ route('vendors') }}">VENDORS</a></li>
+                            @if(count($pages))
+                                @foreach($pages as $page)
+                                    <li>
+                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
 
                         <a href="#" data-activates="mobile-navbar" class="button-collapse">
@@ -58,7 +65,9 @@
                 </nav>
                 {{--<a href="#" class="cart btn_"><span><i class="icon-basket"></i>În coș (2) </span></a>--}}
                 @if(Auth::check())
-                    <a href="#" class="cart btn_">Particip (0)</a>
+                    <?php $count = count(Auth::user()->involved()->active()->get()) ?>
+
+                    <a href="{{ route('my_involved') }}" class="cart btn_">Particip ({{ $count >= 1 ? $count : 0 }})</a>
                 @endif
             </div>
             <div class="top_categories row cf">

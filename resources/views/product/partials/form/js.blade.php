@@ -88,12 +88,35 @@
 
     $(function () // Calculate sealed price.
     {
-        $('select[name=sale], input[name=price]').on('input change', function () {
-            var sale = $('select[name=sale]').val();
-            var price = $('input[name=price]').val();
-            var output_price = $('#out_new_price');
+        var sale_zero = '0%';
 
-            output_price.val(price - (price * (sale / 100)));
+        function validateSale($sale)
+        {
+            if ($sale > 0)
+            {
+                return Math.round($sale).toFixed(0) + '%';
+            }
+
+            return sale_zero;
+        }
+
+        $(document).ready(function () {
+            $('input[id=old_price], input[id=new_price]').on('input', function () {
+                var sale = $('input[name=sale]');
+                var old_price = $('input[id=old_price]').val();
+                var new_price = $('input[id=new_price]').val();
+
+                var diff = ((old_price - new_price) / old_price);
+
+                if(diff == 1 || diff == 0)
+                {
+                    return sale.val(sale_zero);
+                }
+                var calc = diff * 100;
+                var result = validateSale(calc);
+
+                return sale.val(result);
+            });
         });
     });
 
@@ -182,16 +205,16 @@
 
     function getSpecSuiteTemplate(block_id) // Get template of suite of specifications.
     {
-        return '<div class="specification_suite" data-suite-spec="' + block_id + '" style="margin-top: 28px">'
-                + '<div class="input-field" style="float: left; width: 42%">'
+        return '<div class="specification_suite" data-suite-spec="' + block_id + '">'
+                + '<div class="input-field spec_name">'
                 + '<span class="label">{{ strtoupper('name') }}</span>'
                 + '<input type="text" name="spec[' + block_id + '][key]">'
                 + '</div>'
-                + '<div class="input-field" style="float: left; width: 50%; margin-left: 2%">'
-                + '<span class="label">{{ strtoupper('value') }}</span>'
+                + '<div class="input-field spec_value">'
+                + '<span class="label">{{ strtoupper('description') }}</span>'
                 + '<input type="text" name="spec[' + block_id + '][value]">'
                 + '</div>'
-                + '<div class="input-field remove-spec" style="float: right; width: 4%; padding-top: 6%">'
+                + '<div class="input-field spec_remove remove-spec">'
                 + '<a href="#remove-spec" class="remove-spec"><i class="icon-trash"></i></a>'
                 + '</div>'
                 + '</div>';

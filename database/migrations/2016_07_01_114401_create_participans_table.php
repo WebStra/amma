@@ -19,6 +19,7 @@ class CreateParticipansTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->boolean('active')->default(1)->index();
+            $table->boolean('count')->default(1)->index();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');

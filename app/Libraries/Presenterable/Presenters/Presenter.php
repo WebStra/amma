@@ -22,11 +22,45 @@ abstract class Presenter
     }
 
     /**
-     * Get all presenter methods.
+     * Format date.
+     *
+     * @param $date
+     * @param string $format
+     * @return mixed
+     */
+    public function date($date, $format = 'd.m.Y')
+    {
+        return $this->model->$date->format($format);
+    }
+
+    /**
+     * Created at.
+     *
+     * @param string $format
+     * @return mixed
+     */
+    public function created($format = 'd.m.Y')
+    {
+        return $this->date($this->model->created_at, $format);
+    }
+
+    /**
+     * Updated at.
+     *
+     * @param string $format
+     * @return mixed
+     */
+    public function updated($format = 'd.m.Y')
+    {
+        return $this->date($this->model->updated_at, $format);
+    }
+
+    /**
+     * Get all presenter methods for current presentor instance.
      *
      * @return array
      */
-    public function masks()
+    public function presentors()
     {
         $masks   = [];
         $methods = get_class_methods($this);

@@ -10,7 +10,13 @@
 <div class="page_404 display-table">
     <div class="td">
         <img src="/assets/images/404.png" height="206" width="201">
-        <h1 style="color:#424242;">Ooops! Se pare că pagina nu mai există.</h1>
+        <h1 style="color:#424242;">
+            @if($e->getMessage())
+                {!! $e->getMessage() !!}
+            @else
+                Ooops! Se pare că pagina nu mai există.
+            @endif
+        </h1>
         <h4><a href="{{ route('home') }}"><i class="icon-"></i>&nbsp;Go home!</a></h4>
     </div>
 </div>

@@ -5,11 +5,13 @@ namespace App;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\UserPresenter;
+use App\Traits\ActivateableTrait;
+use App\Traits\Confirmed;
 use Keyhunter\Administrator\AuthRepository as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Presenterable;
+    use Presenterable, Confirmed, ActivateableTrait;
     
     /**
      * The attributes that are mass assignable.
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role_id'
+        'name', 'email', 'password', 'role_id', 'confirmation_code', 'confirmed'
     ];
 
     /**
@@ -48,5 +50,13 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function involved()
+    {
+        return $this->hasMany(Involved::class, 'user_id', 'id');
     }
 }

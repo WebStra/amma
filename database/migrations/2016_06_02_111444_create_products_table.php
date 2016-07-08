@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->integer('sale');
             $table->integer('count');
+            $table->text('description')->nullable();
             $table->enum('type', ['old', 'new']);
             $table->enum('status', ['published', 'drafted', 'completed', 'notverified', 'deleted']);
             $table->boolean('active')->default(1)->index();

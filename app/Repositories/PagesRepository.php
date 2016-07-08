@@ -17,12 +17,12 @@ class PagesRepository extends Repository
      *
      * @return mixed
      */
-    public function getHeader()
+    public function getHeader($count = 1)
     {
         return self::getModel()
             ->where('show_in_header', 1)
             ->active()
-            ->take(2)
+            ->take($count)
             ->get();
     }
 

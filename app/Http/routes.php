@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -12,6 +11,7 @@
 */
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\InvolvedRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
@@ -39,6 +39,10 @@ use App\Repositories\VendorRepository;
 
     Route::bind('static_page', function ($slug){
         return (new PagesRepository())->find($slug);
+    });
+
+    Route::bind('involved', function ($id){
+        return (new InvolvedRepository())->find($id);
     });
 
 Route::multilingual(function () {
@@ -71,6 +75,11 @@ Route::multilingual(function () {
         'as' => 'view_post',
         'uses' => 'PostController@show'
     ]);
+    
+    Route::get('vendors', [
+        'as' => 'vendors',
+        'uses' => 'VendorController@index'
+    ]);
 
     Route::group(['middleware' => 'auth'], function (){
         Route::get('vendor/create', [
@@ -86,6 +95,16 @@ Route::multilingual(function () {
         Route::get('my-vendors', [
             'as' => 'my_vendors',
             'uses' => 'DashboardController@myVendors'
+        ]);
+
+        Route::get('my-products', [
+            'as' => 'my_products',
+            'uses' => 'DashboardController@myProducts'
+        ]);
+
+        Route::get('my-involved', [
+            'as' => 'my_involved',
+            'uses' => 'DashboardController@myInvolved'
         ]);
 
         Route::group(['middleware' => 'can_handle_action:vendor'], function ()
@@ -151,14 +170,15 @@ Route::multilingual(function () {
             'uses' => 'ProductsController@getCreate'
         ]);
         
-        Route::get('involve/product/{product}', [
+        Route::post('involve/product/{product}', [
             'as' => 'involve_product',
+            'middleware' => 'can_involve_product',
             'uses' => 'UsersController@involveProductOffer'
         ]);
 
-        Route::post('involve/product/{product}/cancel', [
+        Route::post('involve/exit/{involved}', [
             'as' => 'involve_product_cancel',
-            'uses' => 'UsersController@quitProductOffer'
+            'uses' => 'UsersController@exitProductOffer'
         ]);
         
         Route::post('vendor/{vendor}/product/{product}/create', [
@@ -205,4 +225,21 @@ Route::multilingual(function () {
         'as' => 'logout',
         'uses' => 'Auth\AuthController@logout'
     ]);
+
+    Route::get('verified/{confirmationCode}', [
+        'as' => 'verify_email',
+        'uses' => 'Auth\VerifyUserController@confirm'
+    ]);
+    
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('confirmation-code/resend', [
+            'as' => 'resend_verify_email_form',
+            'uses' => 'Auth\VerifyUserController@resendVerify'
+        ]);
+
+        Route::post('confirmation-code/resend', [
+            'as' => 'resend_verify_email',
+            'uses' => 'Auth\VerifyUserController@resendConfirmationCode'
+        ]);
+    });
 });

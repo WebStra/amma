@@ -36,6 +36,7 @@ class ProductCreateRequest extends Request
     public function rules()
     {
         return [
+            // todo: add validator's rules.
             'name' => 'min:5'
         ];
     }

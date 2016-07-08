@@ -7,16 +7,23 @@
             <p>Completează formularul pentru a te loga în cont.</p>
             <form action="{{ route('post_login') }}" class="form styled3 row" method="POST">
                 @include('partials.errors.list')
+                @if(session()->has('status'))
+                    <div class="alert alert-success">
+                        <ul>
+                            <li>{{ session('status') }}</li>
+                        </ul>
+                    </div>
+                @endif
                 <div class="col s12">
                     <div class="input-field">
                         <span class="label">ADRESA ELECTRONICA*</span>
-                        <input type="email" name="email" placeholder="Ex: maria@gmail.com" value="{{ old('email') }}">
+                        <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="col s12">
                     <div class="input-field">
                         <span class="label">PAROLA*</span>
-                        <input type="password" name="password">
+                        <input type="password" name="password" placeholder="Password">
                         <p class="left-align">
                             <input type="checkbox" id="check1">
                             <label for="check1">Vreau să intru automat</label>

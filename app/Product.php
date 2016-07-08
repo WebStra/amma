@@ -33,7 +33,18 @@ class Product extends Repository
      * @var array
      */
     protected $fillable = [
-        'vendor_id', 'name', 'featured', 'price', 'sale', 'count', 'type', 'status', 'published_date', 'expiration_date', 'active'
+        'vendor_id',
+        'name',
+        'featured',
+        'price',
+        'sale',
+        'count',
+        'type',
+        'status',
+        'published_date',
+        'expiration_date',
+        'active',
+        'description'
     ];
 
     /**
@@ -44,6 +55,9 @@ class Product extends Repository
         return $this->hasMany(ProductsColors::class, 'product_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -57,6 +71,14 @@ class Product extends Repository
     public function user()
     {
         return $this->vendor->user();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function involved()
+    {
+        return $this->hasMany(Involved::class);
     }
 
     /**

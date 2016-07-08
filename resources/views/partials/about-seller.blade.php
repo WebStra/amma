@@ -20,7 +20,8 @@
         </div>
         <div class="buttons row">
             <div class="col s6 padd_r_half">
-                <a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}" class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
+                <a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}"
+                   class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
                     magazinul</a>
             </div>
             <div class="col s6 padd_l_half">

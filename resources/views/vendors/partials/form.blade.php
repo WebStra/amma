@@ -1,7 +1,8 @@
 <div class="col l12 m12 s12">
     <div class="file-field input-field">
         <div class="wrapp_img left">
-            <img src="{{ isset($item) ? $item->present()->cover('/assets/images/no-avatar2.png') : '/assets/images/no-avatar2.png' }}" height="78" width="78">
+            <img src="{{ isset($item) ? $item->present()->cover('/assets/images/no-avatar2.png') : '/assets/images/no-avatar2.png' }}"
+                 height="78" width="78" id="preview_image">
         </div>
         <div class="left">
             <div class="btn_ btn_base input_file xsmall">
@@ -46,3 +47,21 @@
         @include('partials.errors.error-field', ['field' => 'description'])
     </div>
 </div>
+
+@section('js')
+    <script>
+        $("input[name=image]").change(function() // Preview Image.
+        {
+            var input = this;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview_image').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    </script>
+@endsection

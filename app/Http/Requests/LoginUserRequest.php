@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Events\Dispatcher;
 
 class LoginUserRequest extends Request
 {
@@ -30,7 +31,7 @@ class LoginUserRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return \Auth::guest();
     }
 
     /**

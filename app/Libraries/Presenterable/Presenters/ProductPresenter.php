@@ -2,10 +2,13 @@
 
 namespace App\Libraries\Presenterable\Presenters;
 
+use App\Libraries\Presenterable\ImagePresentorPresentable;
 use Carbon\Carbon;
 
 class ProductPresenter extends Presenter
 {
+    use ImagePresentorPresentable;
+    
     /** Expiration date field. */
     const END_DATE = 'expiration_date';
 
@@ -47,7 +50,7 @@ class ProductPresenter extends Presenter
     /**
      * Render price with calc. sale..
      *
-     * @param $onlyPrice false
+     * @param $onlyPrice
      * @return string
      */
     public function renderPriceWithSale($onlyPrice = false)
@@ -55,9 +58,14 @@ class ProductPresenter extends Presenter
         $price = $this->reformatPrice($this->model->price - $this->getPriceAmountSale());
 //        $price = $this->getPriceAmountSale();
         if($onlyPrice)
-            return $price;
+            return ($price != 0) ? $price : '';
 
         return sprintf('%s MDL', $price);
+    }
+
+    public function getSaledPrice()
+    {
+        return number_format($this->model->price - $this->getPriceAmountSale());
     }
 
     /**
@@ -126,5 +134,64 @@ class ProductPresenter extends Presenter
         $enddate = self::END_DATE;
 
         return $this->model->$enddate->diff(Carbon::now());
+    }
+
+    public function getTotalSumm()
+    {
+        return number_format($this->getSaledPrice() * $this->model->count);
+    }
+
+    public function getSalesSumm()
+    {
+        $involveds = $this->model->involved()->active()->get();
+
+        $totalSalesSumm = 0;
+
+        $involveds->each(function ($involved) use (&$totalSalesSumm) {
+            $price = $this->getSaledPrice() * $involved->count;
+
+            $totalSalesSumm += $price;
+        });
+
+        return $totalSalesSumm;
+    }
+
+    /**
+     * @param bool $rotate
+     * @return float|string
+     */
+    public function getSalesPercent($rotate = true)
+    {
+        $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
+
+        if($rotate)
+            return number_format(round(number_format($result)));
+        
+        return $result;
+    }
+
+    public function getSale($showPercent = false)
+    {
+        $sale = $this->model->sale;
+        
+        if(empty($sale) && $sale == 0)
+            $sale = 0;
+
+        if($showPercent)
+            return sprintf('%s%%', $sale);
+
+        return $sale;
+    }
+
+    public function renderInvolvedPriceSumm($count)
+    {
+        $summ = $this->model->price * $count;
+        
+        return $this->renderPrice($summ);
+    }
+
+    public function getInfoLabel()
+    {
+        return '';
     }
 }

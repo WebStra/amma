@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Mockery\CountValidator\Exception;
 
@@ -65,8 +66,8 @@ class ProductsRepository extends Repository
                 'count' => (isset($data['count'])) ? $data['count'] : 1,
                 'type' => (isset($data['type'])) ? $data['type'] : 'new',
                 'status' => (isset($data['status'])) ? $data['status'] : 'drafted',
-                'published_date' => (isset($data['published_date']) ? $data['published_date'] : ''),
-                'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : ''),
+                'published_date' => (isset($data['published_date']) ? $data['published_date'] : Carbon::now()),
+                'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : Carbon::now()),
                 'active' => (isset($data['active']) ? $data['active'] : 0)
             ]);
     }
@@ -88,6 +89,7 @@ class ProductsRepository extends Repository
             'price' => (isset($data['price']) ? $data['price'] : $product->price),
             'sale' => (isset($data['sale'])) ? $data['sale'] : $product->sale,
             'count' => (isset($data['count'])) ? $data['count'] : $product->count,
+            'description' => (isset($data['description'])) ? $data['description'] : $product->description,
             'type' => (isset($data['type'])) ? $data['type'] : 'new',
             'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
             'published_date' => (isset($data['published_date']) ? $data['published_date'] : $product->published_date),

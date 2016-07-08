@@ -1,45 +1,32 @@
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('name') }}</span>
-        <input type="text" required name="name" value="{{ (old('name')) ? old('name') : $item->name }}" placeholder="Product's name">
+        <input type="text" required name="name" value="{{ (old('name')) ? old('name') : $item->name }}"
+               placeholder="Product's name">
     </div>
 </div><!-- Name -->
 
 @if(request()->route()->getName() !== 'edit_product')
-    <div class="col l6 m6 s12">
-        <div style="float:left; width: 60%">
-            <div class="input-field" style="float: left; width: 40%">
-                <span class="label">{{ strtoupper('price') }}</span>
-                <input type="number" required name="price" value="{{ old('price') ? old('price') : $item->price }}" placeholder="0.00">
-            </div>
-
-            <div class="input-field" style="float:right; width: 50%">
-                <span class="label">{{ strtoupper('sale') }}</span>
-                {{--<input type="text" name="sale" placeholder="Add sale">--}}
-                <select name="sale">
-                    <option value="">0%</option>
-                    <option value="2">2%</option>
-                    <option value="3">3%</option>
-                    @for($percent = 5; $percent <= 60; $percent = $percent + 10)
-                        <?php
-                        if(old('sale'))
-                        {
-                            $selected = old('sale') == $percent ? 'selected' : '';
-                        } else {
-                            $selected = $item->sale == $percent ? 'selected' : '';
-                        }
-                        ?>
-                        <option value="{{ $percent }}" {{ $selected }}>{{ $percent }}%</option>
-                    @endfor
-                </select>
-            </div>
+<div class="col l6 m6 s12">
+    <div class="product__create_price_box">
+        <div class="input-field old_price">
+            <span class="label">{{ strtoupper('old price') }}</span>
+            <input type="text" id="old_price" required name="price" value="{{ old('price') ? old('price') : $item->price }}"
+                   placeholder="0.00">
         </div>
 
-        <div id="new_price" class="input-field" style="float:right; width: 30%">
-            <span class="label">{{ strtoupper('price with sale') }}</span>
-            <input type="text" id="out_new_price" value="{{ $item->present()->renderPriceWithSale(true) }}" style="color: #ff6f00" readonly placeholder="0.00">
+        <div class="input-field new_price">
+            <span class="label">{{ strtoupper('new price') }}</span>
+            <input type="text" id="new_price" value="{{ $item->present()->renderPriceWithSale(true) }}"
+                   placeholder="0.00">
         </div>
-    </div><!-- Price -->
+    </div>
+
+    <div class="input-field product__create_sale">
+        <span class="label">{{ strtoupper('sale') }}</span>
+        <input type="text" name="sale" placeholder="0%" value="{{ old('sale') ? old('sale') : $item->present()->getSale(true) }}" readonly>
+    </div>
+</div><!-- Price -->
 @endif
 
 <div class="col l6 m6 s12">
@@ -69,27 +56,18 @@
 <div class="col l6 m6 s12">
     <div class="input-field">
         <span class="label">{{ strtoupper('count') }}</span>
-        <input type="text" required name="count" value="{{ old('count') ? old('count') : $item->count }}" placeholder="Product's count">
+        <input type="text" required name="count" value="{{ old('count') ? old('count') : $item->count }}"
+               placeholder="Product's count">
     </div>
 </div><!-- Count -->
-<!--<div class="col l6 m6 s12">
-    <div class="input-field" style="float:left; width: 45%">
-        <span class="label">{{ strtoupper('published date(from)') }}</span>
-        <input type="date" required name="published_date">
-    </div>
-
-    <div class="input-field" style="float:right; width: 45%">
-        <span class="label">{{ strtoupper('expiration date(to)') }}</span>
-        <input type="date" required name="expiration_date">
-    </div>
-</div>--><!-- Datetime -->
 <div class="col l6 m6 s12" style="min-height: 84px">
     <div class="input-field">
         <span class="label">{{ strtoupper('colors') }}</span>
         <div id="colors_output" class="row" style="margin-left: 0; margin-right: 0; min-height: 51px;">
             @if(count($item->colors))
                 @foreach($item->colors as $color)
-                    <div class="col-md-1" data-color-id="{{ $color->id }}" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">
+                    <div class="col-md-1" data-color-id="{{ $color->id }}"
+                         style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">
                         <div style="width: 24px; height: 24px; background-color: {{ $color->color_hash }};"></div>
                         <span class="remove_color" style="color: red; cursor: pointer;margin-left: 16%;">x</span>
                     </div>
@@ -101,29 +79,49 @@
                id="colorpicker">
     </div>
 </div><!-- Colors -->
-
 <div class="col l6 m6 s12">
-    <div class="specification-bundle">
-        <div class="input-field">
-            <span class="label">{{ strtoupper('specifications') }}</span>
-        </div>
-        @if(old('spec'))
-            @foreach(old('spec') as $block_id => $spec)
-                @include('product.partials.form.spec-item')
-            @endforeach
-        @else
-            @if(count($specs = $item->getMetaGroup('spec')))
-                @foreach($specs as $block_id => $spec)
+    <div class="input-field" style="float:left; width: 45%">
+        <span class="label">{{ strtoupper('published date(from)') }}</span>
+        <input type="date" required name="published_date"
+               value="{{ old('published_date') ? old('published_date') : $item->present()->date('published_date','Y-m-d') }}">
+    </div>
+
+    <div class="input-field" style="float:right; width: 45%">
+        <span class="label">{{ strtoupper('expiration date(to)') }}</span>
+        <input type="date" required name="expiration_date"
+               value="{{ old('expiration_date') ? old('expiration_date') : $item->present()->date('expiration_date','Y-m-d') }}">
+    </div>
+</div><!-- Datetime -->
+
+<div class="col product__create_long_boxes">
+    <div class="col product__add_specifications_block">
+        <div class="specification-bundle">
+            <div class="input-field">
+                <span class="label">{{ strtoupper('specifications') }}</span>
+            </div>
+            @if(old('spec'))
+                @foreach(old('spec') as $block_id => $spec)
                     @include('product.partials.form.spec-item')
                 @endforeach
             @else
-                @include('product.partials.form.spec-item')
+                @if(count($specs = $item->getMetaGroup('spec')))
+                    @foreach($specs as $block_id => $spec)
+                        @include('product.partials.form.spec-item')
+                    @endforeach
+                @else
+                    @include('product.partials.form.spec-item')
+                @endif
             @endif
-        @endif
-    </div>
-
-    <a class="btn" style="float: right" id="add_suite">Add</a>
-</div><!-- Specifications -->
+        </div>
+        <a class="btn add_spec_btn" id="add_suite">Add</a>
+    </div><!-- Specifications -->
+    <div class="col product__create_description">
+        <div class="input-field">
+            <span class="label">{{ strtoupper('description') }}</span>
+            <textarea name="description">{{ old('description') ? old('description') : $item->description }}</textarea>
+        </div>
+    </div><!-- Description -->
+</div>
 
 @section('js')
     <script src="/assets/js/dropzone.js" type="text/javascript"></script>

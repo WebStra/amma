@@ -28,6 +28,12 @@
                 </div>
                 <div class="col s12">
                     <div class="input-field">
+                        <span class="label">Telefon</span>
+                        <input type="text" name="phone" required placeholder="+373 777 77 777" value="{{ old('phone') }}">
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
                         <span class="label">PAROLA*</span>
                         <input type="password" required name="password" placeholder="Enter password">
                     </div>
