@@ -87,7 +87,7 @@ class ProductsRepository extends Repository
         $product->fill([
             'name' => (isset($data['name']) ? $data['name'] : $product->name),
             'price' => (isset($data['price']) ? $data['price'] : $product->price),
-            'sale' => (isset($data['sale'])) ? $data['sale'] : $product->sale,
+            'sale' => (isset($data['sale'])) ? $this->formatSale($data['sale']) : $product->sale,
             'count' => (isset($data['count'])) ? $data['count'] : $product->count,
             'description' => (isset($data['description'])) ? $data['description'] : $product->description,
             'type' => (isset($data['type'])) ? $data['type'] : 'new',
@@ -187,5 +187,18 @@ class ProductsRepository extends Repository
             ->whereIn('status', ['published', 'completed']);
 
         return $query->get();
+    }
+
+    /**
+     * Remove percent from sale if it exists.
+     *
+     * @param $sale
+     * @return int
+     */
+    private function formatSale($sale)
+    {
+        list($sale, $percent) = explode('%', $sale);
+
+        return (int) $sale;
     }
 }
