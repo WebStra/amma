@@ -31,4 +31,15 @@ class Wallet extends Repository
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Scope type.
+     * 
+     * @param $query
+     * @return mixed
+     */
+    public function scopeSandbox($query)
+    {
+        return $query->whereType('sandbox');
+    }
 }

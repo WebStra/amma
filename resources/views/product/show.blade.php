@@ -82,6 +82,18 @@
 
                 @include('product.partials.item.involved_list')
             </div>
+            <div class="cf row">
+                <div class="col l12 m12 s12 divide-top">
+                    <div class="elements bordered">
+                        <div class="title">{{ strtoupper('похожие продукты') }}</div>
+                        <div class="owl-carousel l-4">
+                            {{--@foreach($same as $product)--}}
+                                {{--@include('partials.products.item-block')--}}
+                            {{--@endforeach--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div><!-- / container-->
     </section>
 

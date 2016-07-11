@@ -76,6 +76,8 @@ class ProductsController extends Controller
     {
         $view = view('product.show')->withItem($product);
 
+        $same_products = $this->products->getSameProduct($product);
+
         if(Auth::check()) {
             $auth_is_involved = $this->involved
                 ->checkIfAuthInvolved($product);
@@ -85,7 +87,7 @@ class ProductsController extends Controller
                 ->withInvolved($this->involved->getModelByUserAndProduct($product));
         }
 
-        return $view;
+        return $view->withSame($same_products);
     }
 
     /**

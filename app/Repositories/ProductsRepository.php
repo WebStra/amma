@@ -204,4 +204,14 @@ class ProductsRepository extends Repository
 
         return (int) $sale;
     }
+
+    /**
+     * Get same products.
+     *
+     * @param mixed
+     */
+    public function getSameProduct($product)
+    {
+
+    }
 }
