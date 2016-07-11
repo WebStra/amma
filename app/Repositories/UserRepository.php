@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 use App\User;
+use Auth;
 
 class UserRepository extends Repository
 {
@@ -125,5 +126,20 @@ class UserRepository extends Repository
         return $this->getModel()
             ->whereEmail($email)
             ->first();
+    }
+
+    public function update_user(array $data)
+    {
+        Auth::user()->update([
+            'name' => $data['fname'],
+            'email'=> $data['email'],
+            'password'  => bcrypt($data['fpassword'])
+        ]);
+
+       Auth::user()->profile->update([
+            'firstname' => $data['fname'],
+            'lastname' => $data['lname'],
+            'phone' => $data['phone']
+        ]);
     }
 }

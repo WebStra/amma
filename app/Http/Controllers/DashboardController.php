@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
+use App\Repositories\ProfileRepository;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
+use Illuminate\Http\Auth;
+use App\Http\Requests\UpdateUserSettings;
 
 class DashboardController extends Controller
 {
@@ -11,6 +15,13 @@ class DashboardController extends Controller
      * @var UserRepository
      */
     protected $users;
+
+
+/**
+     * @var  ProfileRepository
+     */
+    protected $profile;
+
 
     /**
      * @var Guard
@@ -22,9 +33,10 @@ class DashboardController extends Controller
      * @param UserRepository $userRepository
      * @param Guard $auth
      */
-    public function __construct(UserRepository $userRepository, Guard $auth)
+    public function __construct(UserRepository $userRepository, Guard $auth , ProfileRepository $profileRepository)
     {
         $this->users = $userRepository;
+        $this->profile = $profileRepository;
         $this->auth = $auth;
     }
 
@@ -62,6 +74,22 @@ class DashboardController extends Controller
         $involved = $this->auth->user()->involved()->active()->get();
 
         return view('dashboard.my-involved', compact('involved'));
+    }
+
+
+
+    public function accountsettings() 
+    {
+        return view('dashboard.account-settings');
+    }
+
+
+
+    public function update(UpdateUserSettings $request)
+    {
+        $this->users->update_user($request->all());
+
+        return back()->withStatus('Profile Updated!');
     }
 
 

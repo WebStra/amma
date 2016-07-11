@@ -107,6 +107,26 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@myInvolved'
         ]);
 
+
+/*-------Account Settings---------*/
+
+
+        Route::get('settings', [
+            'as' => 'settings',
+            'uses' => 'DashboardController@accountsettings'
+        ]);
+
+         Route::post('setupdate', [
+            'as' => 'setupdate',
+            'uses' => 'DashboardController@update'
+        ]);
+
+
+/*-----End--account Settings---------*/
+
+
+
+
         Route::group(['middleware' => 'can_handle_action:vendor'], function ()
         {
             Route::get('vendor/{vendor}/edit', [

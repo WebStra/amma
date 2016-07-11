@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "48e6726b44693f40c3e1dddd2f60f866",
+    "hash": "7550e9c4389362553e683d1fab969895",
     "content-hash": "49e24013beb33cd0a7e02a4ef5c57e7a",
     "packages": [
         {
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/keyhunter/administrator.git",
-                "reference": "c876ebf81c73da6f961de7b61ad3bdd8acd6eb9a"
+                "reference": "d9660e766abbc755295f26f1145bae1bd47c8268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keyhunter/administrator/zipball/c876ebf81c73da6f961de7b61ad3bdd8acd6eb9a",
-                "reference": "c876ebf81c73da6f961de7b61ad3bdd8acd6eb9a",
+                "url": "https://api.github.com/repos/keyhunter/administrator/zipball/d9660e766abbc755295f26f1145bae1bd47c8268",
+                "reference": "d9660e766abbc755295f26f1145bae1bd47c8268",
                 "shasum": ""
             },
             "require": {
@@ -735,7 +735,7 @@
                     "email": "withoutgmail@gmail.com"
                 }
             ],
-            "time": "2016-06-02 08:53:26"
+            "time": "2016-07-08 14:01:04"
         },
         {
             "name": "keyhunter/multilingual",
