@@ -8,6 +8,9 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Auth;
 use App\Http\Requests\UpdateUserSettings;
+use App\Image;
+use App\Services\ImageProcessor;
+use Illuminate\Http\UploadedFile;
 
 class DashboardController extends Controller
 {
@@ -87,7 +90,20 @@ class DashboardController extends Controller
 
     public function update(UpdateUserSettings $request)
     {
+
+        
+
         $this->users->update_user($request->all());
+
+       /*$image = $request->file('photo');
+        if ($image instanceof UploadedFile) {
+            $location = 'assets/images/user_avatar/';
+            $processor = new ImageProcessor();
+            $imageable = $processor->uploadAndCreate($image,  $this->auth->user()->profile->id, null, $location);
+        } else {
+            throw new \Exception('Invalid Image');
+        }*/
+       
 
         return back()->withStatus('Profile Updated!');
     }

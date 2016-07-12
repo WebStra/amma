@@ -24,6 +24,7 @@
 <!-- End of initialize other plugins -->
 
 <!-- Adding other scripts -->
+{!!Html::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAyO2eCqw0WoNVb_fkoRNPfDnJkjRxwInk')!!}
 {!!Html::script('/assets/js/init.js')!!}
 <!-- End adding other scripts -->
 

@@ -1,6 +1,5 @@
 
 @extends('layout')
-
 @section('content')
 
     <div class="container">
@@ -51,19 +50,17 @@
                 </div>
                 <div id="personal_data" class="col s12 tab_content">
                   
-                  <form action="/setupdate" method="POST" class="form styled2 row">
-                         
-                       {{csrf_field()}} 
-
+                  <form action="{{URL::to('setupdate')}}" method="POST" class="form styled2 row" enctype="multipart/form-data">
+                   @include('partials.errors.list')   
                     <div class="col l12 m12 s12">
                       <div class="file-field input-field">
                         <div class="wrapp_img left">
-                          <img src="assets/images/no-avatar2.png" height="78" width="78">
+                          <img src="assets/images/user_avatar/no-avatar2.png" height="78" width="78">
                         </div>
                         <div class="left">
                           <div class="btn_ btn_base input_file xsmall">
                             <span>Încarcă o poză</span>
-                            <input type="file">
+                            <input type="file" name="photo">
                           </div>
                         </div>
                         <p class="left">* PNG, JPG minim 76x76px, proportie 1:1</p>
@@ -96,23 +93,19 @@
                     <div class="col l6 m6 s12">
                       <div class="input-field">
                       <span class="label">PAROLA</span>
-                        <input type="password" name="fpassword">
+                        <input type="password" name="password">
                       </div>
                     </div>
                     <div class="col l6 m6 s12">
                       <div class="input-field">
                       <span class="label">CONFIRMA PAROLA</span>
-                        <input type="password" name="lpassword">
+                        <input type="password" name="password_confirmation">
                       </div>
                     </div>
-
-                    <div class="col l6 m6 s12">
-                    
-                        <input type="submit" value="Trimite">
-                    
+                    {{csrf_field()}}
+                    <div class="col l8 m12 s12 offset-l2">
+                        <input type="submit" class="btn btn_base center-block full_width" value="Trimite">
                     </div>
-
-
                   </form>
                 </div>
                 <div id="livrare" class="col s12 tab_content">

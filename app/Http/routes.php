@@ -81,6 +81,19 @@ Route::multilingual(function () {
         'uses' => 'VendorController@index'
     ]);
 
+
+     Route::get('contacts', [
+        'as' => 'contacts',
+        'uses' => 'PagesController@contacts'
+    ]);
+
+     Route::post('send_form', [
+        'as' => 'send_form',
+        'uses' => 'PagesController@send_form'
+    ]);
+
+     
+
     Route::group(['middleware' => 'auth'], function (){
         Route::get('vendor/create', [
             'as' => 'create_vendor',
@@ -108,9 +121,6 @@ Route::multilingual(function () {
         ]);
 
 
-/*-------Account Settings---------*/
-
-
         Route::get('settings', [
             'as' => 'settings',
             'uses' => 'DashboardController@accountsettings'
@@ -120,9 +130,6 @@ Route::multilingual(function () {
             'as' => 'setupdate',
             'uses' => 'DashboardController@update'
         ]);
-
-
-/*-----End--account Settings---------*/
 
 
 

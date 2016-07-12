@@ -133,13 +133,15 @@ class UserRepository extends Repository
         Auth::user()->update([
             'name' => $data['fname'],
             'email'=> $data['email'],
-            'password'  => bcrypt($data['fpassword'])
+            'password'  => bcrypt($data['password'])
         ]);
+
 
        Auth::user()->profile->update([
             'firstname' => $data['fname'],
             'lastname' => $data['lname'],
-            'phone' => $data['phone']
+            'phone' => $data['phone'],
+            /*'avatar' => $data['photo']*/
         ]);
     }
 }
