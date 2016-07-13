@@ -19,7 +19,7 @@ return [
     'edit_fields' => [
         'admin::email' => ['type' => 'email'],
 
-        'contact_map::lat' => ['type' => 'text'],
+        'contact_map::coords' => ['type' => 'text', 'label' => 'asdas'],
 
         'contact_info::adress' => ['type' => 'text'],
 

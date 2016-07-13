@@ -14,6 +14,7 @@
                 </div>
                 <div id="personal_data" class="col s12 tab_content">
                 <form action="{{route('setupdate')}}" method="POST" class="form styled2 row" enctype="multipart/form-data">
+                    @include('partials.errors.list')
                     <div class="col l12 m12 s12">
                       <div class="file-field input-field">
                         <div class="wrapp_img left">
@@ -31,14 +32,12 @@
                     <div class="col l6 m6 s12">
                       <div class="input-field">
                       <span class="label">NUMELE</span>
-                      @include('partials.errors.error-field', ['field' => 'fname'])
                         <input type="text" name="fname" value="{{ old('fname') ? : Auth::user()->profile->firstname }}" placeholder="Ex: Ion">
                       </div>
                     </div>
                     <div class="col l6 m6 s12">
                       <div class="input-field">
                       <span class="label">PRENUMELE</span>
-                        @include('partials.errors.error-field', ['field' => 'lname'])
                         <input type="text" name="lname" value="{{ old('lastname') ? : Auth::user()->profile->lastname }}" placeholder="Ex: Ciobanu">
                       </div>
                     </div>
@@ -46,14 +45,12 @@
                       <div class="input-field">
                       <span class="label">TELEFON</span>
                         <input type="text" name="phone" value="{{ old('phone') ? : Auth::user()->profile->phone }}" placeholder="Ex: 070 323 677">
-                        @include('partials.errors.error-field', ['field' => 'phone'])
                       </div>
                     </div>
                     <div class="col l6 m6 s12">
                       <div class="input-field">
                       <span class="label">EMAIL</span>
                         <input type="email" name="email" value="{{ old('email') ? : Auth::user()->email }}" placeholder="Ex: maria@gmail.com">
-                        @include('partials.errors.error-field', ['field' => 'email'])
                       </div>
                     </div>
                     {{csrf_field()}}
@@ -68,7 +65,6 @@
                 <div class="input-field">
                 <span class="label">PAROLA NOUA</span>
                   <input type="password" name="password">
-                   @include('partials.errors.error-field', ['field' => 'password'])
                 </div>
               </div>
               <div class="col l6 m6 s12">

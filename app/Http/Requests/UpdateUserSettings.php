@@ -20,8 +20,8 @@ class UpdateUserSettings extends Request
     {
         return [
             // todo: add validator's rules.
-            'fname' => 'required|min:5|max:20',
-            'lname' => 'required|min:5|max:20',
+            'fname' => 'required|min:3|max:20',
+            'lname' => 'required|min:3|max:20',
             'email' => 'required|unique:users,email,'.\Auth::id().',id',
         ];
     }
