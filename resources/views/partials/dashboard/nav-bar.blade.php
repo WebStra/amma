@@ -3,7 +3,7 @@
         <div class="person_card styled1">
             <div class="display_flex border_bottom">
                 <div class="wrapp_img">
-                    <img src="/assets/images/avatar1.jpg">
+                    <img src="{{  Auth::user()->present()->cover('asc', null, '/assets/images/no-avatar2.png') }}" height="53" width="55">
                 </div>
                 <div class="content">
                     <h4>{{ \Auth::user()->present()->renderName() }}</h4>

@@ -18,10 +18,4 @@ class Contacts extends Model
      * @var array
      */
     protected $fillable = ['id', 'name', 'email', 'phone', 'message','active'];
-
-    /**
-     * @var bool
-     */
-    public $timestamps = true;
-
 }

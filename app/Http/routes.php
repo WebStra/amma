@@ -92,7 +92,6 @@ Route::multilingual(function () {
         'uses' => 'PagesController@send_form'
     ]);
 
-     
 
     Route::group(['middleware' => 'auth'], function (){
         Route::get('vendor/create', [
@@ -131,6 +130,10 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@update'
         ]);
 
+          Route::post('updatepassword', [
+        'as' => 'updatepassword',
+        'uses' => 'DashboardController@updatepassword'
+    ]);
 
 
 

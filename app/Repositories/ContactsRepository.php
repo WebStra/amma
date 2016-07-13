@@ -16,9 +16,9 @@ class ContactsRepository extends Repository
     }
 
 
-public function SendContact(array $data) {
+public function sendContact(array $data) {
 
-$contacts = self::getModel()
+return self::getModel()
             ->create([
                 'name'     => $data['name'],
                 'email'  => $data['email'],

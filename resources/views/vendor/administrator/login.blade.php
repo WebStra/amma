@@ -29,12 +29,12 @@
 
         <div class="input-group has-feedback">
             <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-            {!! Form::text($identity, null, ['class' => 'form-control', 'placeholder' => ucfirst($identity)]) !!}
+            {!! Form::text($identity, null, ['class' => 'form-control', 'placeholder' => 'admin@amma.com']) !!}
         </div>
 
         <div class="input-group has-feedback">
             <span class="input-group-addon"><i class="fa fa-key"></i></span>
-            {!! Form::password($credential, ['class' => 'form-control', 'placeholder' => ucfirst($credential)]) !!}
+            {!! Form::password($credential, ['class' => 'form-control', 'placeholder' => 'admin123']) !!}
         </div>
 
         <div class="row">

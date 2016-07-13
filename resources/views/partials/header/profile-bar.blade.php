@@ -8,7 +8,7 @@
             <li><a href="#!">Vouchere</a></li>
             <!-- <li class="divider"></li> -->
             <li><a href="#!">Produse favorite</a></li>
-
+            <li><a href="{{route('settings')}}">Settings</a></li>
             <li><a href="{{ route('logout') }}">Logout</a></li>
         </ul>
     </div>

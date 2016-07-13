@@ -8,10 +8,11 @@ use App\Libraries\Presenterable\Presenters\UserPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\Confirmed;
 use Keyhunter\Administrator\AuthRepository as Authenticatable;
+use App\Traits\HasImages;
 
 class User extends Authenticatable
 {
-    use Presenterable, Confirmed, ActivateableTrait;
+    use Presenterable, Confirmed, ActivateableTrait, HasImages;
     
     /**
      * The attributes that are mass assignable.

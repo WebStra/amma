@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/keyhunter/administrator.git",
-                "reference": "d9660e766abbc755295f26f1145bae1bd47c8268"
+                "reference": "5a9d4342aeafd91277713e2825ae84d95b4a574a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keyhunter/administrator/zipball/d9660e766abbc755295f26f1145bae1bd47c8268",
-                "reference": "d9660e766abbc755295f26f1145bae1bd47c8268",
+                "url": "https://api.github.com/repos/keyhunter/administrator/zipball/5a9d4342aeafd91277713e2825ae84d95b4a574a",
+                "reference": "5a9d4342aeafd91277713e2825ae84d95b4a574a",
                 "shasum": ""
             },
             "require": {
@@ -735,7 +735,7 @@
                     "email": "withoutgmail@gmail.com"
                 }
             ],
-            "time": "2016-07-08 14:01:04"
+            "time": "2016-07-13 09:02:20"
         },
         {
             "name": "keyhunter/multilingual",

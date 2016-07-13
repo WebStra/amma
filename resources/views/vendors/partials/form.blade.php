@@ -8,7 +8,7 @@
             <div class="btn_ btn_base input_file xsmall">
                 <span>Logo</span>
                 <input type="file" name="image" class="avatar"
-                       value="{{ isset($item) ? $item->present()->cover() : old('image') }}">
+                       value="{{ Auth::user()->present()->cover() }}">
             </div>
         </div>
         <p class="left">* PNG, JPG minim 76x76px, proportie 1:1</p>
@@ -48,20 +48,3 @@
     </div>
 </div>
 
-@section('js')
-    <script>
-        $("input[name=image]").change(function() // Preview Image.
-        {
-            var input = this;
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#preview_image').attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
-    </script>
-@endsection

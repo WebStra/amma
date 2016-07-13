@@ -40,4 +40,15 @@ class Image extends Repository
     {
         return $query->whereType('cover');
     }
+
+   /**
+     * Scope avatar image.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAvatar($query)
+    {
+        return $query->whereType('avatar');
+    }
 }

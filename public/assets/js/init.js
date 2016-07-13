@@ -671,4 +671,18 @@ $( ".show_categories" ).click(function() {
 });
 
 
+$("input[name=image], input[name=photo]").change(function() // Preview Image.
+{
+    var input = this;
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preview_image').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+
 }); // end of document ready

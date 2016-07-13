@@ -38,7 +38,7 @@ return view('home.contacts');
 public function send_form(ContactSend $request) {
 
 
-$this->contacts->SendContact($request->all());
+$this->contacts->sendContact($request->all());
 
 
 return back()->withStatus('Message Send!');

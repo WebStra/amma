@@ -12,13 +12,17 @@ trait ImagePresentorPresentable
      * @param null $size
      * @return mixed
      */
-    public function cover($order = 'asc', $size = null)
+    public function cover($order = 'asc', $size = null, $default = null)
     {
-        return $this->model
-            ->images()
-            ->ranked($order)
-            ->first()
-            ->present()
-            ->image($size);
+        $image = $this->model
+                ->images()
+                ->ranked($order)
+                ->first();
+
+        if(! is_null($image))
+            return $image->present()
+                ->image($size);            
+            
+        return $default ? : '';
     }
 }

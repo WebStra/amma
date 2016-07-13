@@ -6,12 +6,30 @@ return [
     'model' => 'Keyhunter\Administrator\Model\Settings',
 
     'rules' => [
-        'admin::email'   => 'required|email',
-        'support::email' => 'required|email'
+        'admin::email'               => 'required|email',
+        'support::email'             => 'required|email',
+        'contact_info::adress'       => 'required',
+        'contact_info::email'        => 'required|email',
+        'contact_info::executivPhone'=> 'required|min:7|max:20',
+        'contact_info::sellPhone'    => 'required|min:7|max:20',
+        'contact_info::tehnicPhone'  => 'required|min:7|max:20',
+
     ],
 
     'edit_fields' => [
         'admin::email' => ['type' => 'email'],
+
+        'contact_map::lat' => ['type' => 'text'],
+
+        'contact_info::adress' => ['type' => 'text'],
+
+        'contact_info::email' => ['type' => 'email'],
+
+        'contact_info::executivPhone' => ['type' => 'text'],
+
+        'contact_info::sellPhone' => ['type' => 'text'],
+
+        'contact_info::tehnicPhone' => ['type' => 'text'],
 
         'support::email' => ['type' => 'email'],
 
