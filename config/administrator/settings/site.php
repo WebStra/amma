@@ -19,17 +19,17 @@ return [
     'edit_fields' => [
         'admin::email' => ['type' => 'email'],
 
-        'contact_map::coords' => ['type' => 'text', 'label' => 'asdas'],
+        'contact_map::coords' => ['type' => 'text', 'label' => 'Coordinates Map'],
 
-        'contact_info::adress' => ['type' => 'text'],
+        'contact_info::adress' => ['type' => 'text', 'label' => 'Adresa noastră'],
 
-        'contact_info::email' => ['type' => 'email'],
+        'contact_info::email' => ['type' => 'email', 'label' => 'Adresa electronică'],
 
-        'contact_info::executivPhone' => ['type' => 'text'],
+        'contact_info::executivPhone' => ['type' => 'text', 'label' => 'Directorul Executiv'],
 
-        'contact_info::sellPhone' => ['type' => 'text'],
+        'contact_info::sellPhone' => ['type' => 'text', 'label' => 'Departamentul de vânzări'],
 
-        'contact_info::tehnicPhone' => ['type' => 'text'],
+        'contact_info::tehnicPhone' => ['type' => 'text', 'label' => 'Departamentul tehnic'],
 
         'support::email' => ['type' => 'email'],
 
