@@ -80,9 +80,7 @@ class DashboardController extends Controller
         return view('dashboard.my-involved', compact('involved'));
     }
 
-
-
-    public function accountsettings() 
+    public function accountSettings() 
     {
         return view('dashboard.account-settings');
     }
@@ -102,14 +100,13 @@ class DashboardController extends Controller
             $imageable = $processor->uploadAndCreate($image,  $this->auth->user(), ['type' => 'avatar'], $location);
         }
 
-        return back()->withStatus('Profile Updated!');
+        return back()->withStatus('Profile Updated!')->with('activeclass', 'update_settings');
     }
 
     public function updatepassword(UpdateUserPassword $request)
-    { 
+    {
+        $this->users->updatePassword($request->password);
         
-     $this->users->updatePassword($request->password);
-
-     return back()->withStatus('Password Updated!');
+        return back()->withStatus('Password Updated!')->with('activeclass', 'update_password');
     }
 }

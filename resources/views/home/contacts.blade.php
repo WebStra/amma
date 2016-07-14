@@ -31,7 +31,7 @@
         </div>
         <div class="col l6 m12 s12">
           <div class="wrapp_form styled1 on_map">
-            <form class="form styled2 row" action="{{ route('send_form') }}" method="POST">
+            <form class="form styled2 row" action="{{ route('send_contact') }}" method="POST">
               <h5  class="col s12">Formă de contact</h5>
 
               <div class="col s12">

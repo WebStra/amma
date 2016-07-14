@@ -27,7 +27,7 @@ class ContactSend extends Request
             // todo: add validator's rules.
             'name' => 'required|min:3|max:50',
             'email' => 'required|email',
-            'phone' => 'required|digits:8',
+            'phone' => 'digits:8',
             'message' => 'required', 
 
         ];

@@ -8,13 +8,17 @@
                 <div class="col l9 m7 s12">
                 <div class="col s12">
                   <ul class="tabs">
-                    <li class="tab"><a  class="active"  href="#personal_data">DATE PERSONALE</a></li>
-                    <li class="tab"><a href="#change_password">MODIFICĂ PAROLA</a></li>
+                    <li class="tab"><a href="#personal_data" {{ Session::has('activeclass') ? (Session::get('activeclass') == 'update_settings' ? 'class=active' : '') : '' }}>DATE PERSONALE</a></li>
+                    <li class="tab"><a href="#change_password" {{ Session::has('activeclass') ? (Session::get('activeclass') == 'update_password' ? 'class=active' : '') : '' }}>MODIFICĂ PAROLA</a></li>
                   </ul>
                 </div>
+                
                 <div id="personal_data" class="col s12 tab_content">
-                <form action="{{route('setupdate')}}" method="POST" class="form styled2 row" enctype="multipart/form-data">
-                    @include('partials.errors.list')
+                <form action="{{route('update_settings')}}" method="POST" class="form styled2 row" enctype="multipart/form-data">
+                @include('partials.errors.settings-error',['field' => 'fname'])
+                @include('partials.errors.settings-error',['field' => 'lname'])
+                @include('partials.errors.settings-error',['field' => 'phone'])
+                @include('partials.errors.settings-error',['field' => 'email'])
                     <div class="col l12 m12 s12">
                       <div class="file-field input-field">
                         <div class="wrapp_img left">
@@ -60,7 +64,8 @@
                   </form>
                 </div>
          <div id="change_password" class="col s12 tab_content">
-          <form action="{{route('updatepassword')}}" method="POST" class="form styled2 row">
+          <form action="{{route('update_password')}}" method="POST" class="form styled2 row">
+          @include('partials.errors.settings-error',['field' => 'password'])
              <div class="col l6 m6 s12">
                 <div class="input-field">
                 <span class="label">PAROLA NOUA</span>

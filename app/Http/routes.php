@@ -87,9 +87,9 @@ Route::multilingual(function () {
         'uses' => 'PagesController@contacts'
     ]);
 
-     Route::post('send_form', [
-        'as' => 'send_form',
-        'uses' => 'PagesController@send_form'
+     Route::post('send_contact', [
+        'as' => 'send_contact',
+        'uses' => 'PagesController@send_contact'
     ]);
 
 
@@ -125,13 +125,13 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@accountsettings'
         ]);
 
-         Route::post('setupdate', [
-            'as' => 'setupdate',
+         Route::post('settings/update_settings', [
+            'as' => 'update_settings',
             'uses' => 'DashboardController@update'
         ]);
 
-          Route::post('updatepassword', [
-        'as' => 'updatepassword',
+          Route::post('settings/update_password', [
+        'as' => 'update_password',
         'uses' => 'DashboardController@updatepassword'
     ]);
 

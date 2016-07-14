@@ -46,7 +46,7 @@ class ImageProcessor
                     'original' => $original,
                     'image' => str_replace(base_path('public'), '', $imageInfo->getPathname()),
                 ]);
-            //dd($model);
+                return $model;
             }
         }
     }
