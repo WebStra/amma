@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-
 class UpdateUserPassword extends Request
 {
     /**
@@ -20,7 +19,7 @@ class UpdateUserPassword extends Request
     {
         return [
             // todo: add validator's rules.
-            'password' => 'required|min:6|confirmed', 
+            'password' => 'required|min:6|confirmed',
         ];
     }
 }

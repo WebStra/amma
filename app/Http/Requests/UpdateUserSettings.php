@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-
 class UpdateUserSettings extends Request
 {
     /**
@@ -22,7 +21,7 @@ class UpdateUserSettings extends Request
             // todo: add validator's rules.
             'fname' => 'required|min:3|max:20',
             'lname' => 'required|min:3|max:20',
-            'email' => 'required|unique:users,email,'.\Auth::id().',id',
+            'email' => 'required|unique:users,email,' . \Auth::id() . ',id',
         ];
     }
 }
