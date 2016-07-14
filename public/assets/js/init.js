@@ -558,25 +558,32 @@ $(document).ready(function() {
     }
     // / ecommerce
 
-$( ".show_categories" ).click(function() {
-  $( ".categories-hide" ).slideToggle( "slow", function() {
-    // Animation complete.
-  });
-});
+    $( ".show_categories" ).click(function() {
+      $( ".categories-hide" ).slideToggle( "slow", function() {
+        // Animation complete.
+      });
+    });
 
+    $("input[name=image], input[name=photo]").change(function() // Preview Image.
+    {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-$("input[name=image], input[name=photo]").change(function() // Preview Image.
-{
-    var input = this;
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#preview_image').attr('src', e.target.result);
+            };
 
-        reader.onload = function (e) {
-            $('#preview_image').attr('src', e.target.result);
-        };
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
 
-        reader.readAsDataURL(input.files[0]);
-    }
-});
+    $(function () {
+        var $span = $('span[data-notification]');
 
+        if($span.length)
+        {
+            Materialize.toast($span.html(), 5000);
+        }
+    });
 }); // end of document ready

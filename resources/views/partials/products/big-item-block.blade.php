@@ -1,19 +1,11 @@
 <li class="product_card">
     <div class="wrapp_img wrapp_countdown">
-        <span class="info_label">
-            <img src="{{ $item->present()->getInfoLabel() }}">
-        </span>
-
-        <div class="countdown" data-endtime="{{ $item->present()->endDate() }}">
-            <span class="days">{{ $item->present()->diffEndDate()->d }}</span>
-            <span class="hours">{{ $item->present()->diffEndDate()->h }}</span>
-            <span class="minutes">{{ $item->present()->diffEndDate()->i }}</span>
-            <span class="seconds">{{ $item->present()->diffEndDate()->s }}</span>
-        </div>
+        @include('partials.products.item.info-label')
+        @include('partials.products.item.countdown')
         <img src="{{ $item->present()->cover() }}">
     </div>
     <div class="content">
-        <h4><a href="{{ route('view_product', $item->id) }}" class="make_inherit">{{ $item->present()->renderNameSimple() }}</a></h4>
+        @include('partials.products.item.name')
         <div class="price_wrapp">
             @if($item->sale > 0)
                 <div class="price">{{ $item->present()->renderPriceWithSale() }}</div>
@@ -46,12 +38,6 @@
 
         @endif
 
-        <div class="stock">
-            {{ $item->present()->renderPrice($item->present()->getSalesSumm()) }}
-            /{{ $item->present()->renderPrice($item->present()->getTotalSumm()) }}
-            <div class="progress">
-                <div class="determinate" style="width: {{ $item->present()->getSalesPercent() }}%"></div>
-            </div>
-        </div>
+        @include('partials.products.item.stock')
     </div>
 </li>

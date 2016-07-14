@@ -18,6 +18,8 @@
 
 @include('partials.breadcrumbs')
 
+@include('partials.notification')
+
 @yield('content')
 
 @include('partials.footer.index')

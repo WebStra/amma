@@ -8,8 +8,10 @@
                 <div class="col l9 m7 s12">
                     <ul class="elements divide-top bordered pd_8">
                         @if(count($vendors))
+                            <?php $i = 1; ?>
                             @foreach($vendors as $item)
                                 @include('vendors.partials.item-block')
+                                <?php $i++ ?>
                             @endforeach
                         @else
                             <p>You don't have a vendors. <a href="{{ route('create_vendor') }}">Create one.</a></p>

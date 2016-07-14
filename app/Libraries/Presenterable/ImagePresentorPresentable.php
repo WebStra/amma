@@ -15,14 +15,14 @@ trait ImagePresentorPresentable
     public function cover($order = 'asc', $size = null, $default = null)
     {
         $image = $this->model
-                ->images()
-                ->ranked($order)
-                ->first();
+            ->images()
+            ->ranked($order)
+            ->first();
 
-        if(! is_null($image))
+        if($image)
             return $image->present()
-                ->image($size);            
-            
-        return $default ? : '';
+                ->image($size);
+
+        return '';
     }
 }

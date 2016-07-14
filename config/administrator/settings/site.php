@@ -1,5 +1,7 @@
 <?php
 
+use App\Category;
+
 return [
     'title' => 'Site',
 
@@ -40,11 +42,51 @@ return [
 //            'options' => ['guest', 'member', 'admin', 'content manager']
 //        ],
 
+        'homepage::popular_category' => [
+            'type' => 'select',
+            'label' => 'Popular category',
+            'options' => function () {
+                return Category::select("*")
+                    ->child()
+                    ->active()
+                    ->get()
+                    ->pluck('name', 'id');
+            }
+        ],
+
+        'home::category_first' => [
+            'type' => 'select',
+            'label' => 'Homepage first category',
+            'options' => function () {
+                return Category::select("*")
+                    ->child()
+                    ->active()
+//                    ->translated()
+                    ->get()
+                    ->pluck('name', 'id')
+                    ->prepend('-- No --', '');
+            }
+        ],
+
+        'home::category_second' => [
+            'type' => 'select',
+            'label' => 'Homepage second category',
+            'options' => function () {
+                return Category::select("*")
+                    ->child()
+                    ->active()
+//                    ->translated()
+                    ->get()
+                    ->pluck('name', 'id')
+                    ->prepend('-- No --', '');
+            }
+        ],
+
         'site::down' => [
             'type' => 'select',
             'options' => [
-                1 => '-- Enable --',
-                0 => '-- Disable --'
+                0 => '-- Disable --',
+                1 => '-- Enable --'
             ]
         ],
 

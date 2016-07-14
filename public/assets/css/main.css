@@ -3077,3 +3077,41 @@ a.vendor__more_info_product_title{
 a.make_inherit{
   color: inherit;
 }
+
+.product_create_categories .minify-parent-cat-sel_box {
+  width: 45%;
+  float: left;
+}
+
+.product_create_categories .minify-sub-cat_sel_box{
+  width: 45%;
+  float: right;
+}
+
+.picker__day--selected,
+.picker__day--selected:hover,
+.picker--focused .picker__day--selected,
+.picker__date-display
+{
+  background-color: #ff6f00;
+}
+
+.picker__close,
+.picker__today,
+.picker__day.picker__day--today
+{
+  color: #ff6f00;
+}
+
+.picker__weekday-display {
+  background-color: #dd5c00;
+}
+
+button.picker__close:focus,
+button.picker__today:focus,
+button.picker__clear:focus,
+.picker__nav--prev:hover,
+.picker__nav--next:hover
+{
+  background-color: #ffb336;
+}
