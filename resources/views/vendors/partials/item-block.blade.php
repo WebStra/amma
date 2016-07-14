@@ -4,28 +4,21 @@
     </div>
     <div class="content">
         <h4><a href="{{ route('view_vendor', ['slug' => $item->slug]) }}" class="user__vendor_title">{{ $item->present()->renderTitle() }}</a></h4>
-        <ul class="star_rating" data-rating_value="4">
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-        </ul>
-        <span class="small">22 păreri </span>
+        @include('partials.products.ratings')
 
         <div class="cf"></div>
         <div class="left_side labels">
             <div class="label"><span class="title">Cantitate:</span>&nbsp;({{ count($item->products) }}) produse</div>
         </div>
         <div class="right_side">
-            <button class="btn_ btn_white small show_details" data-show-id="show_detail_product_1"><i class="icon-more"></i> Vezi detalii</button>
+            <button class="btn_ btn_white small show_details" data-show-id="show_detail_product_{{ $i }}"><i class="icon-more"></i> Vezi detalii</button>
             <a href="{{ route('edit_vendor', ['slug' => $item->slug]) }}" class="btn_ btn_white small"><i class="icon-arrow-right"></i> Edit vendor</a>
             <a href="{{ route('add_product', ['slug' => $item->slug]) }}" class="btn_ btn_white small"><i class="icon-plus"></i> Add product</a>
         </div>
 
     </div>
     <div class="cf"></div>
-    <div class="sub_content" id="show_detail_product_1">
+    <div class="sub_content" id="show_detail_product_{{ $i }}">
         <div class="body">
             {{--{{ dd($item->products) }}--}}
             @foreach($item->products as $product)

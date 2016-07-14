@@ -92,14 +92,45 @@ class ProductsRepository extends Repository
             'description' => (isset($data['description'])) ? $data['description'] : $product->description,
             'type' => (isset($data['type'])) ? $data['type'] : 'new',
             'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
-            'published_date' => (isset($data['published_date']) ? $data['published_date'] : $product->published_date),
-            'expiration_date' => (isset($data['expiration_date']) ? $data['expiration_date'] : $product->published_date),
+            'published_date' => (isset($data['published_date']) ? $this->dateToTimestamp($data['published_date']) : $product->published_date),
+            'expiration_date' => (isset($data['expiration_date']) ? $this->dateToTimestamp($data['expiration_date']) : $product->published_date),
             'active' => 1
         ]);
 
         $product->save();
 
         return $product;
+    }
+
+    /**
+     * Reformat date.
+     *
+     * @param $date
+     * @param string $delimiter
+     * @return mixed
+     */
+    public function reformatDateString($date, $delimiter = '.')
+    {
+        $datas = explode($delimiter, $date);
+
+        $new_date['d'] = $datas[0];
+        $new_date['m'] = $datas[1];
+        $new_date['y'] = $datas[2];
+
+        return $new_date;
+    }
+
+    /**
+     * Convert string date to \Carbon/Carbon timestamp.
+     *
+     * @param $date
+     * @return static
+     */
+    public function dateToTimestamp($date)
+    {
+        $dates = $this->reformatDateString($date);
+
+        return Carbon::createFromDate($dates['y'], $dates['m'], $dates['d']);
     }
 
     /**
@@ -203,5 +234,65 @@ class ProductsRepository extends Repository
         list($sale, $percent) = explode('%', $sale);
 
         return (int) $sale;
+    }
+
+    /**
+     * Get same products.
+     *
+     * @param mixed
+     */
+    public function getSameProduct($product)
+    {
+        //
+    }
+
+    /**
+     * Get public latest created products.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getPublicLatest($count = 8)
+    {
+        return $this->getModel()
+            ->active()
+//            ->published() // todo: on production back it.
+            ->orderBy('id', self::DESC)
+            ->take($count)
+            ->get();
+    }
+
+    /**
+     * Get popular products.
+     *
+     * @return mixed
+     */
+    public function getFeaturedPublic($count = 8)
+    {
+        return $this->getModel()
+//            ->published()
+            ->featured()
+            ->active()
+            ->orderBy('id', self::DESC)
+            ->take($count)
+            ->get();
+    }
+
+    /**
+     * Get expire soon products.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getPublicExpireSoon($count = 8)
+    {
+        return $this->getModel()
+            ->published()
+            ->active()
+            ->where('expiration_date', '>', Carbon::now())
+            ->orderBy('expiration_date', self::ASC)
+            ->orderBy('id', self::ASC)
+            ->take($count)
+            ->get();
     }
 }

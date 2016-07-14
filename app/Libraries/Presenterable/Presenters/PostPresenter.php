@@ -17,7 +17,7 @@ class PostPresenter extends Presenter
      */
     public function renderShortDescription($range = 75)
     {
-        return sprintf('%s...', substr($this->model->body, 0, $range));
+        return sprintf('%s... </p>', substr($this->model->body, 0, $range));
     }
 
     /**
@@ -25,9 +25,14 @@ class PostPresenter extends Presenter
      *
      * @return string
      */
-    public function renderTitle()
+    public function renderTitle($upper = false)
     {
-        return ucfirst($this->model->title);
+        $name = $this->model->title;
+
+        if($upper)
+            return strtoupper($name);
+
+        return ucfirst($name);
     }
 
     /**

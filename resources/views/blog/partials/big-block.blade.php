@@ -5,7 +5,7 @@
         <span><i class="icon-watch"></i> Vizualizări  <span class="c_base">{{ $item->present()->renderPostViews() }}</span></span>
     </p>
     <div class="wrapp_img">
-        <img src="{{ $item->present()->cover('/assets/images/img3.jpg') }}">
+        <img src="{{ $item->present()->cover(null, '/assets/images/img3.jpg') }}" width="870" height="472">
     </div>
     <div class="text">
         {!! $item->present()->renderShortDescription(300) !!}

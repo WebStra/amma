@@ -40,15 +40,18 @@ class PostsRepository extends Repository
     /**
      * Get popular public posts.
      *
+     * @param int $count
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getPopularPublic()
+    public function getPopularPublic($count = 4)
     {
         // todo: popular featured posts.
        return $this->getModel()
            ->published()
            ->active()
-           ->take(4)
+           ->orderBy('view_count', self::DESC)
+           ->orderBy('id', self::DESC)
+           ->take($count)
            ->get();
     }
 

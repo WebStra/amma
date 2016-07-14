@@ -118,6 +118,12 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
+            // todo: be carefull this code can be bugged.
+            if(! $user->wallets()->sandbox()->first())
+            {
+                $this->createTestWallet($user);
+            }
+
             if(! $user->confirmed)
                 return redirect()->route('resend_verify_email_form');
             
@@ -144,6 +150,20 @@ class AuthController extends Controller
         
         $events->fire(new UserCreationRequestSent($user));
 
+        $this->createTestWallet($user);
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return redirect()->route('resend_verify_email_form');
+    }
+
+    /**
+     * Create test wallet.
+     *
+     * @param $user
+     */
+    private function createTestWallet($user)
+    {
         if(settings()->getOption('site::testing_payment_period'))
         {
             $wallet = $this->wallets->create($user, [
@@ -152,9 +172,5 @@ class AuthController extends Controller
 
             $this->wallets->refillWallet($wallet, config('testing_payment.amount'));
         }
-
-        Auth::guard($this->getGuard())->login($user);
-
-        return redirect()->route('resend_verify_email_form');
     }
 }

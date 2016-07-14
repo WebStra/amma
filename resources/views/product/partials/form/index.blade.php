@@ -29,13 +29,26 @@
 </div><!-- Price -->
 @endif
 
-<div class="col l6 m6 s12">
+<div class="col l6 m6 s12 product_create_categories">
     <div class="input-field">
         <span class="label">{{ strtoupper('categories') }}</span>
 
-        <select name="categories[]" multiple required>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+        <select id="parent_categories" name="categories[]" required>
+            @foreach($categories as $parent_category)
+                <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}">
+                    @foreach($parent_category->categoryables()->active()->get() as $child)
+                        <?php $category = $child->categoryable ?>
+                        <?php
+                            $selected = '';
+
+                            if($item_cat = $item->categories && count($item->categories))
+                            {
+                                $selected = ($item->categories()->first()->category_id == $category->id) ? 'selected' : '';
+                            }
+                        ?>
+                        <option value="{{ $category->id }}" {{ $selected }}>{{ $category->name }}</option>
+                    @endforeach
+                </optgroup>
             @endforeach
         </select>
     </div>
@@ -82,14 +95,16 @@
 <div class="col l6 m6 s12">
     <div class="input-field" style="float:left; width: 45%">
         <span class="label">{{ strtoupper('published date(from)') }}</span>
-        <input type="date" required name="published_date"
-               value="{{ old('published_date') ? old('published_date') : $item->present()->date('published_date','Y-m-d') }}">
+        <input type="date" class="datepicker-from" required name="published_date"
+               value="{{ old('published_date') ? old('published_date') : $item->present()->date('published_date','Y-m-d') }}"
+               data-value="{{ old('published_date') ? old('published_date') : $item->present()->date('published_date','Y-m-d') }}">
     </div>
 
     <div class="input-field" style="float:right; width: 45%">
         <span class="label">{{ strtoupper('expiration date(to)') }}</span>
-        <input type="date" required name="expiration_date"
-               value="{{ old('expiration_date') ? old('expiration_date') : $item->present()->date('expiration_date','Y-m-d') }}">
+        <input type="date" class="datepicker-to" required name="expiration_date"
+               value="{{ old('expiration_date') ? old('expiration_date') : $item->present()->date('expiration_date','Y-m-d') }}"
+               data-value="{{ old('expiration_date') ? old('expiration_date') : $item->present()->date('expiration_date','Y-m-d') }}">
     </div>
 </div><!-- Datetime -->
 

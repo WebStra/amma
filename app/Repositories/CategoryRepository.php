@@ -114,4 +114,42 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
             ->whereSlug($slug)
             ->first();
     }
+
+    /**
+     * Get parent categories.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPublicCategories()
+    {
+        return $this->getSidebarCollection();
+    }
+
+    /**
+     * Get popular category.
+     *
+     * @return mixed
+     */
+    public function getPopularCategory()
+    {
+        return $this->getModel()
+            ->select('*')
+            ->where(
+                'id',
+                settings()->getOption(
+                    'homepage::popular_category',
+                    $this->getDefaultPopularCategory()->id
+                )
+            )
+            ->active()
+            ->first();
+    }
+
+    private function getDefaultPopularCategory()
+    {
+        return self::getModel()
+            ->active()
+            // add join where will show category which the product's count is the bigger.
+            ->first();
+    }
 }

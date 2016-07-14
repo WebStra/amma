@@ -203,6 +203,48 @@
                 });
     });
 
+    $(function (){
+        var $from = $(".datepicker-from");
+        var $to = $(".datepicker-to");
+        var __$from = {};
+        var __$to = {};
+        $from.pickadate({
+            selectMonths: true,
+            selectYears: 3,
+            format: 'dd.mm.yyyy',
+            closeOnClear: true,
+            min: true,
+            onRender: function () {
+                __$from = this;
+            },
+            onSet: function () {
+                var picker = this;
+                __$to.set('min', picker.get());
+            },
+            onOpen: function(){
+                __$from.set('max', __$to.get());
+            }
+        });
+
+        $to.pickadate({
+            selectMonths: true,
+            selectYears: 3,
+            format: 'dd.mm.yyyy',
+            closeOnClear: true,
+            min: 2,
+            onRender: function () {
+                __$to = this;
+            },
+            onClose: function () {
+                var picker = this;
+                __$from.set('max', picker.get());
+            },
+            onOpen: function(){
+                __$to.set('min', __$from.get());
+            }
+        });
+    });
+
     function getSpecSuiteTemplate(block_id) // Get template of suite of specifications.
     {
         return '<div class="specification_suite" data-suite-spec="' + block_id + '">'

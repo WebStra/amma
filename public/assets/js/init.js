@@ -671,4 +671,12 @@ $( ".show_categories" ).click(function() {
 });
 
 
+    $(function () {
+        var $span = $('span[data-notification]');
+
+        if($span.length)
+        {
+            Materialize.toast($span.html(), 5000);
+        }
+    });
 }); // end of document ready
