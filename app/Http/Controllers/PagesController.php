@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use App\Repositories\ContactsRepository;
@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+    protected $contacts;
+
+    /**
+     * PagesController constructor.
+     * @param ContactsRepository $contactsRepository
+     */
     public function __construct(ContactsRepository $contactsRepository)
     {
         $this->contacts = $contactsRepository;
@@ -23,15 +29,24 @@ class PagesController extends Controller
         return view('pages.show', ['item' => $page]);
     }
 
+    /**
+     * Get contacts page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function contacts()
     {
         return view('home.contacts');
     }
 
+    /**
+     * @param ContactSend $request
+     * @return mixed
+     */
     public function send_contact(ContactSend $request)
     {
         $this->contacts->sendContact($request->all());
 
-        return back()->withStatus('Message Send!');
+        return redirect()->back()->withStatus('Your message was send!');
     }
 }

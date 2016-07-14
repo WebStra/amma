@@ -3,30 +3,31 @@
 namespace App\Repositories;
 
 use App\Contacts;
-use Auth;
 
 class ContactsRepository extends Repository
 {
     /**
-     * @return 
+     * @return Contacts
      */
     public function getModel()
     {
         return new Contacts();
     }
 
-
-public function sendContact(array $data) {
-
-return self::getModel()
+    /**
+     * Create an contact request.
+     *
+     * @param array $data
+     * @return static
+     */
+    public function sendContact(array $data)
+    {
+        return self::getModel()
             ->create([
-                'name'     => $data['name'],
-                'email'  => $data['email'],
-                'phone'  => $data['phone'],
-                'message'  => $data['message'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'message' => $data['message'],
             ]);
-
-        }
-
-
+    }
 }
