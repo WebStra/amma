@@ -4,14 +4,7 @@
     </div>
     <div class="content">
         <h4><a href="{{ route('view_vendor', ['slug' => $item->slug]) }}" class="user__vendor_title">{{ $item->present()->renderTitle() }}</a></h4>
-        <ul class="star_rating" data-rating_value="4">
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-            <li class="icon-star"></li>
-        </ul>
-        <span class="small">22 păreri </span>
+        @include('partials.products.ratings')
 
         <div class="cf"></div>
         <div class="left_side labels">

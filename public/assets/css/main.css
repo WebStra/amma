@@ -3077,3 +3077,13 @@ a.vendor__more_info_product_title{
 a.make_inherit{
   color: inherit;
 }
+
+.product_create_categories .minify-parent-cat-sel_box {
+  width: 45%;
+  float: left;
+}
+
+.product_create_categories .minify-sub-cat_sel_box{
+  width: 45%;
+  float: right;
+}

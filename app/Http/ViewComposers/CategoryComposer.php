@@ -47,7 +47,7 @@ class CategoryComposer extends Composer
                 break;
 
             case "product.partials.form.index":
-                return $view->with('categories', $this->categories->getPublicSubcategories());
+                return $view->with('categories', $this->categories->getPublicCategories());
                 break;
         }
     }

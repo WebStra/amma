@@ -212,6 +212,56 @@ class ProductsRepository extends Repository
      */
     public function getSameProduct($product)
     {
+        //
+    }
 
+    /**
+     * Get public latest created products.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getPublicLatest($count = 8)
+    {
+        return $this->getModel()
+            ->active()
+//            ->published() // todo: on production back it.
+            ->orderBy('id', self::DESC)
+            ->take($count)
+            ->get();
+    }
+
+    /**
+     * Get popular products.
+     *
+     * @return mixed
+     */
+    public function getFeaturedPublic($count = 8)
+    {
+        return $this->getModel()
+//            ->published()
+            ->featured()
+            ->active()
+            ->orderBy('id', self::DESC)
+            ->take($count)
+            ->get();
+    }
+
+    /**
+     * Get expire soon products.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getPublicExpireSoon($count = 8)
+    {
+        return $this->getModel()
+            ->published()
+            ->active()
+            ->where('expiration_date', '>', Carbon::now())
+            ->orderBy('expiration_date', self::ASC)
+            ->orderBy('id', self::ASC)
+            ->take($count)
+            ->get();
     }
 }

@@ -198,8 +198,9 @@ class ProductsController extends Controller
     private function saveCategories($categories, $product)
     {
         array_walk($categories, function ($category_id) use ($product) {
-            // $category = $this->categoryable->find($category_id);
+            $category = $this->categoryable->find($category_id);
 
+            if(! count($category))
             $this->categoryable->create((int)$category_id, $product);
         });
     }

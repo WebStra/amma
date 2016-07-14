@@ -7,15 +7,16 @@ trait HasImagesPresentable
     /**
      * Get image where type is cover.
      *
+     * @param $size
      * @param $default
      * @return string
      */
-    public function cover($default = null)
+    public function cover($size = null, $default = null, $order = 'asc')
     {
-        $image = $this->model->images()->cover()->first();
+        $image = $this->model->images()->ranked($order)->cover()->first();
 
         $default = !is_null($default) ? $default : '';
 
-        return $image ? $image->image : $default;
+        return $image ? $image->present()->image($size) : $default;
     }
 }

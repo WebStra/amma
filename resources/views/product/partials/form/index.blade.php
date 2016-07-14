@@ -29,13 +29,50 @@
 </div><!-- Price -->
 @endif
 
-<div class="col l6 m6 s12">
+<!--<div class="col l6 m6 s12 product_create_categories">
     <div class="input-field">
         <span class="label">{{ strtoupper('categories') }}</span>
 
-        <select name="categories[]" multiple required>
+        <select id="parent_categories" required>
             @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}">{{ $category->name }}, taxa ({{ $category->present()->getTax() }})</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="input-field minify-sub-cat_sel_box hidden">
+        <span class="label">{{ strtoupper('categories') }}</span>
+
+        <select id="sub_categories" name="categories[]" multiple required>
+            @foreach($categories as $parent_categories)
+                @foreach($parent_categories->categoryables as $categoryable)
+                    <option value="{{ $categoryable->category->id }}">{{ $categoryable->category->name }}</option>
+                @endforeach
+            @endforeach
+        </select>
+    </div>
+</div><!-- Categories -->
+
+<div class="col l6 m6 s12 product_create_categories">
+    <div class="input-field">
+        <span class="label">{{ strtoupper('categories') }}</span>
+
+        <select id="parent_categories" name="categories[]" required>
+            @foreach($categories as $parent_category)
+                <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}">
+                    @foreach($parent_category->categoryables()->active()->get() as $child)
+                        <?php $category = $child->categoryable ?>
+                        <?php
+                            $selected = '';
+
+                            if($item_cat = $item->categories && count($item->categories))
+                            {
+                                $selected = ($item->categories()->first()->category_id == $category->id) ? 'selected' : '';
+                            }
+                        ?>
+                        <option value="{{ $category->id }}" {{ $selected }}>{{ $category->name }}</option>
+                    @endforeach
+                </optgroup>
             @endforeach
         </select>
     </div>
