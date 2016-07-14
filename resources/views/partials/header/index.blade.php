@@ -30,7 +30,7 @@
                             <li><a href="">OFERTE NOI</a></li>
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
-                            <li><a href="">CONTACTE</a></li>
+                            <li><a href="{{  route('contacts') }}">CONTACTE</a></li>
                             <li><a href="{{ route('vendors') }}">VENDORS</a></li>
                             @if(count($pages))
                                 @foreach($pages as $page)

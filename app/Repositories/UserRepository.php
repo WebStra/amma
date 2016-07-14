@@ -54,7 +54,7 @@ class UserRepository extends Repository
         $user = self::getModel()
             ->create([
                 'email'     => $data['email'],
-                'password'  => bcrypt($data['password']),
+                'password'  => $this->hashPassword($data['password']),
                 'role_id'   => $this->getSimpleUser()->id,
                 'confirmation_code' => str_random(30)
             ]);
@@ -132,14 +132,25 @@ class UserRepository extends Repository
     {
         Auth::user()->update([
             'name' => $data['fname'],
-            'email'=> $data['email'],
-            'password'  => bcrypt($data['fpassword'])
+            'email'=> $data['email']
         ]);
 
        Auth::user()->profile->update([
             'firstname' => $data['fname'],
             'lastname' => $data['lname'],
             'phone' => $data['phone']
+        ]);
+    }
+
+    private function hashPassword($password)
+    {
+        return bcrypt($password);
+    }
+
+    public function updatePassword($password)
+    {
+        Auth::user()->update([
+            'password'  => $this->hashPassword($password),
         ]);
     }
 }

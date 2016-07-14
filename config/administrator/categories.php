@@ -1,7 +1,5 @@
 <?php
 
-require_once base_path('vendor/keyhunter/administrator/src/helpers.php');
-
 use App\Category;
 
 return [

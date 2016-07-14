@@ -2,8 +2,12 @@
 
 namespace App\Libraries\Presenterable\Presenters;
 
+use App\Libraries\Presenterable\ImagePresentorPresentable;
+
 class UserPresenter extends Presenter
 {
+	use ImagePresentorPresentable;
+
     /**
      * Render user's name.
      *

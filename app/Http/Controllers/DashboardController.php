@@ -8,6 +8,10 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Auth;
 use App\Http\Requests\UpdateUserSettings;
+use App\Http\Requests\UpdateUserPassword;
+use App\Image;
+use App\Services\ImageProcessor;
+use Illuminate\Http\UploadedFile;
 
 class DashboardController extends Controller
 {
@@ -17,7 +21,7 @@ class DashboardController extends Controller
     protected $users;
 
 
-/**
+    /**
      * @var  ProfileRepository
      */
     protected $profile;
@@ -76,21 +80,33 @@ class DashboardController extends Controller
         return view('dashboard.my-involved', compact('involved'));
     }
 
-
-
-    public function accountsettings() 
+    public function accountSettings() 
     {
         return view('dashboard.account-settings');
     }
 
-
-
     public function update(UpdateUserSettings $request)
     {
-        $this->users->update_user($request->all());
 
-        return back()->withStatus('Profile Updated!');
+        $this->users->update_user($request->all());
+        
+        $image = $request->file('photo');
+        if ($image && $image instanceof UploadedFile) {
+            $location = 'upload/images/user_avatars/';
+            $processor = new ImageProcessor();
+            if($old_avatar = \Auth::user()->images()->avatar()->first())
+                $processor->destroy($old_avatar);
+
+            $imageable = $processor->uploadAndCreate($image,  $this->auth->user(), ['type' => 'avatar'], $location);
+        }
+
+        return back()->withStatus('Profile Updated!')->with('activeclass', 'update_settings');
     }
 
-
+    public function updatepassword(UpdateUserPassword $request)
+    {
+        $this->users->updatePassword($request->password);
+        
+        return back()->withStatus('Password Updated!')->with('activeclass', 'update_password');
+    }
 }

@@ -269,112 +269,6 @@ $(document).ready(function() {
         $('ul.tabs').tabs('select_tab', 'achitarea');
     });
 
-    function initialize() {
-        var mapCanvas = document.getElementById('map');
-        var mapOptions = {
-            center: new google.maps.LatLng(47.046820, 28.888806),
-            zoom: 15,
-            scrollwheel: false,
-            scaleControl: false,
-            draggable: false,
-            zoomControl: true,
-
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.RIGHT_TOP
-            },
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var image = '/assets/images/ico/pin.png';
-        var map = new google.maps.Map(mapCanvas, mapOptions);
-        map.set('styles', [{
-            "featureType": "landscape",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "lightness": 65
-            }, {
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "poi",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "lightness": 51
-            }, {
-                "visibility": "simplified"
-            }]
-        }, {
-            "featureType": "road.highway",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "visibility": "simplified"
-            }]
-        }, {
-            "featureType": "road.arterial",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "lightness": 30
-            }, {
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "road.local",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "lightness": 40
-            }, {
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "transit",
-            "stylers": [{
-                "saturation": -100
-            }, {
-                "visibility": "simplified"
-            }]
-        }, {
-            "featureType": "administrative.province",
-            "stylers": [{
-                "visibility": "off"
-            }]
-        }, {
-            "featureType": "water",
-            "elementType": "labels",
-            "stylers": [{
-                "visibility": "on"
-            }, {
-                "lightness": -25
-            }, {
-                "saturation": -100
-            }]
-        }, {
-            "featureType": "water",
-            "elementType": "geometry",
-            "stylers": [{
-                "hue": "#ffff00"
-            }, {
-                "lightness": -25
-            }, {
-                "saturation": -97
-            }]
-        }]);
-        var beachMarker = new google.maps.Marker({
-            position: {
-                lat: 47.046820,
-                lng: 28.888806
-            },
-            map: map,
-            icon: image
-        });
-
-    }
-    if (($("#map").length != 0)) {
-        google.maps.event.addDomListener(window, 'load', initialize);
-    }
     //$('#send-form').click();
     $('.filtru ul li a').click(function() {
         $( ".filtre-form" ).submit();
@@ -664,12 +558,25 @@ $(document).ready(function() {
     }
     // / ecommerce
 
-$( ".show_categories" ).click(function() {
-  $( ".categories-hide" ).slideToggle( "slow", function() {
-    // Animation complete.
-  });
-});
+    $( ".show_categories" ).click(function() {
+      $( ".categories-hide" ).slideToggle( "slow", function() {
+        // Animation complete.
+      });
+    });
 
+    $("input[name=image], input[name=photo]").change(function() // Preview Image.
+    {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview_image').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
 
     $(function () {
         var $span = $('span[data-notification]');

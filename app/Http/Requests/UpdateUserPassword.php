@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 
-class UpdateUserSettings extends Request
+class UpdateUserPassword extends Request
 {
     /**
      * @return bool
@@ -20,9 +20,7 @@ class UpdateUserSettings extends Request
     {
         return [
             // todo: add validator's rules.
-            'fname' => 'required|min:3|max:20',
-            'lname' => 'required|min:3|max:20',
-            'email' => 'required|unique:users,email,'.\Auth::id().',id',
+            'password' => 'required|min:6|confirmed', 
         ];
     }
 }

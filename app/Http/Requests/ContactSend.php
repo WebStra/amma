@@ -3,26 +3,34 @@
 namespace App\Http\Requests;
 
 
-class UpdateUserSettings extends Request
+class ContactSend extends Request
 {
-    /**
+    
+ /**
      * @return bool
      */
     public function authorize()
     {
-        return \Auth::check();
+        return true;
     }
 
     /**
      * @return array
      */
+
+
     public function rules()
     {
+
+        
         return [
             // todo: add validator's rules.
-            'fname' => 'required|min:3|max:20',
-            'lname' => 'required|min:3|max:20',
-            'email' => 'required|unique:users,email,'.\Auth::id().',id',
+            'name' => 'required|min:3|max:50',
+            'email' => 'required|email',
+            'phone' => 'digits:8',
+            'message' => 'required', 
+
         ];
     }
+
 }

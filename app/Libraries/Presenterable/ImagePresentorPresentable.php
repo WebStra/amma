@@ -12,7 +12,7 @@ trait ImagePresentorPresentable
      * @param null $size
      * @return mixed
      */
-    public function cover($order = 'asc', $size = null)
+    public function cover($order = 'asc', $size = null, $default = null)
     {
         $image = $this->model
             ->images()
