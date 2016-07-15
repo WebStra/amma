@@ -16,6 +16,7 @@ use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\VendorRepository;
+use App\Repositories\SubscribeRepository;
 
 /* ----------------------------------------------
  *  Route bindings.
@@ -44,6 +45,10 @@ Route::bind('static_page', function ($slug) {
 Route::bind('involved', function ($id) {
     return (new InvolvedRepository())->find($id);
 });
+
+    Route::bind('unscribe', function ($token){
+        return (new SubscribeRepository())->getByToken($token);
+    });
 
 Route::multilingual(function () {
     Route::get('/', [
@@ -99,6 +104,17 @@ Route::multilingual(function () {
     Route::post('send_contact', [
         'as' => 'send_contact',
         'uses' => 'PagesController@send_contact'
+    ]);
+
+    Route::post('subscribe', [
+        'as' => 'subscribe',
+        'uses' => 'SubscribeController@index'
+    ]);
+
+    Route::get('unscribe/{unscribe}', [
+        'as' => 'get_unscribe',
+        'middleware' => 'unscribe',
+        'uses' => 'SubscribeController@unscribe'
     ]);
 
     Route::group(['middleware' => 'auth'], function () {

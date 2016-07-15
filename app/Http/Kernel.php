@@ -55,5 +55,6 @@ class Kernel extends HttpKernel
         'accept-ajax' => \App\Http\Middleware\AcceptsAjaxOnly::class,
         'can_handle_action' => \App\Http\Middleware\CanHandleActionMiddleware::class,
         'can_involve_product' => \App\Http\Middleware\UserCanInvolveProduct::class,
+        'unscribe' => \App\Http\Middleware\UnscribeRequestToken::class,
     ];
 }
