@@ -17,6 +17,7 @@
             </div>
         </form>
     @else
+    @if(isset($involved))
         <form class="row childs_margin_top" method="post"
               action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
             <div class="col l6 m6 s12">
@@ -26,5 +27,6 @@
                 </button>
             </div>
         </form>
+    @endif
     @endif
 @endif

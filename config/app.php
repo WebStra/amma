@@ -162,6 +162,7 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
     ],
 
     /*
@@ -207,7 +208,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Date' => Jenssegers\Date\Date::class
+        'Date' => Jenssegers\Date\Date::class,
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class
 
     ],
 

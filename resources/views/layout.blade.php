@@ -16,7 +16,9 @@
 <body>
 @include('partials.header.index')
 
-@include('partials.breadcrumbs')
+<div class="container">
+	{!! Breadcrumbs::render() !!}
+</div>
 
 @include('partials.notification')
 
