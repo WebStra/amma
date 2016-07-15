@@ -30,11 +30,7 @@ class SubscribeRepository extends Repository
     {
         $model = $this->getByEmail($email);
 
-	       	if($model)
-
-	           return true;
-
-	    return false;
+	       return (bool) $model;
     }
 
     public function getByEmail($email)

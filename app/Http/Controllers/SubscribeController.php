@@ -1,7 +1,7 @@
 <?php 
 namespace App\Http\Controllers;
 use App\Repositories\SubscribeRepository;
-use App\Http\Requests\Subscribe;
+use App\Http\Requests\SubscribeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 
@@ -14,7 +14,7 @@ class SubscribeController extends Controller
         $this->subscribe = $subscribeRepository;
     }
    
-    public function index(Subscribe $request) 
+    public function index(SubscribeRequest $request) 
     {
         if(!$this->subscribe->checkSubscriber($request['email']))
         

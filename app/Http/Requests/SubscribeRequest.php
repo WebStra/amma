@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 
-class Subscribe extends Request
+class SubscribeRequest extends Request
 {
     
  /**
@@ -23,7 +23,7 @@ class Subscribe extends Request
 
         return [
             // todo: add validator's rules.
-            'email' => 'required|email',
+            'email' => '|email|unique:subscribers',
 
         ];
     }

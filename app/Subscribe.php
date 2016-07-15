@@ -16,6 +16,6 @@ class Subscribe extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'email', 'token', 'active', 'created_at', 'updated_at'];
+    protected $fillable = ['email', 'token', 'active'];
   
 }
