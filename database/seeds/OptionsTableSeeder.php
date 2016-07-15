@@ -13,7 +13,9 @@ class OptionsTableSeeder extends Seeder
             'site::name'     => 'Test Admin Panel',
             'site::about'    => 'About site',
             'site::down'     => '1',
-            'support::email' => 'keyhunter@support.com',
+            'support::email' => 'amma@support.com',
+            'support::skype' => 'ammaskype',
+            'support::phone' => '(+373) 69 845 100',
         ],
         'test' => [
             'option::test_1' => 'test1',

@@ -33,7 +33,20 @@ return [
 
         'contact_info::tehnicPhone' => ['type' => 'text', 'label' => 'Departamentul tehnic'],
 
-        'support::email' => ['type' => 'email'],
+        'support::email' => [
+            'type' => 'email',
+            'label' => 'Support email'
+        ],
+
+        'support::phone' => [
+            'type' => 'text',
+            'label' => 'Support phone'
+        ],
+
+        'support::skype' => [
+            'type' => 'text',
+            'label' => 'Support skype'
+        ],
 
         'site::about' => ['type' => 'textarea'],
 

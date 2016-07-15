@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\ViewComposers\BannerComposer;
 use App\Http\ViewComposers\BlogComposer;
 use App\Http\ViewComposers\CategoryComposer;
+use App\Http\ViewComposers\FaqComposer;
 use App\Http\ViewComposers\HomePageComposer;
 use App\Http\ViewComposers\LanguageComposer;
 use App\Http\ViewComposers\PagesComposer;
@@ -38,6 +39,8 @@ class ComposerServiceProvider extends ServiceProvider
         ], PagesComposer::class);
 
         view()->composer(['home.index'], HomePageComposer::class);
+
+        view()->composer('pages.support', FaqComposer::class);
     }
 
     /**

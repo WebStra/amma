@@ -51,6 +51,16 @@ Route::multilingual(function () {
         'uses' => 'HomeController@index'
     ]);
 
+    Route::get('expire-soon-products', [
+        'as' => 'expire_soon_products',
+        'uses' => 'PagesController@expireSoonProducts'
+    ]);
+
+    Route::get('support.html', [
+        'as' => 'support',
+        'uses' => 'PagesController@support'
+    ]);
+
     Route::get('page/{static_page}.html', [
         'as' => 'show_page',
         'uses' => 'PagesController@show'
@@ -90,7 +100,6 @@ Route::multilingual(function () {
         'as' => 'send_contact',
         'uses' => 'PagesController@send_contact'
     ]);
-
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('vendor/create', [

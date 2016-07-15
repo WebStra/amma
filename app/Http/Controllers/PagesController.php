@@ -3,19 +3,29 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ContactsRepository;
 use App\Http\Requests\ContactSend;
+use App\Repositories\ProductsRepository;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+    /**
+     * @var ContactsRepository
+     */
     protected $contacts;
+
+    /**
+     * @var ProductsRepository
+     */
+    protected $products;
 
     /**
      * PagesController constructor.
      * @param ContactsRepository $contactsRepository
      */
-    public function __construct(ContactsRepository $contactsRepository)
+    public function __construct(ContactsRepository $contactsRepository, ProductsRepository $productsRepository)
     {
         $this->contacts = $contactsRepository;
+        $this->products = $productsRepository;
     }
 
     /**
@@ -48,5 +58,27 @@ class PagesController extends Controller
         $this->contacts->sendContact($request->all());
 
         return redirect()->back()->withStatus('Your message was send!');
+    }
+    
+    /**
+     * Expire soon product page.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function expireSoonProducts()
+    {
+        $products = $this->products->getExpireSoon(6);
+
+        return view('pages.expire_soon_products', compact('products'));
+    }
+
+    /**
+     * Support static page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function support()
+    {
+        return view('pages.support');
     }
 }
