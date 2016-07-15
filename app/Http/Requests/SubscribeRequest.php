@@ -23,7 +23,7 @@ class SubscribeRequest extends Request
 
         return [
             // todo: add validator's rules.
-            'email' => '|email|unique:subscribers',
+            'email' => 'required|email',
 
         ];
     }
