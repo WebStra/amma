@@ -1,5 +1,5 @@
 @if($item->vendor->user->id !== \Auth::id())
-    @if(! $user_is_involved)
+    @if(isset($user_is_involved) && (! $user_is_involved))
         <form class="row childs_margin_top" method="post"
               action="{{ route('involve_product', ['product' => $item->id]) }}">
             <div class="counting col l6 m6 s12">
