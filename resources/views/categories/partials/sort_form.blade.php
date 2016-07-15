@@ -16,11 +16,10 @@
                     <li class=""><span>Option 3</span></li>
                 </ul>
 
-                <select class="initialized">
-                    <option value="" disabled="" selected="">Denumire</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                <select class="initialized" onchange="this.form.submit()" name="name">
+                    <option value="">Denumire</option>
+                    <option value="asc" {{ isset($_GET['name']) ? $_GET['name'] == 'asc' ? 'selected' : '' : '' }}>A - z</option>
+                    <option value="desc" {{ isset($_GET['name']) ? $_GET['name'] == 'desc' ? 'selected' : '' : '' }}>Z - a</option>
                 </select>
             </div>
 
@@ -39,11 +38,10 @@
                     <li class=""><span>Option 2</span></li>
                     <li class=""><span>Option 3</span></li>
                 </ul>
-                <select class="initialized">
-                    <option value="" disabled="" selected="">Timp</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                <select class="initialized" onchange="this.form.submit()" name="date">
+                    <option value="">Timp</option>
+                    <option value="asc" {{ isset($_GET['date']) ? $_GET['date'] == 'asc' ? 'selected' : '' : '' }}>По старым</option>
+                    <option value="desc" {{ isset($_GET['date']) ? $_GET['date'] == 'desc' ? 'selected' : '' : '' }}>По новым</option>
                 </select></div>
         </div>
         <div class="input-field with_caret">
@@ -62,12 +60,12 @@
                     <li class=""><span>Option 2</span></li>
                     <li class=""><span>Option 3</span></li>
                 </ul>
-                <select class="initialized">
-                    <option value="" disabled="" selected="">Preț</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                </select></div>
+                <select class="initialized" onchange="this.form.submit()" name="price">
+                    <option value="">Preț</option>
+                    <option value="asc" {{ isset($_GET['price']) ? $_GET['price'] == 'asc' ? 'selected' : '' : '' }}>По дешовым</option>
+                    <option value="desc" {{ isset($_GET['price']) ? $_GET['price'] == 'desc' ? 'selected' : '' : '' }}>По дорогим</option>
+                </select>
+            </div>
         </div>
     </form>
 </div>

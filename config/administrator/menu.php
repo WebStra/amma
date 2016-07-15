@@ -95,6 +95,9 @@ return [
             ],
             'socials' => [
                 'icon' => 'fa fa-facebook'
+            ],
+            'faq' => [
+                'icon' => 'fa fa-comment'
             ]
         ]
     ],

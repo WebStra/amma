@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
         VendorsTableSeeder::class,
         ProductsTableSeeder::class,
         CategoriesTableSeeder::class,
-        PostsTableSeeder::class
+        PostsTableSeeder::class,
+        FaqTableSeeder::class
     ];
 
     /**

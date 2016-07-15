@@ -9,8 +9,8 @@
                 @endforeach
             </div>
 
-            <div style="width: 100%">
-                <div style="text-align: center; margin-top: 35px">
+            <div class="paginate_container">
+                <div class="paginate_render">
                     {!! $vendors->render() !!}
                 </div>
             </div>
