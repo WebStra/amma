@@ -16,7 +16,7 @@
                     <li><a href="#">Produse Favorite (10)</a></li>
                     <li><a href="{{ route('my_products') }}">Produsele mele (10)</a></li>
                     <li><a href="#">Vouchere (2)</a></li>
-                    <li><a href="#">Setările contului</a></li>
+                    <li><a href="{{ route('settings') }}">Setările contului</a></li>
                 </ul>
             </div>
         </div>
@@ -82,5 +82,4 @@
 
         </div>
     @endif
-
 </div>

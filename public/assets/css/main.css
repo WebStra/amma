@@ -3115,3 +3115,31 @@ button.picker__clear:focus,
 {
   background-color: #ffb336;
 }
+
+@media(min-width: 993px) {
+  .row .col.l9.expire_soon_container {
+    width: 100%;
+  }
+}
+
+.expire_soon_container .block_sort_by{
+  text-align: center;
+}
+
+.paginate_container{
+  width: 100%;
+}
+
+.paginate_container .paginate_render{
+  text-align: center;
+  margin-top: 35px
+}
+
+.pagination li{
+  border-radius: 0px;
+}
+
+.pagination li.active{
+  background-color: #ff6f00;
+  color: #fff;
+}

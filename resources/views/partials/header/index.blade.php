@@ -18,20 +18,14 @@
                         </a>
 
                         <ul class="left nav_wide hide-on-med-and-down">
-                            <li>
-                                <a href='{{ route('home') }}'>ACASĂ</a>
-                                <!--      <ul id='dropdown_2' class='dropdown-content'>
-                                         <li><a href="#!">INTEGRITATE</a></li>
-                                         <li><a href="#!">CORUPȚIE</a></li>
-                                     </ul> -->
-                            </li>
-                            <li><a href='#'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
+                            <li><a href='{{ route('home') }}'>ACASĂ</a></li>
+                            <li><a href='{{ route('expire_soon_products') }}'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
-                            <li><a href="">OFERTE NOI</a></li>
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
-                            <li><a href="{{  route('contacts') }}">CONTACTE</a></li>
+                            <li><a href="{{ route('contacts') }}">CONTACTE</a></li>
                             <li><a href="{{ route('vendors') }}">VENDORS</a></li>
+                            <li><a href="{{ route('support') }}">SUPPORT</a></li>
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>
@@ -42,13 +36,13 @@
                         </ul>
                         <ul class="side-nav" id="mobile-navbar">
                             <li><a href='{{ route('home') }}'>ACASĂ</a></li>
-                            <li><a href='#'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
+                            <li><a href='{{ route('expire_soon_products') }}'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
-                            <li><a href="">OFERTE NOI</a></li>
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
                             <li><a href="">DESPRE NOI</a></li>
-                            <li><a href="">CONTACTE</a></li>
+                            <li><a href="{{ route('contacts') }}">CONTACTE</a></li>
                             <li><a href="{{ route('vendors') }}">VENDORS</a></li>
+                            <li><a href="{{ route('support') }}">SUPPORT</a></li>
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>

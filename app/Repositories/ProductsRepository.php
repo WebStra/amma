@@ -295,4 +295,31 @@ class ProductsRepository extends Repository
             ->take($count)
             ->get();
     }
+
+    /**
+     * Expire soon products.
+     *
+     * @param int $paginate
+     * @return mixed
+     */
+    public function getExpireSoon($paginate = 10)
+    {
+        $query = $this->getModel()
+            ->published()
+            ->active()
+            ->where('expiration_date', '>', Carbon::now())
+            ->orderBy('expiration_date', self::ASC);
+
+        if(request()->get('name'))
+            $query->orderBy('name', request()->get('name') == self::ASC ? self::ASC : self::DESC);
+
+        if(request()->get('created_at'))
+            $query->orderBy('created_at', request()->get('created_at') == self::ASC ? self::ASC : self::DESC);
+
+        if(request()->get('price'))
+            $query->orderBy('price', request()->get('price') == self::ASC ? self::ASC : self::DESC);
+
+//        return $query->orderBy('id', self::ASC)
+            return $query->paginate($paginate);
+    }
 }

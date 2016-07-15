@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Repositories\UserRepository;
 use App\Repositories\ProfileRepository;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Request;
-use Illuminate\Http\Auth;
 use App\Http\Requests\UpdateUserSettings;
 use App\Http\Requests\UpdateUserPassword;
-use App\Image;
 use App\Services\ImageProcessor;
 use Illuminate\Http\UploadedFile;
 
@@ -20,12 +17,10 @@ class DashboardController extends Controller
      */
     protected $users;
 
-
     /**
      * @var  ProfileRepository
      */
     protected $profile;
-
 
     /**
      * @var Guard
@@ -37,7 +32,7 @@ class DashboardController extends Controller
      * @param UserRepository $userRepository
      * @param Guard $auth
      */
-    public function __construct(UserRepository $userRepository, Guard $auth , ProfileRepository $profileRepository)
+    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository)
     {
         $this->users = $userRepository;
         $this->profile = $profileRepository;
@@ -46,7 +41,7 @@ class DashboardController extends Controller
 
     /**
      * My vendors.
-     * 
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function myVendors()
@@ -58,7 +53,7 @@ class DashboardController extends Controller
 
     /**
      * My products.
-     * 
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function myProducts()
@@ -80,33 +75,45 @@ class DashboardController extends Controller
         return view('dashboard.my-involved', compact('involved'));
     }
 
-    public function accountSettings() 
+    /**
+     * Account and password settings.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function accountSettings()
     {
         return view('dashboard.account-settings');
     }
 
+    /**
+     * @param UpdateUserSettings $request
+     * @return mixed
+     */
     public function update(UpdateUserSettings $request)
     {
-
         $this->users->update_user($request->all());
-        
+
         $image = $request->file('photo');
         if ($image && $image instanceof UploadedFile) {
             $location = 'upload/images/user_avatars/';
             $processor = new ImageProcessor();
-            if($old_avatar = \Auth::user()->images()->avatar()->first())
+            if ($old_avatar = \Auth::user()->images()->avatar()->first())
                 $processor->destroy($old_avatar);
 
-            $imageable = $processor->uploadAndCreate($image,  $this->auth->user(), ['type' => 'avatar'], $location);
+            $processor->uploadAndCreate($image, $this->auth->user(), ['type' => 'avatar'], $location);
         }
 
         return back()->withStatus('Profile Updated!')->with('activeclass', 'update_settings');
     }
 
-    public function updatepassword(UpdateUserPassword $request)
+    /**
+     * @param UpdateUserPassword $request
+     * @return mixed
+     */
+    public function updatePassword(UpdateUserPassword $request)
     {
         $this->users->updatePassword($request->password);
-        
+
         return back()->withStatus('Password Updated!')->with('activeclass', 'update_password');
     }
 }

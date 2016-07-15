@@ -1,15 +1,31 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use App\Repositories\ContactsRepository;
 use App\Http\Requests\ContactSend;
+use App\Repositories\ProductsRepository;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    public function __construct(ContactsRepository $contactsRepository)
+    /**
+     * @var ContactsRepository
+     */
+    protected $contacts;
+
+    /**
+     * @var ProductsRepository
+     */
+    protected $products;
+
+    /**
+     * PagesController constructor.
+     * @param ContactsRepository $contactsRepository
+     */
+    public function __construct(ContactsRepository $contactsRepository, ProductsRepository $productsRepository)
     {
         $this->contacts = $contactsRepository;
+        $this->products = $productsRepository;
     }
 
     /**
@@ -23,15 +39,46 @@ class PagesController extends Controller
         return view('pages.show', ['item' => $page]);
     }
 
+    /**
+     * Get contacts page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function contacts()
     {
         return view('home.contacts');
     }
 
+    /**
+     * @param ContactSend $request
+     * @return mixed
+     */
     public function send_contact(ContactSend $request)
     {
         $this->contacts->sendContact($request->all());
 
-        return back()->withStatus('Message Send!');
+        return redirect()->back()->withStatus('Your message was send!');
+    }
+    
+    /**
+     * Expire soon product page.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function expireSoonProducts()
+    {
+        $products = $this->products->getExpireSoon(6);
+
+        return view('pages.expire_soon_products', compact('products'));
+    }
+
+    /**
+     * Support static page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function support()
+    {
+        return view('pages.support');
     }
 }
