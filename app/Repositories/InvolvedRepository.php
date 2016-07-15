@@ -62,7 +62,7 @@ class InvolvedRepository extends Repository
     {
         $model = $this->getModelByUserAndProduct($product);
 
-        return ($model) ? true : false;
+        return (bool) $model;
     }
 
     /**
