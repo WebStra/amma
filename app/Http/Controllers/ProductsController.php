@@ -87,7 +87,9 @@ class ProductsController extends Controller
                 ->withInvolved($this->involved->getModelByUserAndProduct($product));
         }
 
-        return $view->withSame($same_products);
+        return $view
+            ->withUserIsInvolved(false)
+            ->withSame($same_products);
     }
 
     /**
