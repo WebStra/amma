@@ -1,0 +1,1 @@
+<li><a href="{{ Share::load($current_url, $item->name)->vk() }}" class="icon-vkontakte" target="_blank"></a></li>

@@ -124,8 +124,8 @@ class ProductsController extends Controller
             $request->all()
         );
 
-        if (!is_null($categories = $request->get('categories')))
-            $this->saveCategories($categories, $product);
+        // if (!is_null($categories = $request->get('categories')))
+        //     $this->saveCategories($categories, $product);
 
         if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);

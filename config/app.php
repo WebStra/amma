@@ -161,7 +161,8 @@ return [
         Keyhunter\Administrator\ServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
-        Conner\Tagging\Providers\TaggingServiceProvider::class
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Chencha\Share\ShareServiceProvider::class
     ],
 
     /*
@@ -207,7 +208,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Date' => Jenssegers\Date\Date::class
+        'Date' => Jenssegers\Date\Date::class,
+        'Share' => Chencha\Share\ShareFacade::class
 
     ],
 

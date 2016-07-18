@@ -1,0 +1,1 @@
+<li><a href="{{ Share::load($current_url, $item->name)->facebook() }}" class="icon-facebook" target="_blank"></a></li>
