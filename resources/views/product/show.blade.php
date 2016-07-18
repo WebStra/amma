@@ -71,9 +71,9 @@
                                     @endforeach
                                 @endif
                             </ul>
-                        </div>
+                        </div>                           
                     </div>
-
+                   @include('share.index')
                 </div><!--product_info-->
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('partials.about-seller')

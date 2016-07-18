@@ -1,0 +1,1 @@
+<li><a href="{{ Share::load($current_url, $item->name)->twitter() }}" class="icon-twitter" target="_blank"></a></li>

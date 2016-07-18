@@ -29,14 +29,13 @@
 </div><!-- Price -->
 @endif
 
-<div class="col l6 m6 s12 product_create_categories">
+<!-- <div class="col l6 m6 s12 product_create_categories">
     <div class="input-field">
         <span class="label">{{ strtoupper('categories') }}</span>
-
         <select id="parent_categories" name="categories[]" required>
             @foreach($categories as $parent_category)
                 <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}">
-                    @foreach($parent_category->categoryables()->active()->get() as $child)
+                    @foreach($parent_category->categoryables()->categories()->active()->get() as $child)
                         <?php $category = $child->categoryable ?>
                         <?php
                             $selected = '';
