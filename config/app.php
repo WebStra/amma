@@ -161,7 +161,7 @@ return [
         Keyhunter\Administrator\ServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
-        Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class
     ],
 
     /*
