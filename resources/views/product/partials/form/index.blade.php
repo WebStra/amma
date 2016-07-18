@@ -46,7 +46,7 @@
                                 $selected = ($item->categories()->first()->category_id == $category->id) ? 'selected' : '';
                             }
                         ?>
-                        <option value="{{ $category->id }}" {{ $selected }}>{{ $category->name }}</option>
+                        <option value="{{ $child->categoryable->id }}" {{ $selected }}>{{ $category->name }}</option>
                     @endforeach
                 </optgroup>
             @endforeach

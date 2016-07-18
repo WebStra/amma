@@ -18,5 +18,6 @@
                 </div><!--right block-->
             </div>
         </div>
+        @include('partials.fb-comments')
     </section>
 @endsection

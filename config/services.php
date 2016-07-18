@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    //Socialite
+    'facebook' => [
+        'client_id'     => '1234567890444',
+        'client_secret' => '1aa2af333336fffvvvffffvff',
+        'redirect'      => 'http://laravel.dev/login/callback/facebook',
+    ],
 ];

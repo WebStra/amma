@@ -43,7 +43,6 @@ class ProductsController extends Controller
      */
     protected $productsColors;
 
-
     /**
      * ProductsController constructor.
      * @param Store $session

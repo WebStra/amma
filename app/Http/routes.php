@@ -251,6 +251,17 @@ Route::multilingual(function () {
         'uses' => 'Auth\AuthController@getLogin'
     ]);
 
+    //Social Login
+    Route::get('/login/{provider?}',[
+        'as'   => 'get_social_auth',
+        'uses' => 'SocialController@getSocialAuth'
+    ]);
+
+    Route::get('/login/callback/{provider?}',[
+        'as'   => 'auth.getSocialAuthCallback',
+        'uses' => 'SocialController@getSocialAuthCallback'
+    ]);
+
     Route::get('register', [
         'as' => 'get_register',
         'uses' => 'Auth\AuthController@getRegister'
