@@ -33,7 +33,7 @@
                 <div class="col s12">
                     <input type="submit" value="Intră în cont" class="btn btn_base btn_submit full_width">
                     <p>Ai uitat parola?<a href="{{ route('get_recover') }}" class="c_base">&nbsp;Restabilești-o</a></p>
-                    <a href="#" class="btn btn_facebook full_width">
+                    <a href="{{ route('social_auth', 'facebook') }}" class="btn btn_facebook full_width">
                         <i class="icon-facebook"></i>&nbsp;Intră cu ajutorul Facebook
                     </a>
                     <a href="#" class="btn btn_gplus full_width">

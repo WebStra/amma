@@ -162,7 +162,7 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        App\Providers\SocialiteServiceProvider::class
     ],
 
     /*

@@ -37,8 +37,8 @@ return [
 
     //Socialite
     'facebook' => [
-        'client_id'     => '1234567890444',
-        'client_secret' => '1aa2af333336fffvvvffffvff',
-        'redirect'      => 'http://laravel.dev/login/callback/facebook',
+        'client_id'     => '641211512703285',
+        'client_secret' => '94adcc1aa4e0af5b2f16c8037f0b3634',
+        'redirect'      => 'http://localhost:8000/social/login/callback/facebook', // todo: change on production.
     ],
 ];

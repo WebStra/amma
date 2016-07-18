@@ -46,11 +46,18 @@ Route::bind('involved', function ($id) {
     return (new InvolvedRepository())->find($id);
 });
 
-    Route::bind('unscribe', function ($token){
-        return (new SubscribeRepository())->getByToken($token);
-    });
+Route::bind('unscribe', function ($token){
+    return (new SubscribeRepository())->getByToken($token);
+});
 
-Route::multilingual(function () {
+Route::bind('provider', function($provider){
+    if(config("services.$provider"))
+        return $provider;
+
+    abort('404');
+});
+
+//Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
         'uses' => 'HomeController@index'
@@ -252,14 +259,14 @@ Route::multilingual(function () {
     ]);
 
     //Social Login
-    Route::get('/login/{provider?}',[
-        'as'   => 'get_social_auth',
-        'uses' => 'SocialController@getSocialAuth'
+    Route::get('/social/login/{provider?}',[
+        'as'   => 'social_auth',
+        'uses' => 'Auth\SocialiteController@getSocialAuth'
     ]);
 
-    Route::get('/login/callback/{provider?}',[
-        'as'   => 'auth.getSocialAuthCallback',
-        'uses' => 'SocialController@getSocialAuthCallback'
+    Route::get('/social/login/callback/{provider?}',[
+        'as'   => 'social_callback',
+        'uses' => 'Auth\SocialiteController@getSocialAuthCallback'
     ]);
 
     Route::get('register', [
@@ -303,4 +310,4 @@ Route::multilingual(function () {
             'uses' => 'Auth\VerifyUserController@resendConfirmationCode'
         ]);
     });
-});
+//});
