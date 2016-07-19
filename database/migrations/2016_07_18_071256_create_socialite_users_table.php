@@ -16,13 +16,12 @@ class CreateSocialiteUsersTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->nullable();
             $table->enum('provider', ['facebook', 'google']);
-            $table->integer('provider_id');
+            $table->bigInteger('provider_id');
+            $table->text('callback');
             $table->boolean('active')->default(1)->index();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -2,9 +2,8 @@
 
 namespace App\Repositories;
 
+use Laravel\Socialite\Contracts\User as ProviderUser;
 use App\Socialite;
-use Laravel\Socialite\Contracts\User;
-use Mockery\CountValidator\Exception;
 
 class SocialiteRepository extends Repository
 {
@@ -17,27 +16,93 @@ class SocialiteRepository extends Repository
     }
 
     /**
+     * Get user by provider id.
+     *
      * @param $provider
-     * @param User $user
+     * @param $id
+     * @return null
      */
-    public function register($provider, User $user)
+    public function getUserByProvider($provider, $id)
     {
-        dd($provider, $user);
+        $model = self::getModel();
+
+        switch ($provider)
+        {
+            case $model::PROVIDER_FACEBOOK :
+                return $this->getFacebookUserById($id);
+                break;
+
+            case $model::PROVIDER_GOOGLE :
+                return $this->getGoogleUserById($id);
+                break;
+
+            default :
+                return null;
+        }
     }
 
     /**
-     * @param $name
-     * @param array $args
+     * Get facebook user.
+     *
+     * @param $id
+     * @return mixed
      */
-    public function __call($name, array $args)
+    public function getFacebookUserById($id)
     {
-        list($method, $provider) = explode('register', $name);
+        return $this->getModel()
+            ->facebook()
+            ->where('provider_id', $id)
+            ->first();
+    }
 
-        if(! empty($provider))
-        {
-            return $this->register(strtolower($provider), $args[0]);
-        }
+    /**
+     * Get google user.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getGoogleUserById($id)
+    {
+        return $this->getModel()
+            ->google()
+            ->where('provider_id', $id)
+            ->first();
+    }
 
-        throw new Exception('Undefined method '.$name);
+    public function createEmpty($provider, ProviderUser $user)
+    {
+        return self::getModel()
+            ->create([
+                'provider' => $provider,
+                'provider_id' => $user->getId(),
+                'callback' => $this->cleanCallback($user),
+                'active' => 1
+            ]);
+    }
+
+    /**
+     * Check if user exists.
+     *
+     * @param $provider
+     * @param $id
+     * @return bool
+     */
+    public function checkProviderUser($provider, $id)
+    {
+        return (bool) $this->getUserByProvider($provider, $id);
+    }
+
+    /**
+     * Callback to json.
+     *
+     * @param $callback
+     * @return string
+     */
+    private function cleanCallback($callback)
+    {
+        $array_callback = (array) $callback;
+        $user           = $array_callback['user'];
+        unset($array_callback['user']);
+        return json_encode(array_merge($array_callback, $user));
     }
 }

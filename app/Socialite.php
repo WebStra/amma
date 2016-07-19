@@ -21,7 +21,7 @@ class Socialite extends Repository
      * @var array
      */
     protected $fillable = [
-        'user_id', 'provider', 'provider_id', 'avatar', 'active'
+        'user_id', 'provider', 'provider_id', 'active', 'callback'
     ];
 
     /**
