@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use App\Socialite;
+use Auth;
 use Laravel\Socialite\Contracts\User as ProviderUser;
-use Mockery\CountValidator\Exception;
 use App\Repositories\SocialiteRepository;
 
 class SocialiteUser
@@ -22,14 +22,24 @@ class SocialiteUser
 
     /**
      * SocialiteUser constructor.
-     * @param $provider
-     * @param ProviderUser $user
      */
-    public function __construct($provider, ProviderUser $user)
+    public function __construct()
     {
-        $this->setUser($user);
-        $this->setProvider($provider);
         $this->socialRepository = $this->getSocialiteRepository();
+    }
+
+    /**
+     * @param $provider
+     * @param $callback
+     * @return $this
+     */
+    public function init($provider, $callback)
+    {
+        $this
+            ->setProvider($provider)
+            ->setUser($callback);
+
+        return $this;
     }
 
     /**
@@ -78,10 +88,10 @@ class SocialiteUser
     /**
      * Set user.
      *
-     * @param ProviderUser $user
+     * @param $user
      * @return $this
      */
-    public function setUser(ProviderUser $user)
+    public function setUser($user)
     {
         $this->user = $user;
 
@@ -144,11 +154,15 @@ class SocialiteUser
      * Associate user.
      *
      * @param $account
+     * @param null $email
      * @return mixed
      */
-    private function associateSocialiteUser($account)
+    private function associateSocialiteUser($account, $email = null)
     {
-        $user = $this->getUserRepository()->getByEmail($this->user()->getEmail());
+        if(! $email)
+            $email = $this->user()->getEmail();
+
+        $user = $this->getUserRepository()->getByEmail($email);
         $account->user()->associate($user);
         $account->save();
 
@@ -169,10 +183,13 @@ class SocialiteUser
      * @param $social
      * @return bool
      */
-    private function tryToAssociateUser($social)
+    public function tryToAssociateUser($social, $email = null)
     {
-        if($this->getUserRepository()->checkIfUserExists($this->user()->getEmail()))
-            return $this->associateSocialiteUser($social);
+        if(! $email)
+            $email = $this->user()->getEmail();
+
+        if($this->getUserRepository()->checkIfUserExists($email))
+            return $this->associateSocialiteUser($social, $email);
 
         return false;
     }
@@ -192,16 +209,43 @@ class SocialiteUser
             'email' => $this->user()->getEmail(),
             'name' => $this->user()->getName(),
             'password' => $this->users->hashPassword(str_random(45)),
-            'first_name' => @$names[0],
-            'last_name' => @$names[1]
+            'firstname' => @$names[0],
+            'lastname' => @$names[1]
         ]);
     }
 
     /**
+     * @param null $name
      * @return array
      */
-    public function getFirstAndLustNames()
+    public function getFirstAndLustNames($name = null)
     {
-        return explode(' ', $this->user()->getName());
+        if(! $name)
+            $name = $this->user()->getName();
+
+        return explode(' ', $name);
+    }
+
+    /**
+     * Login the user.
+     *
+     * @param $user
+     */
+    public function login($user)
+    {
+        \Auth::login($user, true);
+    }
+
+    /**
+     * Add avatar.
+     *
+     * @param $avatar
+     * @return $this
+     */
+    public function avatar($avatar)
+    {
+        (new ImageProcessor())->changeAvatar($avatar);
+
+        return $this;
     }
 }

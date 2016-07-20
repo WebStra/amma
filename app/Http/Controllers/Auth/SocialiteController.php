@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\GetEmailFormRequest;
-use App\Http\Requests\Request;
 use App\Http\Requests\SocialiteUserSaveEmailRequest;
 use App\Repositories\UserRepository;
 use App\Services\SocialiteUser;
+use App\User;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Contracts\User as ProviderUser;
 
 class SocialiteController extends Controller
 {
@@ -32,11 +31,17 @@ class SocialiteController extends Controller
      * SocialiteController constructor.
      * @param Socialite $socialite
      * @param UserRepository $userRepository
+     * @param SocialiteUser $socialiteUser
      */
-    public function __construct(Socialite $socialite, UserRepository $userRepository)
+    public function __construct(
+        Socialite $socialite,
+        UserRepository $userRepository,
+        SocialiteUser $socialiteUser
+    )
     {
         $this->socialite = $socialite;
         $this->users = $userRepository;
+        $this->service = $socialiteUser;
         $this->middleware((new AuthController)->guestMiddleware());
     }
 
@@ -73,14 +78,21 @@ class SocialiteController extends Controller
     )
     {
         $callback = json_decode($social->callback);
-        list($frst_n, $last_n) = explode(' ', $callback->name);
-
+        $this->service->init($provider, $callback);
+        list($frst_n, $last_n) = $this->service->getFirstAndLustNames($callback->name);
         $user = $this->users->createSimpleUser([
             'email' => $request->get('email'),
             'password' => $this->users->hashPassword(str_random(45)),
-            'first_name' => $frst_n,
-            'last_name' => $last_n
-        ], (int) true);
+            'firstname' => $frst_n,
+            'lastname' => $last_n
+        ], (int)true);
+        $this->service->tryToAssociateUser($social, $request->get('email'));
+
+        $this->service->login($user);
+
+        $this->service->avatar($callback->avatar);
+
+        return redirect()->route('home')->withStatus('Logged in success.');
     }
 
     /**
@@ -91,19 +103,25 @@ class SocialiteController extends Controller
      */
     public function getSocialAuthCallback($provider)
     {
-        if($user = $this->getProvidedUser($provider)){
-            $user = $this
-                ->initSocialUserService($provider, $user)
+        if ($s_user = $this->getProvidedUser($provider)) {
+            $user = $this->service
+                ->init($provider, $s_user)
                 ->register();
 
-            if($user instanceof SocialiteUser)
+            if ($user instanceof SocialiteUser) {
                 return redirect()->route('social_auth_email', [
                     'provider' => $user->getProvider(),
                     'social' => $user->getUser()->getId()
                 ]);
+            } elseif ($user instanceof User) {
+                $this->service->login($user);
 
-            // login the user ..
-        }else{
+                $this->service->avatar($s_user->getAvatar());
+
+                return redirect()->route('home');
+            }
+
+        } else {
             return redirect()->route('login')->withStatus('Something wrong. Try the default register.');
         }
     }
@@ -115,24 +133,5 @@ class SocialiteController extends Controller
     private function getProvidedUser($provider)
     {
         return @$this->socialite->driver($provider)->user();
-    }
-
-    /**
-     * Init social user service.
-     *
-     * @param $provider
-     * @param ProviderUser $user
-     * @return SocialiteUser
-     */
-    private function initSocialUserService($provider, ProviderUser $user)
-    {
-        return $this->service = (new SocialiteUser($provider, $user))
-            ->setProvider($provider)
-            ->setUser($user);
-    }
-
-    public function loginUser($user)
-    {
-        //
     }
 }

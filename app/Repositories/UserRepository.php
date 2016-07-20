@@ -50,7 +50,8 @@ class UserRepository extends Repository
 
     /**
      * @param array $data
-     * @return \App\User
+     * @param int $confirmed
+     * @return User
      */
     public function createSimpleUser(array $data, $confirmed = 0)
     {
@@ -67,7 +68,7 @@ class UserRepository extends Repository
             'user_id' => $user->id,
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
-            'phone' => $data['phone']
+            'phone' => isset($data['phone']) ? $data['phone'] : ''
         ]);
 
         return $user;

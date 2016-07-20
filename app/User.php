@@ -68,4 +68,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Involved::class, 'user_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function socialite()
+    {
+        return $this->belongsTo(Socialite::class, 'id', 'user_id');
+    }
+
+    /**
+     * Check if current user is socialite user.
+     *
+     * @return bool
+     */
+    public function isSocialite()
+    {
+        return (bool) $this->socialite;
+    }
 }

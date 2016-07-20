@@ -160,4 +160,21 @@ class ImageProcessor
 
         return false;
     }
+
+    /**
+     * Change avatar.
+     *
+     * @param $avatar
+     * @param string $location
+     * @return $this
+     */
+    public function changeAvatar($avatar, $location = 'upload/images/user_avatars/')
+    {
+        if ($old_avatar = \Auth::user()->images()->avatar()->first())
+            $this->destroy($old_avatar);
+
+        $this->uploadAndCreate($avatar, \Auth::user(), ['type' => 'avatar'], $location);
+
+        return $this;
+    }
 }

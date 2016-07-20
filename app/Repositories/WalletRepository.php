@@ -52,4 +52,11 @@ class WalletRepository extends Repository
     {
         return self::TEST;
     }
+
+    public function getActiveWallets()
+    {
+        return self::getModel()
+            ->active()
+            ->get();
+    }
 }
