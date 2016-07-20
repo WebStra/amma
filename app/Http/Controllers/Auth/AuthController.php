@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UserCreationRequestSent;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Orders\CreateWalletOrder;
 use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use Auth;
@@ -118,11 +119,7 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // todo: be carefull this code can be bugged.
-            if(! $user->wallets()->sandbox()->first())
-            {
-                $this->createTestWallet($user);
-            }
+            (new CreateWalletOrder($user));
 
             if(! $user->confirmed)
                 return redirect()->route('resend_verify_email_form');
@@ -150,27 +147,8 @@ class AuthController extends Controller
         
         $events->fire(new UserCreationRequestSent($user));
 
-        $this->createTestWallet($user);
-
         Auth::guard($this->getGuard())->login($user);
 
         return redirect()->route('resend_verify_email_form');
-    }
-
-    /**
-     * Create test wallet.
-     *
-     * @param $user
-     */
-    private function createTestWallet($user)
-    {
-        if(settings()->getOption('site::testing_payment_period'))
-        {
-            $wallet = $this->wallets->create($user, [
-                'type' => $this->wallets->getTest()
-            ]);
-
-            $this->wallets->refillWallet($wallet, config('testing_payment.amount'));
-        }
     }
 }

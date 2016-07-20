@@ -7,10 +7,6 @@ use App\User;
 
 class WalletRepository extends Repository
 {
-    const TEST = 'sandbox';
-
-    const REAL = 'production';
-
     /**
      * @return Wallet
      */
@@ -22,7 +18,7 @@ class WalletRepository extends Repository
     /**
      * @param User $user
      * @param array|null $data
-     * @return static
+     * @return Wallet
      */
     public function create(User $user, array $data = null)
     {
@@ -30,7 +26,7 @@ class WalletRepository extends Repository
             ->create([
                 'user_id' => $user->id,
                 'amount' => isset($data['amount']) ? $data['amount'] : 0,
-                'type' => isset($data['type']) ? $data['type'] : self::TEST,
+                'type' => 'standard',
                 'active' => isset($data['active']) ? $data['active'] : 1
             ]);
     }
@@ -38,7 +34,7 @@ class WalletRepository extends Repository
     /**
      * @param $wallet
      * @param $amount
-     * @return WalletRepository
+     * @return bool
      */
     public function refillWallet(Wallet $wallet, $amount)
     {
@@ -46,17 +42,5 @@ class WalletRepository extends Repository
         return $wallet->update([
             'amount' => $amount,
         ]);
-    }
-
-    public function getTest()
-    {
-        return self::TEST;
-    }
-
-    public function getActiveWallets()
-    {
-        return self::getModel()
-            ->active()
-            ->get();
     }
 }

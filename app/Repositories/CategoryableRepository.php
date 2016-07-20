@@ -37,4 +37,18 @@ class CategoryableRepository extends Repository
             ->active()
             ->first();
     }
+
+    /**
+     * @param $product
+     * @param $category_id
+     * @return mixed
+     */
+    public function getByProductAndCategoryId($product, $category_id)
+    {
+        return self::getModel()
+            ->where('categoryable_id', $product->id)
+            ->where('categoryable_type', get_class($product))
+            ->where('category_id', $category_id)
+            ->first();
+    }
 }

@@ -46,11 +46,11 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function wallets()
+    public function wallet()
     {
-        return $this->hasMany(Wallet::class);
+        return $this->hasOne(Wallet::class);
     }
 
     /**
@@ -88,10 +88,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user have avatar.
+     *
      * @return bool
      */
     public function checkAvatar()
     {
         return (bool) $this->images()->avatar()->first();
+    }
+
+    /**
+     * Check if user has wallet.
+     *
+     * @return bool
+     */
+    public function haveWallet()
+    {
+        //return (bool) $this->wallet()->first();
     }
 }

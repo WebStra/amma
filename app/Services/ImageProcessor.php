@@ -47,7 +47,7 @@ class ImageProcessor
 
             if ($imageInfo = $this->upload($image))
             {
-                return $this->create($imageInfo, $imageable, $data);
+                return $this->create($imageInfo->getPathname(), $imageable, $data);
             }
         }
     }
@@ -76,7 +76,7 @@ class ImageProcessor
         $imageInfo = new UploadedFile($path_to_image, str_random(10));
         $data = array_merge(['original' => $filename], $data);
 
-        return $this->create($imageInfo, $imageable, $data);
+        return $this->create($imageInfo->getRealPath(), $imageable, $data);
     }
 
     /**
@@ -256,14 +256,14 @@ class ImageProcessor
         }
     }
 
-    private function create($imageInfo, $imageable, array $data = null)
+    private function create($path, $imageable, array $data = null)
     {
         return $this->getModel()->create([
             'imageable_id' => $imageable->id,
             'imageable_type' => get_class($imageable),
             'type' => isset($data['type']) ? $data['type'] : 'cover',
             'original' => isset($data['original']) ? $data['original'] : str_random(13),
-            'image' => str_replace(base_path('public'), '', $imageInfo->getPathname()),
+            'image' => str_replace(base_path('public'), '', $path),
         ]);
     }
 }

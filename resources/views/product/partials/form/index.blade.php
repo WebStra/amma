@@ -36,7 +36,7 @@
         <select id="parent_categories" name="categories[]" required>
             @foreach($categories as $parent_category)
                 <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}">
-                    @foreach($parent_category->categoryables()->active()->get() as $child)
+                    @foreach($parent_category->categoryables()->categories()->active()->get() as $child)
                         <?php $category = $child->categoryable ?>
                         <?php
                             $selected = '';
@@ -46,7 +46,7 @@
                                 $selected = ($item->categories()->first()->category_id == $category->id) ? 'selected' : '';
                             }
                         ?>
-                        <option value="{{ $child->categoryable->id }}" {{ $selected }}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {{ $selected }}>{{ $category->name }}</option>
                     @endforeach
                 </optgroup>
             @endforeach

@@ -3,6 +3,7 @@
 
 namespace App\Repositories;
 
+use App\Orders\CreateWalletOrder;
 use App\User;
 use Auth;
 
@@ -70,6 +71,8 @@ class UserRepository extends Repository
             'lastname' => $data['lastname'],
             'phone' => isset($data['phone']) ? $data['phone'] : ''
         ]);
+
+        (new CreateWalletOrder($user));
 
         return $user;
     }

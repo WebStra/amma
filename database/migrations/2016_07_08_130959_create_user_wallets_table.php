@@ -18,7 +18,7 @@ class CreateUserWalletsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->float('amount');
-            $table->enum('type', ['sandbox', 'production']);
+            $table->enum('type', ['standard'])->default('standard');
             $table->boolean('active')->default(1)->index();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE')->onUpdate('CASCADE');

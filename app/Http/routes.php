@@ -64,7 +64,7 @@ Route::bind('provider', function($provider){
     abort('404');
 });
 
-//Route::multilingual(function () {
+Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
         'uses' => 'HomeController@index'
@@ -328,4 +328,4 @@ Route::bind('provider', function($provider){
             'uses' => 'Auth\VerifyUserController@resendConfirmationCode'
         ]);
     });
-//});
+});
