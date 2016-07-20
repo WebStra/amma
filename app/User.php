@@ -46,11 +46,11 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function wallets()
+    public function wallet()
     {
-        return $this->hasMany(Wallet::class);
+        return $this->hasOne(Wallet::class);
     }
 
     /**
@@ -67,5 +67,43 @@ class User extends Authenticatable
     public function involved()
     {
         return $this->hasMany(Involved::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function socialite()
+    {
+        return $this->belongsTo(Socialite::class, 'id', 'user_id');
+    }
+
+    /**
+     * Check if current user is socialite user.
+     *
+     * @return bool
+     */
+    public function isSocialite()
+    {
+        return (bool) $this->socialite;
+    }
+
+    /**
+     * Check if user have avatar.
+     *
+     * @return bool
+     */
+    public function checkAvatar()
+    {
+        return (bool) $this->images()->avatar()->first();
+    }
+
+    /**
+     * Check if user has wallet.
+     *
+     * @return bool
+     */
+    public function haveWallet()
+    {
+        //return (bool) $this->wallet()->first();
     }
 }

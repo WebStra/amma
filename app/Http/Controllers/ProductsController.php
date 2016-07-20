@@ -43,13 +43,13 @@ class ProductsController extends Controller
      */
     protected $productsColors;
 
-
     /**
      * ProductsController constructor.
      * @param Store $session
      * @param ProductsRepository $productsRepository
      * @param CategoryableRepository $categoryableRepository
      * @param ProductsColorsRepository $productsColorsRepository
+     * @param InvolvedRepository $involvedRepository
      */
     public function __construct(
         Store $session,
@@ -132,7 +132,7 @@ class ProductsController extends Controller
 
         $this->clearProductFromSession();
 
-        return redirect()->route('view_product', ['product' => $product->id]);
+        return redirect()->route('view_product', ['product' => $product->id])->withStatus('Product updated!');
     }
 
     /**
@@ -199,11 +199,21 @@ class ProductsController extends Controller
      */
     private function saveCategories($categories, $product)
     {
+        // todo: rework this stuff.
         array_walk($categories, function ($category_id) use ($product) {
-            $category = $this->categoryable->find($category_id);
+            $category = $this->categoryable->getByProductAndCategoryId(
+                $product, $category_id
+            );
 
-            if(! count($category))
-            $this->categoryable->create((int)$category_id, $product);
+            if(! count($category)) {
+                if($category = $product->category)
+                {
+                    $category->category_id = $category_id;
+                    $category->save();
+                } else {
+                    $this->categoryable->create((int)$category_id, $product);
+                }
+            }
         });
     }
 

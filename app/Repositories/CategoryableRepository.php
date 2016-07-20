@@ -14,7 +14,7 @@ class CategoryableRepository extends Repository
     /**
      * @param $category
      * @param $categoryable
-     * @return static
+     * @return Categoryable
      */
     public function create($category, $categoryable)
     {
@@ -24,5 +24,31 @@ class CategoryableRepository extends Repository
                 'categoryable_type' => get_class($categoryable),
                 'category_id' => is_numeric($category) ? $category : $category->id
             ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getByCategoryId($id)
+    {
+        return self::getModel()
+            ->where('category_id', $id)
+            ->active()
+            ->first();
+    }
+
+    /**
+     * @param $product
+     * @param $category_id
+     * @return mixed
+     */
+    public function getByProductAndCategoryId($product, $category_id)
+    {
+        return self::getModel()
+            ->where('categoryable_id', $product->id)
+            ->where('categoryable_type', get_class($product))
+            ->where('category_id', $category_id)
+            ->first();
     }
 }

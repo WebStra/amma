@@ -16,6 +16,8 @@
                     <li class="icon-star"></li>
                 </ul>
                 <p class="small">875 păreri / 99,9% positive</p>
+
+                <p class="small"><a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}">{{ $vendor->present()->activeCount() }} active</a> / {{ $vendor->present()->totalCount() }} total</p>
             </div>
         </div>
         <div class="buttons row">

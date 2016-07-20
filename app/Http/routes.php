@@ -15,6 +15,7 @@ use App\Repositories\InvolvedRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\SocialiteRepository;
 use App\Repositories\VendorRepository;
 use App\Repositories\SubscribeRepository;
 
@@ -46,9 +47,22 @@ Route::bind('involved', function ($id) {
     return (new InvolvedRepository())->find($id);
 });
 
-    Route::bind('unscribe', function ($token){
-        return (new SubscribeRepository())->getByToken($token);
-    });
+Route::bind('unscribe', function ($token){
+    return (new SubscribeRepository())->getByToken($token);
+});
+
+Route::bind('social', function ($provider, $router) {
+    return (new SocialiteRepository())->getUserByProvider(
+        $router->getParameter('provider'), $provider
+    );
+});
+
+Route::bind('provider', function($provider){
+    if(config("services.$provider"))
+        return $provider;
+
+    abort('404');
+});
 
 Route::multilingual(function () {
     Route::get('/', [
@@ -249,6 +263,28 @@ Route::multilingual(function () {
     Route::get('login', [
         'as' => 'get_login',
         'uses' => 'Auth\AuthController@getLogin'
+    ]);
+
+    //Social Login
+
+    Route::get('/social/login/{provider?}',[
+        'as'   => 'social_auth',
+        'uses' => 'Auth\SocialiteController@getSocialAuth'
+    ]);
+
+    Route::get('/social/login/callback/{provider?}',[
+        'as'   => 'social_callback',
+        'uses' => 'Auth\SocialiteController@getSocialAuthCallback'
+    ]);
+
+    Route::get('/social/login/{provider}/{social}/edit-email',[
+        'as'   => 'social_auth_email',
+        'uses' => 'Auth\SocialiteController@getEmailForm'
+    ]);
+
+    Route::post('/social/login/{provider}/{social}/require-email',[
+        'as' => 'post_social_auth_email',
+        'uses' => 'Auth\SocialiteController@postEmailForm'
     ]);
 
     Route::get('register', [

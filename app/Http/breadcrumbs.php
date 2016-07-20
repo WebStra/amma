@@ -69,10 +69,14 @@ Breadcrumbs::register('create_vendor', function ($breadcrumbs) {
     $breadcrumbs->push('Vendor Create', route('create_vendor'));
 });
 
-
 Breadcrumbs::register('add_product', function ($breadcrumbs, $vendor) {
     $breadcrumbs->parent('view_vendor', $vendor);
     $breadcrumbs->push('Product create', route('add_product', $vendor->id));
+});
+
+Breadcrumbs::register('edit_product', function ($breadcrumbs, $product) {
+    $breadcrumbs->parent('view_product', $product);
+    $breadcrumbs->push('Edit', route('edit_product', $product->id));
 });
 
 Breadcrumbs::register('settings', function ($breadcrumbs) {

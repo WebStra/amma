@@ -95,12 +95,7 @@ class DashboardController extends Controller
 
         $image = $request->file('photo');
         if ($image && $image instanceof UploadedFile) {
-            $location = 'upload/images/user_avatars/';
-            $processor = new ImageProcessor();
-            if ($old_avatar = \Auth::user()->images()->avatar()->first())
-                $processor->destroy($old_avatar);
-
-            $processor->uploadAndCreate($image, $this->auth->user(), ['type' => 'avatar'], $location);
+            (new ImageProcessor())->changeAvatar($image);
         }
 
         return back()->withStatus('Profile Updated!')->with('activeclass', 'update_settings');

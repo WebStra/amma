@@ -53,7 +53,7 @@ class ProductsRepository extends Repository
      * Create product.
      * 
      * @param array $data
-     * @return static
+     * @return Product
      */
     public function create(array $data)
     {

@@ -17,14 +17,12 @@
         <a href='{{ route('create_vendor') }}'>Create vendor</a>
     </div>
 
-    @if(count(Auth::user()->wallets()->active()))
-        @foreach(Auth::user()->wallets()->active()->get() as $wallet)
-            <div class="right">
-                <span>Balance ({{ $wallet->type }}):&nbsp;
-                    <span style="color: #ff6f00">{{ $wallet->amount }}&nbsp;MDL</span>
-                </span>
-            </div>
-        @endforeach
+    @if(count(Auth::user()->wallet()->active()->get()))
+        <div class="right">
+            <span>Balance:&nbsp;
+                <span style="color: #ff6f00">{{ Auth::user()->wallet->amount }}&nbsp;MDL</span>
+            </span>
+        </div>
     @endif
 @else
     <div class="right">
