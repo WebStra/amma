@@ -162,7 +162,8 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
-        App\Providers\SocialiteServiceProvider::class
+        App\Providers\SocialiteServiceProvider::class,
+//        Chencha\Share\ShareServiceProvider::class
     ],
 
     /*
@@ -209,7 +210,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Date' => Jenssegers\Date\Date::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+//        'Share' => Chencha\Share\ShareFacade::class
 
     ],
 
