@@ -116,7 +116,8 @@ class SocialiteController extends Controller
             } elseif ($user instanceof User) {
                 $this->service->login($user);
 
-                $this->service->avatar($s_user->getAvatar());
+                if(! $user->checkAvatar())
+                    $this->service->avatar($s_user->getAvatar());
 
                 return redirect()->route('home');
             }

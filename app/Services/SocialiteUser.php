@@ -55,8 +55,8 @@ class SocialiteUser
                 $this->getProvider(), $this->user()->getId()
             );
 
-            if($s_user->user)
-                return $s_user;
+            if($user = $s_user->user)
+                return $user;
 
             return $this;
         }

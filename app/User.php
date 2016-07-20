@@ -86,4 +86,12 @@ class User extends Authenticatable
     {
         return (bool) $this->socialite;
     }
+
+    /**
+     * @return bool
+     */
+    public function checkAvatar()
+    {
+        return (bool) $this->images()->avatar()->first();
+    }
 }
