@@ -1,9 +1,9 @@
 <div class="right top-bar-langs">
     {{--<!-- todo: find a way to use URL::lang_to($languages['current']->slug) -->--}}
-    <a href='/{{ $languages['current']->slug }}' data-activates='dropdown_top-bar-langs'
+    <span data-activates='dropdown_top-bar-langs' style="cursor: default"
        class="dropdown_top_bar"><i class="icon-{{$languages['current']->slug}}"></i>
         {{$languages['current']->title}}&nbsp;<i class="icon-la-down"></i>
-    </a>
+    </span>
     <ul id='dropdown_top-bar-langs' class='dropdown-content'>
         @foreach($languages['other'] as $lang)
             <li>
