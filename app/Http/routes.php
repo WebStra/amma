@@ -171,7 +171,13 @@ Route::multilingual(function () {
             'as' => 'update_password',
             'uses' => 'DashboardController@updatePassword'
         ]);
-        
+       
+        Route::post('vote_vendor/{vendor}',[
+            'as' => 'vote_vendor',
+            'midleware' => 'accept-ajax',
+            'uses' => 'VendorController@vote_vendor'
+        ]);
+    
         Route::group(['middleware' => 'can_handle_action:vendor'], function () {
             Route::get('vendor/{vendor}/edit', [
                 'as' => 'edit_vendor',
@@ -183,6 +189,7 @@ Route::multilingual(function () {
                 'uses' => 'VendorController@update'
             ]);
         });
+
 
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {
@@ -201,6 +208,7 @@ Route::multilingual(function () {
                     'as' => 'add_product_color',
                     'uses' => 'ProductsController@addColor'
                 ]);
+
 
                 Route::post('product/{product}/remove-color', [
                     'as' => 'remove_product_color',

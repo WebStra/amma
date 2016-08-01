@@ -9,10 +9,11 @@ use App\Traits\HasImages;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Keyhunter\Administrator\Repository;
+use App\Libraries\Likeable\Likeable as LikeableTrait;
 
 class Vendor extends Repository implements SluggableInterface
 {
-    use ActivateableTrait, SluggableTrait, Presenterable, HasImages;
+    use LikeableTrait, ActivateableTrait, SluggableTrait, Presenterable, HasImages;
 
     /**
      * @var string
@@ -54,4 +55,5 @@ class Vendor extends Repository implements SluggableInterface
     {
         return $this->hasMany(Product::class, 'vendor_id', 'id');
     }
+
 }

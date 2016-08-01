@@ -1,3 +1,4 @@
+@include('auth.auth_modal')
 <div class="bordered divide-top hide-on-small-only">
     <div class="block_title">DESPRE VÂNZĂTOR</div>
     <?php $vendor = $item->vendor;?>
@@ -9,13 +10,13 @@
             <div class="content">
                 <h4>{{ $vendor->present()->renderTitle() }}</h4>
                 <ul class="star_rating" data-rating_value="4">
-                    <li class="icon-star"></li>
-                    <li class="icon-star"></li>
-                    <li class="icon-star"></li>
-                    <li class="icon-star"></li>
-                    <li class="icon-star"></li>
+                <span class="set_vote" data-type="like" 
+                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'like']) }}">Like (<span>{{ count($vendor->getLikes('like')) }}</span>)</i></span>
+                <span class="set_vote" data-type="dislike" 
+                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'dislike']) }}">Unlike (<span>{{ count($vendor->getLikes('dislike')) }}</span>)</span>
                 </ul>
-                <p class="small">875 păreri / 99,9% positive</p>
+                <div id="#something"></div>
+                <p class="small">0 păreri / 99,9% positive</p>
 
                 <p class="small"><a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}">{{ $vendor->present()->activeCount() }} active</a> / {{ $vendor->present()->totalCount() }} total</p>
             </div>
@@ -32,3 +33,43 @@
         </div>
     </div>
 </div>
+
+@section('js')
+@if(Auth::user())
+    <script type="text/javascript">
+    $(function(){
+        var like_btn = $('span[data-type=like]');
+        var dislike_btn = $('span[data-type=dislike]');
+        
+        $('.set_vote').click(function() {
+            var $this = $(this);
+            var count = $(this).find('span');
+
+            $.ajax({
+                type: 'post',
+                url: $this.data('action'),
+                data: { vendor : "{{$vendor->slug}}", like_type : $this.data('type') },
+                success: function(response)
+                {
+                    var out = JSON.parse(response);
+                    like_btn.find('span').html(out.likes);
+                    dislike_btn.find('span').html(out.dislikes);
+                }
+            });
+       });
+    });    
+    </script>
+@else
+    <script>
+    $('.set_vote').click(function() {
+        $('#modal').openModal(); 
+        $('.modal-trigger').leanModal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .5, // Opacity of modal background
+            in_duration: 300, // Transition in duration
+            out_duration: 200, // Transition out duration
+        });
+    });
+    </script>
+@endif
+@endsection
