@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VendorFormRequest;
 use App\Http\Requests\VendorUpdateFormRequest;
 use App\Repositories\VendorRepository;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
@@ -86,5 +87,34 @@ class VendorController extends Controller
         $this->vendors->update($vendor, $request->all());
 
         return redirect()->route('view_vendor', ['slug' => $vendor->slug]);
+    }
+
+    public function vote_vendor(Request $request, $vendor)
+    {
+        if($request->get('like_type') == 'like')
+        {
+            if($vendor->wasLiked('like')) {
+                $vendor->unlike('like');
+            } else {
+                if($vendor->wasLiked('dislike'))
+                    $vendor->unlike('dislike');
+
+                $vendor->like('like');
+            }
+        } else {
+            if($vendor->wasLiked('dislike')) {
+                $vendor->unlike('dislike');
+            } else {
+                if($vendor->wasLiked('like'))
+                    $vendor->unlike('like');
+
+                $vendor->like('dislike');
+            }
+        }
+
+        return json_encode([
+            'likes' => count($vendor->getLikes('like')),
+            'dislikes' => count($vendor->getLikes('dislike'))
+        ]);
     }
 }
