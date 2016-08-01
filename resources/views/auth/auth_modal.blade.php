@@ -1,4 +1,4 @@
-<div id="modal" class="my_modal modal modal_tabs">
+<div id="modal" class="auth_modal modal modal_tabs">
     <div class="modal-content">
        <ul class="tabs" >
            <li class="tab"><a class="active" href="#logare">LOGARE</a></li>
