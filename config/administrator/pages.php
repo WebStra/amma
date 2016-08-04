@@ -1,11 +1,13 @@
 <?php
 
+use App\Page;
+
 return [
     'title'  => 'Pages',
 
     'description' => 'Silence is gold.',
 
-    'model'  => 'Keyhunter\Administrator\Model\Page',
+    'model'  => Page::class,
 
     /*
     |-------------------------------------------------------
@@ -33,6 +35,9 @@ return [
 
         'show_in_header' => column_element('Show in header', false, function($row)
         {
+            if(is_null($row->show_in_header))
+                $row->show_in_header = 0;
+
             return output_boolean($row, 'show_in_header');
         }),
 

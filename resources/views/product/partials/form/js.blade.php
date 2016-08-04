@@ -1,5 +1,6 @@
 <script>
-    function removeImageAjax($image) {
+    function removeImageAjax($image) // Remove image (ajax)
+    {
         $.ajax({
             url: "{{ route('remove_product_image', ['product' => $item->id]) }}",
             data: {image_id: $image},
@@ -203,7 +204,8 @@
                 });
     });
 
-    $(function (){
+    $(function () // Data-picker js.
+    {
         var $from = $(".datepicker-from");
         var $to = $(".datepicker-to");
         var __$from = {};
@@ -217,12 +219,15 @@
             onRender: function () {
                 __$from = this;
             },
-            onSet: function () {
+            onSet: function() {
                 var picker = this;
                 __$to.set('min', picker.get());
             },
             onOpen: function(){
                 __$from.set('max', __$to.get());
+            },
+            onClose: function() {
+                $(document.activeElement).blur();
             }
         });
 
@@ -238,12 +243,46 @@
             onClose: function () {
                 var picker = this;
                 __$from.set('max', picker.get());
+                $(document.activeElement).blur();
             },
             onOpen: function(){
                 __$to.set('min', __$from.get());
             }
         });
     });
+
+    @if(request()->route()->getName() == 'add_product')
+        $(function () // On category tax.
+        {
+            var price_label = $('#create_price_label').find('span');
+            var category = {
+                value: null
+            };
+            $('#parent_categories, input[name=price], input[name=count]').on('change input', function(){
+                console.log('Before:', category);
+                var from_price = $('input[name=price]').val();
+                var input = $(this);
+                var count = $('input[name=count]').val();
+                if($(this).attr('name') != 'price')
+                {
+                    var tax_amount = JSON.parse(input.val()).tax;
+
+                    category.value = {
+                        tax: tax_amount
+                    };
+                } else if($(this).attr('name') == 'count') {
+                    var tax_amount = category.value.tax;
+                } else {
+                    var tax_amount = category.value.tax;
+                }
+
+                console.log('After:', category);
+                var price = (((from_price * count) * tax_amount) / 100);
+                price_label.html(price);
+                return category;
+            });
+        });
+    @endif
 
     function getSpecSuiteTemplate(block_id) // Get template of suite of specifications.
     {

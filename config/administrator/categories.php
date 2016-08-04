@@ -34,7 +34,7 @@ return [
         'name',
 
         'tax' => [
-            'title' => 'Tax',
+            'title' => 'Tax from product\'s price',
             'output' => function ($row)
             {
                 $tax = empty($row->tax) ? '0%' : $row->tax. '%';

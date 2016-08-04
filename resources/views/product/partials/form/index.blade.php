@@ -30,11 +30,12 @@
 @endif
 
 <div class="col l6 m6 s12 product_create_categories">
-    <div class="input-field">
+    <div class="big_list_categories input-field">
         <span class="label">{{ strtoupper('categories') }}</span>
         <select id="parent_categories" name="categories[]" required>
+            <option value="">Select category..</option>
             @foreach($categories as $parent_category)
-                <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}">
+                <optgroup label="{{ $parent_category->present()->renderNameWithTax() }}" data-tax="{{ ($parent_category->tax) ?: 0 }}">
                     @foreach($parent_category->categoryables()->categories()->active()->get() as $child)
                         <?php $category = $child->categoryable ?>
                         <?php
@@ -45,7 +46,7 @@
                                 $selected = ($item->categories()->first()->category_id == $category->id) ? 'selected' : '';
                             }
                         ?>
-                        <option value="{{ $category->id }}" {{ $selected }}>{{ $category->name }}</option>
+                        <option value='{{ json_encode(['id' => $category->id, 'tax' => $parent_category->tax]) }}' {{ $selected }}>{{ $category->name }}</option>
                     @endforeach
                 </optgroup>
             @endforeach
@@ -135,7 +136,7 @@
             <textarea name="description">{{ old('description') ? old('description') : $item->description }}</textarea>
         </div>
     </div><!-- Description -->
-</div>
+</div><!-- Specs -->
 
 @section('js')
     <script src="/assets/js/dropzone.js" type="text/javascript"></script>

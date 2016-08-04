@@ -12,6 +12,11 @@
                           class="form styled2 row validate-it" enctype="multipart/form-data">
                         @include('product.partials.form.index')
                         {!! csrf_field() !!}
+
+                        <div class="col l12" id="create_price_label">
+                            Price is:&nbsp;<span>0</span>&nbsp;Lei
+                        </div>
+
                         <div class="col l12">
                             <button type="submit" class="btn btn_base btn_submit">Create</button>
                         </div>

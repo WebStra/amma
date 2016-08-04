@@ -9,7 +9,7 @@ return [
             'image' =>'faceebok'
         ],
         'odnoklassniki' => [
-            'uri' => 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&st._surl=',
+            'uri' => 'https://connect.ok.ru/offer',
             'only' => [
                 'url'
             ]
