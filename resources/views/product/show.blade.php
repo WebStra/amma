@@ -75,9 +75,9 @@
                                     @endforeach
                                 @endif
                             </ul>
-                        </div>                           
+                        </div>
                     </div>
-                   @include('share.index')
+                    @include('share.index')
                 </div><!--product_info-->
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('partials.about-seller')
@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                             {{--@foreach($same as $product)--}}
-                                {{--@include('partials.products.item-block')--}}
+                            {{--@include('partials.products.item-block')--}}
                             {{--@endforeach--}}
                         </div>
                     </div>

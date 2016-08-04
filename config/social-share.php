@@ -5,14 +5,10 @@ return [
     'services' => [
         'facebook' => [
             'uri' => 'https://www.facebook.com/sharer/sharer.php', 
-            'urlName' => 'u', 
-            'image' =>'faceebok'
+            'urlName' => 'u'
         ],
         'odnoklassniki' => [
-            'uri' => 'https://connect.ok.ru/offer',
-            'only' => [
-                // 'url'
-            ],
+            'uri' => 'https://connect.ok.ru/offer'
         ],
         'google-plus' => [
             'uri' => 'https://plus.google.com/share', 
@@ -23,11 +19,9 @@ return [
             'titleName' => 'text'
         ],
         'vkontakte' => [
-            'uri' => 'http://vk.com/share.php', 
+            'uri' => 'http://vk.com/share.php',
             // 'view' => 'share.partials.vkontakte',
-            'only' => [
-                'media'
-            ],
+            'mediaName' => 'image',
             'extra' => [
                 'noparse' => 'false',
             ]
