@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('meta')
+    @include('partials.shares.shares_social')
+@endsection
+
 @section('content')
     <section class="produs">
         <div class="container">
@@ -78,7 +82,6 @@
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('partials.about-seller')
                 </div>
-
                 @include('product.partials.item.involved_list')
             </div>
             <div class="cf row">
@@ -181,6 +184,5 @@
             </div>
         </div><!-- / container-->
     </section>
-
     @include('partials.fb-comments')
 @endsection
