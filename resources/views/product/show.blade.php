@@ -28,7 +28,7 @@
 
                         <div class="td sell_amount">
                             <div class="pie" data-procent="10"
-                                 style="animation-delay: -{{ $item->present()->getSalesPercent() }}s"></div>
+                                 style="animation-delay: -{{ $item->present()->getSalesPercent() }}%"></div>
                             {{ $item->present()->getSalesPercent() }}% este vândut
                         </div>
                     </div>

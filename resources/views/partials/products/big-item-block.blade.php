@@ -38,6 +38,6 @@
 
         @endif
 
-        @include('partials.products.item.stock')
+       <!--  @include('partials.products.item.stock') -->
     </div>
 </li>

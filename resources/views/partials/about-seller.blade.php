@@ -35,6 +35,7 @@
 @if(Auth::user())
     <script type="text/javascript">
     $(function(){
+        var ajax_running = false;
         var like_btn = $('span[data-type=like]');
         var dislike_btn = $('span[data-type=dislike]');
         
@@ -42,17 +43,21 @@
             var $this = $(this);
             var count = $(this).find('span');
 
-            $.ajax({
-                type: 'post',
-                url: $this.data('action'),
-                data: { vendor : "{{$vendor->slug}}", like_type : $this.data('type') },
-                success: function(response)
-                {
-                    var out = JSON.parse(response);
-                    like_btn.find('span').html(out.likes);
-                    dislike_btn.find('span').html(out.dislikes);
-                }
-            });
+            if(!ajax_running) {
+                ajax_running = true; 
+                $.ajax({
+                    type: 'post',
+                    url: $this.data('action'),
+                    data: { vendor : "{{$vendor->slug}}", like_type : $this.data('type') },
+                    success: function(response)
+                    {
+                        var out = JSON.parse(response);
+                        like_btn.find('span').html(out.likes);
+                        dislike_btn.find('span').html(out.dislikes);
+                        ajax_running = false;
+                    }
+                });
+            }
        });
     });    
     </script>
