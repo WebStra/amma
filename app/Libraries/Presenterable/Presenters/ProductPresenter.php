@@ -169,7 +169,7 @@ class ProductPresenter extends Presenter
             $result=0;
         }
         if($rotate)
-         number_format(round(number_format($result)));
+            return number_format(round(number_format($result)));
         
         return $result;
     }
