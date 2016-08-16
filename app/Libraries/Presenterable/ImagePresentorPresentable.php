@@ -23,6 +23,6 @@ trait ImagePresentorPresentable
             return $image->present()
                 ->image($size);
 
-        return '';
+        return (!$default) ? $default : '';
     }
 }

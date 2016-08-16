@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class ProductPresenter extends Presenter
 {
     use ImagePresentorPresentable;
-    
+
     /** Expiration date field. */
     const END_DATE = 'expiration_date';
 
@@ -162,18 +162,21 @@ class ProductPresenter extends Presenter
      */
     public function getSalesPercent($rotate = true)
     {
+        if($this->getTotalSumm() == 0)
+            return 0;
+
         $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
 
         if($rotate)
             return number_format(round(number_format($result)));
-        
+
         return $result;
     }
 
     public function getSale($showPercent = false)
     {
         $sale = $this->model->sale;
-        
+
         if(empty($sale) && $sale == 0)
             $sale = 0;
 
@@ -186,7 +189,7 @@ class ProductPresenter extends Presenter
     public function renderInvolvedPriceSumm($count)
     {
         $summ = $this->model->price * $count;
-        
+
         return $this->renderPrice($summ);
     }
 

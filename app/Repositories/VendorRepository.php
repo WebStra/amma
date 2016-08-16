@@ -78,4 +78,12 @@ class VendorRepository extends Repository
             ->orderBy('id', 'DESC')
             ->paginate($paginate);
     }
+
+    public function getAuthenticatedUsersProducts(Vendor $vendor)
+    {
+        return $vendor->products()
+            ->whereIn('status', [])
+
+            ->get();
+    }
 }

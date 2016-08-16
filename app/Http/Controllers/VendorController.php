@@ -60,7 +60,9 @@ class VendorController extends Controller
      */
     public function show($vendor)
     {
-        return view('vendors.show')->withItem($vendor);
+        $products = $this->vendors->getAuthenticatedUsersProducts($vendor);
+
+        return view('vendors.show')->withItem($vendor)->withProducts($products);
     }
 
     /**

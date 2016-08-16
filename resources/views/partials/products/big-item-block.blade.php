@@ -14,17 +14,20 @@
                 <div class="price">{{ $item->present()->renderPrice() }}</div>
             @endif
         </div>
-        <div class="colors cf">
-            <span class="small">Colors:</span>
-            <ul>
-                @foreach($item->colors as $color)
-                    <li>
-                    <span class="color_view"
-                          style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
+
+        @if(count($item->colors))
+            <div class="colors cf">
+                <span class="small">Colors:</span>
+                <ul>
+                    @foreach($item->colors as $color)
+                        <li>
+                        <span class="color_view"
+                              style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         @if($item->user->id == \Auth::id())
 

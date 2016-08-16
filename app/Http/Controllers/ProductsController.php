@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PaymentProductsCreate;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Image;
+use App\Services\CreateProductService;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Repositories\CategoryableRepository;
@@ -43,20 +45,15 @@ class ProductsController extends Controller
      */
     protected $productsColors;
 
-    /**
-     * ProductsController constructor.
-     * @param Store $session
-     * @param ProductsRepository $productsRepository
-     * @param CategoryableRepository $categoryableRepository
-     * @param ProductsColorsRepository $productsColorsRepository
-     * @param InvolvedRepository $involvedRepository
-     */
+    protected $createProductService;
+
     public function __construct(
         Store $session,
         ProductsRepository $productsRepository,
         CategoryableRepository $categoryableRepository,
         ProductsColorsRepository $productsColorsRepository,
-        InvolvedRepository $involvedRepository
+        InvolvedRepository $involvedRepository,
+        CreateProductService $createProductService
     )
     {
         $this->session = $session;
@@ -64,6 +61,7 @@ class ProductsController extends Controller
         $this->categoryable = $categoryableRepository;
         $this->productsColors = $productsColorsRepository;
         $this->involved = $involvedRepository;
+        $this->createProductService = $createProductService;
     }
 
     /**
@@ -119,18 +117,7 @@ class ProductsController extends Controller
         $product = null
     )
     {
-        $product = $this->products->update(
-            $product,
-            $request->all()
-        );
-
-        // if (!is_null($categories = $request->get('categories')))
-        //     $this->saveCategories($categories, $product);
-
-        if (!empty($spec = $request->get('spec')))
-            $this->saveSpecifications($spec, $product);
-
-        $this->clearProductFromSession();
+        $this->createProductService->handle($product, $request);
 
         return redirect()->route('view_product', ['product' => $product->id])->withStatus('Product updated!');
     }
@@ -181,51 +168,6 @@ class ProductsController extends Controller
             'status' => 'drafted',
             'active' => 0
         ]);
-    }
-
-    /**
-     * Clean session from drafted products.
-     *
-     * @return void
-     */
-    private function clearProductFromSession()
-    {
-        $this->session->forget('drafted_product');
-    }
-
-    /**
-     * @param $categories
-     * @param $product
-     */
-    private function saveCategories($categories, $product)
-    {
-        // todo: rework this stuff.
-        array_walk($categories, function ($category_id) use ($product) {
-            $category = $this->categoryable->getByProductAndCategoryId(
-                $product, $category_id
-            );
-
-            if(! count($category)) {
-                if($category = $product->category)
-                {
-                    $category->category_id = $category_id;
-                    $category->save();
-                } else {
-                    $this->categoryable->create((int)$category_id, $product);
-                }
-            }
-        });
-    }
-
-    /**
-     * @param $specifications
-     * @param $product
-     */
-    private function saveSpecifications($specifications, $product)
-    {
-        array_walk($specifications, function ($meta) use ($product) {
-            $product->setMeta($meta['key'], $meta['value'], 'spec');
-        });
     }
 
     /**

@@ -3143,3 +3143,8 @@ button.picker__clear:focus,
   background-color: #ff6f00;
   color: #fff;
 }
+
+.elements .product_card a.make_inherit {
+  display: block;
+  width: 375px;
+}
