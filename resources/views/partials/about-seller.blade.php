@@ -10,11 +10,19 @@
             <div class="content">
                 <h4>{{ $vendor->present()->renderTitle() }}</h4>
                 <span class="set_vote" data-type="like" 
-                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'like']) }}">Like (<span>{{ count($vendor->getLikes('like')) }}</span>)</i></span>
+                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'like']) }}">
+                    <i class="like material-icons {{($vendor->wasLiked('like')) ? 'vote_active' : '' }}">thumb_up</i>
+                    <span>{{ count($vendor->getLikes('like')) }} </span>
+                </span>
+
                 <span class="set_vote" data-type="dislike" 
-                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'dislike']) }}">Unlike (<span>{{ count($vendor->getLikes('dislike')) }}</span>)</span>
+                    data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'dislike']) }}">
+                    <i class="unlike material-icons {{($vendor->wasLiked('dislike')) ? 'vote_active' : '' }}">thumb_down</i>
+                     <span>{{ count($vendor->getLikes('dislike')) }}</span>
+                </span>
                 <div id="#something"></div>
-                <p class="small">{{ count($vendor->likes) }} păreri / 99,9% positive</p>
+                <p class="small"><span class="likes_count">{{ $vendor->likes->count() }}</span> păreri / 
+                <span class="likes_percent"> {{  ($vendor->likes()->count()) ? ($vendor->likes()->count() - $vendor->getLikes('dislike')->count()) / $vendor->likes()->count() * 100 : '0' }} </span> % positive</p>
                 <p class="small"><a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}">{{ $vendor->present()->activeCount() }} active</a> / {{ $vendor->present()->totalCount() }} total</p>
             </div>
         </div>
@@ -54,7 +62,25 @@
                         var out = JSON.parse(response);
                         like_btn.find('span').html(out.likes);
                         dislike_btn.find('span').html(out.dislikes);
+                        $('.likes_count').html(out.likes_count);
+                        $('.likes_percent').html(out.likes_percent);
+                        if(out.was_liked == 'like')
+                        {
+                            $('.like').addClass('vote_active');
+                            $('.unlike').removeClass('vote_active');
+                        }
+                        if(out.was_liked == 'unlike') 
+                        { 
+                            $('.like').removeClass('vote_active');
+                            $('.unlike').addClass('vote_active');
+                        }
+                        if(out.was_liked == 'not_liked')
+                        {
+                            $('.like').removeClass('vote_active');
+                            $('.unlike').removeClass('vote_active');
+                        }
                         ajax_running = false;
+                        
                     }
                 });
             }

@@ -8,14 +8,16 @@
                 </div>
                 <div class="content">
                     <h4>{{ $item->present()->renderTitle()}}</h4>
-                    <ul class="star_rating" data-rating_value="4">
+                    <ul class="star_rating" data-rating_value="{{ ($item->likes()->count()) ? (round(0.05 * (($item->likes()->count() - $item->getLikes('dislike')->count()) / $item->likes()->count() * 100)))  : '1' }}">
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                     </ul>
-                    <p class="small">875 păreri / 99,9% positive </p>
+                    <p class="small">{{ $item->likes()->count() }} păreri / 
+                       {{  ($item->likes()->count()) ? ($item->likes()->count() - $item->getLikes('dislike')->count()) / $item->likes()->count() * 100 : '0' }} % positive 
+                    </p>
                 </div>
             </div>
             @if($item->user->id == \Auth::id())
