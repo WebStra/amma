@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link href="<?= asset($assets . '/css/AdminLTE.min.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= asset($assets . '/css/skins/skin-purple.min.css') ?>" rel="stylesheet" type="text/css">
+    <link href="<?= asset($assets . '/css/skins/skin-yellow-light.min.css') ?>" rel="stylesheet" type="text/css">
     <!-- Datapicker & Datarangepicker -->
     <link href="<?= asset($assets . '/plugins/datepicker/datepicker3.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= asset($assets . '/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
 
     @yield('headjs')
 </head>
-<body class="fixed skin-purple" data-spy="scroll" data-target="#scrollspy">
+<body class="fixed skin-yellow-light" data-spy="scroll" data-target="#scrollspy">
 <div class="wrapper">
     @include('administrator::partials.header')
     <!-- Left side column. contains the logo and sidebar -->
@@ -51,12 +51,12 @@
     <div class="content-wrapper" style="min-height: 209px">
         <div class="content-header">
             <h1>
-                <span style="color: #605ca8" class="{{ isset($navigation->getCurrentPage()['icon']) ? $navigation->getCurrentPage()['icon'] : 'fa fa-hashtag' }}"></span>&nbsp;{{ $title }}
+                <span class="{{ isset($navigation->getCurrentPage()['icon']) ? $navigation->getCurrentPage()['icon'] : 'fa fa-hashtag' }}"></span>&nbsp;{{ $title }}
                 @if(isset($description))
                     <small>{!! $description !!}</small>
                 @endif
             </h1>
-                {!! $breadcrumbs !!}
+                {!! str_replace('breadcrumbs' , 'breadcrumb', $breadcrumbs) !!}
         </div>
 
         @include('administrator::partials/messages')

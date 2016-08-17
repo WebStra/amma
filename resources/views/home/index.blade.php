@@ -9,15 +9,17 @@
                 </div>
                 <div class="col l9 m8 s12">
                     <div class="row top_block">
-                        <div class="col l8 m12 s12 no_padd_l- no_paddl_m-l">
-                            <a href="{{ route('view_category', ['category' => $popular_category->slug]) }}" class="wrapp_img categorie img_hover_over">
-                                <div class="text">
-                                    <h6>{{ $popular_category->present()->renderName(true) }}</h6>
-                                    <h3>CATEGORIE POPULARĂ</h3>
-                                </div>
-                                <img src="{{ $popular_category->present()->cover() }}">
-                            </a>
-                        </div>
+                        @if($popular_category)
+                            <div class="col l8 m12 s12 no_padd_l- no_paddl_m-l">
+                                <a href="{{ route('view_category', ['category' => $popular_category->slug]) }}" class="wrapp_img categorie img_hover_over">
+                                    <div class="text">
+                                        <h6>{{ $popular_category->present()->renderName(true) }}</h6>
+                                        <h3>CATEGORIE POPULARĂ</h3>
+                                    </div>
+                                    <img src="{{ $popular_category->present()->cover() }}">
+                                </a>
+                            </div>
+                        @endif
                         <div class="col l4 hide-on-med-and-down">
                             <div class="elements">
                                 <div class="owl-carousel m-l-single">

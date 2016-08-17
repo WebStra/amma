@@ -22,10 +22,10 @@
             </div>
 
             <div class="col-xs-3" style="float: right">
-                <input type="submit" value="Search" class="btn btn-flat bg-purple" style="width: 48%; float: left"/>
+                <input type="submit" value="Search" class="btn btn-flat bg-yellow" style="width: 48%; float: left"/>
 
-                <a href="{{ route('admin_model_index', ['page' => app()->make('scaffold.module')->get('page')]) }}"
-                   class="btn btn-flat bg-purple" style="width: 48%; float: right">Reset</a>
+                <a href="{{ route('admin_model_index', ['page' => $modelName]) }}"
+                   class="btn btn-flat bg-yellow" style="width: 48%; float: right">Reset</a>
             </div>
         </div>
     </form>

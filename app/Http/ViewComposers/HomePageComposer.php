@@ -81,10 +81,11 @@ class HomePageComposer extends Composer
                         }
                     ])
                     ->with('category_1', [
-                        'name' => $category_1->name,
+                        'name' => ($category_1) ? $category_1->name : '',
                         'data' => function () use ($category_1){
                             $products = [];
 
+                            if($category_1)
                             $category_1->categoryables()
                                 ->active()
                                 ->products()
@@ -97,10 +98,11 @@ class HomePageComposer extends Composer
                         }
                     ])
                     ->with('category_2', [
-                        'name' => $category_2->name,
+                        'name' => ($category_2) ? $category_2->name : '',
                         'data' => function () use ($category_2){
                             $products = [];
 
+                            if($category_2)
                             $category_2->categoryables()
                                 ->active()
                                 ->products()

@@ -132,13 +132,16 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
      */
     public function getPopularCategory()
     {
+        $defaultCategory = $this->getDefaultPopularCategory();
+        $category_id = ($defaultCategory) ? $defaultCategory->id : '';
+
         return $this->getModel()
             ->select('*')
             ->where(
                 'id',
                 settings()->getOption(
                     'homepage::popular_category',
-                    $this->getDefaultPopularCategory()->id
+                    $category_id
                 )
             )
             ->active()

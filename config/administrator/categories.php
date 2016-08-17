@@ -93,7 +93,9 @@ return [
     |
     */
     'actions' => [
-
+        'test' => [
+            'title' => 'Test'
+        ]
     ],
 
     /*
