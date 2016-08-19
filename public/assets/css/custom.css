@@ -105,3 +105,50 @@ font-weight: 400;
     color: #818078;
     background-color: #fcfcfa;
 }
+
+
+.set_vote i {
+    font-size: 18px;
+    color: #828384;
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.set_vote i:hover {
+    color: #373839;
+}
+.material-icons.vote_active  {
+    color: #373839;
+}
+.set_vote span {
+    font-size: 14px;
+    color: #9e9e9e;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+ul.auth_errors {
+text-align: left;
+}
+
+.auth_modal .auth_errors li{
+    display: block;
+    color: #fff;
+    background: rgba(255, 0, 0, 0.7);
+    padding: 5px 10px;
+    margin: 5px 0;
+}
+
+.auth_modal .authentification h1 + p {
+    margin: 5px auto 20px;
+}
+
+.input_red {
+    background: red;
+    border: 1px solid red;
+}
+
+.auth_modal .autologin {
+   margin-top:-15px; 
+}

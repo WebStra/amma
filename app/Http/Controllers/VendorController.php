@@ -111,10 +111,34 @@ class VendorController extends Controller
                 $vendor->like('dislike');
             }
         }
+        if($vendor->wasLiked('like')){
+            
+            $was_liked = 'like';
+        }
+        elseif($vendor->wasLiked('dislike')) {
+
+            $was_liked = 'unlike';
+        }
+        else{
+            $was_liked = "not_liked"; 
+        }
+
+       if($vendor->likes()->count())
+        {
+            $positive_like_percent = 
+            ($vendor->likes()->count() - $vendor->getLikes('dislike')->count()) / $vendor->likes()->count() * 100;
+        }
+        else {
+            $positive_like_percent = 0; 
+        }
+
 
         return json_encode([
-            'likes' => count($vendor->getLikes('like')),
-            'dislikes' => count($vendor->getLikes('dislike'))
+            'likes' => $vendor->getLikes('like')->count(),
+            'dislikes' => $vendor->getLikes('dislike')->count(),
+            'likes_count' => $vendor->likes()->count(),
+            'likes_percent' => $positive_like_percent,
+            'was_liked' => $was_liked
         ]);
     }
 }
