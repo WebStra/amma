@@ -273,6 +273,16 @@ Route::multilingual(function () {
         'uses' => 'Auth\AuthController@getLogin'
     ]);
 
+    Route::post('modal_login', [
+        'as' => 'auth_modal_login',
+        'uses' => 'Auth\AuthController@modalLogin'
+    ]);
+
+    Route::post('modal_register', [
+        'as' => 'auth_modal_register',
+        'uses' => 'Auth\AuthController@modalRegister'
+    ]);
+
     //Social Login
 
     Route::get('/social/login/{provider?}',[

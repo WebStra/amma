@@ -100,4 +100,51 @@
     });
     </script>
 @endif
+
+<script>
+$('.auth_submit_ajax, .auth_register_ajax').on("click", function(event){
+        event.preventDefault();
+        var form = $(this).parents('form').serialize();
+        var response = $(this).parents('form').find('.response');
+        var authtype = $(this).parents('form').data('authtype');
+        var btn = $(this);
+        $('.auth_errors li').remove(); 
+            btn.attr("disabled", true);
+            $.ajax({
+                url : $(this).parents('form').data('action'),
+                method : 'POST',
+                dataType : 'json',
+                data : form,
+                success : function(data){
+                    var wrap = $('form[data-authtype='+ authtype + '] .auth_errors');
+
+                    if(data.errors){
+                        $.each(data.errors, function(input_name, errors){
+                            if($.isArray(errors)){
+                                $.each(errors, function(k, error){
+                                   wrap.append('<li>'+ error +'</li>');
+                                });
+                            }
+                            $('form[data-authtype='+ authtype + '] input[name='+input_name+']').css('border','1px solid red');
+                            setTimeout(function()
+                            { 
+                                $('.auth_errors li').remove(); 
+                            }, 5000);
+                        });
+                            if(btn.attr("disabled")){
+                                btn.attr("disabled", false);
+                            }
+                        return;
+                    }
+                    if(data.redirect){
+                        window.location.href = data.redirect;
+                        return;
+                    }
+                    wrap.append('<li style="background:#f5f5f5; border:1px solid green; color:green;">Login Success!</li>');
+                    location.reload();
+                    return;
+                }
+            });
+    });
+</script>
 @endsection

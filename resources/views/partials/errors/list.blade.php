@@ -7,3 +7,5 @@
         </ul>
     </div>
 @endif
+
+<ul class="col s12 auth_errors"></ul>
