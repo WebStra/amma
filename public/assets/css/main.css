@@ -1242,6 +1242,9 @@ ul.social a.icon-google-plus {
   height: 40px;
   line-height: 40px;
   margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+
 }
 /* line 1048, ../sass/main.scss */
 .form .input-field textarea {
