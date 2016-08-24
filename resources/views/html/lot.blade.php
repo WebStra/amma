@@ -97,7 +97,7 @@
 													<input type="text" name="spec[1][key]" value="">
 												</div>
 											</div>
-											<div class="col l5 m5 s12">
+											<div class="col l6 m6 s12">
 											    <div class="input-field spec_value">
 											        <span class="label">DESCRIPTION</span>
 											        <input type="text" name="spec[1][value]" value="">
@@ -106,8 +106,8 @@
 										</div>
 						
 									</div>
-									<div class="col l2 m2 offset-l10 offset-m10 right-align">
-										<a href="#add-spec" class="waves-effect waves-light btn add_spec_btn" id="add_suite"><i class="material-icons left">library_add</i>Add</a>
+									<div class="col l1 m1 s2 offset-s10 offset-l11 offset-m11 center-align">
+										<a href="#add-spec" class="add_spec_btn" id="add_suite"><i class="material-icons center">library_add</i></a>
 									</div>
 						
 							</form>
@@ -125,63 +125,115 @@
 								<img class="materialboxed img-responsive" src="http://placehold.it/350x350">
 							</div>
 						</div>
-						
-						<div class="col l4 m6 s12">
-							<div class="input-field">
-								<span class="label">NAME</span>
-								<input type="text" required="" name="name" value="" placeholder="Product's name">
-							</div>
-						</div>
 
-					    <div class="col l4 m6 s12">
-					        <div class="input-field">
-					            <span class="label">{{ strtoupper('type') }}</span>
-					            <select name="type" required>
-					                <option value="new">New</option>
-					                <option value="old">Old</option>
-					            </select>
-					        </div>
-					    </div><!-- Type -->
-
-						<div class="col l4 m6 s12">
-							<div class="input-field">
-								<span class="label">Price</span>
-								<input type="text" required="" name="price" value="" placeholder="0.00">
-							</div>
-						</div>
-
-						<div class="col l4 m6 s12">
-	                        <div class="input-field">
-	                            <span class="label">SALE</span>
-	                            <input type="text" name="sale" placeholder="0%" value="0%">
-	                        </div>
-	                    </div>
-
-						<div class="col l4 m6 s12">
-							<div class="input-field">
-								<span class="label">Sold</span>
-								<input type="text" required="" name="sold" value="" placeholder="0">
-							</div>
-						</div>
-
-	                    <div class="col l4 m6 s12">
-	                        <div class="input-field">
-	                            <span class="label">COLORS</span>
-	                            <div class="file-field input-colorpicker">
-								  <div class="btn"></div>
-								  <div class="file-path-wrapper">
-								    <input type="text" name="color" />
-								  </div>
+						<div class="col l8 m6 s12">
+							<div class="row">
+								<div class="col l6 s12">
+									<div class="input-field">
+										<span class="label">NAME</span>
+										<input type="text" required="" name="name" value="" placeholder="Product's name">
+									</div>
 								</div>
-	                        </div>
-	                    </div>
+
+							    <div class="col l6 s12">
+							        <div class="input-field">
+							            <span class="label">{{ strtoupper('type') }}</span>
+							            <select name="type" required>
+							                <option value="new">New</option>
+							                <option value="old">Old</option>
+							            </select>
+							        </div>
+							    </div><!-- Type -->
+
+								<div class="col l6 s12">
+									<div class="input-field">
+										<span class="label">Price</span>
+										<input type="text" required="" name="price" value="" placeholder="0.00">
+									</div>
+								</div>
+
+								<div class="col l6 s12">
+			                        <div class="input-field">
+			                            <span class="label">SALE</span>
+			                            <input type="text" name="sale" placeholder="0%" value="0%">
+			                        </div>
+			                    </div>
+
+								<div class="col l6 s12">
+									<div class="input-field">
+										<span class="label">Sold</span>
+										<input type="text" required="" name="sold" value="" placeholder="0">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col l6 s12">
+									<div class="row">
+										<div class="wrap_spec_size overflow">
+
+											<div class="spec_size">
+												<div class="spec_size_item overflow">
+													<div class="col l12 m12 s12">
+														<div class="input-field">
+															<span class="label">Size</span>
+															<input type="text" required="" name="size" value="" placeholder="Size">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">
+												<div class="input-field">
+													<a href="#add-spec-size" class="add_spec_btn add_size"><i class="material-icons center">library_add</i></a>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="col l6 s12">
+									<div class="row">
+										<div class="wrap_spec_color overflow">
+											<div class="spec_color">
+												<div class="spec_color_item overflow">
+													<div class="col l12 m12 s12">
+														<div class="input-field">
+															<span class="label">COLORS</span>
+															<div class="file-field input-colorpicker">
+																<div class="btn"></div>
+																<div class="file-path-wrapper">
+																	<input type="text" name="color" class="" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">
+												<div class="input-field">
+													<a href="#add-spec-color" class="add_spec_btn add_color"><i class="material-icons center">library_add</i></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col l6 s12 offset-l6 right-align">
+									<div class="input-field">
+										<a href="#add-product" class="waves-effect waves-light btn"><i class="material-icons left">loop</i>Save</a>
+									</div>
+								</div>
+							</div>
+						</div>
 	                </div>
 				</div>
 
 				<div class="row">
 					<div class="margin15">
-						<div class="col l2 m2 s12 offset-l10 offset-m10 right-align">
-							<a href="#add-product" class="waves-effect waves-light btn" id="btn_add_product"><i class="material-icons left">library_add</i>Add</a>
+						<div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
+							<a href="#add-product" class="waves-effect waves-light btn" id="btn_add_product"><i class="material-icons left">library_add</i>Add product</a>
 						</div>
 					</div>
 				</div>
