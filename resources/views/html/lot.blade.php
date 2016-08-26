@@ -35,7 +35,12 @@
 										<div class="input-field">
 											<span class="label">{{ strtoupper('categories') }}</span>
 											<select id="parent_categories" name="categories[]" required>
-												<option value="">vvvvvvvvvvvv</option>
+												<option data-procent="1" value="">vvvvvvvvvvvv1</option>
+												<option data-procent="2" value="">vvvvvvvvvvvv2</option>
+												<option data-procent="3" value="">vvvvvvvvvvvv3</option>
+												<option data-procent="4" value="">vvvvvvvvvvvv4</option>
+												<option data-procent="5" value="">vvvvvvvvvvvv5</option>
+												<option data-procent="6" value="">vvvvvvvvvvvv6</option>
 											</select>
 										</div>
 									</div><!-- Categories -->
@@ -75,6 +80,7 @@
 										<div class="input-field">
 											<span class="label">Complete dupa după sumă</span>
 											<input type="text" class="input-amount" required="" name="amount" value="" placeholder="MDL">
+											<span class="comision"><i>Comision: <span class="comision-val">0</span></i></span>
 										</div>
 									</div><!-- Datetime -->
 						
@@ -93,7 +99,7 @@
 				<span class="white-text">Adaugarea produselor in lot</span>
 			</div>
 			<form method="post" action="http://amma/ro/vendor/et-eum/product/413/create" class="form form-product" enctype="multipart/form-data">
-				<div class="row add_product">
+				<div class="row add_product" id="sortable">
 					<div class="inner_product border margin15">
 						<div class="col l4 m6 s12">
 							<div class="input-field">

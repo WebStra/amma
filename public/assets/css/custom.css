@@ -211,6 +211,14 @@ font-weight: 400;
 .label-color{
     margin-bottom: 5px;
 }
+.inner_product{
+    background-color: #fff;
+    cursor: move;
+}
+.comision{
+    font-size: 0.8rem;
+    color: #9e9e9e;
+}
 /* .form .input-field{
     margin-right: 1px;
 } */

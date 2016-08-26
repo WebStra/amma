@@ -185,6 +185,18 @@
 
     $(function () // Add/remove specification.
     {
+        function sortable()
+        {
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
+        }
+        function reInit()
+        {
+            $('select').material_select('update');
+            $('.materialboxed').materialbox();
+            $('.input-colorpicker').colorpicker();  
+        }
+        sortable();
         var key_lot     = {value: 2};
         var key_product = {value: 2};
         var key_color   = {value: 2};
@@ -212,11 +224,8 @@
         $('#btn_add_product').click(function (event) {
             if ($('.inner_product').length  < 10) {
                 $('.add_product').append(addProduct(key_product.value, curent_currency.value));
-                $('select').material_select('update');
-                $('.input-colorpicker').colorpicker();
-                $('.materialboxed').materialbox();
-
-
+                reInit();
+                sortable();
                 $('.inner_product').last()
                     .animate({borderColor:'#26a69a'}, 1000)
                     .delay(500)
@@ -263,9 +272,8 @@
             if ($('.inner_product').length  < 10) {
                 curent_product.after(addProduct(key_product.value, curent_currency.value));
                 curent_product.next().animate({borderColor:'#ff6f00'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
-                $('select').material_select('update');
-                $('.input-colorpicker').colorpicker();
-                $('.materialboxed').materialbox();
+                reInit();
+                sortable();
                 key_product.value = key_product.value + 1;
             }
         });
@@ -292,7 +300,17 @@
            curent_currency.value = simbol;
         });
         
+        $('input.input-amount').keyup(function(event) {
+            var procent = $('#parent_categories').find(':selected').data('procent');
+            var sum     = $(this).val();
+            $('.comision-val').text(Math.round(sum/100*procent).toFixed(0));
+        });
 
+        $('#parent_categories').change(function(event) {
+            var procent = $(this).find(':selected').data('procent');
+            var sum     = $('input.input-amount').val();
+            $('.comision-val').text(Math.round(sum/100*procent).toFixed(0));
+        });
         
 
         /*$('.remove-added-spec')
