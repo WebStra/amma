@@ -96,7 +96,7 @@
             if ($sale > 0)
             {
                 //return Math.round($sale).toFixed(0) + '%';
-                return Math.round($sale).toFixed(0);
+                return parseFloat($sale.toFixed(2));
             }
 
             return sale_zero;
@@ -123,7 +123,7 @@
                     }
                     var calc = diff * 100;
                     var result = validateSale(calc);
-                }else if(target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price) && val_sale != '' && val_old_price != ''){
+                }else if(target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price)){
                     var result = validateSale(val_old_price - (val_old_price/100*val_sale));
                     return new_price.val(result);
                 }
