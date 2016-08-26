@@ -11,16 +11,16 @@
 						<span class="white-text">Setarii generale pentru lot</span>
 					</div>
 					<div class="padding15 border lot">
-						<div class="row">
-							<div class="col l12 m12 s12">
-								<span class="label">Imagini generale</span>
-								<form action="http://amma/ro/product/413/add-image" class="dropzone product_gallery_dropzone dz-clickable" id="dropzone_form">
-									<input type="file" multiple="" id="images" style="display: none">
-									<div class="dz-default dz-message"><span>Drop files here to upload</span></div>
-								</form>
-								<div  id="preview_container" class="dropzone preview-img-box"></div>
-							</div>
-						</div>
+<!-- 						<div class="row">
+	<div class="col l12 m12 s12">
+		<span class="label">Imagini generale</span>
+		<form action="http://amma/ro/product/413/add-image" class="dropzone product_gallery_dropzone dz-clickable" id="dropzone_form">
+			<input type="file" multiple="" id="images" style="display: none">
+			<div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+		</form>
+		<div  id="preview_container" class="dropzone preview-img-box"></div>
+	</div>
+</div> -->
 						
 						<div class="row">
 							<form method="post" action="http://amma/ro/vendor/et-eum/product/413/create" class="form form-lot" enctype="multipart/form-data">
@@ -56,10 +56,10 @@
 								    <div class="col l6 m6 s12">
 								        <div class="input-field">
 								            <span class="label">{{ strtoupper('Currency') }}</span>
-								            <select name="currency" required>
-								                <option value="MDL">MDL</option>
-								                <option value="EUR">EUR</option>
-								                <option value="USD">USD</option>
+								            <select name="currency" required class="currency">
+								                <option data-simbol="MDL" value="MDL">MDL</option>
+								                <option data-simbol="€" value="EUR">EUR</option>
+								                <option data-simbol="$" value="USD">USD</option>
 								            </select>
 								        </div>
 								    </div><!-- Currency -->
@@ -74,41 +74,17 @@
 									<div class="col l3 m6 s12">
 										<div class="input-field">
 											<span class="label">Complete dupa după sumă</span>
-											<input type="text" class="input-amount" required="" name="amount" value="" placeholder="0">
+											<input type="text" class="input-amount" required="" name="amount" value="" placeholder="MDL">
 										</div>
 									</div><!-- Datetime -->
 						
-								                        <div class="col l12 m12 s12">
-								                            <div class="input-field">
-								                                <span class="label">DESCRIPTION</span>
-								                                <textarea name="description"></textarea>
-								                            </div>
-								                        </div>
+			                        <div class="col l12 m12 s12">
+			                            <div class="input-field">
+			                                <span class="label">DESCRIPTION</span>
+			                                <textarea name="description"></textarea>
+			                            </div>
+			                        </div>
 						
-									<div class="col l12 m12 s12">
-										<label>Specifications</label>
-									</div>
-						
-									<div class="specification_suite_lot">
-										<div class="specification_suite_item" data-suite-spec="1">
-											<div class="col l6 m6 s12">
-												<div class="input-field spec_name">
-													<span class="label">NAME</span>
-													<input type="text" name="spec[1][key]" value="">
-												</div>
-											</div>
-											<div class="col l6 m6 s12">
-											    <div class="input-field spec_value">
-											        <span class="label">DESCRIPTION</span>
-											        <input type="text" name="spec[1][value]" value="">
-											    </div>
-											</div>
-										</div>
-						
-									</div>
-									<div class="col l1 m1 s2 offset-s10 offset-l11 offset-m11 center-align">
-										<a href="#add-spec" class="add_spec_btn" id="add_suite"><i class="material-icons center">library_add</i></a>
-									</div>
 						
 							</form>
 						</div>
@@ -146,88 +122,136 @@
 							    </div><!-- Type -->
 
 								<div class="col l6 s12">
+							        <div class="input-field">
+							            <span class="label">{{ strtoupper('old price') }}</span>
+							            <input type="text" class="old_price" required name="price" value="" placeholder="MDL">
+							        </div>
+						        </div>
+
+								<div class="col l6 s12 ">
 									<div class="input-field">
-										<span class="label">Price</span>
-										<input type="text" required="" name="price" value="" placeholder="0.00">
+										<span class="label">{{ strtoupper('Price') }}</span>
+										<input type="text" required="" class="new_price" name="price" value="" placeholder="MDL">
 									</div>
 								</div>
+
+
 
 								<div class="col l6 s12">
 			                        <div class="input-field">
-			                            <span class="label">SALE</span>
-			                            <input type="text" name="sale" placeholder="0%" value="0%">
+			                            <span class="label">{{ strtoupper('SALE') }}</span>
+			                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="0%">
 			                        </div>
 			                    </div>
-
 								<div class="col l6 s12">
 									<div class="input-field">
-										<span class="label">Sold</span>
-										<input type="text" required="" name="sold" value="" placeholder="0">
+										<span class="label">{{ strtoupper('Subcategories') }}</span>
+										<select name="subcategories[]" required>
+											<option value="">vvvvvvvvvvvv</option>
+										</select>
 									</div>
-								</div>
+								</div><!-- Subcategories -->
+
 							</div>
 							<div class="row">
-								<div class="col l6 s12">
-									<div class="row">
-										<div class="wrap_spec_size overflow">
-
-											<div class="spec_size">
-												<div class="spec_size_item overflow">
-													<div class="col l12 m12 s12">
-														<div class="input-field">
-															<span class="label">Size</span>
-															<input type="text" required="" name="size" value="" placeholder="Size">
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">
-												<div class="input-field">
-													<a href="#add-spec-size" class="add_spec_btn add_size"><i class="material-icons center">library_add</i></a>
-												</div>
-											</div>
-
-										</div>
-									</div>
+								<div class="col l12 m12 s12">
+									<label>Specifications</label>
 								</div>
+							</div>
 
-								<div class="col l6 s12">
-									<div class="row">
-										<div class="wrap_spec_color overflow">
-											<div class="spec_color">
-												<div class="spec_color_item overflow">
-													<div class="col l12 m12 s12">
-														<div class="input-field">
-															<span class="label">COLORS</span>
-															<div class="file-field input-colorpicker">
-																<div class="btn"></div>
-																<div class="file-path-wrapper">
-																	<input type="text" name="color" class="" />
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
+							<div class="row">
+								<div class="specification_suite_lot overflow">
+									<div class="specification_suite_item overflow" data-suite-spec="1">
+										<div class="col l6 m12 s12">
+											<div class="input-field spec_name">
+												<span class="label">NAME</span>
+												<input type="text" name="spec[1][key]" value="">
 											</div>
-											<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">
-												<div class="input-field">
-													<a href="#add-spec-color" class="add_spec_btn add_color"><i class="material-icons center">library_add</i></a>
-												</div>
+										</div>
+										<div class="col l6 m12 s12">
+											<div class="input-field spec_value">
+												<span class="label">DESCRIPTION</span>
+												<input type="text" name="spec[1][value]" value="">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col l6 s12 offset-l6 right-align">
-									<div class="input-field">
-										<a href="#add-product" class="waves-effect waves-light btn"><i class="material-icons left">loop</i>Save</a>
+								<div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
+									<a href="#add-spec" class="add_spec_btn add_suite"><i class="material-icons center">library_add</i></a>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="wrap_size_color_sold overflow">
+									<div class="size_color_sold_item overflow" data-suite-spec="1">
+										<div class="col l4 m12 s12">
+											<div class="input-field">
+												<span class="label">Size</span>
+												<input type="text" required="" name="size" value="" placeholder="Size">
+											</div>
+										</div>
+										<div class="col l4 m12 s12">
+											<div class="input-field">
+												<span class="label">COLORS</span>
+												<div class="file-field input-colorpicker">
+													<div class="btn"></div>
+													<div class="file-path-wrapper">
+														<input type="text" name="color" class="" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col l4 m12 s12">
+											<div class="input-field">
+												<span class="label">Sold</span>
+												<input type="text" required="" name="sold" value="" placeholder="0">
+											</div>
+										</div>
+
 									</div>
 								</div>
 							</div>
+
+							<div class="row">
+								<div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
+									<div class="input-field">
+										<a href="#add-spec" class="add_spec_btn add_size_color_sold"><i class="material-icons center">library_add</i></a>
+									</div>
+								</div>
+							</div>
+
+							<div class="row right-align-600-992">
+
+								<div class="col l8 s12 push-l4">
+									<div class="row">
+										<div class="col l6 s12">
+											<div class="input-field">
+												<a href="#clone-product" class="clone-product waves-effect waves-light btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
+											</div>
+										</div>
+										<div class="col l6 s12 right-align-992">
+											<div class="input-field">
+												<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col l4 s12 pull-l8">
+									<div class="row">
+								        <div class="col l12 m12 s12">
+	
+								        </div>
+									</div>
+								</div>
+
+							</div>
+							<!--Add color size sold-->
 						</div>
 	                </div>
+
 				</div>
 
 				<div class="row">
@@ -244,8 +268,10 @@
 @endsection
 
 @section('js')
+ 	<script src="/assets/plugins/pickadate/lib/translations/ro_RO.js" type="text/javascript"></script>
     <script src="/assets/js/dropzone.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js" type="text/javascript"></script>
+
     <script src="/assets/plugins/materialize-colorpicker/prism/prism.js" type="text/javascript"></script>
     <script src="/assets/plugins/materialize-colorpicker/dist/js/materialize-colorpicker.min.js"></script>
     @include('html.partials.js')

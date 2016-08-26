@@ -82,9 +82,9 @@
                         <select name="name" required class="title-product">
                             <option value="12">DESPERADO JEANS (M, S, XXL) SUMMER 2016 JULY</option>
                             <option value="13">DESPERADO JEANS (M, S, XXL) SUMMER 2017 JULY</option>
-                            <option value="14">DESPERADO JEANS (M, S, XXL) SUMMER 2017 JULY</option>
-                            <option value="15">DESPERADO JEANS (M, S, XXL) SUMMER 2017 JULY</option>
-                            <option value="16">DESPERADO JEANS (M, S, XXL) SUMMER 2017 JULY</option>
+                            <option value="14">DESPERADO JEANS (M, S, XXL) SUMMER 2018 JULY</option>
+                            <option value="15">DESPERADO JEANS (M, S, XXL) SUMMER 2019 JULY</option>
+                            <option value="16">DESPERADO JEANS (M, S, XXL) SUMMER 2020 JULY</option>
                         </select>
                     </div>
                     <p class="label-color">Color:</p>

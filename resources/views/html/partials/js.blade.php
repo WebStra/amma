@@ -101,10 +101,12 @@
         }
 
         $(document).ready(function () {
-            $('input[id=old_price], input[id=new_price]').on('input', function () {
-                var sale = $('input[name=sale]');
-                var old_price = $('input[id=old_price]').val();
-                var new_price = $('input[id=new_price]').val();
+            $(".add_product").delegate("input.old_price, input.new_price", "keyup", function(){
+                var curent_product = $(this).parents('.inner_product');
+
+                var sale = curent_product.find('input.create_sale');
+                var old_price = curent_product.find('input.old_price').val();
+                var new_price = curent_product.find('input.new_price').val();
 
                 var diff = ((old_price - new_price) / old_price);
 
@@ -172,20 +174,22 @@
 
     $(function () // Add/remove specification.
     {
-        var key_lot = {value: 2};
+        var key_lot     = {value: 2};
         var key_product = {value: 2};
-        var key_color = {value: 2};
-        var key_size = {value: 2};
+        var key_color   = {value: 2};
+        var key_size    = {value: 2};
+        var key_scs     = {value: 2};
+        var curent_currency     = {value: 'MDL'};
 
-
-        $('#add_suite').click(function (event) {
-            if ($('.specification_suite_item').length < 20) {
-                $('.specification_suite_lot').append(getSpecSuiteTemplateLot(key_lot.value));
+        $(".add_product").delegate(".add_suite", "click", function(){
+            var curent_product = $(this).parents('.inner_product');
+            if (curent_product.find('.specification_suite_item').length < 20) {
+                curent_product.find('.specification_suite_lot').append(getSpecSuiteTemplateLot(key_lot.value));
                 key_lot.value = key_lot.value + 1;
             }
         });
 
-        $(".specification_suite_lot").delegate(".remove-spec", "click", function(){
+        $(".add_product").delegate(".remove-spec", "click", function(){
             $(this).parents('.specification_suite_remove').remove();
         });
 
@@ -196,16 +200,23 @@
 
         $('#btn_add_product').click(function (event) {
             if ($('.inner_product').length  < 10) {
-                $('.add_product').append(addProduct(key_product.value));
+                $('.add_product').append(addProduct(key_product.value, curent_currency.value));
                 $('select').material_select('update');
                 $('.input-colorpicker').colorpicker();
                 $('.materialboxed').materialbox();
+
+
+                $('.inner_product').last()
+                    .animate({borderColor:'#26a69a'}, 1000)
+                    .delay(500)
+                    .animate({borderColor:'#e9e9e9'}, 2000);
                 key_product.value = key_product.value + 1;
             }
 
         });
         $(".add_product").delegate("a.btn-remove-product", "click", function(){
-            $(this).parents('.remove_product').remove();
+            if (!confirm("Are you sure?")) return false;
+            $(this).parents('.remove_product').fadeOut(500, function() { $(this).remove(); });
         });
 
 
@@ -226,6 +237,32 @@
             }
         });
 
+        $(".add_product").delegate("a.add_size_color_sold", "click", function(){
+            var curent_product = $(this).parents('.inner_product');
+            if (curent_product.find('.size_color_sold_item').length < 10) {
+                curent_product.find('.wrap_size_color_sold').append(getSpecSuiteTemplateSizeColorSold(key_scs.value));
+                $('.input-colorpicker').colorpicker();
+                key_scs.value = key_scs.value + 1;
+            }
+        });
+
+        $(".add_product").delegate("a.clone-product", "click", function(){
+            var curent_product = $(this).parents('.inner_product');
+            //var clone_product = curent_product.clone();
+            if ($('.inner_product').length  < 10) {
+                curent_product.after(addProduct(key_product.value, curent_currency.value));
+                curent_product.next().animate({borderColor:'#ff6f00'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
+                $('select').material_select('update');
+                $('.input-colorpicker').colorpicker();
+                $('.materialboxed').materialbox();
+                key_product.value = key_product.value + 1;
+            }
+        });
+
+        $(".add_product").delegate("a.remove-size-color-sold", "click", function(){
+            $(this).parents('.size_color_sold_item_remove').remove();
+        });
+
         $(".add_product").delegate("a.remove_spec_size", "click", function(){
             $(this).parents('.spec_size_item_remove').remove();
         });
@@ -233,11 +270,17 @@
         $(".add_product").delegate("a.remove_spec_color", "click", function(){
             $(this).parents('.spec_color_item_remove').remove();
         });
-        
 
-       /* $(".add_product").delegate(".btn", "click", function(){
-            $(this).parent().colorpicker();
-        });*/
+        $(".add_product").delegate("a.save-product", "click", function(){
+            var curent_product = $(this).parents('.inner_product');
+            curent_product.animate({borderColor:'#26a69a'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
+        });
+        $('.currency').change(function(event) {
+           var simbol = $(this).find(':selected').data('simbol');
+           $('.new_price, .old_price, .input-amount').attr('placeholder', simbol);
+           curent_currency.value = simbol;
+        });
+        
 
         
 
@@ -256,14 +299,7 @@
                     });
                 });*/
     });
-/*
-    $(function (){
 
-        $('#input-colorpicker2').colorpicker({
-          component: '.btn',
-          format: 'hex'
-        });
-    });*/
     $(function (){
         $('.input-units').keyup(function(event) {
             if ($(this).val() != '') {
@@ -280,6 +316,7 @@
             }
         });
     });
+    
     $(function (){
         var $from = $(".datepicker-from");
         var $to = $(".datepicker-to");
@@ -290,16 +327,18 @@
             selectYears: 3,
             format: 'dd.mm.yyyy',
             closeOnClear: true,
-            min: true,
+            min: 1,
             onRender: function () {
                 __$from = this;
             },
             onSet: function () {
                 var picker = this;
+               // __$to.set('min', +2);
                 __$to.set('min', picker.get());
             },
             onOpen: function(){
-                __$from.set('max', __$to.get());
+                __$from.set('max', 30);
+                //__$from.set('max', __$to.get());
             }
         });
 
@@ -308,7 +347,7 @@
             selectYears: 3,
             format: 'dd.mm.yyyy',
             closeOnClear: true,
-            min: 2,
+            min: 1,
             onRender: function () {
                 __$to = this;
             },
@@ -318,6 +357,7 @@
             },
             onOpen: function(){
                 __$to.set('min', __$from.get());
+
             }
         });
     });
@@ -334,7 +374,7 @@
                 + '<input type="text" name="spec[' + block_id + '][value]">'
                 + '</div>'
                 + '<div class="input-field">'
-                + '<a href="#remove-spec" class="remove-spec"><i class="icon-trash"></i></a>'
+                + '<a href="#remove-spec" class="ico-remove remove-spec"><i class="icon-trash"></i></a>'
                 + '</div>'
                 + '</div>';
     }
@@ -342,26 +382,26 @@
     function getSpecSuiteTemplateLot(block_id) // Get template of suite of specifications.
     {
         return '<div class="specification_suite_item specification_suite_remove" data-suite-spec="' + block_id + '">'
-                + '<div class="col l6 m6 s12">'
+                + '<div class="col l6 m12 s12">'
                 + '<div class="input-field spec_name">'
                 + '<span class="label">{{ strtoupper('name') }}</span>'
                 + '<input type="text" name="spec[' + block_id + '][key]">'
                 + '</div>'
                 + '</div>'
-                + '<div class="col l5 m5 s10">'
+                + '<div class="col l5 m10 s10">'
                 + '<div class="input-field spec_value">'
                 + '<span class="label">{{ strtoupper('description') }}</span>'
                 + '<input type="text" name="spec[' + block_id + '][value]">'
                 + '</div>'
                 + '</div>'
-                + '<div class="col l1 m1 s2">'
+                + '<div class="col l1 m2 s2">'
                 + '<div class="input-field center-align"><br>'
-                + '<a href="#remove-spec" class="remove-spec"><i class="material-icons">delete</i></a>'
+                + '<a href="#remove-spec" class="ico-remove remove-spec"><i class="material-icons">delete</i></a>'
                 + '</div>'
                 + '</div>'
                 + '</div>';
     }
-    function addProduct(key) // Get template of suite of specifications.
+    function addProduct(key, currency) // Get template of suite of specifications.
     {
         return '<div class="inner_product border margin15 remove_product" data-product="' + key + '">'
                 + '<div class="col l4 m6 s12">'
@@ -389,51 +429,76 @@
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<span class="label">Price</span>'
-                + '<input type="text" required="" name="price" value="" placeholder="0.00">'
+                + '<span class="label">{{ strtoupper('old price') }}</span>'
+                + '<input type="text" class="old_price" required name="price" value="" placeholder="' + currency + '">'
                 + '</div>'
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<span class="label">SALE</span>'
-                + '<input type="text" name="sale" placeholder="0%" value="0%">'
+                + '<span class="label">{{ strtoupper('Price') }}</span>'
+                + '<input type="text" required="" class="new_price" name="price" value="" placeholder="' + currency + '">'
                 + '</div>'
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<span class="label">Sold</span>'
-                + '<input type="text" required="" name="sold" value="" placeholder="0">'
+                + '<span class="label">{{ strtoupper('SALE') }}</span>'
+                + '<input type="text" class="create_sale" name="sale" placeholder="0%" value="0%">'
                 + '</div>'
                 + '</div>'
-                + '</div>'
-                + '<div class="row">'
+
                 + '<div class="col l6 s12">'
+                + '<div class="input-field">'
+                + '<span class="label">{{ strtoupper('Subcategories') }}</span>'
+                + '<select name="subcategories[]" required>'
+                + '<option value="">vvvvvvvvvvvv</option>'
+                + '<option value="">vvvvvvvvvvvv</option>'
+                + '</select>'
+                + '</div>'
+                + '</div>'
+
+                + '</div>'
                 + '<div class="row">'
-                + '<div class="wrap_spec_size overflow">'
-                + '<div class="spec_size">'
-                + '<div class="spec_size_item overflow">'
                 + '<div class="col l12 m12 s12">'
+                + '<label>Specifications</label>'
+                + '</div>'
+                + '</div>'
+                + '<div class="row">'
+                + '<div class="specification_suite_lot">'
+                + '<div class="specification_suite_item" data-suite-spec="1">'
+                + '<div class="col l6 m12 s12">'
+                + '<div class="input-field spec_name">'
+                + '<span class="label">NAME</span>'
+                + '<input type="text" name="spec[1][key]" value="">'
+                + '</div>'
+                + '</div>'
+                + '<div class="col l6 m12 s12">'
+                + '<div class="input-field spec_value">'
+                + '<span class="label">DESCRIPTION</span>'
+                + '<input type="text" name="spec[1][value]" value="">'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="row">'
+                + '<div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">'
+                + '<a href="#add-spec" class="add_spec_btn add_suite"><i class="material-icons center">library_add</i></a>'
+                + '</div>'
+                + '</div>'
+
+
+                + '<div class="row">'
+
+                + '<div class="wrap_size_color_sold overflow">'
+                + '<div class="size_color_sold_item overflow" data-suite-spec="1">'
+                + '<div class="col l4 m12 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">Size</span>'
                 + '<input type="text" required="" name="size" value="" placeholder="Size">'
                 + '</div>'
                 + '</div>'
-                + '</div>'
-                + '</div>'
-                + '<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">'
-                + '<div class="input-field">'
-                + '<a href="#add-spec-size" class="add_spec_btn add_size"><i class="material-icons center">library_add</i></a>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
-                + '<div class="col l6 s12">'
-                + '<div class="row">'
-                + '<div class="wrap_spec_color overflow">'
-                + '<div class="spec_color">'
-                + '<div class="spec_color_item overflow">'
-                + '<div class="col l12 m12 s12">'
+
+                + '<div class="col l4 m12 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">COLORS</span>'
                 + '<div class="file-field input-colorpicker" data-color="#26a69a"  data-format="hex" data-component=".btn">'
@@ -444,34 +509,57 @@
                 + '</div>'
                 + '</div>'
                 + '</div>'
-                + '</div>'
-                + '</div>'
-                + '<div class="col l2 m2 s2 offset-s10 offset-l10 offset-m10 center-align">'
+
+                + '<div class="col l4 m12 s12">'
                 + '<div class="input-field">'
-                + '<a href="#add-spec-color" class="add_spec_btn add_color"><i class="material-icons center">library_add</i></a>'
+                + '<span class="label">Sold</span>'
+                + '<input type="text" required="" name="sold" value="" placeholder="0">'
                 + '</div>'
                 + '</div>'
                 + '</div>'
                 + '</div>'
                 + '</div>'
-                + '</div>'
+
                 + '<div class="row">'
-                + '<div class="col l6 m6 s12">'
+                + '<div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">'
+                + '<div class="input-field">'
+                + '<a href="#add-spec" class="add_spec_btn add_size_color_sold"><i class="material-icons center">library_add</i></a>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+
+                + '<div class="row right-align-600-992">'
+                + '<div class="col l8 s12 push-l4">'
+                + '<div class="row">'
+                + '<div class="col l6 s12">'
+                + '<div class="input-field">'
+                + '<a href="#clone-product" class="clone-product waves-effect waves-light btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>'
+                + '</div>'
+                + '</div>'
+                + '<div class="col l6 s12 right-align-992">'
+                + '<div class="input-field">'
+                + '<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+
+
+
+                + '<div class="col l4 s12 pull-l8">'
+                + '<div class="row">'
+                + '<div class="col l12 m12 s12">'
                 + '<div class="input-field">'
                 + '<a href="#remove-product" class="waves-effect waves-light btn red btn-remove-product"><i class="material-icons left">delete</i>Del</a>'
                 + '</div>'
                 + '</div>'
-                + '<div class="col l6 m6 s12 right-align-600">'
-                + '<div class="input-field">'
-                + '<a href="#add-product" class="waves-effect waves-light btn"><i class="material-icons left">loop</i>Save</a>'
                 + '</div>'
                 + '</div>'
-                + '</div>'
+
                 + '</div>'
                 + '</div>'
                 + '</div>';
     }
-
     function getSpecSuiteTemplateSize(key) // Get template of suite of specifications.
     {
         return '<div class="spec_size_item overflow spec_size_item_remove" data-suite-spec="' + key + '">'
@@ -483,7 +571,7 @@
                 + '</div>'
                 + '<div class="col l2 m2 s2">'
                 + '<div class="input-field center-align"><br>'
-                + '<a href="#remove-spec-size" class="remove-spec remove_spec_size"><i class="material-icons">delete</i></a>'
+                + '<a href="#remove-spec-size" class="ico-remove remove_spec_size"><i class="material-icons">delete</i></a>'
                 + '</div>'
                 + '</div>'
                 + '</div>';
@@ -505,9 +593,45 @@
                 + '</div>'
                 + '<div class="col l2 m2 s2">'
                 + '<div class="input-field center-align"><br>'
-                + '<a href="#remove-spec-color" class="remove-spec remove_spec_color"><i class="material-icons">delete</i></a>'
+                + '<a href="#remove-spec-color" class="ico-remove remove_spec_color"><i class="material-icons">delete</i></a>'
                 + '</div>'
                 + '</div>'
                 + '</div>';
     }
+
+    function getSpecSuiteTemplateSizeColorSold(key) // Get template of suite of specifications.
+    {
+        return '<div class="size_color_sold_item size_color_sold_item_remove overflow" data-suite-spec="' + key + '">'
+                + '<div class="col l4 m12 s12">'
+                + '<div class="input-field">'
+                + '<span class="label">Size</span>'
+                + '<input type="text" required="" name="size" value="" placeholder="Size">'
+                + '</div>'
+                + '</div>'
+                + '<div class="col l4 m12 s12">'
+                + '<div class="input-field">'
+                + '<span class="label">COLORS</span>'
+                + '<div class="file-field input-colorpicker" data-color="#26a69a"  data-format="hex" data-component=".btn">'
+                + '<div class="btn"></div>'
+                + '<div class="file-path-wrapper">'
+                + '<input type="text" name="color" class="" />'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="col l3 m10 s10">'
+                + '<div class="input-field">'
+                + '<span class="label">Sold</span>'
+                + '<input type="text" required="" name="sold" value="" placeholder="0">'
+                + '</div>'
+                + '</div>'
+
+                + '<div class="col l1 m2 s2">'
+                + '<div class="input-field center-align"><br>'
+                + '<a href="#remove-size-color-sold" class="ico-remove remove-size-color-sold"><i class="material-icons">delete</i></a>'
+                + '</div>'
+                + '</div>'
+                + '</div>';
+    }
+
 </script>

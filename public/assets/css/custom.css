@@ -182,10 +182,10 @@ font-weight: 400;
     display: table;
     clear: both;
 }
-.add_spec_btn, .remove-spec{
+.add_spec_btn, .ico-remove{
     display: inline-block;
 }
-.remove-spec{
+.ico-remove{
     margin-top: 8px;
 }
 .color-select{
