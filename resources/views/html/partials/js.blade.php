@@ -88,34 +88,45 @@
 
     $(function () // Calculate sealed price.
     {
-        var sale_zero = '0%';
+        //var sale_zero = '0%';
+        var sale_zero = '0';
 
         function validateSale($sale)
         {
             if ($sale > 0)
             {
-                return Math.round($sale).toFixed(0) + '%';
+                //return Math.round($sale).toFixed(0) + '%';
+                return Math.round($sale).toFixed(0);
             }
 
             return sale_zero;
         }
 
         $(document).ready(function () {
-            $(".add_product").delegate("input.old_price, input.new_price", "keyup", function(){
+            $(".add_product").delegate("input.old_price, input.new_price, input.create_sale", "keyup", function(event){
                 var curent_product = $(this).parents('.inner_product');
 
-                var sale = curent_product.find('input.create_sale');
-                var old_price = curent_product.find('input.old_price').val();
-                var new_price = curent_product.find('input.new_price').val();
+                var sale          = curent_product.find('input.create_sale');
+                var old_price     = curent_product.find('input.old_price');
+                var new_price     = curent_product.find('input.new_price');
 
-                var diff = ((old_price - new_price) / old_price);
+                var val_sale      = sale.val();
+                var val_old_price = old_price.val();
+                var val_new_price = new_price.val();
+                var target = $( event.target );
+                if (target.is( "input.old_price" ) || target.is('input.new_price')) {
+                    var diff = ((val_old_price - val_new_price) / val_old_price);
 
-                if(diff == 1 || diff == 0)
-                {
-                    return sale.val(sale_zero);
+                    if(diff == 1 || diff == 0)
+                    {
+                        return sale.val(sale_zero);
+                    }
+                    var calc = diff * 100;
+                    var result = validateSale(calc);
+                }else if(target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price) && val_sale != '' && val_old_price != ''){
+                    var result = validateSale(val_old_price - (val_old_price/100*val_sale));
+                    return new_price.val(result);
                 }
-                var calc = diff * 100;
-                var result = validateSale(calc);
 
                 return sale.val(result);
             });
@@ -316,7 +327,7 @@
             }
         });
     });
-    
+
     $(function (){
         var $from = $(".datepicker-from");
         var $to = $(".datepicker-to");
@@ -435,14 +446,14 @@
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<span class="label">{{ strtoupper('Price') }}</span>'
+                + '<span class="label">{{ strtoupper('new price') }}</span>'
                 + '<input type="text" required="" class="new_price" name="price" value="" placeholder="' + currency + '">'
                 + '</div>'
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">{{ strtoupper('SALE') }}</span>'
-                + '<input type="text" class="create_sale" name="sale" placeholder="0%" value="0%">'
+                + '<input type="text" class="create_sale" name="sale" placeholder="0%" value="0">'
                 + '</div>'
                 + '</div>'
 

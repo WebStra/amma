@@ -130,7 +130,7 @@
 
 								<div class="col l6 s12 ">
 									<div class="input-field">
-										<span class="label">{{ strtoupper('Price') }}</span>
+										<span class="label">{{ strtoupper('new price') }}</span>
 										<input type="text" required="" class="new_price" name="price" value="" placeholder="MDL">
 									</div>
 								</div>
@@ -140,7 +140,7 @@
 								<div class="col l6 s12">
 			                        <div class="input-field">
 			                            <span class="label">{{ strtoupper('SALE') }}</span>
-			                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="0%">
+			                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="0">
 			                        </div>
 			                    </div>
 								<div class="col l6 s12">
