@@ -192,17 +192,19 @@
         }
         function reInit()
         {
-            $('select').material_select('update');
+            //$('select').material_select('destroy');
+            $('select').material_select();
+
             $('.materialboxed').materialbox();
-            $('.input-colorpicker').colorpicker();  
+            //$('.input-colorpicker').colorpicker();  
         }
-        sortable();
-        var key_lot     = {value: 2};
-        var key_product = {value: 2};
-        var key_color   = {value: 2};
-        var key_size    = {value: 2};
-        var key_scs     = {value: 2};
-        var curent_currency     = {value: 'MDL'};
+        //sortable();
+        var key_lot         = {value: 2};
+        var key_product     = {value: 2};
+        var key_color       = {value: 2};
+        var key_size        = {value: 2};
+        var key_scs         = {value: 2};
+        var curent_currency = {value: 'MDL'};
 
         $(".add_product").delegate(".add_suite", "click", function(){
             var curent_product = $(this).parents('.inner_product');
@@ -225,7 +227,8 @@
             if ($('.inner_product').length  < 10) {
                 $('.add_product').append(addProduct(key_product.value, curent_currency.value));
                 reInit();
-                sortable();
+                $('.input-colorpicker').colorpicker();
+                //sortable();
                 $('.inner_product').last()
                     .animate({borderColor:'#26a69a'}, 1000)
                     .delay(500)
@@ -268,12 +271,23 @@
 
         $(".add_product").delegate("a.clone-product", "click", function(){
             var curent_product = $(this).parents('.inner_product');
-            //var clone_product = curent_product.clone();
+            
             if ($('.inner_product').length  < 10) {
-                curent_product.after(addProduct(key_product.value, curent_currency.value));
+                curent_product.find('select').material_select('destroy');
+                curent_product.find('.input-colorpicker').colorpicker('destroy');
+                var curent_val = curent_product.find('select').val();
+                var clone_product = curent_product.clone();
+                curent_product.after(clone_product);
+                curent_product.next().find('select').val(curent_val);
                 curent_product.next().animate({borderColor:'#ff6f00'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
                 reInit();
-                sortable();
+                $('.input-colorpicker').colorpicker({
+                  component: '.btn',
+                  color:'#26a69a',
+                  format:'hex'
+                });
+                //$('.input-colorpicker').colorpicker('update');
+                //sortable();
                 key_product.value = key_product.value + 1;
             }
         });
@@ -449,13 +463,18 @@
                 + '</div>'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<span class="label">{{ strtoupper('type') }}</span>'
-                + '<select name="type" required>'
-                + '<option value="new">New</option>'
-                + '<option value="old">Old</option>'
+                + '<span class="label">{{ strtoupper('Subcategories') }}</span>'
+                + '<select class="subcategories">'
+                + '<option value="vvvvvvvvvvvv1">vvvvvvvvvvvv11</option>'
+                + '<option value="vvvvvvvvvvvv2">vvvvvvvvvvvv12</option>'
+                + '<option value="vvvvvvvvvvvv3">vvvvvvvvvvvv13</option>'
+                + '<option value="vvvvvvvvvvvv4">vvvvvvvvvvvv14</option>'
+                + '<option value="vvvvvvvvvvvv5">vvvvvvvvvvvv15</option>'
+                + '<option value="vvvvvvvvvvvv6">vvvvvvvvvvvv16</option>'
                 + '</select>'
                 + '</div>'
                 + '</div>'
+                
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">{{ strtoupper('old price') }}</span>'
@@ -472,16 +491,6 @@
                 + '<div class="input-field">'
                 + '<span class="label">{{ strtoupper('SALE') }}</span>'
                 + '<input type="text" class="create_sale" name="sale" placeholder="0%" value="0">'
-                + '</div>'
-                + '</div>'
-
-                + '<div class="col l6 s12">'
-                + '<div class="input-field">'
-                + '<span class="label">{{ strtoupper('Subcategories') }}</span>'
-                + '<select name="subcategories[]" required>'
-                + '<option value="">vvvvvvvvvvvv</option>'
-                + '<option value="">vvvvvvvvvvvv</option>'
-                + '</select>'
                 + '</div>'
                 + '</div>'
 
@@ -562,7 +571,7 @@
                 + '<div class="row">'
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
-                + '<a href="#clone-product" class="clone-product waves-effect waves-light btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>'
+                + '<a href="#clone-product" class="clone-product btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>'
                 + '</div>'
                 + '</div>'
                 + '<div class="col l6 s12 right-align-992">'

@@ -34,13 +34,13 @@
 									<div class="col l6 m6 s12">
 										<div class="input-field">
 											<span class="label">{{ strtoupper('categories') }}</span>
-											<select id="parent_categories" name="categories[]" required>
-												<option data-procent="1" value="">vvvvvvvvvvvv1</option>
-												<option data-procent="2" value="">vvvvvvvvvvvv2</option>
-												<option data-procent="3" value="">vvvvvvvvvvvv3</option>
-												<option data-procent="4" value="">vvvvvvvvvvvv4</option>
-												<option data-procent="5" value="">vvvvvvvvvvvv5</option>
-												<option data-procent="6" value="">vvvvvvvvvvvv6</option>
+											<select id="parent_categories" name="categories" required>
+												<option data-procent="1" value="CATEGORY1">CATEGORY1</option>
+												<option data-procent="2" value="CATEGORY2">CATEGORY2</option>
+												<option data-procent="3" value="CATEGORY3">CATEGORY3</option>
+												<option data-procent="4" value="CATEGORY4">CATEGORY4</option>
+												<option data-procent="5" value="CATEGORY5">CATEGORY5</option>
+												<option data-procent="6" value="CATEGORY6">CATEGORY6</option>
 											</select>
 										</div>
 									</div><!-- Categories -->
@@ -117,15 +117,23 @@
 									</div>
 								</div>
 
-							    <div class="col l6 s12">
-							        <div class="input-field">
-							            <span class="label">{{ strtoupper('type') }}</span>
-							            <select name="type" required>
-							                <option value="new">New</option>
-							                <option value="old">Old</option>
-							            </select>
-							        </div>
-							    </div><!-- Type -->
+								<div class="col l6 s12">
+									<div class="input-field">
+										<span class="label">{{ strtoupper('Subcategories') }}</span>
+										<select class="subcategories">
+											<option value="vvvvvvvvvvvv1">vvvvvvvvvvvv11</option>
+											<option value="vvvvvvvvvvvv2">vvvvvvvvvvvv12</option>
+											<option value="vvvvvvvvvvvv3">vvvvvvvvvvvv13</option>
+											<option value="vvvvvvvvvvvv4">vvvvvvvvvvvv14</option>
+											<option value="vvvvvvvvvvvv5">vvvvvvvvvvvv15</option>
+											<option value="vvvvvvvvvvvv6">vvvvvvvvvvvv16</option>
+											<option value="vvvvvvvvvvvv7">vvvvvvvvvvvv17</option>
+											<option value="vvvvvvvvvvvv8">vvvvvvvvvvvv18</option>
+											<option value="vvvvvvvvvvvv9">vvvvvvvvvvvv19</option>
+											<option value="vvvvvvvvvvvv10">vvvvvvvvvvvv20</option>
+										</select>
+									</div>
+								</div><!-- Subcategories -->
 
 								<div class="col l6 s12">
 							        <div class="input-field">
@@ -149,14 +157,6 @@
 			                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="0">
 			                        </div>
 			                    </div>
-								<div class="col l6 s12">
-									<div class="input-field">
-										<span class="label">{{ strtoupper('Subcategories') }}</span>
-										<select name="subcategories[]" required>
-											<option value="">vvvvvvvvvvvv</option>
-										</select>
-									</div>
-								</div><!-- Subcategories -->
 
 							</div>
 							<div class="row">
@@ -232,12 +232,12 @@
 
 								<div class="col l8 s12 push-l4">
 									<div class="row">
-										<div class="col l6 s12">
+										<!-- <div class="col l6 s12">
 											<div class="input-field">
-												<a href="#clone-product" class="clone-product waves-effect waves-light btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
+												<a href="#clone-product" class="clone-product btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
 											</div>
-										</div>
-										<div class="col l6 s12 right-align-992">
+										</div> -->
+										<div class="col l6 s12 offset-l6 right-align-992">
 											<div class="input-field">
 												<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>
 											</div>
