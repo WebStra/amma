@@ -6,6 +6,7 @@ use App\Libraries\Categoryable\Categoryable;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\CategoryPresenter;
 use App\Traits\ActivateableTrait;
+use App\Traits\Categories\HasFilters;
 use App\Traits\HasImages;
 use App\Traits\RankedableTrait;
 use Keyhunter\Administrator\Repository;
@@ -13,7 +14,12 @@ use Keyhunter\Translatable\HasTranslations;
 
 class Category extends Repository
 {
-    use HasTranslations, ActivateableTrait, RankedableTrait, HasImages, Presenterable;
+    use HasTranslations,
+        ActivateableTrait,
+        RankedableTrait,
+        HasImages,
+        Presenterable,
+        HasFilters;
 
     /**
      * @var string

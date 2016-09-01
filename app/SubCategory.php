@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\ActivateableTrait;
+use App\Traits\Categories\HasFilters;
 use App\Traits\HasImages;
 use Keyhunter\Administrator\Repository;
 use Keyhunter\Translatable\HasTranslations;
@@ -10,7 +11,7 @@ use Keyhunter\Translatable\Translatable;
 
 class SubCategory extends Repository implements Translatable
 {
-    use ActivateableTrait, HasTranslations, HasImages;
+    use ActivateableTrait, HasTranslations, HasImages, HasFilters;
 
     /**
      * @var string

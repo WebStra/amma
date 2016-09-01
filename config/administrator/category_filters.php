@@ -1,13 +1,14 @@
 <?php
 
 use App\Category;
+use App\CategoryFilter;
 
 return [
-    'title' => 'SubCategories',
+    'title' => 'Category Filters',
 
-    'description' => 'Here you can create subcategories for <a href="/admin/categories">categories</a>.',
+    'description' => 'Filters for categories.',
 
-    'model' => \App\SubCategory::class,
+    'model' => \App\CategoryFilter::class,
 
     /*
     |-------------------------------------------------------
@@ -21,39 +22,22 @@ return [
     'columns' => [
         'id',
 
-        'image' => [
-            'title' => 'Cover',
-            'output' => function($row)
-            {
-                $image = $row->images()->cover()->first();
-
-                return $image ? output_image($image->image, null, ['width' => '100']) : '';
-            }
-        ],
-
         'name',
 
-        'category_id' => [
-            'title' => 'Parent Category',
+        'filtreable_name' => [
+            'title' => 'Category name',
             'output' => function ($row) {
-                return ($row->category) ? $row->category->name: '';
+                return ($row->filterable) ? $row->filterable->name : '';
             }
         ],
 
-        'info' => [
-            'title'     => 'Seo info',
-            'elements'  => [
-                'seo_title' => [
-                    'title' => '(Seo) Title'
-                ],
-                'seo_description' => [
-                    'title' => '(Seo) Description'
-                ],
-                'seo_keywords' => [
-                    'title' => '(Seo) Keywords'
-                ],
-            ]
+        'filter_type' => [
+            'title' => 'Type of filter',
         ],
+
+        'group',
+
+        'filter_attributes',
 
         'active' => [
             'visible' => function () {
@@ -61,13 +45,6 @@ return [
             'output' => function ($row) {
                 return output_boolean($row);
             }
-        ],
-
-        'dates' => [
-            'elements' => [
-                'created_at',
-                'updated_at'
-            ]
         ]
     ],
 
@@ -104,7 +81,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query;
+        return $query->where('filterable_type', Category::class);
     },
 
     /*
@@ -124,17 +101,32 @@ return [
                 ->translated();
         }),
 
-        'category_id' => filter_select('Parent', function () {
+        'group' => filter_select('Group', function(){
             $items = ['' => '-- Any --'];
 
-            $collection = Category::select('*')->active()->get();
+            $groups = CategoryFilter::select('group')
+                ->where('filterable_type', Category::class)
+                ->pluck('group')
+                ->toArray();
 
-            foreach ($collection as $item)
+            if(count($groups))
             {
-                $items[$item->id] = $item->name;
+                $groups = array_flip($groups);
+
+                array_walk($groups, function($id, $group) use(&$items){
+                    $items[$group] = ucfirst($group);
+                });
             }
 
             return $items;
+        }),
+
+        'filter_type' => filter_select('Filter type', function () {
+            return [
+                '' => '-- Any --',
+                'checkbox' => '-- Checkbox --',
+                'select' => '-- Select --'
+            ];
         }),
 
         'active' => filter_select('Active', [
@@ -153,40 +145,24 @@ return [
     |
     */
     'edit_fields' => [
+        'name' => form_text() + translatable(),
 
-        'id' => form_key(),
-
-        'image' => [
-            'type' => 'image',
-            'location' => 'upload/categories'
+        'filterable_type' => [
+            'type' => 'hidden',
+            'value' => Category::class
         ],
 
-        'category_id' => form_select('Choose parent category', function () {
+        'filterable_id' => form_select('Choose category', function () {
             $items = [];
 
-            $collection = Category::select('*')->active()->get();
+            $categories = Category::select('*')->active()->get();
 
-            foreach ($collection as $item)
-            {
+            foreach ($categories as $item) {
                 $items[$item->id] = $item->name;
             }
 
             return $items;
         }),
-
-        'name' => form_text() + translatable(),
-
-        'slug' => [
-            'type' => 'text',
-            'description' => '(Optional)',
-            'translatable' => true
-        ],
-
-        'seo_title' => form_text() + translatable(),
-
-        'seo_description' => form_text() + translatable(),
-
-        'seo_keywords' => form_text() + translatable(),
 
         'active' => form_boolean()
     ]
