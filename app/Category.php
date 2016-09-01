@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Libraries\Categoryable\CategoryableTrait;
 use App\Libraries\Categoryable\Categoryable;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\CategoryPresenter;
@@ -14,7 +13,7 @@ use Keyhunter\Translatable\HasTranslations;
 
 class Category extends Repository
 {
-    use HasTranslations, CategoryableTrait, ActivateableTrait, RankedableTrait, HasImages, Presenterable;
+    use HasTranslations, ActivateableTrait, RankedableTrait, HasImages, Presenterable;
 
     /**
      * @var string
@@ -27,9 +26,14 @@ class Category extends Repository
     protected $presenter = CategoryPresenter::class;
 
     /**
+     * @var CategoryTranslation
+     */
+    public $translationModel = CategoryTranslation::class;
+
+    /**
      * @var array
      */
-    protected $fillable = ['tax', 'active', 'show_in_footer', 'show_in_sidebar', 'rank', 'type'];
+    protected $fillable = ['tax', 'active', 'show_in_footer', 'show_in_sidebar', 'rank'];
 
     /**
      * @var array
@@ -39,30 +43,16 @@ class Category extends Repository
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function categoryables()
+    public function subCategories()
     {
-        return $this->hasMany(Categoryable::class);
-    }
-    
-    /**
-     * Where type parent scope.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeParent($query)
-    {
-        return $query->whereType('parent');
+        return $this->hasMany(SubCategory::class, 'id', 'category_id');
     }
 
     /**
-     * Where type child scope.
-     *
-     * @param $query
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scopeChild($query)
+    public function categoryables()
     {
-        return $query->whereType('child');
+        return $this->hasMany(Categoryable::class, 'id', 'category_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Libraries\Categoryable;
 use App\Category;
 use App\Product;
 use App\Traits\ActivateableTrait;
+use Illuminate\Database\Eloquent\Model;
 use Keyhunter\Administrator\Repository as Eloquent;
 
 class Categoryable extends Eloquent
@@ -48,24 +49,20 @@ class Categoryable extends Eloquent
     }
 
     /**
-     * Get product scope.
+     * Get by instance scope.
      *
      * @param $query
+     * @param $type
      * @return mixed
      */
-    public function scopeProducts($query)
+    public function scopeElementType($query, $type)
     {
-        return $query->where('categoryable_type', Product::class);
-    }
+        if($type instanceof \Closure)
+            return $query->$type();
 
-    /**
-     * Get subcategory scope.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeCategories($query)
-    {
-        return $query->where('categoryable_type', Category::class);
+        if($type instanceof Model)
+            return $query->where('categoryable_type', get_class($type));
+
+        return $query->where('categoryable_type', $type);
     }
 }

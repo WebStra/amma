@@ -3,11 +3,9 @@
 namespace App\Repositories;
 
 use App\Category;
-use App\CategoryTranslation;
-use App\Contracts\TranslatableRepositoryContract;
 use App\Libraries\Categoryable\Categoryable;
 
-class CategoryRepository extends Repository implements TranslatableRepositoryContract
+class CategoryRepository extends Repository
 {
     /**
      * @return Category
@@ -15,22 +13,6 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     public function getModel()
     {
         return new Category();
-    }
-
-    /**
-     * @return CategoryTranslation
-     */
-    public function getTranslatableModel()
-    {
-        return new CategoryTranslation();
-    }
-
-    /**
-     * @return Categoryable
-     */
-    public function getCategoryableModel()
-    {
-        return new Categoryable();
     }
 
     /**
@@ -58,19 +40,6 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     }
 
     /**
-     * Get active subcategories.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getPublicSubcategories()
-    {
-        return self::getModel()
-            ->child()
-            ->active()
-            ->get();
-    }
-
-    /**
      * Get category collection for sidebar.
      *
      * @return \Illuminate\Database\Eloquent\Collection
@@ -79,7 +48,6 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     {
        return self::getModel()
            ->where('show_in_sidebar', 1)
-           ->parent()
            ->active()
            ->ranked()
            ->get();
@@ -94,7 +62,6 @@ class CategoryRepository extends Repository implements TranslatableRepositoryCon
     {
         return self::getModel()
             ->where('show_in_footer', '=', 1)
-            ->parent()
             ->active()
             ->ranked()
             ->get();

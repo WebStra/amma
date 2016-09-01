@@ -2,7 +2,7 @@
 
 namespace App\Libraries\Categoryable;
 
-trait CategoryableTrait
+trait HasManyCategories
 {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany
@@ -10,13 +10,5 @@ trait CategoryableTrait
     public function categories()
     {
         return $this->morphMany(Categoryable::class, 'categoryable');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function category()
-    {
-        return $this->morphOne(Categoryable::class, 'categoryable');
     }
 }

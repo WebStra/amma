@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Libraries\Categoryable\CategoryableTrait;
+use App\Libraries\Categoryable\HasCategory;
 use App\Libraries\Metaable\HasMeta;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
@@ -13,7 +13,7 @@ use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
-    use CategoryableTrait, ActivateableTrait, Presenterable, HasMeta, HasImages, Taggable;
+    use HasCategory, ActivateableTrait, Presenterable, HasMeta, HasImages, Taggable;
     
     /**
      * @var string

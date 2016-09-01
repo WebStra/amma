@@ -21,9 +21,12 @@ class PagesController extends Controller
     /**
      * PagesController constructor.
      * @param ContactsRepository $contactsRepository
+     * @param ProductsRepository $productsRepository
      */
-    public function __construct(ContactsRepository $contactsRepository, ProductsRepository $productsRepository)
-    {
+    public function __construct(
+        ContactsRepository $contactsRepository,
+        ProductsRepository $productsRepository
+    ) {
         $this->contacts = $contactsRepository;
         $this->products = $productsRepository;
     }

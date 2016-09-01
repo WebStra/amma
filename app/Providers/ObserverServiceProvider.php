@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Category;
 use App\Image;
+use App\Listeners\Observers\CategoryObserver;
 use App\Listeners\Observers\ImageObserver;
 use App\Listeners\Observers\ProductObserver;
+use App\Listeners\Observers\SubCategoryObserver;
 use App\Product;
+use App\SubCategory;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -18,6 +22,8 @@ class ObserverServiceProvider extends ServiceProvider
     protected $observers = [
         Image::class => ImageObserver::class,
         Product::class => ProductObserver::class,
+        Category::class => CategoryObserver::class,
+        SubCategory::class => SubCategoryObserver::class
     ];
 
     /**

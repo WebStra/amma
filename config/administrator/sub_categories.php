@@ -1,14 +1,13 @@
 <?php
 
 use App\Category;
-use App\Libraries\Categoryable\Categoryable;
 
 return [
     'title' => 'SubCategories',
 
     'description' => 'Here you can create subcategories for <a href="/admin/categories">categories</a>.',
 
-    'model' => Category::class,
+    'model' => \App\SubCategory::class,
 
     /*
     |-------------------------------------------------------
@@ -34,19 +33,26 @@ return [
 
         'name',
 
-        'belongs' => [
-            'title' => 'Belongs to (parent)',
+        'category_id' => [
+            'title' => 'Parent Category',
             'output' => function ($row) {
-                $categoryable = Categoryable::select("*")
-                    ->where('categoryable_id', $row->id)
-                    ->categories()
-                    ->first();
-
-                if (!is_null($categoryable))
-                    return $categoryable->category->name;
-
-                return '';
+                return ($row->category) ? $row->category->name: '';
             }
+        ],
+
+        'info' => [
+            'title'     => 'Seo info',
+            'elements'  => [
+                'seo_title' => [
+                    'title' => '(Seo) Title'
+                ],
+                'seo_description' => [
+                    'title' => '(Seo) Description'
+                ],
+                'seo_keywords' => [
+                    'title' => '(Seo) Keywords'
+                ],
+            ]
         ],
 
         'active' => [
@@ -98,7 +104,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query->child();
+        return $query;
     },
 
     /*
@@ -118,23 +124,17 @@ return [
                 ->translated();
         }),
 
-        'parent' => filter_select('Parent', function () {
-            return Category::select("*")
-                ->parent()
-                ->active()
-                ->translated()
-                ->get()
-                ->pluck('name', 'id')
-                ->prepend('-- Any --', '');
-        }, function ($query, $value) {
-            $parent = Category::whereId($value)->first();
+        'category_id' => filter_select('Parent', function () {
+            $items = ['' => '-- Any --'];
 
-            $childrens = [];
-            $parent->categoryables->each(function ($child) use (&$childrens){
-                $childrens[] = $child->categoryable->id;
-            });
+            $collection = Category::select('*')->active()->get();
 
-            return $query->whereIn('id', $childrens);
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
         }),
 
         'active' => filter_select('Active', [
@@ -156,23 +156,37 @@ return [
 
         'id' => form_key(),
 
+        'image' => [
+            'type' => 'image',
+            'location' => 'upload/categories'
+        ],
+
+        'category_id' => filter_select('Choose parent category', function () {
+            $items = [];
+
+            $collection = Category::select('*')->active()->get();
+
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
+        }),
+
         'name' => form_text() + translatable(),
 
-        'type' => [
-            'type' => 'hidden',
-            'value' => 'child'
+        'slug' => [
+            'type' => 'text',
+            'description' => '(Optional)',
+            'translatable' => true
         ],
 
-//        'slug' => form_text() + translatable(),
+        'seo_title' => form_text() + translatable(),
 
-//        'rank' => form_text(),
+        'seo_description' => form_text() + translatable(),
 
-        'show_in_footer' => form_boolean(),
-
-        'show_in_sidebar' => [
-            'type' => 'hidden',
-            'value' => '0'
-        ],
+        'seo_keywords' => form_text() + translatable(),
 
         'active' => form_boolean()
     ]

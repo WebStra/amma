@@ -35,8 +35,8 @@ $(function()
 
     $(document).ready(function(){
         $('input[type=checkbox]').iCheck({
-            checkboxClass: 'icheckbox_minimal-purple',
-            radioClass: 'iradio_minimal-purple',
+            checkboxClass: 'icheckbox_minimal-yellow',
+            radioClass: 'iradio_minimal-yellow',
             increaseArea: '20%' // optional
         });
     });

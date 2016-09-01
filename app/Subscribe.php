@@ -1,12 +1,13 @@
-<?php 
+<?php
 
 namespace App;
+
 use App\Traits\ActivateableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscribe extends Model
 {
-	 use ActivateableTrait;
+    use ActivateableTrait;
 
     /**
      * @var string
@@ -17,5 +18,4 @@ class Subscribe extends Model
      * @var array
      */
     protected $fillable = ['email', 'token', 'active'];
-  
 }

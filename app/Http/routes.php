@@ -64,6 +64,10 @@ Route::bind('provider', function($provider){
     abort('404');
 });
 
+Route::post('test', function(){
+    dd(\Request::all());
+});
+
 Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
