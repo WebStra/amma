@@ -63,13 +63,13 @@ return [
                 'icon' => 'fa fa-circle-o'
             ],
 
-            'category_filters' => [
-                'icon' => 'fa fa-circle-o'
-            ],
-
-            'sub_category_filters' => [
-                'icon' => 'fa fa-circle-o'
-            ],
+//            'category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+//
+//            'sub_category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
 
 //            'category_rel' => [
 //                'icon' => 'fa fa-circle-o'
