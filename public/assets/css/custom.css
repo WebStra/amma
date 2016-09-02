@@ -152,3 +152,7 @@ text-align: left;
 .auth_modal .autologin {
    margin-top:-15px; 
 }
+
+.star_rating[data-rating_value='0'] li:nth-of-type(n+1) {
+  color: #bebebe;
+}

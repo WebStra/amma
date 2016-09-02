@@ -22,7 +22,7 @@
                 </span>
                 <div id="#something"></div>
                 <p class="small"><span class="likes_count">{{ $vendor->likes->count() }}</span> păreri / 
-                <span class="likes_percent"> {{  ($vendor->likes()->count()) ? ($vendor->likes()->count() - $vendor->getLikes('dislike')->count()) / $vendor->likes()->count() * 100 : '0' }} </span> % positive</p>
+                <span class="likes_percent"> {{ $vendor->present()->renderPozitiveVotes() }} </span> % positive</p>
                 <p class="small"><a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}">{{ $vendor->present()->activeCount() }} active</a> / {{ $vendor->present()->totalCount() }} total</p>
             </div>
         </div>
@@ -79,8 +79,10 @@
                             $('.like').removeClass('vote_active');
                             $('.unlike').removeClass('vote_active');
                         }
-                        ajax_running = false;
                         
+                    },
+                    complete: function (){
+                        ajax_running = false;
                     }
                 });
             }
@@ -130,18 +132,22 @@ $('.auth_submit_ajax, .auth_register_ajax').on("click", function(event){
                             { 
                                 $('.auth_errors li').remove(); 
                             }, 5000);
-                        });
-                            if(btn.attr("disabled")){
-                                btn.attr("disabled", false);
-                            }
-                        return;
+                        }); 
+                        return;    
                     }
+
                     if(data.redirect){
                         window.location.href = data.redirect;
                         return;
                     }
-                    wrap.append('<li style="background:#f5f5f5; border:1px solid green; color:green;">Login Success!</li>');
+                   wrap.append('<li style="background:#f5f5f5; border:1px solid green; color:green;">Login Success!</li>');
                     location.reload();
+                    return;
+                },
+                complete : function(){
+                    if(btn.attr("disabled")){
+                        btn.attr("disabled", false);
+                    }
                     return;
                 }
             });

@@ -7,12 +7,12 @@
               @include('partials.errors.list')
                 <div class="col s12">
                     <div class="input-field">
-                        <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                        <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
                     </div>
                 </div>
                 <div class="col s12">
                     <div class="input-field">
-                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" name="password" placeholder="Password" required>
                     </div>
                 </div>
                 <div class="col s12">

@@ -3,11 +3,12 @@
 namespace App\Libraries\Presenterable\Presenters;
 
 use App\Traits\HasImagesPresentable;
+use App\Traits\LikeablePresentorTrait;
 use Carbon\Carbon;
 
 class VendorPresenter extends Presenter
 {
-    use HasImagesPresentable;
+    use HasImagesPresentable, LikeablePresentorTrait;
 
     /**
      * Render vendor's title

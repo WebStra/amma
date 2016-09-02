@@ -10,14 +10,14 @@
                     <h4>
                         <a href="{{ route('view_vendor', ['vendor' => $item->slug]) }}">{{ $item->present()->renderTitle()}}</a>
                     </h4>
-                    <ul class="star_rating" data-rating_value="{{ ($item->likes()->count()) ? (round(0.05 * (($item->likes()->count() - $item->getLikes('dislike')->count()) / $item->likes()->count() * 100)))  : '1' }}">
+                    <ul class="star_rating" data-rating_value="{{ $item->present()->roundPozitiveVotes() }}">
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                     </ul>
-                    <p class="small">{{ $item->likes()->count() }} păreri / {{  ($item->likes()->count()) ? ($item->likes()->count() - $item->getLikes('dislike')->count()) / $item->likes()->count() * 100 : '0' }} % positive </p>
+                    <p class="small">{{ $item->present()->renderPozitiveVotes() }} % positive </p>
                 </div>
             </div>
             <div class="buttons row">
