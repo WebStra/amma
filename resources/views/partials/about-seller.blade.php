@@ -148,7 +148,6 @@ $('.auth_submit_ajax, .auth_register_ajax').on("click", function(event){
                     if(btn.attr("disabled")){
                         btn.attr("disabled", false);
                     }
-                    return;
                 }
             });
     });
