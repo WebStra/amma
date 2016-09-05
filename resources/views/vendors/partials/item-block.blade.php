@@ -20,7 +20,6 @@
     <div class="cf"></div>
     <div class="sub_content" id="show_detail_product_{{ $i }}">
         <div class="body">
-            {{--{{ dd($item->products) }}--}}
             @foreach($item->products as $product)
                 @include('vendors.partials.item_block_more_info')
             @endforeach
