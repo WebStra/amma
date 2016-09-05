@@ -33,12 +33,18 @@ return [
 
         'show_in_header' => column_element('Show in header', false, function($row)
         {
-            return output_boolean($row, 'show_in_header');
+        	if($row->show_in_header)
+            	return output_boolean($row, 'show_in_header');
+
+            return '';
         }),
 
         'show_in_footer' => column_element('Show in footer', false, function($row)
         {
-            return output_boolean($row, 'show_in_footer');
+        	if($row->show_in_footer)
+            	return output_boolean($row, 'show_in_footer');
+
+            return '';
         }),
 
         'dates' => [

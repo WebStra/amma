@@ -15,7 +15,8 @@
         "rtconner/laravel-tagging": "~2.1",
         "laravel/socialite": "^2.0",
         "rtconner/laravel-likeable": "^1.2",
-        "webstra/share": "dev-master"
+        "webstra/share": "^5.2"
+        
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

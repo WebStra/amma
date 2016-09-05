@@ -161,9 +161,13 @@ class ProductPresenter extends Presenter
      * @return float|string
      */
     public function getSalesPercent($rotate = true)
-    {
+    {   
+        if($this->getSalesSumm()) {
         $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
-
+        }
+        else {
+            $result=0;
+        }
         if($rotate)
             return number_format(round(number_format($result)));
         
