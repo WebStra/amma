@@ -1,4 +1,4 @@
-<!-- Initialize jQuery -->
+Initialize jQuery -->
 {!!Html::script('/assets/js/jquery-2.1.1.min.js')!!}
 <!-- End of initialize jQuery plugin -->
 
@@ -25,4 +25,4 @@
 
 <!-- Adding other scripts -->
 {!!Html::script('/assets/js/init.js')!!}
-<!-- End adding other scripts -->
+<!-- End adding other scripts
