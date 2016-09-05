@@ -25,4 +25,4 @@
 
 <!-- Adding other scripts -->
 {!!Html::script('/assets/js/init.js')!!}
-<!-- End adding other scripts -->
+<!-- End adding other scripts

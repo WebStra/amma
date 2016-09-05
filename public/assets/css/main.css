@@ -1392,11 +1392,12 @@ ul.social a.icon-google-plus {
 }
 
 /* line 1192, ../sass/main.scss */
-.carousel .slides li img {
+.carousel .slides li  {
   border: 1px solid transparent;
 }
 /* line 1195, ../sass/main.scss */
-.carousel .slides li:hover img {
+.carousel .slides li:hover,
+.carousel .slides li.flex-active-slide {
   border: 1px solid #ff6f00;
 }
 
