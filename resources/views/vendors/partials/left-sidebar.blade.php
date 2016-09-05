@@ -8,14 +8,14 @@
                 </div>
                 <div class="content">
                     <h4>{{ $item->present()->renderTitle()}}</h4>
-                    <ul class="star_rating" data-rating_value="{{ $item->present()->renderPozitiveVotes() }}">
+                    <ul class="star_rating" data-rating_value="{{ $item->present()->roundPozitiveVotes() }}">
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                         <li class="icon-star"></li>
                     </ul>
-                    <p class="small">{{ $item->present()->roundPozitiveVotes() }} % positive 
+                    <p class="small">{{ $item->present()->renderPozitiveVotes() }} % positive 
                     </p>
                 </div>
             </div>
