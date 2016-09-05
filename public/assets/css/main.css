@@ -1182,7 +1182,7 @@ footer .foot {
 ul.social li {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 10px;
+  margin:-5px 5px 10px 5px;
 }
 /* line 1005, ../sass/main.scss */
 ul.social li a {
