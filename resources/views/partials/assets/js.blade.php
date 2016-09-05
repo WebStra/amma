@@ -1,4 +1,4 @@
-Initialize jQuery -->
+<!-- Initialize jQuery -->
 {!!Html::script('/assets/js/jquery-2.1.1.min.js')!!}
 <!-- End of initialize jQuery plugin -->
 
