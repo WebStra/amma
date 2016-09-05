@@ -997,18 +997,7 @@ body {
   font-size: 40px;
   width: 100%;
 }
-/* line 831, ../sass/main.scss */
-.product .wrapp_img.with_hover:hover .hover {
-  width: 100%;
-  height: 100%;
-  transition: all 0.5s ease;
-}
-/* line 835, ../sass/main.scss */
-.product .wrapp_img.with_hover:hover .hover a {
-  transition: all 1s ease;
-  left: 0 !important;
-  right: 0 !important;
-}
+
 /* line 844, ../sass/main.scss */
 .product h4.title {
   font-size: 15px;
