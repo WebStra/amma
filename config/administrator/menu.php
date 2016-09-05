@@ -53,7 +53,7 @@ return [
         ]
     ],
     'Categories' => [
-        'icon' => 'fa fa-tags',
+        'icon' => 'fa fa-list',
         'pages' => [
             'categories' => [
                 'icon' => 'fa fa-circle-o'
@@ -78,6 +78,14 @@ return [
 //            'category_images' => [
 //                'icon' => 'fa fa-circle-o'
 //            ]
+        ]
+    ],
+    'Tags' => [
+        'icon' => 'fa fa-tags',
+        'pages' => [
+            'taggs' => [
+                'icon' => 'fa fa-circle-o'
+            ],
         ]
     ],
     'Blog' => [

@@ -12,6 +12,7 @@ class CreateCategoryFiltersTables extends Migration
      */
     public function up()
     {
+        return;
         Schema::create('category_filters', function (Blueprint $table) {
             $table->increments('id');
             $table->morphs('filterable');
@@ -39,6 +40,7 @@ class CreateCategoryFiltersTables extends Migration
      */
     public function down()
     {
+        return;
         Schema::drop('category_filter_translations');
         Schema::drop('category_filters');
     }

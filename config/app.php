@@ -163,8 +163,9 @@ return [
         Jenssegers\Date\DateServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
         App\Providers\SocialiteServiceProvider::class,
-        Chencha\Share\ShareServiceProvider::class,
+//        Chencha\Share\ShareServiceProvider::class,
         Conner\Likeable\LikeableServiceProvider::class,
+        Cviebrock\EloquentTaggable\ServiceProvider::class
     ],
 
     /*
@@ -212,7 +213,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Date' => Jenssegers\Date\Date::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Share' => Chencha\Share\ShareFacade::class
+//        'Share' => Chencha\Share\ShareFacade::class //todo: uncomment it after restart.
 
     ],
 

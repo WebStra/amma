@@ -8,12 +8,11 @@ use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\HasImages;
-use Conner\Tagging\Taggable;
 use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
-    use HasCategory, ActivateableTrait, Presenterable, HasMeta, HasImages, Taggable;
+    use HasCategory, ActivateableTrait, Presenterable, HasMeta, HasImages;
     
     /**
      * @var string

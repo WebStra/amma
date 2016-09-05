@@ -24,12 +24,12 @@ Breadcrumbs::register('contacts', function ($breadcrumbs) {
     $breadcrumbs->push('Contacts', route('contacts'));
 });
 
-Breadcrumbs::register('vendors', function ($breadcrumbs) {
+Breadcrumbs::register('frontend_vendors', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Vendors', route('vendors'));
 });
 
-Breadcrumbs::register('view_vendor', function ($breadcrumbs, $vendor) {
+Breadcrumbs::register('view_vendor_blog', function ($breadcrumbs, $vendor) {
     $breadcrumbs->parent('view_blog');
     $breadcrumbs->push($vendor->name, route('view_vendor', $vendor->id));
 });
