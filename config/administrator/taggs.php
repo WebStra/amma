@@ -168,9 +168,9 @@ return [
 
         'name' => form_text('Tag name') + translatable(),
 
-//        'group' => form_text() + translatable() + description('(Optional)'),
         'group' => [
             'type' => 'text_select',
+            'description' => '(Optional)',
             'default' => 'Select group or add your\'s new one.',
             'options' => function(){
                 return (new \App\Repositories\TagRepository)->getCategoryTagGroups();
