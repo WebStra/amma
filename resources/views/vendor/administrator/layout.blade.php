@@ -27,6 +27,9 @@
     <link href="<?= asset($assets . '/plugins/iCheck/minimal/yellow.css') ?>" rel="stylesheet">
     <!-- Theme Skins -->
     <link href="<?= asset($assets . '/css/main.css') ?>" rel="stylesheet" type="text/css">
+    <!-- Semantic UI Dropdown -->
+    <link href="<?= asset($assets . '/plugins/semantic_dropdown/dropdown.min.css') ?>" rel="stylesheet" type="text/css">
+    <link href="<?= asset($assets . '/plugins/semantic_transition/transition.min.css') ?>" rel="stylesheet" type="text/css">
     @yield('css')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -105,6 +108,9 @@
 <!-- jquery jcrop -->
 <script src="<?= asset($assets . '/plugins/jcrop/js/jquery.color.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/jcrop/js/jquery.Jcrop.min.js') ?>" type="text/javascript"></script>
+<!-- Semantic UI Dropdown -->
+<script src="<?= asset($assets . '/plugins/semantic_dropdown/dropdown.min.js') ?>" type="text/javascript"></script>
+<script src="<?= asset($assets . '/plugins/semantic_transition/transition.min.js') ?>" type="text/javascript"></script>
 
 @yield('js')
 

@@ -759,8 +759,14 @@ body {
   padding-left: 15px;
   position: relative;
 }
+.sidebar_search .wrapp_submit button {
+  color: #fff;
+  font-size: 15px;
+  font-family: "robotolight", sans-serif;
+  margin-top: 15px;
+}
 /* line 614, ../sass/main.scss */
-.top_search .wrapp_submit button {
+.top_search .wrapp_submit button, .sidebar_search .wrapp_submit button {
   background-color: #ff6f00;
   font-weight: 600;
   font-size: 15px;

@@ -61,4 +61,12 @@ class Category extends Repository
     {
         return $this->hasMany(Categoryable::class, 'id', 'category_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tags()
+    {
+        return $this->hasMany(Tag::class, 'category_id', 'id');
+    }
 }

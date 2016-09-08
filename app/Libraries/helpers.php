@@ -9,3 +9,18 @@
 //        `func_body`
 //    }
 //}
+
+//if (! function_exists('description')) {
+//    /**
+//     * Add description for field.
+//     *
+//     * @uses keyhunter/administrator package
+//     *
+//     * @param $desc string
+//     * @return array
+//     */
+//    function description($desc)
+//    {
+//        return ['description' => $desc];
+//    }
+//}

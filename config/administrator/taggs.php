@@ -20,7 +20,7 @@ return [
     |
     */
     'columns' => [
-        'tag_id',
+        'id',
 
         'category_id' => [
             'output' => function($row){
@@ -33,13 +33,18 @@ return [
 
         'name',
 
+        'group',
+
         'normalized',
 
         'active' => [
             'visible' => function () {
             },
             'output' => function ($row) {
-                return output_boolean($row);
+                if($row->active)
+                    return output_boolean($row);
+
+                return '';
             }
         ],
 
@@ -104,7 +109,31 @@ return [
     |
     */
     'filters' => [
-        'tag_id' => filter_hidden(),
+        'id' => filter_hidden(),
+
+        'group' => filter_select('Group', function(){
+            $items = [ '' => "-- Any --" ];
+
+            $groups = \App\TagTranslation::select('group')
+                ->pluck('group')
+                ->toArray();
+
+            if(count($groups))
+            {
+                $groups = array_flip($groups);
+
+                array_walk($groups, function($id, $group) use(&$items){
+                    if(! empty($group))
+                        $items[$group] = ucfirst($group);
+                });
+            }
+
+            return $items;
+        }, function($query, $value){
+            return $query->select('*')
+                ->translated()
+                ->whereGroup($value);
+        }),
 
         'category_id' => filter_select('Category', function(){
             $items = [ '' => '-- Any --' ];
@@ -138,6 +167,15 @@ return [
     'edit_fields' => [
 
         'name' => form_text('Tag name') + translatable(),
+
+//        'group' => form_text() + translatable() + description('(Optional)'),
+        'group' => [
+            'type' => 'text_select',
+            'default' => 'Select group or add your\'s new one.',
+            'options' => function(){
+                return (new \App\Repositories\TagRepository)->getCategoryTagGroups();
+            }
+        ],
 
         'category_id' => form_select('Category', function (){
             $items = [];

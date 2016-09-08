@@ -1,9 +1,7 @@
-<?php
-$subCategories = $category->categoryables()->categories()->get(); ?>
-@if(count($subCategories))
+@if(count($category->subCategories()->count()))
     <div class="elements bordered divide-top border_bottom hide-on-med-and-down">
         <ul class="categories">
-            @foreach($subCategories as $item)
+            @foreach($category->subCategories as $item)
                 <?php $item = $item->categoryable ?>
                 <li>
                     <a href="{{ route('view_category', ['category' => $item->slug]) }}">

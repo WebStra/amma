@@ -59,6 +59,7 @@ return [
     'log_actions'     => false,
 
     'custom_field_types' => [
-        'ajax_image_upload' => App\Administrator\Types\AjaxImageUpload::class
+        'ajax_image_upload' => App\Administrator\Types\AjaxImageUpload::class,
+        'text_select' => App\Administrator\Types\TextSelect::class
     ]
 ];

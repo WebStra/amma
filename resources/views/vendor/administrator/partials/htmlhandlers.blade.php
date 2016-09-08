@@ -13,6 +13,13 @@ $(function()
         multidate: true
     });
 
+    $('[data-input-type="text_dropdown"]').dropdown({
+        allowAdditions: true
+    });
+
+    $("input[name=group]").on('change', function(){
+        console.log($(this).val());
+    });
 
     $('input[data-filter-type="number_range"]').slider({
         //

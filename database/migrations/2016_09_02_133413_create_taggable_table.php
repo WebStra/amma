@@ -14,7 +14,7 @@ class CreateTaggableTable extends Migration
     public function up()
     {
         Schema::create('taggable_tags', function (Blueprint $table) {
-            $table->increments('tag_id');
+            $table->increments('id');
 //            $table->string('name');
             $table->integer('category_id')->unsigned();
             $table->string('normalized');

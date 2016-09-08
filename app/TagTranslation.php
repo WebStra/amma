@@ -14,5 +14,13 @@ class TagTranslation extends WithoutTimestampsModel
     /**
      * @var array
      */
-    protected $fillable = [ 'language_id', 'taggable_id', 'name' ];
+    protected $fillable = [ 'language_id', 'taggable_id', 'name', 'group' ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class, 'tag_id', 'id');
+    }
 }

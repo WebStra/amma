@@ -1,6 +1,6 @@
 @extends('layout')
 
-<?php $categoryable_products = $category->categoryables()->products()->get(); ?>
+<?php $categoryable_products = $category->categoryables()->elementType(\App\Product::class)->get(); ?>
 
 @section('content')
     <section class="history_buy">

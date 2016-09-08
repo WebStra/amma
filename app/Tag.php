@@ -24,7 +24,7 @@ class Tag extends Repository implements Translatable
      *
      * @var string
      */
-    protected $primaryKey = 'tag_id';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -48,7 +48,7 @@ class Tag extends Repository implements Translatable
     /**
      * @var array
      */
-    public $translatedAttributes = [ 'name' ];
+    public $translatedAttributes = [ 'name', 'group' ];
 
     /**
      * @var \Illuminate\Database\Eloquent\Model TagTranslation
