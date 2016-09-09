@@ -37,15 +37,21 @@
     </form>
 </div><!-- category filter -->
 
-@section('js')
+@section('scripts')
     <script>
         (function ($) {
-            return;
             $("form.filtre input").on("change", function(){
-                var $this = $(this);
-                var form = $this.parents('form');
+                var $this = $(this); // this input changed
+                var form = $this.parents('form'); // serialize the form
 
-                form.submit();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('filter_category', ['category' => $category->slug]) }}',
+                    data: {category: '{{ $category->slug }}'},
+                    success: function(response){
+                        $('div.filter-result').html(response);
+                    }
+                });
             });
         }(jQuery));
     </script>

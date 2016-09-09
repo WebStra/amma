@@ -64,10 +64,6 @@ Route::bind('provider', function($provider){
     abort('404');
 });
 
-Route::post('test', function(){
-    dd(\Request::all());
-});
-
 Route::multilingual(function () {
     Route::get('/', [
         'as' => 'home',
@@ -92,6 +88,12 @@ Route::multilingual(function () {
     Route::get('category/{category}', [
         'as' => 'view_category',
         'uses' => 'CategoriesController@show'
+    ]);
+
+    Route::post('category/{category}', [
+        'as' => 'filter_category',
+        'midleware' => 'accept-ajax',
+        'uses' => 'CategoriesController@filter'
     ]);
 
     Route::get('product/{product}', [
@@ -212,7 +214,6 @@ Route::multilingual(function () {
                     'as' => 'add_product_color',
                     'uses' => 'ProductsController@addColor'
                 ]);
-
 
                 Route::post('product/{product}/remove-color', [
                     'as' => 'remove_product_color',

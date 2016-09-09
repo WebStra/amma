@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Repositories\CategoryRepository;
-use App\Repositories\ProductsRepository;
 use App\Repositories\TagRepository;
+use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
@@ -41,5 +41,11 @@ class CategoriesController extends Controller
         $groups = $this->tags->getCategoryTagGroups($category);
 
         return view('categories.index', [ 'category' => $category, 'groups' => $groups ]);
+    }
+
+    public function filter(Request $request) // todo: cahnge method name..
+    {
+        // todo: send content here ..
+        return view('test');
     }
 }
