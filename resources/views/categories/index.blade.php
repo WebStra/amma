@@ -20,7 +20,7 @@
                     <div class="filter-result">
                         @include('categories.partials.filter_result')
                     </div><!--filter result block-->
-                </div><!--right block-->
+                </div><!--right bl ock-->
             </div>
         </div>
     </section>

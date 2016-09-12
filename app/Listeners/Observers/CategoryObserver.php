@@ -52,8 +52,6 @@ class CategoryObserver extends Observer
             $location = 'upload/categories/';
             $processor = new ImageProcessor();
             $processor->uploadAndCreate($image, $category, null, $location);
-        } else {
-            throw new \Exception('Invalid Image');
         }
     }
 

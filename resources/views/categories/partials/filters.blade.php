@@ -44,10 +44,14 @@
                 var $this = $(this); // this input changed
                 var form = $this.parents('form'); // serialize the form
 
+                $.query.set("rows", 10);
+//                window.location.search = $.query.set("rows", 10);
+//                window.history.pushState("object or string", "Title", "/new-url"); // push & it work
+//                console.log(window.location.hash);
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('filter_category', ['category' => $category->slug]) }}',
-                    data: {category: '{{ $category->slug }}'},
+                    data: form.serialize(),
                     success: function(response){
                         $('div.filter-result').html(response);
                     }

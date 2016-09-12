@@ -23,6 +23,7 @@ return [
         'id',
 
         'category_id' => [
+            'title' => 'Category',
             'output' => function($row){
                 if($row->category)
                     return $row->category->name;
@@ -35,7 +36,7 @@ return [
 
         'group',
 
-        'normalized',
+//        'normalized',
 
         'active' => [
             'visible' => function () {
@@ -111,6 +112,18 @@ return [
     'filters' => [
         'id' => filter_hidden(),
 
+        'category_id' => filter_select('Category', function(){
+            $items = [ '' => '-- Any --' ];
+
+            $categories = Category::select('*')->active()->get();
+
+            foreach ($categories as $item) {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
+        }),
+
         'group' => filter_select('Group', function(){
             $items = [ '' => "-- Any --" ];
 
@@ -120,6 +133,10 @@ return [
 
             if(count($groups))
             {
+                $groups = array_filter($groups, function($group) use (&$groups){
+                    return (bool) $group;
+                });
+
                 $groups = array_flip($groups);
 
                 array_walk($groups, function($id, $group) use(&$items){
@@ -133,18 +150,6 @@ return [
             return $query->select('*')
                 ->translated()
                 ->whereGroup($value);
-        }),
-
-        'category_id' => filter_select('Category', function(){
-            $items = [ '' => '-- Any --' ];
-
-            $categories = Category::select('*')->active()->get();
-
-            foreach ($categories as $item) {
-                $items[$item->id] = $item->name;
-            }
-
-            return $items;
         }),
 
         'active' => filter_select('Active', [

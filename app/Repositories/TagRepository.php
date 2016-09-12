@@ -57,4 +57,32 @@ class TagRepository extends Repository
 
         return array_flip(array_flip($groups));
     }
+
+    /**
+     * Get available dynamic filters.
+     *
+     * @param $category
+     * @return array
+     */
+    public function getAvailableDynamicFilters($category)
+    {
+        $groups = $this->getCategoryTagGroups($category);
+        $available_filters = [];
+
+        array_walk($groups, function($group) use (&$available_filters, $category){
+            $tags = $category->tags()
+                ->select('*')
+                ->translated()
+                ->whereGroup($group)
+                ->active()
+                ->get();
+
+            if(count($tags))
+                $tags->each(function($tag) use (&$available_filters, $group){
+                    $available_filters[$group][] = $tag->name;
+                });
+        });
+
+        return $available_filters;
+    }
 }
