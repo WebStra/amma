@@ -7,6 +7,7 @@ use App\Libraries\Categoryable\Categoryable;
 use App\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\TagRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -45,8 +46,18 @@ class CategoriesController extends Controller
     public function show($category)
     {
         $groups = $this->tags->getCategoryTagGroups($category);
+        $groups = null;
 
-        $products = $category->categoryables()->elementType(Product::class)->get();
+//        $products = $category->categoryables()->elementType(Product::class)->get();
+
+        $query = $category->categoryables()->select('*')->elementType(Product::class);
+
+        if(isset($_GET))
+            $query = $this->applyStaticFilter(
+                $query, $this->clearStaticFilters($_GET)
+            );
+
+        $products = $query->get();
 
         return view('categories.index', [
             'category' => $category,
@@ -112,6 +123,27 @@ class CategoriesController extends Controller
     }
 
     /**
+     * Apply static filters.
+     *
+     * @param $query
+     * @param array|null $filters
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function applyStaticFilter($query, array $filters = null)
+    {
+        /** Price range static filter. */
+        if(isset($filters['price_min']) && isset($filters['price_max']))
+        {
+//            $query->join(''); // join with `products` table.
+
+            $query->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
+        }
+
+        return $query;
+    }
+
+    /**
      * Separate filters.
      *
      * @param $filters
@@ -156,12 +188,30 @@ class CategoriesController extends Controller
         $filters = array_filter($filters, function($filter) use ($available_filters){
             list($group, $tag) = $this->parseDynamicFilter($filter);
 
-            $group = ucfirst($group); // todo: this stuff is hardcoded, find better solution ..
+            $group = ucfirst($group);
 
             return in_array($tag, $available_filters[$group]);
         }, ARRAY_FILTER_USE_KEY);
 
         return $filters;
+    }
+
+    /**
+     * Clear static filters.
+     *
+     * @param $filters
+     *
+     * @return array|null
+     */
+    protected function clearStaticFilters($filters)
+    {
+        $available_filters = array_flip($this->getStaticFilters());
+
+        $filters = array_filter($filters, function($filter_v, $filter_k) use ($available_filters){
+            return isset($available_filters[$filter_k]);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        return (!empty($filters)) ? $filters : null;
     }
 
     /**
