@@ -8,8 +8,10 @@ use App\Listeners\Observers\CategoryObserver;
 use App\Listeners\Observers\ImageObserver;
 use App\Listeners\Observers\ProductObserver;
 use App\Listeners\Observers\SubCategoryObserver;
+use App\Listeners\Observers\TagObserver;
 use App\Product;
 use App\SubCategory;
+use App\Tag;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -23,7 +25,8 @@ class ObserverServiceProvider extends ServiceProvider
         Image::class => ImageObserver::class,
         Product::class => ProductObserver::class,
         Category::class => CategoryObserver::class,
-        SubCategory::class => SubCategoryObserver::class
+        SubCategory::class => SubCategoryObserver::class,
+        Tag::class => TagObserver::class
     ];
 
     /**

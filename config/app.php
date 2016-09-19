@@ -161,7 +161,6 @@ return [
         Keyhunter\Administrator\ServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
-        Conner\Tagging\Providers\TaggingServiceProvider::class,
         App\Providers\SocialiteServiceProvider::class,
 //        Chencha\Share\ShareServiceProvider::class,
         Conner\Likeable\LikeableServiceProvider::class,
@@ -213,7 +212,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Date' => Jenssegers\Date\Date::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-//        'Share' => Chencha\Share\ShareFacade::class //todo: uncomment it after restart.
+        'Share' => Chencha\Share\ShareFacade::class
 
     ],
 

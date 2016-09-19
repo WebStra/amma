@@ -59,7 +59,7 @@ class Category extends Repository
      */
     public function categoryables()
     {
-        return $this->hasMany(Categoryable::class, 'id', 'category_id');
+        return $this->hasMany(Categoryable::class, 'category_id', 'id');
     }
 
     /**

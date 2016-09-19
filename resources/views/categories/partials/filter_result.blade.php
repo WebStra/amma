@@ -1,35 +1,44 @@
-@if(count($category->categoryables) <= 6)
-    <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-        @foreach($categoryable_products as $categoryable)
-            <?php $item = $categoryable->categoryable ?>
-            <div class="col l4 m6 s12">
-                @include('partials.products.item-block')
-            </div>
-        @endforeach
-    </div>
+@if(count($products))
+    @if(count($products) <= 6)
+        <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
+            @foreach($products as $categoryable)
+                @if(count($categoryable->tags))
+                    @foreach($categoryable->tags as $tag)
+                        <span>ID:{{ $tag->id }} {{ $tag }} for <b>item {{ $categoryable->categoryable->name }}</b></span>
+                    @endforeach
+                @endif
+                <?php $item = $categoryable->categoryable ?>
+                <div class="col l4 m6 s12">
+                    @include('partials.products.item-block')
+                </div>
+            @endforeach
+        </div>
 
-    @include('partials.banners.wide')
+        @include('partials.banners.wide')
+    @else
+        <?php
+        list($before_banner, $after_banner) = $products->chunk(6);
+        ?>
+        <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
+            @foreach($before_banner as $categoryable)
+                <?php $item = $categoryable->categoryable ?>
+                <div class="col l4 m6 s12">
+                    @include('partials.products.item-block')
+                </div>
+            @endforeach
+        </div>
+
+        @include('partials.banners.wide')
+
+        <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
+            @foreach($after_banner as $categoryable)
+                <?php $item = $categoryable->categoryable ?>
+                <div class="col l4 m6 s12">
+                    @include('partials.products.item-block')
+                </div>
+            @endforeach
+        </div>
+    @endif
 @else
-    <?php
-    list($before_banner, $after_banner) = $categoryable_products->chunk(6);
-    ?>
-    <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-        @foreach($before_banner as $categoryable)
-            <?php $item = $categoryable->categoryable ?>
-            <div class="col l4 m6 s12">
-                @include('partials.products.item-block')
-            </div>
-        @endforeach
-    </div>
-
-    @include('partials.banners.wide')
-
-    <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-        @foreach($after_banner as $categoryable)
-            <?php $item = $categoryable->categoryable ?>
-            <div class="col l4 m6 s12">
-                @include('partials.products.item-block')
-            </div>
-        @endforeach
-    </div>
+    <span>Upps, no products for selected filters...</span>
 @endif

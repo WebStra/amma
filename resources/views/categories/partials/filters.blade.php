@@ -18,8 +18,8 @@
                     @foreach($category->tags()->select('*')->translated()->whereGroup($group)->get() as $tag)
                         <span>
                             <?php
-                                // @warning: This stuff works only for checkbox input's.
-                                $name = sprintf("%s_%s", strtolower($group), $tag->name);
+                                /* @warning: This stuff works only for checkbox input's. */
+                                $name = sprintf("%s_%s", strtolower($group), $tag->normalized);
                                 $id   = sprintf("%s_%s", $group, $tag->name);
                             ?>
                             <input type="checkbox" name="{{ $name }}" id="{{ $id }}"
@@ -45,6 +45,7 @@
                 var form = $this.parents('form'); // serialize the form
 
                 $.query.set("rows", 10);
+                // todo: implement cahnge url through js
 //                window.location.search = $.query.set("rows", 10);
 //                window.history.pushState("object or string", "Title", "/new-url"); // push & it work
 //                console.log(window.location.hash);

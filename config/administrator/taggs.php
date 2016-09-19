@@ -36,7 +36,7 @@ return [
 
         'group',
 
-//        'normalized',
+        'normalized',
 
         'active' => [
             'visible' => function () {

@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Libraries\Categoryable\Categoryable;
+use App\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\TagRepository;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+    const FILTER_DYNAMIC = 'dynamic';
+
+    const FILTER_STATIC = 'static';
+
     /**
      * @var CategoryRepository
      */
@@ -40,7 +46,13 @@ class CategoriesController extends Controller
     {
         $groups = $this->tags->getCategoryTagGroups($category);
 
-        return view('categories.index', [ 'category' => $category, 'groups' => $groups ]);
+        $products = $category->categoryables()->elementType(Product::class)->get();
+
+        return view('categories.index', [
+            'category' => $category,
+            'groups' => $groups,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -58,20 +70,45 @@ class CategoriesController extends Controller
 
         $dynamic = $this->clearDynamicFilters($dynamic, $category);
 
-        $filtered = $this->applyFilter([ $static, $dynamic ]);
+        $filtered = $this->applyFilter([ self::FILTER_STATIC => $static, self::FILTER_DYNAMIC => $dynamic ], $category);
 
-        return view('categories.partials.filter_result', [ 'category' => $filtered ]);
+        return view('categories.partials.filter_result', [ 'category' => $category, 'products' => $filtered ]);
     }
 
     /**
      * Apply filters for category scope.
      *
      * @param null $filters
+     * @param Category $category
      * @return mixed
      */
-    protected function applyFilter($filters = null)
+    protected function applyFilter($filters = null, Category $category)
     {
-        //
+        $static = $filters[self::FILTER_STATIC];
+        $dynamic = $filters[self::FILTER_DYNAMIC];
+        $query = $category->categoryables()
+            ->elementType(Product::class);
+
+        if(! empty($dynamic))
+        {
+            $tags = '';
+            $i = 0;
+            $dynamic_count = count($dynamic);
+            array_walk($dynamic, function($filter_val, $filter) use (&$query, &$tags, $dynamic, $dynamic_count, &$i){
+                list($group, $tag) = $this->parseDynamicFilter($filter);
+
+                $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
+
+//                $query->whereGroup($group);
+                $i++;
+            });
+
+            $query->withAllTags($tags);
+        }
+
+        return $query
+            ->active()
+            ->get();
     }
 
     /**
@@ -117,7 +154,7 @@ class CategoriesController extends Controller
         $available_filters = $this->tags->getAvailableDynamicFilters($category);
 
         $filters = array_filter($filters, function($filter) use ($available_filters){
-            list($group, $tag) = explode('_', $filter);
+            list($group, $tag) = $this->parseDynamicFilter($filter);
 
             $group = ucfirst($group); // todo: this stuff is hardcoded, find better solution ..
 
@@ -125,5 +162,22 @@ class CategoriesController extends Controller
         }, ARRAY_FILTER_USE_KEY);
 
         return $filters;
+    }
+
+    /**
+     * Parse dynamic filter. First element must be an a group,
+     * and the second is a tag.
+     *
+     * @param $filter
+     * @param string $separator
+     * @return array
+     */
+    public function parseDynamicFilter($filter, $separator = '_')
+    {
+        list($group, $tag) = explode($separator, $filter);
+
+        $group = ucfirst($group);
+
+        return [ $group, $tag ];
     }
 }

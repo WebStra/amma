@@ -86,6 +86,10 @@ return [
             'taggs' => [
                 'icon' => 'fa fa-circle-o'
             ],
+
+            'taggable_products' => [
+                'icon' => 'fa fa-circle-o'
+            ]
         ]
     ],
     'Blog' => [

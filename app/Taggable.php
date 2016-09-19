@@ -23,4 +23,24 @@ class Taggable extends Repository
     {
         return $this->morphTo();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function tag()
+    {
+        return $this->hasOne(Tag::class, 'id', 'tag_id');
+    }
+
+    /**
+     * Scope get by element.
+     *
+     * @param $query
+     * @param $type
+     * @return mixed
+     */
+    public function scopeElementType($query, $type)
+    {
+        return $query->where('taggable_type', $type);
+    }
 }

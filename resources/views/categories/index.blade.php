@@ -1,7 +1,5 @@
 @extends('layout')
 
-<?php $categoryable_products = $category->categoryables()->elementType(\App\Product::class)->get(); ?>
-
 @section('js')
     {!!Html::script('/assets/plugins/jquery_query/jquery.query-object.js')!!}
 @endsection
@@ -13,7 +11,7 @@
                 @include('categories.partials.filters')
 
                 <div class="col l9 m7 s12">
-                    @include('categories.partials.sub_categories')
+                    {{--@include('categories.partials.sub_categories')--}}
 
                     @include('categories.partials.sort_form')
 
