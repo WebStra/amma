@@ -93,7 +93,7 @@ Route::multilingual(function () {
     Route::post('category/{category}', [
         'as' => 'filter_category',
         'midleware' => 'accept-ajax',
-        'uses' => 'CategoriesController@filter'
+        'uses' => 'CategoriesController@show'
     ]);
 
     Route::get('product/{product}', [

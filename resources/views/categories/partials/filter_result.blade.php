@@ -1,16 +1,15 @@
+
 @if(count($products))
     @if(count($products) <= 6)
         <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
             @foreach($products as $categoryable)
-                @if(count($categoryable->tags))
-                    @foreach($categoryable->tags as $tag)
-                        <span>ID:{{ $tag->id }} {{ $tag }} for <b>item {{ $categoryable->categoryable->name }}</b></span>
-                    @endforeach
-                @endif
                 <?php $item = $categoryable->categoryable ?>
-                <div class="col l4 m6 s12">
-                    @include('partials.products.item-block')
-                </div>
+
+                @if(isset($item))
+                    <div class="col l4 m6 s12">
+                        @include('partials.products.item-block')
+                    </div>
+                @endif
             @endforeach
         </div>
 

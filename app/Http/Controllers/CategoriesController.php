@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Libraries\Categoryable\Categoryable;
 use App\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\TagRepository;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -38,133 +36,6 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Show action for category.
-     * 
-     * @param Category $category
-     * @return $this
-     */
-    public function show($category)
-    {
-        $groups = $this->tags->getCategoryTagGroups($category);
-        $groups = null;
-
-//        $products = $category->categoryables()->elementType(Product::class)->get();
-
-        $query = $category->categoryables()->select('*')->elementType(Product::class);
-
-        if(isset($_GET))
-            $query = $this->applyStaticFilter(
-                $query, $this->clearStaticFilters($_GET)
-            );
-
-        $products = $query->get();
-
-        return view('categories.index', [
-            'category' => $category,
-            'groups' => $groups,
-            'products' => $products
-        ]);
-    }
-
-    /**
-     * Filter categories.
-     *
-     * @param Request $request
-     * @param $category
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function filter(Request $request, $category)
-    {
-        $filters = $request->all();
-
-        list($static, $dynamic) = $this->separateFilters($filters);
-
-        $dynamic = $this->clearDynamicFilters($dynamic, $category);
-
-        $filtered = $this->applyFilter([ self::FILTER_STATIC => $static, self::FILTER_DYNAMIC => $dynamic ], $category);
-
-        return view('categories.partials.filter_result', [ 'category' => $category, 'products' => $filtered ]);
-    }
-
-    /**
-     * Apply filters for category scope.
-     *
-     * @param null $filters
-     * @param Category $category
-     * @return mixed
-     */
-    protected function applyFilter($filters = null, Category $category)
-    {
-        $static = $filters[self::FILTER_STATIC];
-        $dynamic = $filters[self::FILTER_DYNAMIC];
-        $query = $category->categoryables()
-            ->elementType(Product::class);
-
-        if(! empty($dynamic))
-        {
-            $tags = '';
-            $i = 0;
-            $dynamic_count = count($dynamic);
-            array_walk($dynamic, function($filter_val, $filter) use (&$query, &$tags, $dynamic, $dynamic_count, &$i){
-                list($group, $tag) = $this->parseDynamicFilter($filter);
-
-                $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
-
-//                $query->whereGroup($group);
-                $i++;
-            });
-
-            $query->withAllTags($tags);
-        }
-
-        return $query
-            ->active()
-            ->get();
-    }
-
-    /**
-     * Apply static filters.
-     *
-     * @param $query
-     * @param array|null $filters
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function applyStaticFilter($query, array $filters = null)
-    {
-        /** Price range static filter. */
-        if(isset($filters['price_min']) && isset($filters['price_max']))
-        {
-//            $query->join(''); // join with `products` table.
-
-            $query->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
-        }
-
-        return $query;
-    }
-
-    /**
-     * Separate filters.
-     *
-     * @param $filters
-     * @return array
-     */
-    protected function separateFilters($filters)
-    {
-        $static_filters = $this->getStaticFilters();
-
-        $static = [];
-        $dynamic = $filters;
-        array_walk($static_filters, function($static_filter) use (&$static, &$dynamic){
-            $static[$static_filter] = $dynamic[$static_filter];
-
-            unset($dynamic[$static_filter]);
-        });
-
-        return [ $static, $dynamic ];
-    }
-
-    /**
      * Get list of unchanged/static filters.
      *
      * @return array
@@ -175,25 +46,99 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Clean dynamic filters.
+     * Show action for category.
      *
-     * @param $filters
-     * @param \App\Category $category
-     * @return array
+     * @param Request $request
+     * @param Category $category
+     *
+     * @return $this
      */
-    protected function clearDynamicFilters($filters, $category)
+    public function show(Request $request, $category)
     {
-        $available_filters = $this->tags->getAvailableDynamicFilters($category);
+        $groups = $this->tags->getCategoryTagGroups($category);
 
-        $filters = array_filter($filters, function($filter) use ($available_filters){
-            list($group, $tag) = $this->parseDynamicFilter($filter);
+        $filtered = $this->applyFilter($request, $category);
 
-            $group = ucfirst($group);
+        return view(($request->ajax()) ? 'categories.partials.filter_result' : 'categories.index', [
+            'category' => $category, 'products' => $filtered, 'groups' => $groups ]
+        );
+    }
 
-            return in_array($tag, $available_filters[$group]);
-        }, ARRAY_FILTER_USE_KEY);
+    /**
+     * Apply filters for category scope.
+     *
+     * @param Request $request
+     * @param Category $category
+     *
+     * @return mixed
+     */
+    protected function applyFilter(Request $request, Category $category)
+    {
+        if($filters = $request->all() ? : false)
+            list($static, $dynamic) = $this->separateFilters($filters);
 
-        return $filters;
+        $query = $category->categoryables()
+            ->elementType(Product::class)
+            ->getQuery();
+
+        if(isset($static) && $static = $this->clearStaticFilters($static))
+            $query = $this->applyStaticFilter($query, $static);
+
+        if(isset($dynamic) && $dynamic = $this->clearDynamicFilters($dynamic, $category))
+            $query = $this->applyDynamicFilter($query, $dynamic);
+
+        return $query->where('categoryable.active', 1)->get();
+    }
+
+    /**
+     * Apply static filters.
+     *
+     * @param $query
+     * @param array|null $filters
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function applyStaticFilter($query, array $filters = null)
+    {
+        /** Price range static filter. */
+        if(isset($filters['price_min']) && isset($filters['price_max']))
+        {
+            /* todo: find the better solution to perform price range filter. */
+
+            $query
+                /* In future possible Join `products` can be replaced above ..*/
+                ->join('products', 'products.id', '=', 'categoryable.categoryable_id')
+                ->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
+        }
+
+        return $query;
+    }
+
+    /**
+     * Apply static filters.
+     *
+     * @param $query
+     * @param array|null $filters
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function applyDynamicFilter($query, array $filters = null)
+    {
+//        $tags = '';
+//        $i = 0;
+//        $dynamic_count = count($filters);
+//        array_walk($dynamic, function($filter_val, $filter) use (&$query, &$tags, $dynamic, $dynamic_count, &$i){
+//                list($group, $tag) = $this->parseDynamicFilter($filter);
+//
+//                $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
+//
+//                  $query->whereGroup($group);
+//                $i++;
+//            });
+//
+//        $query->withAllTags($tags);
+
+        return $query;
     }
 
     /**
@@ -215,11 +160,58 @@ class CategoriesController extends Controller
     }
 
     /**
+     * Clean dynamic filters.
+     *
+     * @param $filters
+     * @param \App\Category $category
+     *
+     * @return array|null
+     */
+    protected function clearDynamicFilters($filters, $category)
+    {
+        $available_filters = $this->tags->getAvailableDynamicFilters($category);
+
+        $filters = array_filter($filters, function($filter) use ($available_filters){
+            list($group, $tag) = $this->parseDynamicFilter($filter);
+
+            $group = ucfirst($group);
+
+            if(isset($available_filters[$group]))
+                return in_array($tag, $available_filters[$group]);
+        }, ARRAY_FILTER_USE_KEY);
+
+        return (!empty($filters)) ? $filters : null;
+    }
+
+    /**
+     * Separate filters.
+     *
+     * @param $filters
+     *
+     * @return array
+     */
+    protected function separateFilters($filters)
+    {
+        $static_filters = $this->getStaticFilters();
+
+        $static = [];
+        $dynamic = $filters;
+        array_walk($static_filters, function($static_filter) use (&$static, &$dynamic){
+            $static[$static_filter] = $dynamic[$static_filter];
+
+            unset($dynamic[$static_filter]);
+        });
+
+        return [ $static, $dynamic ];
+    }
+
+    /**
      * Parse dynamic filter. First element must be an a group,
      * and the second is a tag.
      *
      * @param $filter
      * @param string $separator
+     *
      * @return array
      */
     public function parseDynamicFilter($filter, $separator = '_')

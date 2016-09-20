@@ -3,15 +3,19 @@
         <div class="filtru">
             <h5>Pretul</h5>
             <div class="range_select">
-                <p id="range1" data-min="100" data-max="10000"></p>
+                <?php
+                    $price_min_default = 0;
+                    $price_max_default = 1000;
+                ?>
+                <p id="range1" data-min="{{ $price_min_default }}" data-max="{{ $price_max_default }}"></p>
                 <input type="hidden" id="price_min" name="price_min"
-                       value="{{ isset($_GET['price_min']) ? $_GET['price_min'] : '2000' }}"/>
+                       value="{{ isset($_GET['price_min']) ? $_GET['price_min'] : $price_min_default }}"/>
                 <input type="hidden" id="price_max" name="price_max"
-                       value="{{ isset($_GET['price_max']) ? $_GET['price_max'] : '8000' }}"/>
+                       value="{{ isset($_GET['price_max']) ? $_GET['price_max'] : $price_max_default }}"/>
             </div>
         </div>
 
-        @if(count($groups)))
+        @if(count($groups))
             @foreach($groups as $group)
                 <div class="filtru">
                     <h5>{{ $group }}</h5>
@@ -45,6 +49,9 @@
             $("form.filtre input").on("change", function(){
                 var $this = $(this); // this input changed
                 var form = $this.parents('form'); // serialize the form
+                var output_content = $('div.filter-result');
+
+                output_content.html("Loading ..."); // instead this use loading animation ...
 
                 $.query.set("rows", 10);
 //                window.location.search = $.query.set("rows", 10);

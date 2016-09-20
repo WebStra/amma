@@ -14,7 +14,7 @@
         "jenssegers/date": "^3.2",
         "rtconner/laravel-likeable": "^1.2",
         "laravel/socialite": "^2.0",
-        "webstra/share": "dev-master",
+        "webstra/share": "*",
         "cviebrock/eloquent-taggable": "^2.0"
     },
     "require-dev": {

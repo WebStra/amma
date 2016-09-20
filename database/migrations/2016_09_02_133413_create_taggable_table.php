@@ -15,7 +15,6 @@ class CreateTaggableTable extends Migration
     {
         Schema::create('taggable_tags', function (Blueprint $table) {
             $table->increments('id');
-//            $table->string('name');
             $table->integer('category_id')->unsigned();
             $table->string('normalized');
             $table->boolean('active')->default(1)->index();
@@ -31,9 +30,10 @@ class CreateTaggableTable extends Migration
             $table->integer('tag_id')->unsigned();
             $table->integer('language_id')->unsigned();
             $table->string('name');
+            $table->string('group');
 
             $table->foreign('tag_id')
-                ->references('tag_id')
+                ->references('id')
                 ->on('taggable_tags')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
