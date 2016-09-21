@@ -5,7 +5,7 @@ use App\Category;
 return [
     'title' => 'Categories',
 
-    'description' => 'Parent categories',
+    'description' => 'General categories',
 
     'model' => Category::class,
 
@@ -44,6 +44,21 @@ return [
         ],
 
         'slug',
+
+        'info' => [
+            'title'     => 'Seo info',
+            'elements'  => [
+                'seo_title' => [
+                    'title' => '(Seo) Title'
+                ],
+                'seo_description' => [
+                    'title' => '(Seo) Description'
+                ],
+                'seo_keywords' => [
+                    'title' => '(Seo) Keywords'
+                ],
+            ]
+        ],
 
         'show' => [
             'title' => 'Show in',
@@ -93,9 +108,10 @@ return [
     |
     */
     'actions' => [
-        'test' => [
-            'title' => 'Test'
-        ]
+//        'image' => [
+//            'title' => 'Add image',
+//            'url' => 'category_images/create'
+//        ]
     ],
 
     /*
@@ -119,7 +135,7 @@ return [
     |
     */
     'query' => function ($query) {
-        return $query->parent();
+        return $query;
     },
 
     /*
@@ -134,7 +150,8 @@ return [
         'id' => filter_hidden(),
 
         'name' => filter_text('Name', function ($query, $value) {
-            return $query->select('*')
+            return $query
+                ->select('*')
                 ->where('name', 'like', '%'.$value.'%')
                 ->translated();
         }),
@@ -167,17 +184,28 @@ return [
     |
     */
     'edit_fields' => [
+//        'id' => form_key(),
 
-        'id' => form_key(),
+        'image' => [
+            'type' => 'image',
+            'location' => 'upload/categories'
+        ],
 
         'name' => form_text() + translatable(),
 
+        'slug' => [
+            'type' => 'text',
+            'description' => '(Optional)',
+            'translatable' => true
+        ],
+
         'tax' => form_number('Taxa (%)'),
 
-        'type' => [
-            'type' => 'hidden',
-            'value' => 'parent'
-        ],
+        'seo_title' => form_text() + translatable(),
+
+        'seo_description' => form_text() + translatable(),
+
+        'seo_keywords' => form_text() + translatable(),
 
         'show_in_footer' => form_boolean(),
 

@@ -13,7 +13,7 @@ use App\Traits\HasImages;
 class User extends Authenticatable
 {
     use Presenterable, Confirmed, ActivateableTrait, HasImages;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -84,7 +84,7 @@ class User extends Authenticatable
      */
     public function isSocialite()
     {
-        return (bool) $this->socialite;
+        return (bool)$this->socialite;
     }
 
     /**
@@ -94,7 +94,7 @@ class User extends Authenticatable
      */
     public function checkAvatar()
     {
-        return (bool) $this->images()->avatar()->first();
+        return (bool)$this->images()->avatar()->first();
     }
 
     /**

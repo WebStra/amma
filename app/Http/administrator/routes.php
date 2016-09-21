@@ -88,11 +88,13 @@ Route::group(['prefix' => 'admin'
             ]);
 
         // Save new item
-        Route::post('{page}/create', 'Keyhunter\Administrator\Controller@update');
+        Route::post('{page}/create', [
+            'as' => 'admin_model_create_save',
+            'uses' => 'Keyhunter\Administrator\Controller@update'
+        ]);
 
         // View Item
-        Route::get('{page}/{id}',
-            [
+        Route::get('{page}/{id}', [
                 'as' => 'admin_model_view',
                 'uses' => 'Keyhunter\Administrator\Controller@view'
             ]);

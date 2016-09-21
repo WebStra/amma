@@ -140,6 +140,8 @@
 @section('js')
     <script src="/assets/js/dropzone.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js" type="text/javascript"></script>
+@endsection
 
+@section('scripts')
     @include('product.partials.form.js')
 @endsection

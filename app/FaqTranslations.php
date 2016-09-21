@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Libraries\TranslatableModel;
+use App\Libraries\WithoutTimestampsModel;
 
-class FaqTranslations extends TranslatableModel
+class FaqTranslations extends WithoutTimestampsModel
 {
     /**
      * @var string

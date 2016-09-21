@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Traits\ActivateableTrait;
-use Illuminate\Database\Eloquent\Model;
+use Keyhunter\Administrator\Repository;
 
-class Profile extends Model
+class Profile extends Repository
 {
     use ActivateableTrait;
 

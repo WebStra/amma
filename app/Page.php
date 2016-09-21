@@ -9,6 +9,9 @@ class Page extends MainPage
 {
     use ActivateableTrait;
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'slug', 'title', 'body', 'active', 'show_in_footer', 'show_in_header'
     ];

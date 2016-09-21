@@ -53,7 +53,7 @@ return [
         ]
     ],
     'Categories' => [
-        'icon' => 'fa fa-tags',
+        'icon' => 'fa fa-list',
         'pages' => [
             'categories' => [
                 'icon' => 'fa fa-circle-o'
@@ -63,11 +63,31 @@ return [
                 'icon' => 'fa fa-circle-o'
             ],
 
-            'category_rel' => [
+//            'category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+//
+//            'sub_category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+//            'category_rel' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+//            'category_images' => [
+//                'icon' => 'fa fa-circle-o'
+//            ]
+        ]
+    ],
+    'Tags' => [
+        'icon' => 'fa fa-tags',
+        'pages' => [
+            'taggs' => [
                 'icon' => 'fa fa-circle-o'
             ],
 
-            'category_images' => [
+            'taggable_products' => [
                 'icon' => 'fa fa-circle-o'
             ]
         ]

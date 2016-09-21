@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Libraries\TranslatableModel;
+use App\Libraries\WithoutTimestampsModel;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class PostTranslation extends TranslatableModel implements SluggableInterface
+class PostTranslation extends WithoutTimestampsModel implements SluggableInterface
 {
     use SluggableTrait;
 

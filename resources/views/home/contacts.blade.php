@@ -81,7 +81,9 @@
 
 @section('js')
     {!!Html::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAyO2eCqw0WoNVb_fkoRNPfDnJkjRxwInk')!!}
+@endsection
 
+@section('scripts')
     <script>
         function initialize() {
             var mapCanvas = document.getElementById('map');

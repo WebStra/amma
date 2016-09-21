@@ -26,13 +26,13 @@
                     <div class="wrapp_img">
                         <img src="/assets/images/image_suport.jpg">
                     </div>
-                    <div class="display-flex">
+                    <!--<div class="display-flex">
                         <i class="icon-phone"></i>
                         <div>
                             <h4>Sunați-ne la numărul de telefon</h4>
                             <p class="c_base">(+373) 69 845 100</p>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="display-flex no-flex-med-down">
 

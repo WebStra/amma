@@ -9,6 +9,7 @@
             </div>
             <div class="content">
                 <h4>{{ $vendor->present()->renderTitle() }}</h4>
+
                 <span class="set_vote" data-type="like" 
                     data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'like']) }}">
                     <i class="like material-icons {{($vendor->wasLiked('like')) ? 'vote_active' : '' }}">thumb_up</i>
@@ -39,6 +40,45 @@
     </div>
 </div>
 
+<<<<<<< HEAD
+@section('scripts')
+    @if(Auth::user())
+        <script type="text/javascript">
+            $(function () {
+                var like_btn = $('span[data-type=like]');
+                var dislike_btn = $('span[data-type=dislike]');
+
+                $('.set_vote').click(function () {
+                    var $this = $(this);
+                    var count = $(this).find('span');
+
+                    $.ajax({
+                        type: 'post',
+                        url: $this.data('action'),
+                        data: {vendor: "{{$vendor->slug}}", like_type: $this.data('type')},
+                        success: function (response) {
+                            var out = JSON.parse(response);
+                            like_btn.find('span').html(out.likes);
+                            dislike_btn.find('span').html(out.dislikes);
+                        }
+                    });
+                });
+            });
+        </script>
+    @else
+        <script>
+            $('.set_vote').click(function () {
+                $('#modal').openModal();
+                $('.modal-trigger').leanModal({
+                    dismissible: true,
+                    opacity: .5,
+                    in_duration: 300,
+                    out_duration: 200,
+                });
+            });
+        </script>
+    @endif
+=======
 @section('js')
 @if(Auth::user())
     <script type="text/javascript">
@@ -152,4 +192,5 @@ $('.auth_submit_ajax, .auth_register_ajax').on("click", function(event){
             });
     });
 </script>
+>>>>>>> develop
 @endsection

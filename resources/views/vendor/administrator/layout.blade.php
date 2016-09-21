@@ -21,10 +21,15 @@
     <link href="<?= asset($assets . '/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
 
     <link href="<?= asset($assets . '/plugins/bootstrap-slider/slider.css') ?>" rel="stylesheet" type="text/css" />
+    <!-- jquery jcrop -->
+    <link href="<?= asset($assets . '/plugins/jcrop/css/jquery.Jcrop.min.css') ?>" rel="stylesheet" type="text/css" />
 
-    <link href="<?= asset($assets . '/plugins/iCheck/minimal/purple.css') ?>" rel="stylesheet">
+    <link href="<?= asset($assets . '/plugins/iCheck/minimal/yellow.css') ?>" rel="stylesheet">
     <!-- Theme Skins -->
     <link href="<?= asset($assets . '/css/main.css') ?>" rel="stylesheet" type="text/css">
+    <!-- Semantic UI Dropdown -->
+    <link href="<?= asset($assets . '/plugins/semantic_dropdown/dropdown.min.css') ?>" rel="stylesheet" type="text/css">
+    <link href="<?= asset($assets . '/plugins/semantic_transition/transition.min.css') ?>" rel="stylesheet" type="text/css">
     @yield('css')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -100,6 +105,12 @@
 <script src="<?= asset($assets . '/plugins/daterangepicker/daterangepicker.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/bootstrap-slider/bootstrap-slider.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/iCheck/icheck.min.js') ?>" type="text/javascript"></script>
+<!-- jquery jcrop -->
+<script src="<?= asset($assets . '/plugins/jcrop/js/jquery.color.js') ?>" type="text/javascript"></script>
+<script src="<?= asset($assets . '/plugins/jcrop/js/jquery.Jcrop.min.js') ?>" type="text/javascript"></script>
+<!-- Semantic UI Dropdown -->
+<script src="<?= asset($assets . '/plugins/semantic_dropdown/dropdown.min.js') ?>" type="text/javascript"></script>
+<script src="<?= asset($assets . '/plugins/semantic_transition/transition.min.js') ?>" type="text/javascript"></script>
 
 @yield('js')
 

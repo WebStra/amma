@@ -90,6 +90,12 @@ Route::multilingual(function () {
         'uses' => 'CategoriesController@show'
     ]);
 
+    Route::post('category/{category}', [
+        'as' => 'filter_category',
+        'midleware' => 'accept-ajax',
+        'uses' => 'CategoriesController@show'
+    ]);
+
     Route::get('product/{product}', [
         'as' => 'view_product',
         'uses' => 'ProductsController@show'
@@ -208,7 +214,6 @@ Route::multilingual(function () {
                     'as' => 'add_product_color',
                     'uses' => 'ProductsController@addColor'
                 ]);
-
 
                 Route::post('product/{product}/remove-color', [
                     'as' => 'remove_product_color',

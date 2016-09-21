@@ -5,9 +5,14 @@ namespace App\Listeners;
 use App\Events\UserCreationRequestSent;
 use Illuminate\Foundation\Application;
 use Illuminate\Mail\Message;
+use Keyhunter\Administrator\Filters\QueryableTrait;
+use Illuminate\Bus\Queueable;
+
 
 class SendConfirmationCode
 {
+//    use QueryableTrait, Queueable;
+
     /**
      * @var Application
      */
