@@ -7,8 +7,6 @@
     <div class="collapsible-body">
         <div class="display-table">
             <div class="wrapp_img with_hover td">
-                @include('partials.products.item.hover')
-
                 <img src="{{ $item->present()->cover() }}" alt="" width="145" height="120">
             </div>
         </div>
