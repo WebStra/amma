@@ -77,10 +77,12 @@
                             </ul>
                         </div>
                     </div>
-                    @include('share.index')
                 </div><!--product_info-->
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('partials.about-seller')
+                </div>
+                <div class="col l3 m12 s12 product_vendor_block">
+                    @include('share.index')
                 </div>
                 @include('product.partials.item.involved_list')
             </div>
