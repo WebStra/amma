@@ -17,6 +17,7 @@
         <div class="td">
             <h4>Colaborare</h4>
             <ul>
+                <li><a href="#">Termeni si Conditii</a></li>
                 <li><a href="#">Sa colaboram</a></li>
             </ul>
         </div>

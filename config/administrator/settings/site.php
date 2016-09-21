@@ -27,8 +27,6 @@ return [
 
         'contact_info::email' => ['type' => 'email', 'label' => 'Adresa electronică'],
 
-        'contact_info::executivPhone' => ['type' => 'text', 'label' => 'Directorul Executiv'],
-
         'contact_info::sellPhone' => ['type' => 'text', 'label' => 'Departamentul de vânzări'],
 
         'contact_info::tehnicPhone' => ['type' => 'text', 'label' => 'Departamentul tehnic'],
