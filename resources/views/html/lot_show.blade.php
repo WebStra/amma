@@ -1,5 +1,8 @@
 @extends('layout')
 
+@section('css')
+    {!!Html::style('/assets/css/mycss.css')!!}
+@endsection
 
 
 @section('content')
@@ -11,11 +14,11 @@
         <li class="active">Desperado Jeans (M, S, XXL) Summer 2016 July</li>
     </ul>
 </div>
+    
     <section class="produs">
         <div class="container">
             <div class="row">
-                <div class="col l4 m6 s12">
-                    <div>
+                <div class="col l4 m5 s12">
                         <div id="slider" class="flexslider">
                             <div class="flex-viewport">
                                 <ul class="slides simpleLens">
@@ -73,30 +76,88 @@
                                 </li>
                             </ul>
                         </div><!-- carousel -->
-                    </div><!-- slider -->
+                        <div class="bordered divide-top hide-on-small-only">
+                            <div class="block_title">DESPRE VÂNZĂTOR</div>
+                            <div class="person_card">
+                                <div class="display_flex border_bottom">
+                                    <div class="wrapp_img">
+                                        <img src="/upload/vendors/41\1468244019_556bcc8c4de594d70963e4ee3c4e3965.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <h4>Official Jeans Magazin</h4>
+                                        <span class="set_vote" data-type="like" data-action="http://amma/ro/vote_vendor/official-jeans-magazin?like_type=like">Like (<span>0</span>)</span>
+                                        <span class="set_vote" data-type="dislike" data-action="http://amma/ro/vote_vendor/official-jeans-magazin?like_type=dislike">Unlike (<span>0</span>)</span>
+                                        <div id="#something"></div>
+                                        <p class="small">0 păreri / 99,9% positive</p>
+                                        <p class="small"><a href="http://amma/ro/vendors/view/official-jeans-magazin">1 active</a> / 8 total</p>
+                                    </div>
+                                </div>
+                                <div class="buttons row">
+                                    <div class="col s6 padd_r_half">
+                                        <a href="http://amma/ro/vendors/view/official-jeans-magazin" class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
+                                        magazinul</a>
+                                    </div>
+                                    <div class="col s6 padd_l_half">
+                                        <a href="#" class="btn_ btn_white waves-effect waves-teal f_small right full_width">Contactează-ne</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bordered  elements hide-on-small-only">
+                            <div class="block_title">EI AU PROCURAT DEJA</div>
+                            <div class="person_card ">
+                                <div class="display_flex">
+                                    <div class="wrapp_img">
+                                        <img src="/assets/images/avatar1.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <h4>John Wick</h4>
+                                        <p class="">Count: 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+               
                 </div>
 
-                <div class="col l5 m6 s12 product_info form">
-                    <p>Type: OLD</p>
-                    <div class="input-field">
-                        <select name="name" required class="title-product">
-                            <option value="12">DESPERADO JEANS (M, S, XXL) SUMMER 2016 JULY</option>
-                            <option value="13">DESPERADO JEANS (M, S, XXL) SUMMER 2017 JULY</option>
-                            <option value="14">DESPERADO JEANS (M, S, XXL) SUMMER 2018 JULY</option>
-                            <option value="15">DESPERADO JEANS (M, S, XXL) SUMMER 2019 JULY</option>
-                            <option value="16">DESPERADO JEANS (M, S, XXL) SUMMER 2020 JULY</option>
-                        </select>
-                    </div>
-                    <p class="label-color">Color:</p>
-                    <ul class="color-select">
-                        <li><label style="background-color:#111;"><input name="color" type="radio"></label></li>
-                        <li><label style="background-color:#ccc;"><input name="color" type="radio"></label></li>
-                        <li><label style="background-color:#dcdcdc;"><input name="color" type="radio"></label></li>
-                        <li><label style="background-color:#ffddcc;"><input name="color" type="radio"></label></li>
-                        <li><label style="background-color:#ddd;"><input name="color" type="radio"></label></li>
-                        <li><label style="background-color:#ededed;"><input name="color" type="radio"></label></li>
-                    </ul>
-                    <div class="display-table td_bordered_right display-list_bloks-m-down">
+                <div class="col l8 m7 s12 product_info form">
+                    <div class="product-name">Laptop 11.6" ACER V5-123-12104G50nss, Silver</div>
+                    <div class="clearfix">
+                        <div class="label lot-info"><span class="c-gray">Lot:</span> <a href="#">Incaltaminte din Vietnam...</a></div>
+
+                        <div class="label wrap-countdown" style=''><span class="c-gray">Expira la:</span>
+                            <div class="countdown" data-endtime="09/12/2016">
+                                <span class="days">0</span>
+                                <span class="hours">0</span>
+                                <span class="minutes">0</span>
+                                <span class="seconds">0</span>
+                            </div>
+                        </div>
+                        {{-- <div class="label category"><span class="c-gray">Category:</span> <a href="#">Incaltaminte</a></div> --}}
+                        <div class="label subcategory"><span class="c-gray">Subcategory:</span> <a href="#">Incaltaminte</a></div>
+                        <div class="label label-color">
+                            <span class="c-gray">Color:</span>
+                            <ul class="color-select">
+                                <li><label style="background-color:#111;"><input name="color" type="radio"></label></li>
+                                <li><label style="background-color:#ccc;"><input name="color" type="radio"></label></li>
+                                <li><label style="background-color:#dcdcdc;"><input name="color" type="radio"></label></li>
+                                <li><label style="background-color:#ffddcc;"><input name="color" type="radio"></label></li>
+                                <li><label style="background-color:#ddd;"><input name="color" type="radio"></label></li>
+                                <li><label style="background-color:#ededed;"><input name="color" type="radio"></label></li>
+                            </ul>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        
+                        <div class="label label-sizes">
+                            <span class="c-gray">Sizes:</span>
+                            10, 10.3, 11, 12, 13.4, 15, 16, XXL, L
+                        </div>
+                        <div class="label available"><span class="c-gray">Available:</span>23</div>
+                        <div class="label price-old"><span class="c-gray">Old Price:</span>790</div>
+                        <div class="label price-new"><span class="c-gray">New Price:</span>720</div>
+
+{{--                      <div class="display-table td_bordered_right display-list_bloks-m-down">
                         <div class="td">
                             <p class="price">799 MDL</p>
                             <p class="old_price">999 MDL</p>
@@ -105,25 +166,11 @@
                             <div class="pie" data-procent="10" style="animation-delay: -100s"></div>
                             100% este vândut
                         </div>
+                    </div> --}}
+                    <div class="info-lot">
+                        <div class="lot-name"></div>
                     </div>
-                    <div class="count_down">
-                        <h5>PÂNĂ LA FINELE OFERTEI</h5>
-                        <div class="countdown big" data-endtime="07/30/2016">
-                            <!-- m/d/Y -->
-                            <span class="wrapp_span">
-                    <span class="days">0</span> ZILE
-                            </span>
-                            <span class="wrapp_span">
-                    <span class="hours">0</span> ORE
-                            </span>
-                            <span class="wrapp_span">
-                    <span class="minutes">0</span> MINUTE
-                            </span>
-                            <span class="wrapp_span">
-                    <span class="seconds">0</span> SECUNDE
-                            </span>
-                        </div>
-                    </div>
+
                     <div class="sell_info display-table td_bordered_right">
                         <div class="td">
                             <h5>PARTICIPANTI</h5>
@@ -139,14 +186,14 @@
                         </div>
                     </div>
                     <form class="row childs_margin_top" method="post" action="http://amma/ro/involve/product/247">
-                        <div class="counting col l6 m6 s12">
+                        <div class="counting col l3 m6 s12">
                             <div class="wrapp_input">
                                 <span class="minus left in"><i class="icon-minus"></i></span>
                                 <input type="text" readonly="readonly" value="1" name="count">
                                 <span class="plus right in"><i class="icon-plus"></i></span>
                             </div>
                         </div>
-                        <div class="col l6 m6 s12">
+                        <div class="col l4 m6 s12">
                             <button type="submit" class="btn_ full_width btn_base put_in_basket">
                                 <i class="icon-basket"></i>
                                 <span class="hide-on-med-only">Adaugă în coș</span>
@@ -305,51 +352,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bordered divide-top hide-on-small-only">
-                        <div class="block_title">DESPRE VÂNZĂTOR</div>
-                        <div class="person_card">
-                            <div class="display_flex border_bottom">
-                                <div class="wrapp_img">
-                                    <img src="/upload/vendors/41\1468244019_556bcc8c4de594d70963e4ee3c4e3965.jpg">
-                                </div>
-                                <div class="content">
-                                    <h4>Official Jeans Magazin</h4>
-                                    <span class="set_vote" data-type="like" data-action="http://amma/ro/vote_vendor/official-jeans-magazin?like_type=like">Like (<span>0</span>)</span>
-                                    <span class="set_vote" data-type="dislike" data-action="http://amma/ro/vote_vendor/official-jeans-magazin?like_type=dislike">Unlike (<span>0</span>)</span>
-                                    <div id="#something"></div>
-                                    <p class="small">0 păreri / 99,9% positive</p>
-                                    <p class="small"><a href="http://amma/ro/vendors/view/official-jeans-magazin">1 active</a> / 8 total</p>
-                                </div>
-                            </div>
-                            <div class="buttons row">
-                                <div class="col s6 padd_r_half">
-                                    <a href="http://amma/ro/vendors/view/official-jeans-magazin" class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
-                                    magazinul</a>
-                                </div>
-                                <div class="col s6 padd_l_half">
-                                    <a href="#" class="btn_ btn_white waves-effect waves-teal f_small right full_width">Contactează-ne</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-<div class="col l3 m12 s12">
-    <div class="bordered  elements">
-        <div class="block_title">EI AU PROCURAT DEJA</div>
-        <div class="person_card ">
-            <div class="display_flex">
-                <div class="wrapp_img">
-                    <img src="/assets/images/avatar1.jpg">
                 </div>
-                <div class="content">
-                    <h4>John Wick</h4>
-                    <p class="">Count: 1</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
             </div>
             <div class="cf row">
                 <div class="col l12 m12 s12 divide-top">

@@ -72,6 +72,9 @@ Route::multilingual(function () {
     Route::get('lot_show', function(){
         return view('html.lot_show');
     });
+    Route::get('lot_listing', function(){
+        return view('html.lot_listing');
+    });
     Route::get('/', [
         'as' => 'home',
         'uses' => 'HomeController@index'

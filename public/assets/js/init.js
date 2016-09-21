@@ -586,4 +586,21 @@ $(document).ready(function() {
             Materialize.toast($span.html(), 5000);
         }
     });
+
+    //see more products functionality
+
+    $(function () {
+        $('.btn-see-all').click(function(){
+            if(!$(this).hasClass('active')){
+
+                $(this).parents('.lot').find('.product.collapse').slideDown(400);
+                $(this).toggleClass( "active" );
+            } else {
+
+                $(this).parents('.lot').find('.product.collapse').slideUp('slow');
+                $(this).toggleClass( "active" );
+
+            }
+        });
+    });
 }); // end of document ready

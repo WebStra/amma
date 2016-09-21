@@ -29,7 +29,7 @@ Breadcrumbs::register('vendors', function ($breadcrumbs) {
     $breadcrumbs->push('Vendors', route('vendors'));
 });
 
-Breadcrumbs::register('view_vendor', function ($breadcrumbs, $vendor) {
+Breadcrumbs::register('view_vendor_frontend', function ($breadcrumbs, $vendor) {
     $breadcrumbs->parent('view_blog');
     $breadcrumbs->push($vendor->name, route('view_vendor', $vendor->id));
 });
