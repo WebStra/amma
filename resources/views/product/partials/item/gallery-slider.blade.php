@@ -38,8 +38,8 @@
                     <?php $i = 1; ?>
                     @foreach($item->images()->ranked('asc')->get() as $image)
                             <li {{ ($i == 1) ? 'class="flex-active-slide"' : '' }}
-                                style="width: 111px; margin-right: 14px; float: left; display: block;">
-                                <img src="{{ $image->present()->image() }}" draggable="false">
+                                style="width: 111px; height: 99px; margin-right: 14px; float: left; display: block; background:url('{{ $image->present()->image() }}')no-repeat center center; background-size:cover;">
+                               
                             </li>
                         <?php $i++ ?>
                     @endforeach

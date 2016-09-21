@@ -2,7 +2,8 @@
             <h1>ÎNREGISTRAREA CONTULUI</h1>
             <p>Completează formularul pentru a crea un cont.</p>
             <form action="{{ route('post_register') }}" class="form styled3 
-            {{ (request()->route()->getName() == 'get_register') ? "row" : ""}}"  method="post">
+            {{ (request()->route()->getName() == 'get_register') ? "row" : ""}}" data-authtype="register" 
+                method="post" data-action='{{ route('auth_modal_register') }}'>
                 @include('partials.errors.list')
                  <div class="col s12">
                         <div class="input-field">
@@ -16,7 +17,7 @@
                     </div>
                      <div class="col s12">
                         <div class="input-field">
-                            <input type="email" name="email" required placeholder="Ex: maria@gmail.com" value="{{ old('email') }}">
+                        <input type="email" name="email" required placeholder="Ex: maria@gmail.com" value="{{ old('email') }}">
                         </div>
                     </div>
                     <div class="col s12">
@@ -35,8 +36,9 @@
                         </div>
                     </div>
                     <div class="col s12">
-                        <input type="submit" value="Crează un cont" class="btn btn_base btn_submit full_width">
-                        <p class="center">Ai deja un cont? <a href="{{ route('get_login') }}" class="c_base">Intră în cont</a></p>
+                        <input type="submit" value="Crează un cont" class="btn btn_base btn_submit full_width auth_register_ajax">
+                        <p class="center">Ai deja un cont? <a href="{{ route('get_login') }}" class="c_base 
+                        ">Intră în cont</a></p>
                     </div>
                 {!! csrf_field() !!}
             </form>
