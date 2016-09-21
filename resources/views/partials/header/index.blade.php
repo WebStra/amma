@@ -29,7 +29,7 @@
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>
-                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a>
+                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->present()->renderTitle() }}</a>
                                     </li>
                                 @endforeach
                             @endif
