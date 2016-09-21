@@ -60,8 +60,8 @@ class CategoriesController extends Controller
         $filtered = $this->applyFilter($request, $category);
 
         return view(($request->ajax()) ? 'categories.partials.filter_result' : 'categories.index', [
-            'category' => $category, 'products' => $filtered, 'groups' => $groups ]
-        );
+            'category' => $category, 'products' => $filtered, 'groups' => $groups
+        ]);
     }
 
     /**
@@ -194,9 +194,12 @@ class CategoriesController extends Controller
         $static = [];
         $dynamic = $filters;
         array_walk($static_filters, function($static_filter) use (&$static, &$dynamic){
-            $static[$static_filter] = $dynamic[$static_filter];
+            if(isset($dynamic[$static_filter]))
+            {
+                $static[$static_filter] = $dynamic[$static_filter];
 
-            unset($dynamic[$static_filter]);
+                unset($dynamic[$static_filter]);
+            }
         });
 
         return [ $static, $dynamic ];
