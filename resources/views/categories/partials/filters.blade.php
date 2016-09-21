@@ -5,7 +5,7 @@
             <div class="range_select">
                 <?php
                     $price_min_default = 0;
-                    $price_max_default = 1000;
+                    $price_max_default = 10000;
                 ?>
                 <p id="range1" data-min="{{ $price_min_default }}" data-max="{{ $price_max_default }}"></p>
                 <input type="hidden" id="price_min" name="price_min"
@@ -24,8 +24,8 @@
                             <span>
                                 <?php
                                     /* @warning: This stuff works only for checkbox input's. */
-                                    $name = sprintf("%s_%s", strtolower($group), $tag->normalized);
-                                    $id   = sprintf("%s_%s", $group, $tag->name);
+                                    $name = (\App\Repositories\TagRepository::renderDynamicFilterName($group, $tag->normalized));
+                                    $id   = strtolower(sprintf("%s_%s", $group, $tag->name));
                                 ?>
                                 <input type="checkbox" name="{{ $name }}" id="{{ $id }}"
                                         {{ (isset($_GET[$name])) ? 'checked' : '' }}>

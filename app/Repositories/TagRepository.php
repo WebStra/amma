@@ -8,6 +8,19 @@ use App\Tag;
 class TagRepository extends Repository
 {
     /**
+     * Render dynaimc filter's name.
+     *
+     * @param $group
+     * @param $name
+     *
+     * @return string
+     */
+    public static function renderDynamicFilterName($group, $name)
+    {
+        return strtolower(sprintf("%s_%s", $group, str_replace(' ', '_', $name)));
+    }
+
+    /**
      * @return Tag
      */
     public function getModel()
@@ -79,7 +92,7 @@ class TagRepository extends Repository
 
             if(count($tags))
                 $tags->each(function($tag) use (&$available_filters, $group){
-                    $available_filters[$group][] = $tag->name;
+                    $available_filters[strtolower($group)][] = str_replace(' ', '_', $tag->normalized);
                 });
         });
 

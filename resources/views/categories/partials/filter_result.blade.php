@@ -1,4 +1,3 @@
-
 @if(count($products))
     @if(count($products) <= 6)
         <div class="row elements bordered pd10 styled1 no-row-margin divide-top">

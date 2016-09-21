@@ -124,19 +124,18 @@ class CategoriesController extends Controller
      */
     protected function applyDynamicFilter($query, array $filters = null)
     {
-//        $tags = '';
-//        $i = 0;
-//        $dynamic_count = count($filters);
-//        array_walk($dynamic, function($filter_val, $filter) use (&$query, &$tags, $dynamic, $dynamic_count, &$i){
-//                list($group, $tag) = $this->parseDynamicFilter($filter);
-//
-//                $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
-//
-//                  $query->whereGroup($group);
-//                $i++;
-//            });
-//
-//        $query->withAllTags($tags);
+        $tags = '';
+        $i = 0;
+        $dynamic_count = count($filters);
+        array_walk($filters, function($filter_val, $filter) use (&$query, &$tags, $filters, $dynamic_count, &$i){
+            list($group, $tag) = $this->parseDynamicFilter($filter);
+
+            $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
+
+            $i++;
+        });
+
+        $query->withAllTags($tags);
 
         return $query;
     }
@@ -173,8 +172,6 @@ class CategoriesController extends Controller
 
         $filters = array_filter($filters, function($filter) use ($available_filters){
             list($group, $tag) = $this->parseDynamicFilter($filter);
-
-            $group = ucfirst($group);
 
             if(isset($available_filters[$group]))
                 return in_array($tag, $available_filters[$group]);
@@ -216,9 +213,7 @@ class CategoriesController extends Controller
      */
     public function parseDynamicFilter($filter, $separator = '_')
     {
-        list($group, $tag) = explode($separator, $filter);
-
-        $group = ucfirst($group);
+        list($group, $tag) = explode($separator, $filter, 2);
 
         return [ $group, $tag ];
     }
