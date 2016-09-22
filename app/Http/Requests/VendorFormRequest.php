@@ -24,7 +24,7 @@ class VendorFormRequest extends Request
         return [
             'name' => 'required|unique:vendors|min:3|max:250',
             'email' => 'email',
-            'phone' => 'numeric',
+            'phone' => 'required|digits:8',
             'description' => 'min:10|max:250'
         ];
     }

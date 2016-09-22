@@ -277,3 +277,48 @@ text-align: left;
 .star_rating[data-rating_value='0'] li:nth-of-type(n+1) {
   color: #bebebe;
 }
+
+.vendor_edit.materialize-textarea {
+    padding: 0;
+}
+.vendor_edit_phone {
+    position: relative;
+}
+.vendor_edit_phone input {
+    padding-left: 40px;
+    box-sizing: inherit;
+}
+.country_code {
+    position: absolute;
+    left: 3px;
+    top: 34px;
+}
+.settings_avatar_image {
+    position: relative;
+    text-align: center;
+}
+.settings_avatar_image input {
+    display: none;
+}
+.settings_avatar_image i {
+    text-align: center;
+    padding-top: 22px;
+    font-size: 35px;
+    color: #f1f1f1;
+}
+.settings_avatar_format {
+    padding: 15px 0 0 10px;
+}
+.settings_avatar_image label {
+   display:none;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background: rgba(0,0,0,0.5);
+   width: 78px;
+   height: 78px;
+   cursor: pointer; 
+}
+.settings_avatar_image:hover.settings_avatar_image label {
+    display: block;
+}

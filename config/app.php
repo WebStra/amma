@@ -162,7 +162,7 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         App\Providers\SocialiteServiceProvider::class,
-//        Chencha\Share\ShareServiceProvider::class,
+        Chencha\Share\ShareServiceProvider::class,
         Conner\Likeable\LikeableServiceProvider::class,
         Cviebrock\EloquentTaggable\ServiceProvider::class
     ],
