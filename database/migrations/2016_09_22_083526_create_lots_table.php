@@ -67,7 +67,7 @@ class CreateLotsTable extends Migration
             $table->text('description')->nullable();
             $table->timestamp('public_date')->nullable();
             $table->timestamp('expire_date')->nullable();
-            $table->enum('status', [ 'publish', 'drafted' ])->default('drafted');
+            $table->enum('status', [ 'complete', 'drafted' ])->default('drafted');
             $table->enum('verify_status', [ 'declined', 'pending', 'verified' ])->default('pending');
             $table->boolean('active')->default(1)->index();
             $table->timestamps();
@@ -82,6 +82,17 @@ class CreateLotsTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
+
+
+        if (! Schema::hasColumn('products', 'lot_id')) {
+            Schema::table('products', function ($table) {
+                $table->integer('lot_id')->unsigned()->nullable();
+
+                $table->foreign('lot_id')->references('id')->on('lots')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**

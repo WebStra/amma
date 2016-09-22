@@ -12,7 +12,7 @@ use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
-    use HasCategory, ActivateableTrait, Presenterable, HasMeta, HasImages;
+    use ActivateableTrait, Presenterable, HasMeta, HasImages;
     
     /**
      * @var string
@@ -27,22 +27,14 @@ class Product extends Repository
     /**
      * @var array
      */
-    protected $dates = ['expiration_date', 'published_date'];
-
-    /**
-     * @var array
-     */
     protected $fillable = [
-        'vendor_id',
+        'sub_category_id',
         'name',
         'featured',
         'price',
+        'old_price',
         'sale',
         'count',
-        'type',
-        'status',
-        'published_date',
-        'expiration_date',
         'active',
         'description'
     ];
@@ -55,22 +47,9 @@ class Product extends Repository
         return $this->hasMany(ProductsColors::class, 'product_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function vendor()
+    public function lot()
     {
-        return $this->belongsTo(Vendor::class);
-    }
-
-    /**
-     * Get user through vendor.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->vendor->user();
+        return $this->belongsTo(Lot::class, 'lot_id');
     }
 
     /**

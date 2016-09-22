@@ -90,19 +90,14 @@ Route::multilingual(function () {
         'uses' => 'PagesController@support'
     ]);
 
+    /** Don't use `page` instead `static_page`, is reserved by Keyhunter\Administrator package. */
     Route::get('page/{static_page}.html', [
         'as' => 'show_page',
         'uses' => 'PagesController@show'
     ]);
 
-    Route::get('category/{category}', [
+    Route::any('category/{category}', [
         'as' => 'view_category',
-        'uses' => 'CategoriesController@show'
-    ]);
-
-    Route::post('category/{category}', [
-        'as' => 'filter_category',
-        'midleware' => 'accept-ajax',
         'uses' => 'CategoriesController@show'
     ]);
 

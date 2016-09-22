@@ -17,11 +17,7 @@
 <body>
 @include('partials.header.index')
 
-@if(Breadcrumbs::exists())
-    <div class="container">
-        {!! Breadcrumbs::render() !!}
-    </div>
-@endif
+@include('partials.breadcrumbs')
 
 @include('partials.notification')
 

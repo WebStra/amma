@@ -1,0 +1,140 @@
+<?php
+
+namespace App;
+
+use App\Libraries\Presenterable\Presenterable;
+use App\Libraries\Presenterable\Presenters\LotPresenter;
+use App\Traits\ActivateableTrait;
+use Keyhunter\Administrator\Repository;
+
+class Lot extends Repository
+{
+    use ActivateableTrait, Presenterable;
+
+    /** `status` field options */
+    const STATUS_DRAFTED = 'drafted';
+    const STATUS_COMPLETE = 'complete';
+
+    /** `verify_status` field options */
+    const STATUS_VERIFY_ACCEPTED = 'verified';
+    const STATUS_VERIFY_DECLINED = 'declined';
+    const STATUS_VERIFY_PENDING = 'pending';
+
+    /**
+     * @var string
+     */
+    protected $table = 'lots';
+
+    /**
+     * @var LotPresenter
+     */
+    public $presenter = LotPresenter::class;
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'vendor_id',
+        'category_id',
+        'currency_id',
+        'name',
+        'description',
+        'public_date',
+        'expire_date',
+        'status',
+        'verify_status',
+        'active'
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function currency()
+    {
+        return $this->hasOne(Currency::class, 'currency_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'category_id', 'id');
+    }
+
+    /**
+     * Query scope if lot is drafted.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDrafted($query)
+    {
+        return $query->where('status', self::STATUS_DRAFTED);
+    }
+
+    /**
+     * Query scope if lot is completed.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', self::STATUS_COMPLETE);
+    }
+
+    /**
+     * Query scope if lot is verified.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeVerified($query)
+    {
+        return $query->where('verify_status', self::STATUS_VERIFY_ACCEPTED);
+    }
+
+    /**
+     * Query scope if lot is declined.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDeclined($query)
+    {
+        return $query->where('verify_status', self::STATUS_VERIFY_DECLINED);
+    }
+
+    /**
+     * Query scope if lot is pending.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopePending($query)
+    {
+        return $query->where('verify_status', self::STATUS_VERIFY_PENDING);
+    }
+
+    /**
+     * Query scope if lot is published.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopePublic($query)
+    {
+        return $query
+            ->where('status', self::STATUS_COMPLETE)
+            ->where('verify_status', self::STATUS_VERIFY_ACCEPTED);
+    }
+}

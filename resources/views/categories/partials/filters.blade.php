@@ -145,7 +145,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('filter_category', ['category' => $category->slug]) }}',
+                    url: '{{ route('view_category', ['category' => $category->slug]) }}',
                     data: form.serialize(),
                     success: function(response){
                         $('div.filter-result').html(response);
