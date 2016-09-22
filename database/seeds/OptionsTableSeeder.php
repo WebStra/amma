@@ -19,7 +19,6 @@ class OptionsTableSeeder extends Seeder
             'contact_map::coords' => '51.090046, -114.686670',
             'contact_info::adress' => 'mun. Chișinău, str. Mihai Viteazu 43',
             'contact_info::email' => 'info@ecommerce.md',
-            'contact_info::executivPhone' => '+373 69 221 478',
             'contact_info::sellPhone' => '+373 69 221 478',
             'contact_info::tehnicPhone' => '+373 69 221 478',
         ],

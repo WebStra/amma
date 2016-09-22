@@ -16,8 +16,7 @@ return [
     |
     */
 
-//    'driver' => env('MAIL_DRIVER', 'smtp'),
-    'driver' => 'smtp',
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,8 +29,7 @@ return [
     |
     */
 
-//    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-    'host' => 'smtp.sendgrid.net',
+    'host' => env('MAIL_HOST', 'mailtrap.io'),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,8 +42,7 @@ return [
     |
     */
 
-//    'port' => env('MAIL_PORT', 587),
-    'port' => 587,
+    'port' => env('MAIL_PORT', 2525),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,8 +69,7 @@ return [
     |
     */
 
-//    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    'encryption' => 'tls',
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -86,8 +82,7 @@ return [
     |
     */
 
-//    'username' => env('MAIL_USERNAME', 'jasonrust89@gmail.com'),
-    'username' => 'jasonrust89',
+    'username' => env('MAIL_USERNAME', 'd95eebf6f8e817'),
 
     /*
     |--------------------------------------------------------------------------
@@ -100,8 +95,7 @@ return [
     |
     */
 
-//    'password' => env('MAIL_PASSWORD', 'ioniachampion765'),
-    'password' => 'ionia765',
+    'password' => env('MAIL_PASSWORD', 'c3cc4a95e52b68'),
 
     /*
     |--------------------------------------------------------------------------
@@ -115,6 +109,4 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
-
-    'pretend' => false
 ];

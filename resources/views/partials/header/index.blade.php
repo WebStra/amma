@@ -1,8 +1,8 @@
 <header>
     <div class="top_bar">
         <div class="container cf">
-            <div class="left"><i class="icon-phone"></i> Telefon: +373 695 24 115</div>
-            <div class="left"><i class="icon-pin"></i> Address: Moldova, Chișinău str. Drumul Viilor 147</div>
+            <div class="left"><i class="icon-phone"></i> Telefon: {{ settings()->getOption('contact_info::sellPhone') }}</div>
+            <div class="left"><i class="icon-pin"></i> Address: {{ settings()->getOption('contact_info::adress') }}</div>
             @include('partials.header.language-bar')
 
             @include('partials.header.profile-bar')
@@ -29,7 +29,7 @@
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>
-                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a>
+                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->present()->renderTitle() }}</a>
                                     </li>
                                 @endforeach
                             @endif

@@ -9,6 +9,8 @@ use App\Orders\CreateWalletOrder;
 use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use Auth;
+use Validator;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -77,6 +79,72 @@ class AuthController extends Controller
     public function getRecover()
     {
         return view('auth.recover');
+    }
+
+    public function modalLogin(Request $request)
+    {   
+        $validation = Validator::make($request->all(), [
+            $this->loginUsername() => 'required',
+            'password' => 'required'
+        ]);
+
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return json_encode(['errors' => [
+                $this->loginUsername() => [$this->getLockoutErrorMessage($this->secondsRemainingOnLockout($request))]
+            ]]);
+        }
+
+        if($validation->fails()) {
+            if ($throttles && ! $lockedOut)
+                $this->incrementLoginAttempts($request);
+
+            return json_encode(['errors' => $validation->errors()]);
+        }
+        
+        $credentials = $this->getCredentials($request);
+
+        if(Auth::validate($credentials))
+        {
+            if(! $this->users->getByEmail($credentials['email'])->active)
+                return json_encode(['errors' => ['This account has blocked. Please contact the support.']]);
+        }
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+            if ($throttles) {
+                $this->clearLoginAttempts($request);
+            }
+
+            $user = Auth::user();
+
+            (new CreateWalletOrder($user));
+
+            if(! $user->confirmed)
+                return json_encode(['redirect' => route('resend_verify_email_form')]);
+            
+            return json_encode([]);
+        }
+    }
+
+    public function modalRegister(Request $request, Dispatcher $events)
+    {
+        $validation = Validator::make(
+            $request->all(), RegisterUserRequest::getRules()
+        );
+        if($validation->fails())
+            return json_encode(['errors' => $validation->errors()]);
+
+        $user = $this->users->createSimpleUser($request->all());
+        
+        $events->fire(new UserCreationRequestSent($user));
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return json_encode(['redirect' => route('resend_verify_email_form')]); 
     }
 
     /**

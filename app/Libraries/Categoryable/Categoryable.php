@@ -3,13 +3,17 @@
 namespace App\Libraries\Categoryable;
 
 use App\Category;
-use App\Product;
+use App\Libraries\Taggable\TagService;
+use App\Tag;
 use App\Traits\ActivateableTrait;
+use Cviebrock\EloquentTaggable\Taggable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Keyhunter\Administrator\Repository as Eloquent;
 
 class Categoryable extends Eloquent
 {
-    use ActivateableTrait;
+    use ActivateableTrait, Taggable;
 
     /**
      * @var string
@@ -48,24 +52,49 @@ class Categoryable extends Eloquent
     }
 
     /**
-     * Get product scope.
+     * Get a collection of all Tags a Model has.
      *
-     * @param $query
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function scopeProducts($query)
+    public function tags()
     {
-        return $query->where('categoryable_type', Product::class);
+        return $this->morphToMany(Tag::class, 'taggable', 'taggable_taggables')
+            ->withTimestamps();
     }
 
     /**
-     * Get subcategory scope.
+     * Get by instance scope.
      *
      * @param $query
+     * @param $type
+     *
      * @return mixed
      */
-    public function scopeCategories($query)
+    public function scopeElementType($query, $type)
     {
-        return $query->where('categoryable_type', Category::class);
+        if($type instanceof \Closure)
+            return $query->$type();
+
+        if($type instanceof Model)
+            return $query->where('categoryable_type', get_class($type));
+
+        return $query->where('categoryable_type', $type);
+    }
+
+    /**
+     * Scope for a Model that has all of the given tags.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $tags
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAllTags(Builder $query, $tags)
+    {
+        $normalized = app(TagService::class)->buildTagArrayNormalized($tags);
+
+        return $query->has('tags', '=', count($normalized), 'and', function (Builder $q) use ($normalized) {
+            $q->whereIn('normalized', $normalized);
+        });
     }
 }

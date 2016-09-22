@@ -83,14 +83,11 @@ class ImageProcessor
      * Validate incoming image.
      *
      * @param $image
-     * @return true
+     * @return bool
      */
     private function validateImage($image)
     {
-        if ($image instanceof UploadedFile)
-            return true;
-
-        return false;
+        return (bool) ($image instanceof UploadedFile);
     }
 
     /**

@@ -28,7 +28,7 @@
 
                         <div class="td sell_amount">
                             <div class="pie" data-procent="10"
-                                 style="animation-delay: -{{ $item->present()->getSalesPercent() }}s"></div>
+                                 style="animation-delay: -{{ $item->present()->getSalesPercent() }}%"></div>
                             {{ $item->present()->getSalesPercent() }}% este vândut
                         </div>
                     </div>
@@ -77,10 +77,12 @@
                             </ul>
                         </div>
                     </div>
-                    @include('share.index')
                 </div><!--product_info-->
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('partials.about-seller')
+                </div>
+                <div class="col l3 m12 s12 product_vendor_block">
+                    @include('share.index')
                 </div>
                 @include('product.partials.item.involved_list')
             </div>

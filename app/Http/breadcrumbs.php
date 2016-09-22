@@ -24,7 +24,7 @@ Breadcrumbs::register('contacts', function ($breadcrumbs) {
     $breadcrumbs->push('Contacts', route('contacts'));
 });
 
-Breadcrumbs::register('vendors', function ($breadcrumbs) {
+Breadcrumbs::register('frontend_vendors', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Vendors', route('vendors'));
 });

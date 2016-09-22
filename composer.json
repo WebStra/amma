@@ -5,17 +5,17 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6",
         "laravel/framework": "5.2.*",
         "keyhunter/administrator": "dev-develop",
         "keyhunter/multilingual": "dev-develop",
         "keyhunter/translatable": "dev-develop",
         "cviebrock/eloquent-sluggable": "^3.1",
         "jenssegers/date": "^3.2",
-        "rtconner/laravel-tagging": "~2.1",
-        "laravel/socialite": "^2.0",
         "rtconner/laravel-likeable": "^1.2",
-        "webstra/share": "dev-master"
+        "laravel/socialite": "^2.0",
+        "webstra/share": "*",
+        "cviebrock/eloquent-taggable": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -27,6 +27,9 @@
     "autoload": {
         "classmap": [
             "database"
+        ],
+        "files": [
+            "app/Libraries/helpers.php"
         ],
         "psr-4": {
             "App\\": "app/"

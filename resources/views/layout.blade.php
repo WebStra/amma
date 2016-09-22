@@ -31,7 +31,9 @@
 
 <!-- Scripts -->
 @include('partials.assets.js')
-
+{{--Load additional js libraries--}}
 @yield('js')
+{{--Load additional scripts--}}
+@yield('scripts')
 
 </body>

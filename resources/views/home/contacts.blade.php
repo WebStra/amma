@@ -23,8 +23,6 @@
                     <li>
                         <i class="icon-phone"></i>
                         <h4 class="styled2">Telefon de contact</h4>
-                        <p><strong class="small">Directorul Executiv /</strong><span
-                                    class="c_base">{{ settings()->getOption('contact_info::executivPhone') }}</span></p>
                         <p><strong class="small">Departamentul de vânzări /</strong><span
                                     class="c_base">{{ settings()->getOption('contact_info::sellPhone') }}</span></p>
                         <p><strong class="small">Departamentul tehnic /</strong><span
@@ -81,7 +79,9 @@
 
 @section('js')
     {!!Html::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAyO2eCqw0WoNVb_fkoRNPfDnJkjRxwInk')!!}
+@endsection
 
+@section('scripts')
     <script>
         function initialize() {
             var mapCanvas = document.getElementById('map');

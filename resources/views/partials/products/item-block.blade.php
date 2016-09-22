@@ -4,9 +4,7 @@
         <div class="wrapp_img with_hover td wrapp_countdown">
             @include('partials.products.item.countdown')
 
-            @include('partials.products.item.hover')
-
-            <img src="{{ $item->present()->cover() }}" alt="" width="279" height="180">
+            <a href="{{ route('view_product', ['product' => $item->id]) }}"><img src="{{ $item->present()->cover() }}" alt="" width="279" height="180"></a>
         </div>
     </div>
 

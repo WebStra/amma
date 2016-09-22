@@ -14,7 +14,8 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'resend_verify_email',
         'involve_product',
         'involve_product_cancel',
-        'vote_vendor'
+        'vote_vendor',
+        'filter_category'
     ];
 
     /**
@@ -26,11 +27,9 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
      */
     public function handle($request, Closure $next)
     {
-        foreach ($this->excludeRoutes as $route) {
-            if($request->route()->getName() == $route) {
+        foreach ($this->excludeRoutes as $route)
+            if($request->route()->getName() == $route)
                 return $next($request);
-            }
-        }
 
         return parent::handle($request, $next);
     }

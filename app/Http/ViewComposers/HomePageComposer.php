@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
@@ -88,7 +89,7 @@ class HomePageComposer extends Composer
                             if($category_1)
                             $category_1->categoryables()
                                 ->active()
-                                ->products()
+                                ->elementType(get_class($this->products->getModel()))
                                 ->get()
                                 ->each(function ($morph) use (&$products) {
                                     $products[] = $morph->categoryable;
@@ -105,7 +106,7 @@ class HomePageComposer extends Composer
                             if($category_2)
                             $category_2->categoryables()
                                 ->active()
-                                ->products()
+                                ->elementType(get_class($this->products->getModel()))
                                 ->get()
                                 ->each(function ($morph) use (&$products) {
                                     $products[] = $morph->categoryable;

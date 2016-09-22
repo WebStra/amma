@@ -100,6 +100,12 @@ Route::multilingual(function () {
         'uses' => 'CategoriesController@show'
     ]);
 
+    Route::post('category/{category}', [
+        'as' => 'filter_category',
+        'midleware' => 'accept-ajax',
+        'uses' => 'CategoriesController@show'
+    ]);
+
     Route::get('product/{product}', [
         'as' => 'view_product',
         'uses' => 'ProductsController@show'
@@ -219,7 +225,6 @@ Route::multilingual(function () {
                     'uses' => 'ProductsController@addColor'
                 ]);
 
-
                 Route::post('product/{product}/remove-color', [
                     'as' => 'remove_product_color',
                     'uses' => 'ProductsController@removeColor'
@@ -281,6 +286,16 @@ Route::multilingual(function () {
     Route::get('login', [
         'as' => 'get_login',
         'uses' => 'Auth\AuthController@getLogin'
+    ]);
+
+    Route::post('modal_login', [
+        'as' => 'auth_modal_login',
+        'uses' => 'Auth\AuthController@modalLogin'
+    ]);
+
+    Route::post('modal_register', [
+        'as' => 'auth_modal_register',
+        'uses' => 'Auth\AuthController@modalRegister'
     ]);
 
     //Social Login

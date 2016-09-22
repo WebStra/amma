@@ -201,6 +201,7 @@ $(document).ready(function() {
         animation: "slide",
         controlNav: false,
         animationLoop: false,
+        smoothHeight: true,
         slideshow: false,
         sync: "#carousel"
     });

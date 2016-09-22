@@ -759,8 +759,14 @@ body {
   padding-left: 15px;
   position: relative;
 }
+.sidebar_search .wrapp_submit button {
+  color: #fff;
+  font-size: 15px;
+  font-family: "robotolight", sans-serif;
+  margin-top: 15px;
+}
 /* line 614, ../sass/main.scss */
-.top_search .wrapp_submit button {
+.top_search .wrapp_submit button, .sidebar_search .wrapp_submit button {
   background-color: #ff6f00;
   font-weight: 600;
   font-size: 15px;
@@ -997,18 +1003,7 @@ body {
   font-size: 40px;
   width: 100%;
 }
-/* line 831, ../sass/main.scss */
-.product .wrapp_img.with_hover:hover .hover {
-  width: 100%;
-  height: 100%;
-  transition: all 0.5s ease;
-}
-/* line 835, ../sass/main.scss */
-.product .wrapp_img.with_hover:hover .hover a {
-  transition: all 1s ease;
-  left: 0 !important;
-  right: 0 !important;
-}
+
 /* line 844, ../sass/main.scss */
 .product h4.title {
   font-size: 15px;
@@ -1193,7 +1188,7 @@ footer .foot {
 ul.social li {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 10px;
+  margin:-5px 5px 10px 5px;
 }
 /* line 1005, ../sass/main.scss */
 ul.social li a {
@@ -1406,11 +1401,12 @@ ul.social a.icon-google-plus {
 }
 
 /* line 1192, ../sass/main.scss */
-.carousel .slides li img {
+.carousel .slides li  {
   border: 1px solid transparent;
 }
 /* line 1195, ../sass/main.scss */
-.carousel .slides li:hover img {
+.carousel .slides li:hover,
+.carousel .slides li.flex-active-slide {
   border: 1px solid #ff6f00;
 }
 
