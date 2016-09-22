@@ -1117,9 +1117,9 @@ body {
 }
 
 /* line 943, ../sass/main.scss */
-.divide-top {
+/* .divide-top {
   margin-top: 15px !important;
-}
+} */
 
 /* line 947, ../sass/main.scss */
 .banner_wide {
@@ -1237,6 +1237,9 @@ ul.social a.icon-google-plus {
   height: 40px;
   line-height: 40px;
   margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+
 }
 /* line 1048, ../sass/main.scss */
 .form .input-field textarea {

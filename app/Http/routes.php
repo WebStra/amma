@@ -23,6 +23,7 @@ use App\Repositories\SubscribeRepository;
  *  Route bindings.
  * ----------------------------------------------
  */
+
 Route::bind('category', function ($slug) {
     return (new CategoryRepository)->findBySlug($slug);
 });
@@ -65,6 +66,15 @@ Route::bind('provider', function($provider){
 });
 
 Route::multilingual(function () {
+    Route::get('lot', function(){
+        return view('html.lot');
+    });
+    Route::get('lot_show', function(){
+        return view('html.lot_show');
+    });
+    Route::get('lot_listing', function(){
+        return view('html.lot_listing');
+    });
     Route::get('/', [
         'as' => 'home',
         'uses' => 'HomeController@index'

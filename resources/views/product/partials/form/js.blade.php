@@ -182,6 +182,14 @@
                     block_id.value = block_id.value + 1;
                 });
 
+        $('#add_suite')
+                .on('click', function () {
+                    $('.specification_suite_lot')
+                            .after(getSpecSuiteTemplateLot(block_id.value));
+
+                    block_id.value = block_id.value + 1;
+                });
+
         $('.specification-bundle')
                 .on('click', 'div.remove-spec', function () {
                     $(this).parent().remove();
@@ -259,6 +267,24 @@
                 + '<div class="input-field spec_remove remove-spec">'
                 + '<a href="#remove-spec" class="remove-spec"><i class="icon-trash"></i></a>'
                 + '</div>'
+                + '</div>';
+    }
+
+    function getSpecSuiteTemplateLot(block_id) // Get template of suite of specifications.
+    {
+        return '<div class="specification_suite_lot" data-suite-spec="' + block_id + '">'
+                + '<div class="col l6 m6 s12">'
+                + '<div class="input-field spec_name">'
+                + '<span class="label">{{ strtoupper('name') }}</span>'
+                + '<input type="text" name="spec[' + block_id + '][key]">'
+                + '</div>'
+                + '</div>'
+                + '<div class="col l5 m5 s12">'
+                + '<div class="input-field spec_value">'
+                + '<span class="label">{{ strtoupper('description') }}</span>'
+                + '<input type="text" name="spec[' + block_id + '][value]">'
+                + '</div>'
+                 + '</div>'
                 + '</div>';
     }
 </script>
