@@ -184,7 +184,7 @@
                     </div>
                 </div>
             </div>
+            @include('partials.fb-comments')
         </div><!-- / container-->
     </section>
-    @include('partials.fb-comments')
 @endsection

@@ -1,3 +1,3 @@
 <h4 class="title">
-	{{ $item->name }}
+	<a class="product_name" href="{{ route('view_product', ['product' => $item->id]) }}">{{ $item->name }}</a>
 </h4>
