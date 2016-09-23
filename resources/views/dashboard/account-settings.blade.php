@@ -43,10 +43,12 @@
                       </div>
                     </div>
                     <div class="col l6 m6 s12">
-                      <div class="input-field">
-                      <span class="label">TELEFON</span>
-                        <input type="text" name="phone" value="{{ old('phone') ? : Auth::user()->profile->phone }}" placeholder="Ex: 070 323 677">
-                      </div>
+                        <div class="input-field vendor_edit_phone">
+                            <span class="label">TELEFON</span>
+                            <input type="tel" required name="phone" placeholder="XXXXXXXX"
+                                   value="{{ isset($item) ? $item->phone : old('phone') }}">
+                            <span class="country_code">+373</span>
+                        </div>
                     </div>
                     <div class="col l6 m6 s12">
                       <div class="input-field">

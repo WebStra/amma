@@ -177,6 +177,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             {{--@foreach($same as $product)--}}
                             {{--@include('partials.products.item-block')--}}
                             {{--@endforeach--}}
@@ -184,7 +185,7 @@
                     </div>
                 </div>
             </div>
-            @include('partials.fb-comments')
         </div><!-- / container-->
+        @include('partials.fb-comments')
     </section>
 @endsection
