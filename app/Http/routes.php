@@ -158,6 +158,21 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@myVendors'
         ]);
 
+        Route::get('my-lots', [
+            'as' => 'my_lots',
+            'uses' => 'LotsController@index'
+        ]);
+
+        Route::get('lots/create', [
+            'as' => 'create_lot',
+            'uses' => 'LotsController@create'
+        ]);
+
+        Route::post('lots/create', [
+            'as' => 'post_create_lot',
+            'uses' => 'LotsController@postCreate'
+        ]);
+
         Route::get('my-products', [
             'as' => 'my_products',
             'uses' => 'DashboardController@myProducts'
@@ -170,7 +185,7 @@ Route::multilingual(function () {
 
         Route::get('settings', [
             'as' => 'settings',
-            'uses' => 'DashboardController@accountsettings'
+            'uses' => 'DashboardController@accountSettings'
         ]);
 
         Route::post('settings/update_settings', [
@@ -200,8 +215,7 @@ Route::multilingual(function () {
                 'uses' => 'VendorController@update'
             ]);
         });
-
-
+        
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {
             Route::get('product/{product}/edit', [
