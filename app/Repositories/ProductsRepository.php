@@ -287,10 +287,10 @@ class ProductsRepository extends Repository
     public function getPublicExpireSoon($count = 8)
     {
         return $this->getModel()
-            ->published()
+//            ->published()
             ->active()
-            ->where('expiration_date', '>', Carbon::now())
-            ->orderBy('expiration_date', self::ASC)
+//            ->where('expiration_date', '>', Carbon::now())
+//            ->orderBy('expiration_date', self::ASC)
             ->orderBy('id', self::ASC)
             ->take($count)
             ->get();

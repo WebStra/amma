@@ -47,6 +47,9 @@ class Product extends Repository
         return $this->hasMany(ProductsColors::class, 'product_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function lot()
     {
         return $this->belongsTo(Lot::class, 'lot_id');
