@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Orders\CreateWalletOrder;
 use App\Services\ImageProcessor;
 use App\Vendor;
 use Auth;
@@ -32,6 +33,8 @@ class VendorRepository extends Repository
                 'phone' => $data['phone'],
                 'description' => $data['description']
             ]);
+
+        (new CreateWalletOrder(\Auth::user()));
 
         if (isset($data['image'])) {
             $file = $data['image'];

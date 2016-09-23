@@ -8,10 +8,13 @@ use App\User;
 class CreateWalletOrder extends Order
 {
     /**
-     * @var
+     * @var User
      */
     protected $user;
 
+    /**
+     * @var int
+     */
     protected $test_count;
 
     /**
