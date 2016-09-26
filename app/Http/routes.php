@@ -12,6 +12,7 @@
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\InvolvedRepository;
+use App\Repositories\LotRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
@@ -34,6 +35,10 @@ Route::bind('post', function ($slug) {
 
 Route::bind('product', function ($id) {
     return (new ProductsRepository)->find($id);
+});
+
+Route::bind('lot', function ($id) {
+    return (new LotRepository())->find($id);
 });
 
 Route::bind('vendor', function ($slug) {
@@ -164,13 +169,18 @@ Route::multilingual(function () {
         ]);
 
         Route::get('lots/create', [
-            'as' => 'create_lot',
+            'as' => 'add_lot',
             'uses' => 'LotsController@create'
         ]);
 
         Route::post('lots/create', [
-            'as' => 'post_create_lot',
+            'as' => 'create_lot',
             'uses' => 'LotsController@postCreate'
+        ]);
+
+        Route::get('lots/{lot}', [
+            'as' => 'view_lot',
+            'uses' => 'LotsController@show'
         ]);
 
         Route::get('my-products', [
@@ -215,7 +225,7 @@ Route::multilingual(function () {
                 'uses' => 'VendorController@update'
             ]);
         });
-        
+
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {
             Route::get('product/{product}/edit', [
