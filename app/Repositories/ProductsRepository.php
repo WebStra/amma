@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Lot;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -321,5 +322,28 @@ class ProductsRepository extends Repository
 
 //        return $query->orderBy('id', self::ASC)
             return $query->paginate($paginate);
+    }
+
+    /**
+     * Create plain product for \App\Lot $lot
+     *
+     * @param Lot $lot
+     * @return static
+     */
+    public function createPlain(Lot $lot)
+    {
+        return self::getModel()
+            ->create([
+                'lot_id' => $lot->id
+            ]);
+    }
+
+    public function saveProduct($product, array $data)
+    {
+        $product->fill([
+            ''
+        ]);
+
+        $product->save();
     }
 }

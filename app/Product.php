@@ -29,6 +29,7 @@ class Product extends Repository
      */
     protected $fillable = [
         'sub_category_id',
+        'lot_id',
         'name',
         'featured',
         'price',
@@ -52,7 +53,7 @@ class Product extends Repository
      */
     public function lot()
     {
-        return $this->belongsTo(Lot::class, 'lot_id');
+        return $this->belongsTo(Lot::class, 'lot_id', 'id');
     }
 
     /**

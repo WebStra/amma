@@ -73,7 +73,7 @@ class Lot extends Repository
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'id', 'lot_id');
+        return $this->hasMany(Product::class, 'lot_id', 'id');
     }
 
     /**

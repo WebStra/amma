@@ -22,8 +22,8 @@ class CurrencyTableSeeder extends Seeder
     {
         $this->deleteTable();
 
+        $this->instance->create([ 'title' => 'MDL', 'sign' => 'MDL', 'active' => true ]);
         $this->instance->create([ 'title' => 'USD',  'sign' => '$', 'active' => true ]);
         $this->instance->create([ 'title' => 'EUR', 'sign' => '€', 'active' => true ]);
-        $this->instance->create([ 'title' => 'MDL', 'sign' => 'MDL', 'active' => true ]);
     }
 }

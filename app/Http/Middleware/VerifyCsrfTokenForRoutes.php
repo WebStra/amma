@@ -15,7 +15,8 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'involve_product',
         'involve_product_cancel',
         'vote_vendor',
-        'filter_category'
+        'filter_category',
+        'load_product_block_form'
     ];
 
     /**

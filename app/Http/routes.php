@@ -180,19 +180,30 @@ Route::multilingual(function () {
             'uses' => 'LotsController@index'
         ]);
 
-        Route::get('lots/create', [
+        Route::get('lots/create/{vendor}', [
             'as' => 'add_lot',
             'uses' => 'LotsController@create'
         ]);
 
-        Route::post('lots/create', [
+        Route::post('lots/create/{product}/save', [
+            'as' => 'save_product',
+            'uses' => 'ProductsController@saveProduct'
+        ]);
+
+        Route::post('lots/create/{lot}', [
             'as' => 'create_lot',
+            'middleware' => 'add_lot_filter',
             'uses' => 'LotsController@postCreate'
         ]);
 
         Route::get('lots/{lot}', [
             'as' => 'view_lot',
             'uses' => 'LotsController@show'
+        ]);
+        
+        Route::post('lots/create/{lot}/load-product-form-block', [
+            'as' => 'load_product_block_form',
+            'uses' => 'LotsController@loadProductBlock'
         ]);
 
         // Add middleware if current user can perform this action.

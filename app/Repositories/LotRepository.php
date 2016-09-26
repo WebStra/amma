@@ -46,15 +46,17 @@ class LotRepository extends Repository
     /**
      * Get drafted lot
      *
-     * @param $vendor
+     * @param $vendor|null
      * @return Lot $Lot|null
      */
-    public function getDraftedLot($vendor)
+    public function getDraftedLot($vendor = null)
     {
-        $lot = $this->getModel()
-            ->where('vendor_id', $vendor->id)
-            ->drafted()
-            ->first();
+        $query = $this->getModel();
+
+        if($vendor)
+            $query->where('vendor_id', $vendor->id);
+
+        $lot = $query->drafted()->first();
 
         return ($lot) ? $lot : null;
     }
