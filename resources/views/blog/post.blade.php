@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            @include('partials.fb-comments' )
+            @include('partials.fb-comments')
 
         </div><!-- / container-->
     </section>

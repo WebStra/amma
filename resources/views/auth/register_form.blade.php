@@ -21,8 +21,10 @@
                         </div>
                     </div>
                     <div class="col s12">
-                        <div class="input-field">
-                            <input type="text" name="phone" required placeholder="+373 777 77 777" value="{{ old('phone') }}">
+                        <div class="input-field register_form_phone">
+                            <input type="tel" required name="phone" placeholder="XXXXXXXX"
+                                   value="{{ old('phone') }}" length="8">
+                            <span class="country_code_register">+373</span>
                         </div>
                     </div>
                     <div class="col s12">

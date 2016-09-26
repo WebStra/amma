@@ -65,8 +65,8 @@ label.error{
    margin-bottom: 20px; 
 }
 .tab_content h1 {
-font-size: 20px;
-font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .auth_modal.modal {
@@ -221,13 +221,6 @@ font-weight: 400;
     font-size: 0.8rem;
     color: #9e9e9e;
 }
-/* .form .input-field{
-    margin-right: 1px;
-} */
-/* .file-path-wrapper input{
-    margin-left: -2px !important;
-} */
-
 .set_vote i {
     font-size: 18px;
     color: #828384;
@@ -276,4 +269,84 @@ text-align: left;
 
 .star_rating[data-rating_value='0'] li:nth-of-type(n+1) {
   color: #bebebe;
+}
+
+.vendor_edit.materialize-textarea {
+    padding: 0;
+}
+.vendor_edit_phone,
+.register_form_phone {
+    position: relative;
+}
+.vendor_edit_phone input {
+    padding-left: 40px;
+    box-sizing: inherit;
+}
+.country_code {
+    position: absolute;
+    left: 3px;
+    top: 34px;
+}
+.register_form_phone input{
+    padding-left: 32px;
+    box-sizing: inherit;
+}
+.country_code_register {
+    position: absolute;
+    left: 10px;
+    top: 9px; 
+    font-size: 1rem;
+}
+.settings_avatar_image {
+    position: relative;
+    text-align: center;
+}
+.settings_avatar_image input {
+    display: none;
+}
+.settings_avatar_image i {
+    text-align: center;
+    padding-top: 22px;
+    font-size: 35px;
+    color: #f1f1f1;
+}
+.settings_avatar_format {
+    padding: 15px 0 0 10px;
+}
+.settings_avatar_image label {
+   display:none;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background: rgba(0,0,0,0.5);
+   width: 78px;
+   height: 78px;
+   cursor: pointer; 
+}
+.settings_avatar_image:hover.settings_avatar_image label {
+    display: block;
+}
+.product_card h4 {
+    max-width: 350px;
+}
+.product_card .sub_content .model_info .label {
+    height: 45px;
+    text-align: left;
+    padding-left: 15px;
+}
+.model_info_title_product {
+    overflow: hidden;
+    text-align: left;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    padding: 8px;
+}
+.model_info_title_product span {
+    color: #9e9e9e;
+    padding-left: 7px;
+}
+
+.product_name {
+text-decoration: none;
+color: inherit;
 }

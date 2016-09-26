@@ -9,6 +9,7 @@
 
     <link href="/assets/css/materialize.css" type="text/css" rel="stylesheet" media="">
     <link href="/assets/css/main.css" type="text/css" rel="stylesheet" media="">
+    <link href="/assets/css/custom.css" type="text/css" rel="stylesheet" media="">
     @yield('css')
 </head>
 

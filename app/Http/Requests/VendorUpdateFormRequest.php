@@ -42,7 +42,7 @@ class VendorUpdateFormRequest extends Request
         return [
             'name' => 'required|min:3|max:250|unique:vendors,name,' . $this->route('vendor')->id,
             'email' => 'email',
-            'phone' => 'numeric',
+            'phone' => 'required|digits:8',
             'description' => 'min:10|max:250'
         ];
     }

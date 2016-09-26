@@ -2,7 +2,7 @@
     <div class="wrapp_img wrapp_countdown">
         @include('partials.products.item.info-label')
         @include('partials.products.item.countdown')
-        <img src="{{ $item->present()->cover() }}">
+        <a href="{{ route('view_product', ['product' => $item->id]) }}"><img src="{{ $item->present()->cover() }}"></a>
     </div>
     <div class="content">
         @include('partials.products.item.name')

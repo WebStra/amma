@@ -177,6 +177,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             {{--@foreach($same as $product)--}}
                             {{--@include('partials.products.item-block')--}}
                             {{--@endforeach--}}
