@@ -67,7 +67,7 @@ class CreateLotsTable extends Migration
             $table->text('description')->nullable();
             $table->timestamp('public_date')->nullable();
             $table->timestamp('expire_date')->nullable();
-            $table->enum('status', [ 'complete', 'drafted' ])->default('drafted');
+            $table->enum('status', [ 'complete', 'drafted', 'deleted' ])->default('drafted');
             $table->enum('verify_status', [ 'declined', 'pending', 'verified' ])->default('pending');
             $table->boolean('active')->default(1)->index();
             $table->timestamps();

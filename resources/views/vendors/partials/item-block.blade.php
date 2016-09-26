@@ -23,9 +23,7 @@
     <div class="sub_content" id="show_detail_product_{{ $i }}">
         <div class="body">
             @foreach($item->lots as $lot)
-                {{ $lot->id }} :
-                {{ $lot->status }}
-                {{--@include('vendors.partials.item_block_more_info')--}}
+                @include('vendors.partials.item_block_more_info')
             @endforeach
         </div>
     </div><!--subcontent-->

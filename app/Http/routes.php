@@ -147,7 +147,15 @@ Route::multilingual(function () {
         'uses' => 'SubscribeController@unscribe'
     ]);
 
+    /* ----------------------------------------------
+     *  Auth routes.
+     * ----------------------------------------------
+     */
     Route::group(['middleware' => 'auth'], function () {
+        /* ----------------------------------------------
+         *  Vendor routes.
+         * ----------------------------------------------
+         */
         Route::get('vendor/create', [
             'as' => 'create_vendor',
             'uses' => 'VendorController@getCreate'
@@ -163,6 +171,10 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@myVendors'
         ]);
 
+        /* ----------------------------------------------
+         *  Lots routes.
+         * ----------------------------------------------
+         */
         Route::get('my-lots', [
             'as' => 'my_lots',
             'uses' => 'LotsController@index'
@@ -183,6 +195,16 @@ Route::multilingual(function () {
             'uses' => 'LotsController@show'
         ]);
 
+        // Add middleware if current user can perform this action.
+        Route::get('lots/{lot}/delete', [
+            'as' => 'delete_lot',
+            'uses' => 'LotsController@delete'
+        ]);
+
+        /* ----------------------------------------------
+         *  Product routes.
+         * ----------------------------------------------
+         */
         Route::get('my-products', [
             'as' => 'my_products',
             'uses' => 'DashboardController@myProducts'

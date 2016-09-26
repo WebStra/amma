@@ -79,6 +79,10 @@ Breadcrumbs::register('edit_product', function ($breadcrumbs, $product) {
     $breadcrumbs->push('Edit', route('edit_product', $product->id));
 });
 
+Breadcrumbs::register('vendors', function ($breadcrumbs) {
+    $breadcrumbs->push('Vendors', route('vendors'));
+});
+
 Breadcrumbs::register('settings', function ($breadcrumbs) {
     //todo: dashoboard.
     $breadcrumbs->push('Settings Account', route('settings'));
@@ -92,6 +96,11 @@ Breadcrumbs::register('my_involved', function ($breadcrumbs) {
 Breadcrumbs::register('my_products', function ($breadcrumbs) {
     //todo: dashoboard.
     $breadcrumbs->push('My Products', route('my_products'));
+});
+
+Breadcrumbs::register('my_lots', function ($breadcrumbs) {
+    //todo: dashoboard.
+    $breadcrumbs->push('My Lots', route('my_lots'));
 });
 
 Breadcrumbs::register('edit_vendor', function ($breadcrumbs, $vendor) {

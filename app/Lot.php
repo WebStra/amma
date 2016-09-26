@@ -14,6 +14,7 @@ class Lot extends Repository
     /** `status` field options */
     const STATUS_DRAFTED = 'drafted';
     const STATUS_COMPLETE = 'complete';
+    const STATUS_DELETED = 'deleted';
 
     /** `verify_status` field options */
     const STATUS_VERIFY_ACCEPTED = 'verified';
@@ -67,7 +68,12 @@ class Lot extends Repository
      */
     public function category()
     {
-        return $this->hasOne(Category::class, 'category_id', 'id');
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'id', 'lot_id');
     }
 
     /**
