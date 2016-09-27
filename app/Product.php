@@ -8,12 +8,13 @@ use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\HasImages;
+use Closure;
 use Keyhunter\Administrator\Repository;
 
 class Product extends Repository
 {
     use ActivateableTrait, Presenterable, HasMeta, HasImages;
-    
+
     /**
      * @var string
      */

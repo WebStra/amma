@@ -104,12 +104,18 @@ class LotsController extends Controller
 //        return redirect()->route('view_lot', [ 'lot' => $lot->id ]);
     }
 
+    public function index()
+    {
+        dd(Lot::all());
+//        return
+    }
+
     /**
      * Show user's all lots;
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function myLots()
     {
         $lots = $this->lots->userLots($this->getUser(), 5);
 

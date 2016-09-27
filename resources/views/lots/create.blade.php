@@ -153,9 +153,12 @@
         function saveProductBlock(btn)
         {
             (function ($) {
-                var $this = $(this);
+//                var $this = $(this);
+                var $this = $(btn);
                 var form = $this.parents('form');
                 var action = $this.parents('form').attr('action');
+
+                console.log(action);
 
                 $.ajax({
                     type: 'POST',
@@ -168,23 +171,5 @@
                 });
             }(jQuery));
         }
-
-//        $('#save_product_block').on('click', function(){
-//            var $this = $(this);
-//            var form = $this.parents('form');
-//            var action = $this.parents('form').attr('action');
-//
-//            $.ajax({
-//                type: 'POST',
-//                data: form.serialize(),
-//                url: action,
-//                success: function (response) {
-//                    console.log(response);
-//                    alert('Saved');
-//                }
-//            });
-//
-//            return false;
-//        });
     </script>
 @endsection

@@ -175,9 +175,14 @@ Route::multilingual(function () {
          *  Lots routes.
          * ----------------------------------------------
          */
+        Route::get('lots', [
+            'as' => 'lots',
+            'uses' => 'LotsController@index'
+        ]);
+
         Route::get('my-lots', [
             'as' => 'my_lots',
-            'uses' => 'LotsController@index'
+            'uses' => 'LotsController@myLots'
         ]);
 
         Route::get('lots/create/{vendor}', [
