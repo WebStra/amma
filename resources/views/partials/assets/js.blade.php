@@ -15,7 +15,6 @@
 {!!Html::script('/assets/plugins/jquery-validation/dist/jquery.validate.min.js')!!}
 {!!Html::script('/assets/plugins/jquery-validation/dist/additional-methods.min.js')!!}
 {!!Html::script('/assets/plugins/jquery-validation/src/localization/messages_'. Lang::slug().'.js')!!}
-{!!Html::script('/assets/plugins/toastr/build/toastr.min.js')!!}
 {!!Html::script('/assets/plugins/imagezoom/imagezoom.js')!!}
 {!!Html::script('/assets/plugins/jStarbox/jstarbox.js')!!}
 {!!Html::script('/assets/plugins/materialize/js/materialize.min.js')!!}

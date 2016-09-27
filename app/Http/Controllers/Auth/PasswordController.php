@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
 {
+    protected $redirectTo = '/';
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -28,5 +29,23 @@ class PasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLinkRequestForm()
+    {
+        if (property_exists($this, 'linkRequestView')) {
+            return view($this->linkRequestView);
+        }
+
+        if (view()->exists('auth.passwords.email')) {
+            return view('auth.passwords.email');
+        }
+
+        return redirect()->route('get_login')->withStatus('Token reset is expired!');
     }
 }

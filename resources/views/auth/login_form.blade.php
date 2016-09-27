@@ -3,7 +3,7 @@
         <h1>INTRA ÎN CONTUL TĂU</h1>
         <p class=" center">Completează formularul pentru a te loga în cont.</p>
         <form action="{{ route('post_login') }}" data-authtype="login" class="form styled3 
-            {{(request()->route()->getName() == 'get_login') ? "row" : ''}} " 
+            {{(request()->route()->getName() == 'get_login') || (request()->route()->getName() == 'reset_password_token') ? "row" : ''}} "
             method="post" data-action="{{ route('auth_modal_login') }}">
               @include('partials.errors.list')
                 <div class="col s12">
@@ -19,7 +19,7 @@
                 <div class="col s12">
                     <div class="input-field">
                         <p class="left-align autologin" style="margin-bottom: 25px;">
-                            <input type="checkbox" id="check1">
+                            <input type="checkbox" id="check1" name="remember">
                             <label for="check1">Vreau să intru automat</label>
                             <br>
                         </p>
