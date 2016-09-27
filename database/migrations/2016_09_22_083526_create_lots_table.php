@@ -65,6 +65,7 @@ class CreateLotsTable extends Migration
             $table->integer('currency_id')->unsigned()->nullable();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
+            $table->float('yield_amount')->nullable();
             $table->timestamp('public_date')->nullable();
             $table->timestamp('expire_date')->nullable();
             $table->enum('status', [ 'complete', 'drafted', 'deleted' ])->default('drafted');

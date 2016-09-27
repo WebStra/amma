@@ -14,7 +14,7 @@
                     <div class="col l6 s12">
                         <div class="input-field">
                             <span class="label">NAME</span>
-                            <input type="text" required="" name="name" value=""
+                            <input type="text" required="" name="name" value="{{ ($product->name) ? : '' }}"
                                    placeholder="Product's name">
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="col l6 s12">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('old price') }}</span>
-                            <input type="text" class="old_price" required name="price" value=""
+                            <input type="text" class="old_price" required name="old_price" value="{{ ($product->old_price) ? : '' }}"
                                    placeholder="MDL">
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="col l6 s12 ">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('new price') }}</span>
-                            <input type="text" required="" class="new_price" name="price" value=""
+                            <input type="text" required="" class="new_price" name="price" value="{{ ($product->price) ? : '' }}"
                                    placeholder="MDL">
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="col l6 s12">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('SALE') }}</span>
-                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="0">
+                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="{{ ($product->sale) ? : '' }}">
                         </div>
                     </div>
                 </div>
@@ -128,9 +128,9 @@
                         <div class="row">
                             <div class="col l6 s12 offset-l6 right-align-992">
                                 <div class="input-field">
-                                    <a href="#save-product"
+                                    <button type="submit" onclick="saveProductBlock(this); return false;"
                                        class="waves-effect waves-light btn save-product"><i
-                                                class="material-icons left">loop</i>Save</a>
+                                                class="material-icons left">loop</i>Save</button>
                                 </div>
                             </div>
                         </div>
@@ -141,4 +141,5 @@
         </div>
     </div>
 
+    {!! csrf_field() !!}
 </form>

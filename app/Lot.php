@@ -39,6 +39,7 @@ class Lot extends Repository
         'category_id',
         'currency_id',
         'name',
+        'yield_amount',
         'description',
         'public_date',
         'expire_date',

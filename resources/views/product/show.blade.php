@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    @include('product.partials.item.countdown')
+                    {{--@include('product.partials.item.countdown')--}}
 
                     <div class="sell_info display-table td_bordered_right">
                         <div class="td">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    @include('product.partials.item.form')
+                    {{--@include('product.partials.item.form')--}}
 
                     <div class="row">
                         <div class="col s12">
@@ -78,9 +78,11 @@
                         </div>
                     </div>
                 </div><!--product_info-->
-                <div class="col l3 m12 s12 product_vendor_block">
-                    @include('partials.about-seller')
-                </div>
+                @if($lot = $item->lot && $lot->vendor)
+                    <div class="col l3 m12 s12 product_vendor_block">
+                        @include('partials.about-seller')
+                    </div>
+                @endif
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('share.index')
                 </div>

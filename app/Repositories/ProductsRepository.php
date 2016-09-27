@@ -41,12 +41,12 @@ class ProductsRepository extends Repository
         if (is_numeric($slug))
             return $this->getModel()
                 ->whereId((int) $slug)
-                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+//                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
                 ->first();
 
         return $this->getModel()
             ->whereSlug($slug)
-            ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+//            ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
             ->first();
     }
 
@@ -341,7 +341,10 @@ class ProductsRepository extends Repository
     public function saveProduct($product, array $data)
     {
         $product->fill([
-            ''
+            'name' => isset($data['name']) ? $data['name'] : null,
+            'old_price' => isset($data['old_price']) ? $data['old_price'] : null,
+            'price' => isset($data['price']) ? $data['price'] : null,
+            'sale' => isset($data['sale']) ? $data['sale'] : null,
         ]);
 
         $product->save();

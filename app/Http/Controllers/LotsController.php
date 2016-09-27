@@ -98,8 +98,10 @@ class LotsController extends Controller
     public function saveLot(SaveLotRequest $request, Lot $lot)
     {
         $lot = $this->lots->save($lot, $request->all());
-        
-        return redirect()->route('view_lot', [ 'lot' => $lot->id ]);
+
+        return redirect()->back()->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
+
+//        return redirect()->route('view_lot', [ 'lot' => $lot->id ]);
     }
 
     /**

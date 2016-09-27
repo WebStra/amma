@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Lot;
 use App\Vendor;
+use Carbon\Carbon;
 
 class LotRepository extends Repository
 {
@@ -101,5 +102,51 @@ class LotRepository extends Repository
 
             $lot->save();
         }
+    }
+
+    /**
+     * Convert string date to \Carbon/Carbon timestamp.
+     *
+     * @param $date
+     * @return static
+     */
+    public function dateToTimestamp($date)
+    {
+        $dates = $this->reformatDateString($date);
+
+        return Carbon::createFromDate($dates['y'], $dates['m'], $dates['d']);
+    }
+
+    /**
+     * Reformat date.
+     *
+     * @param $date
+     * @param string $delimiter
+     * @return mixed
+     */
+    public function reformatDateString($date, $delimiter = '.')
+    {
+        $datas = explode($delimiter, $date);
+
+        $new_date['d'] = $datas[0];
+        $new_date['m'] = $datas[1];
+        $new_date['y'] = $datas[2];
+
+        return $new_date;
+    }
+
+    public function save($lot, array $data)
+    {
+        $lot->fill([
+            'name' => isset($data['name']) ? $data['name'] : $lot->present()->renderDraftedName(),
+            'category_id' => isset($data['category']) ? $data['category'] : null,
+            'currency_id' => isset($data['currency']) ? $data['currency'] : null,
+            'description' => isset($data['description']) ? $data['description'] : null,
+            'yield_amount' => isset($data['yield_amount']) ? $data['yield_amount'] : null,
+            'public_date' => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
+            'expire_date' => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now()
+        ])->save();
+
+        return $lot;
     }
 }

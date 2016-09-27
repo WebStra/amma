@@ -193,7 +193,7 @@ Route::multilingual(function () {
         Route::post('lots/create/{lot}', [
             'as' => 'create_lot',
             'middleware' => 'add_lot_filter',
-            'uses' => 'LotsController@postCreate'
+            'uses' => 'LotsController@saveLot'
         ]);
 
         Route::get('lots/{lot}', [
