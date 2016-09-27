@@ -50,7 +50,7 @@ Route::bind('involved', function ($id) {
 });
 
 Route::bind('token', function ($token){
-//    dd($token);
+
     return (new RecoverPasswordRepository())->getByToken($token);
 });
 
