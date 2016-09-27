@@ -39,6 +39,7 @@ class AddLotMiddleware
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // add complete to lot.
         // Снять со счета и зарегать .
 //        if (Auth::guard($guard)->guest()) {
 //            if ($request->ajax() || $request->wantsJson()) {

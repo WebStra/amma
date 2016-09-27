@@ -118,8 +118,8 @@
             <div class="row">
                 <div class="margin15">
                     <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
-                        <button type="submit" form="create_form_lot" class="btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
-                                    class="material-icons left">save</i>Create</button>
+                        <a form="create_form_lot" class="btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
+                                    class="material-icons left">save</i>Create</a>
                     </div>
                 </div>
             </div>

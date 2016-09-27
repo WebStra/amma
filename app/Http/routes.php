@@ -195,6 +195,11 @@ Route::multilingual(function () {
             'uses' => 'ProductsController@saveProduct'
         ]);
 
+        Route::post('lots/create/{product}/delete', [
+            'as' => 'delete_product',
+            'uses' => 'ProductController@'
+        ]);
+
         Route::post('lots/create/{lot}', [
             'as' => 'create_lot',
             'middleware' => 'add_lot_filter',
