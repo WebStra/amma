@@ -15,6 +15,7 @@ use App\Repositories\InvolvedRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\RecoverPasswordRepository;
 use App\Repositories\SocialiteRepository;
 use App\Repositories\VendorRepository;
 use App\Repositories\SubscribeRepository;
@@ -46,6 +47,11 @@ Route::bind('static_page', function ($slug) {
 
 Route::bind('involved', function ($id) {
     return (new InvolvedRepository())->find($id);
+});
+
+Route::bind('token', function ($token){
+//    dd($token);
+    return (new RecoverPasswordRepository())->getByToken($token);
 });
 
 Route::bind('unscribe', function ($token){
@@ -296,6 +302,26 @@ Route::multilingual(function () {
     Route::post('modal_register', [
         'as' => 'auth_modal_register',
         'uses' => 'Auth\AuthController@modalRegister'
+    ]);
+
+    Route::get('password/email', [
+        'as'   => 'password_recover_send_email',
+        'uses' => 'Auth\PasswordController@getEmail'
+    ]);
+
+    Route::post('password/email', [
+        'as'   => 'recover_password_email',
+        'uses' => 'Auth\PasswordController@postEmail'
+    ]);
+
+    Route::get('password/reset/{token}',[
+        'as' => 'reset_password_token',
+        'uses' => 'Auth\PasswordController@getReset'
+    ]);
+
+    Route::post('password/reset',[
+        'as' => 'reset_password',
+        'uses' => 'Auth\PasswordController@postReset'
     ]);
 
     //Social Login

@@ -39,8 +39,16 @@
                     </div>
                     <div class="col s12">
                         <input type="submit" value="Crează un cont" class="btn btn_base btn_submit full_width auth_register_ajax">
-                        <p class="center">Ai deja un cont? <a href="{{ route('get_login') }}" class="c_base 
-                        ">Intră în cont</a></p>
+                        <div class="input-field">
+                            <a href="{{ route('social_auth', 'facebook') }}" class="btn btn_facebook full_width">
+                                <i class="icon-facebook"></i>&nbsp;Intră cu ajutorul Facebook
+                            </a>
+                            <a href="#" class="btn btn_gplus full_width">
+                                <i class="icon-google-plus"></i>&nbsp;Intră cu ajutorul Google+
+                            </a>
+                            <p class="center">Ai deja un cont? <a href="{{ route('get_login') }}" class="c_base
+                            ">Intră în cont</a></p>
+                        </div>
                     </div>
                 {!! csrf_field() !!}
             </form>

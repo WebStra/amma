@@ -9,10 +9,12 @@ use App\Traits\ActivateableTrait;
 use App\Traits\Confirmed;
 use Keyhunter\Administrator\AuthRepository as Authenticatable;
 use App\Traits\HasImages;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPasswordContract
 {
-    use Presenterable, Confirmed, ActivateableTrait, HasImages;
+    use Presenterable, Confirmed, ActivateableTrait, HasImages, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
