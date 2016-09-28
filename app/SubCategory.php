@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Libraries\Presenterable\Presenterable;
+use App\Libraries\Presenterable\Presenters\SubCategoryPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\Categories\HasFilters;
 use App\Traits\HasImages;
@@ -11,12 +13,17 @@ use Keyhunter\Translatable\Translatable;
 
 class SubCategory extends Repository implements Translatable
 {
-    use ActivateableTrait, HasTranslations, HasImages, HasFilters;
+    use ActivateableTrait, HasTranslations, HasImages, HasFilters, Presenterable;
 
     /**
      * @var string
      */
     protected $table = 'sub_categories';
+
+    /**
+     * @var SubCategoryPresenter
+     */
+    public $presenter = SubCategoryPresenter::class;
 
     /**
      * @var array

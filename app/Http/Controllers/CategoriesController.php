@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Lot;
 use App\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\TagRepository;
@@ -49,15 +50,16 @@ class CategoriesController extends Controller
      * Show action for category.
      *
      * @param Request $request
-     * @param Category $category
+     * @param $category
+     * @param $subcategory
      *
      * @return $this
      */
-    public function show(Request $request, $category)
+    public function show(Request $request, $category, $subcategory = null)
     {
-        $groups = $this->tags->getCategoryTagGroups($category);
+        $groups = $this->tags->getCategoryTagGroups($category, $subcategory);
 
-        $filtered = $this->applyFilter($request, $category);
+        $filtered = $this->applyFilter($request, $category, $subcategory);
 
         return view(($request->ajax()) ? 'categories.partials.filter_result' : 'categories.index', [
             'category' => $category, 'products' => $filtered, 'groups' => $groups
@@ -68,18 +70,19 @@ class CategoriesController extends Controller
      * Apply filters for category scope.
      *
      * @param Request $request
-     * @param Category $category
+     * @param $category
+     * @param $subcategory
+     * @param $perPage
      *
      * @return mixed
      */
-    protected function applyFilter(Request $request, Category $category)
+    protected function applyFilter(Request $request, $category, $subcategory, $perPage = 12)
     {
         if($filters = $request->all() ? : false)
             list($static, $dynamic) = $this->separateFilters($filters);
 
-        $query = $category->categoryables()
-            ->elementType(Product::class)
-            ->getQuery();
+        $query = $category->products()
+            ->getQuery()->select('products.*');
 
         if(isset($static) && $static = $this->clearStaticFilters($static))
             $query = $this->applyStaticFilter($query, $static);
@@ -87,7 +90,16 @@ class CategoriesController extends Controller
         if(isset($dynamic) && $dynamic = $this->clearDynamicFilters($dynamic, $category))
             $query = $this->applyDynamicFilter($query, $dynamic);
 
-        return $query->where('categoryable.active', 1)->get();
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.status', Lot::STATUS_COMPLETE)
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
+
+        if($subcategory)
+        {
+            $query->where('products.sub_category_id', $subcategory->id);
+        }
+
+        return $query->where('products.active', 1)->paginate($perPage);
     }
 
     /**
@@ -103,12 +115,9 @@ class CategoriesController extends Controller
         /** Price range static filter. */
         if(isset($filters['price_min']) && isset($filters['price_max']))
         {
-            /* todo: find the better solution to perform price range filter. */
-
-            $query
-                /* In future possible Join `products` can be replaced above ..*/
-                ->join('products', 'products.id', '=', 'categoryable.categoryable_id')
-                ->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
+            $query->where(function($q) use ($filters){
+                $q->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
+            });
         }
 
         return $query;

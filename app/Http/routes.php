@@ -17,6 +17,7 @@ use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\SocialiteRepository;
+use App\Repositories\SubCategoriesRepository;
 use App\Repositories\VendorRepository;
 use App\Repositories\SubscribeRepository;
 
@@ -27,6 +28,10 @@ use App\Repositories\SubscribeRepository;
 
 Route::bind('category', function ($slug) {
     return (new CategoryRepository)->findBySlug($slug);
+});
+
+Route::bind('sub_category', function ($slug) {
+    return (new SubCategoriesRepository())->findBySlug($slug);
 });
 
 Route::bind('post', function ($slug) {
@@ -103,6 +108,11 @@ Route::multilingual(function () {
 
     Route::any('category/{category}', [
         'as' => 'view_category',
+        'uses' => 'CategoriesController@show'
+    ]);
+
+    Route::any('category/{category}/{sub_category}', [
+        'as' => 'view_sub_category',
         'uses' => 'CategoriesController@show'
     ]);
 

@@ -51,7 +51,18 @@ class Category extends Repository
      */
     public function subCategories()
     {
-        return $this->hasMany(SubCategory::class, 'id', 'category_id');
+        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function products()
+    {
+        return $this->hasManyThrough(
+            Product::class, SubCategory::class,
+            'category_id', 'sub_category_id', 'id'
+        );
     }
 
     /**

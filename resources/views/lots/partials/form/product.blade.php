@@ -122,15 +122,39 @@
                     </div>
                 </div>
 
-                <div class="row right-align-600-992">
+                <div class="row">
+                    <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
+                        <div class="input-field">
+                            <a href="#add-spec" class="add_spec_btn add_size_color_sold"><i class="material-icons center">library_add</i></a>
+                            </div>
+                        </div>
+                    </div>
 
+                <div class="row right-align-600-992">
                     <div class="col l8 s12 push-l4">
                         <div class="row">
-                            <div class="col l6 s12 offset-l6 right-align-992">
+                            <div class="col l6 s12">
+                                <div class="input-field">
+                                    <a href="#clone-product" class="clone-product btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
+                                </div>
+                            </div>
+
+                            <div class="col l6 s12">
+                                <div class="row">
+                                    <div class="col l12 m12 s12">
+                                        <div class="input-field">
+                                            <a href="#remove-product" class="waves-effect waves-light btn red btn-remove-product"><i class="material-icons left">delete</i>Del</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col l6 s12 right-align-992">
                                 <div class="input-field">
                                     <button type="submit" onclick="saveProductBlock(this); return false;"
-                                       class="waves-effect waves-light btn save-product"><i
+                                            class="waves-effect waves-light btn save-product"><i
                                                 class="material-icons left">loop</i>Save</button>
+                                    {{--<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>--}}
                                 </div>
                             </div>
                         </div>

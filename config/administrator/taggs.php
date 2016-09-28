@@ -38,6 +38,27 @@ return [
 
         'normalized',
 
+        'sub_categories' => [
+            'title' => 'Sub categories',
+            'output' => function($row){
+                $sub_categories = 'N\a';
+                $pattern = '<p>%s</p>';
+
+                if(count($sub_cat = $row->subCategories))
+                    $sub_cat->each(function($subCategory) use (&$sub_categories, $pattern)
+                    {
+                        if($sub_categories == 'N\a')
+                        {
+                            $sub_categories = sprintf($pattern, $subCategory->present()->renderName());
+                        } else {
+                            $sub_categories .= sprintf($pattern, $subCategory->present()->renderName());
+                        }
+                    });
+
+                return $sub_categories;
+            }
+        ],
+
         'active' => [
             'visible' => function () {
             },
@@ -193,6 +214,26 @@ return [
 
             return $items;
         }),
+
+        'sub_categories' => form_select('Sub categories', function (){
+            $items = [ '' => '-- No --' ];
+
+            $categories = \App\SubCategory::select('*')->active()->get();
+
+            foreach ($categories as $item) {
+                $category = $item->category;
+                if($category)
+                {
+                    $categoryName = $category->present()->renderName();
+                } else {
+                    $categoryName = 'no Parent';
+                }
+                $items[$item->id] = sprintf('%s - %s', $categoryName, $item->name);
+            }
+
+            return $items;
+        }, true, [ 'style' => 'max-width: 300px; min-height:450px' ])
+            + description('Specific subcategories for needs.'),
 
         //'normalized' => form_text(),
 

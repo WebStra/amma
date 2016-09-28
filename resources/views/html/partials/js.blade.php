@@ -130,56 +130,6 @@
         });
     });
 
-    $(function () // Add color patterns.
-    {
-        var output_color_wrap = $('#colors_output');
-        var color_input = $('#colorpicker');
-        var add_btn = $('#add_color_old');
-
-        add_btn
-                .on('click', function () {
-                    color_input[0].click();
-                });
-
-        color_input
-                .on('input', function () {
-                    var color = $(this).val();
-
-                    $.ajax({
-                        type: "POST",
-                        url: "http://public.amma.md/ro/product/501/add-color",
-                        data: {_token: "ZbHLBfFWcS0DZbZd35FPI90OlCoEpFo4XTiy1n54", color: color},
-                        success: function (response) {
-                            if (typeof response == 'object') {
-                                output_color_wrap
-                                        .append(
-                                                '<div class="col-md-1" data-color-id="' + response.id + '" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">'
-                                                + '<div style="width: 24px; height: 24px; background-color: ' + color + '"></div>'
-                                                + '<span class="remove_color" style="color: red; cursor: pointer;margin-left: 16%;">x</span>'
-                                                + '</div>'
-                                        );
-                            }
-                        }
-                    });
-                });
-
-        output_color_wrap.on('click', 'span.remove_color', function (e) {
-            e.preventDefault();
-            var color_block = $(this).parent();
-            var color_id = color_block.data('color-id');
-
-            $.ajax({
-                type: "POST",
-                url: "http://public.amma.md/ro/product/501/remove-color",
-                data: {_token: "ZbHLBfFWcS0DZbZd35FPI90OlCoEpFo4XTiy1n54", color_id: color_id},
-                success: function () {
-                    color_block
-                            .remove(); // remove color preview box.
-                }
-            });
-        });
-    });
-
     $(function () // Add/remove specification.
     {
         function sortable() {

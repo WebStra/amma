@@ -46,12 +46,17 @@ Breadcrumbs::register('show_page', function ($breadcrumbs, $static_page) {
 
 Breadcrumbs::register('view_category', function ($breadcrumbs, $category) {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push($category->name, route('show_page', $category->id));
+    $breadcrumbs->push($category->present()->renderName(), route('view_category', [ $category->slug ]));
 });
 
 Breadcrumbs::register('view_vendor', function ($breadcrumbs, $vendor) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push($vendor->present()->renderTitle(), route('view_vendor', $vendor->slug));
+});
+
+Breadcrumbs::register('view_sub_category', function ($breadcrumbs, $category, $subcategory) {
+    $breadcrumbs->parent('view_category', $category);
+    $breadcrumbs->push($subcategory->present()->renderName(), route('view_sub_category', [ $category->slug, $subcategory->slug ]));
 });
 
 //Breadcrumbs::register('view_lot', function ($breadcrumbs, $lot) {

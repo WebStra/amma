@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Category;
+use App\SubCategory;
 use App\Tag;
 
 class TagRepository extends Repository
@@ -42,17 +43,29 @@ class TagRepository extends Repository
      * Get tag groups.
      *
      * @param Category $category | null
+     * @param SubCategory $sub_category | null
      * @param $flip bool Flip the array
      * @return array
      */
-    public function getCategoryTagGroups(Category $category = null, $flip = false)
+    public function getCategoryTagGroups($category = null, $sub_category = null, $flip = false)
     {
         $query = $this->getModel()
             ->select('*')
             ->translated();
 
         if($category)
-            $query->where('category_id', $category->id);
+        {
+            if($category instanceof Category)
+                $query->where('category_id', $category->id);
+
+            if($sub_category instanceof SubCategory)
+            {
+
+            }
+        }
+
+//        if($category)
+//            $query->where('category_id', $category->id);
 
         $mixed_groups = $query
             ->active()

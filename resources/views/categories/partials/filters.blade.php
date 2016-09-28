@@ -1,5 +1,19 @@
 <div class="col l3 m5 s12">
     <form class="bordered divide-top filtre sidebar_search" action="" method="get">
+        @if(count($subCategories = $category->subCategories))
+            <div class="filtru">
+                <h5>Sub Categories</h5>
+                <p>
+                    @foreach($subCategories as $subCategory)
+                    <span style="display: block">
+                        <a href="{{ route('view_sub_category', [ $category->slug , $subCategory->slug ]) }}"
+                           title="{{ $subCategory->present()->renderName() }}">{{ $subCategory->present()->renderName() }}</a>
+                    </span>
+                    @endforeach
+                </p>
+            </div>
+        @endif
+
         @if(count($groups))
             @foreach($groups as $group)
                 <div class="filtru">
