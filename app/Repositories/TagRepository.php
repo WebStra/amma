@@ -8,6 +8,8 @@ use App\Tag;
 
 class TagRepository extends Repository
 {
+    const DYNAMIC_FILTER_SEPARATOR = '_x_';
+    
     /**
      * Render dynaimc filter's name.
      *
@@ -18,7 +20,19 @@ class TagRepository extends Repository
      */
     public static function renderDynamicFilterName($group, $name)
     {
-        return strtolower(sprintf("%s_%s", $group, str_replace(' ', '_', $name)));
+        return sprintf("%s%s%s", str_slug($group), self::DYNAMIC_FILTER_SEPARATOR, str_slug($name));
+
+//        return strtolower(sprintf("%s_%s", $group, str_replace(' ', '_', $name)));
+    }
+
+    /**
+     * Get constant DYNAMIC_FILTER_SEPARATOR
+     * 
+     * @return string
+     */
+    public function getDynamicFilterSeparator()
+    {
+        return self::DYNAMIC_FILTER_SEPARATOR;
     }
 
     /**
@@ -105,7 +119,8 @@ class TagRepository extends Repository
 
             if(count($tags))
                 $tags->each(function($tag) use (&$available_filters, $group){
-                    $available_filters[strtolower($group)][] = str_replace(' ', '_', $tag->normalized);
+//                    $available_filters[strtolower($group)][] = str_replace(' ', '_', $tag->normalized);
+                    $available_filters[str_slug($group)][] = str_slug($tag->normalized);
                 });
         });
 

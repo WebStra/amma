@@ -31,6 +31,16 @@
             @endforeach
         </div>
     @endif
+
+    <div class="row">
+        <div class="col l9 m12 s12">
+            <div class="paginate_container">
+                <div class="paginate_render">
+                    {!! $products->render() !!}
+                </div>
+            </div>
+        </div>
+    </div>
 @else
     <span>Upps, no products for selected filters...</span>
 @endif

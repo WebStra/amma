@@ -59,7 +59,7 @@ class CategoriesController extends Controller
     {
         $groups = $this->tags->getCategoryTagGroups($category, $subcategory);
 
-        $filtered = $this->applyFilter($request, $category, $subcategory);
+        $filtered = $this->applyFilter($request, $category, $subcategory, 12);
 
         return view(($request->ajax()) ? 'categories.partials.filter_result' : 'categories.index', [
             'category' => $category, 'products' => $filtered, 'groups' => $groups
@@ -134,16 +134,35 @@ class CategoriesController extends Controller
     protected function applyDynamicFilter($query, array $filters = null)
     {
         $tags = '';
-        $i = 0;
+        $i = 1;
         $dynamic_count = count($filters);
         array_walk($filters, function($filter_val, $filter) use (&$query, &$tags, $filters, $dynamic_count, &$i){
             list($group, $tag) = $this->parseDynamicFilter($filter);
 
-            $i == $dynamic_count ? $tags .= sprintf('%s,', $tag) : $tags .= $tag;
+            if($i !== $dynamic_count)
+            {
+                $tags .= sprintf('%s,', $tag);
+            } else {
+                $tags .= $tag;
+            }
 
             $i++;
         });
 
+        /**
+         * Query tags scopes..
+         *
+         * Model::withAllTags('apple,banana,cherry');
+         *  - returns models that are tagged with all 3 of those tags
+         *
+         * Model::withAnyTags('apple,banana,cherry');
+         *  - returns models with any one of those 3 tags
+         *
+         * Model::withAnyTags();
+         * - returns models with any tags at all
+         *
+         * @attention: for more info. check https://github.com/cviebrock/eloquent-taggable docs.
+         */
         $query->withAllTags($tags);
 
         return $query;
@@ -180,10 +199,13 @@ class CategoriesController extends Controller
         $available_filters = $this->tags->getAvailableDynamicFilters($category);
 
         $filters = array_filter($filters, function($filter) use ($available_filters){
-            list($group, $tag) = $this->parseDynamicFilter($filter);
+            if($this->isDynamicFilter($filter))
+            {
+                list($group, $tag) = $this->parseDynamicFilter($filter);
 
-            if(isset($available_filters[$group]))
-                return in_array($tag, $available_filters[$group]);
+                if (isset($available_filters[$group]))
+                    return in_array($tag, $available_filters[$group]);
+            }
         }, ARRAY_FILTER_USE_KEY);
 
         return (!empty($filters)) ? $filters : null;
@@ -219,14 +241,31 @@ class CategoriesController extends Controller
      * and the second is a tag.
      *
      * @param $filter
-     * @param string $separator
      *
      * @return array
      */
-    public function parseDynamicFilter($filter, $separator = '_')
+    public function parseDynamicFilter($filter)
     {
+        $separator = $this->tags->getDynamicFilterSeparator();
+
         list($group, $tag) = explode($separator, $filter, 2);
 
         return [ $group, $tag ];
+    }
+
+    /**
+     * Check if first argument is dynamic filter.
+     * (todo: rework it. hardcoded)
+     *
+     * @param $filter
+     * @return bool
+     */
+    public function isDynamicFilter($filter)
+    {
+        $separator = $this->tags->getDynamicFilterSeparator();
+
+        $result = explode($separator, $filter, 2);
+
+        return count($result) == 2;
     }
 }

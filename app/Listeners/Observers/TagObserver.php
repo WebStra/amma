@@ -22,17 +22,17 @@ class TagObserver extends Observer
         return $this->generateNormalize($model);
     }
 
-    public function saved($model)
-    {
-        $subCategories = Request::get('sub_categories');
-
-        if(count($subCategories))
-        {
-            $this->addSubCategories($model, $subCategories);
-        }
-
-        return $model;
-    }
+//    public function saved($model)
+//    {
+//        $subCategories = Request::get('sub_categories');
+//
+//        if(count($subCategories))
+//        {
+//            $this->addSubCategories($model, $subCategories);
+//        }
+//
+//        return $model;
+//    }
 
     /**
      * Generate normalized field from original name (default locale).
@@ -70,12 +70,10 @@ class TagObserver extends Observer
      */
     private function addSubCategories($model, $subCategories)
     {
-        if($model instanceof )
-
-        $this->getTaggableSubCategoryRepository()->firstOrCreate([
-            'tag_id' => $model->id,
-            'sub_category_id' => $subCategory
-        ]);
+//        $this->getTaggableSubCategoryRepository()->firstOrCreate([
+//            'tag_id' => $model->id,
+//            'sub_category_id' => $subCategory
+//        ]);
     }
 
     /**

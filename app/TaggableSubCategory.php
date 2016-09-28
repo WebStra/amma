@@ -2,14 +2,19 @@
 
 namespace App;
 
-use App\Libraries\WithoutTimestampsModel;
+use Keyhunter\Administrator\Repository;
 
-class TaggableSubCategory extends WithoutTimestampsModel
+class TaggableSubCategory extends Repository
 {
     /**
      * @var string
      */
     protected $table = 'taggable_tag_sub_categories';
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * @var array
@@ -29,6 +34,6 @@ class TaggableSubCategory extends WithoutTimestampsModel
      */
     public function subCategory()
     {
-        return $this->hasOne(SubCategory::class, 'sub_category_id', 'id');
+        return $this->hasOne(SubCategory::class, 'id', 'sub_category_id');
     }
 }
