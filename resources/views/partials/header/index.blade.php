@@ -18,21 +18,10 @@
                         </a>
 
                         <ul class="left nav_wide hide-on-med-and-down">
-                            <li><a href='{{ route('home') }}'>ACASĂ</a></li>
                             <li><a href='{{ route('expire_soon_products') }}'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
                                                 class="badge_top">New</span></span> </a></li>
                             <li><a href="{{ route('view_blog') }}">BLOG</a></li>
-                            <li><a href="">DESPRE NOI</a></li>
-                            <li><a href="{{ route('contacts') }}">CONTACTE</a></li>
                             <li><a href="{{ route('vendors') }}">VENDORS</a></li>
-                            <li><a href="{{ route('support') }}">SUPPORT</a></li>
-                            @if(count($pages))
-                                @foreach($pages as $page)
-                                    <li>
-                                        <a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->present()->renderTitle() }}</a>
-                                    </li>
-                                @endforeach
-                            @endif
                         </ul>
                         <ul class="side-nav" id="mobile-navbar">
                             <li><a href='{{ route('home') }}'>ACASĂ</a></li>

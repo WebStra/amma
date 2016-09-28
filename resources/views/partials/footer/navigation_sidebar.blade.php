@@ -8,6 +8,10 @@
             <div class="td">
                 <h4>Pagini</h4>
                 <ul>
+                    <li></li>
+                    <li><a href="{{ route('contacts') }}">CONTACTE</a></li>
+                    <li><a href="{{ route('support') }}">SUPPORT</a></li>
+                    <li><a href="">DESPRE NOI</a></li>
                     @foreach($pages as $page)
                         <li><a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a></li>
                     @endforeach
