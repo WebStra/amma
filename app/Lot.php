@@ -61,7 +61,7 @@ class Lot extends Repository
      */
     public function currency()
     {
-        return $this->hasOne(Currency::class, 'currency_id', 'id');
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 
     /**

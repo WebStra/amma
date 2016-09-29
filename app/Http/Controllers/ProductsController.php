@@ -6,6 +6,7 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Image;
+use App\Lot;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Repositories\CategoryableRepository;
@@ -91,6 +92,19 @@ class ProductsController extends Controller
         return $view
             ->withUserIsInvolved(false)
             ->withSame($same_products);
+    }
+
+    /**
+     * Delete products..
+     *
+     * @param Request $request
+     * @param Lot $lot
+     *
+     * @param Product $product
+     */
+    public function removeProduct(Request $request, Lot $lot, Product $product)
+    {
+        $this->products->delete($product->id);
     }
 
     /**

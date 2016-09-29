@@ -200,14 +200,21 @@ Route::multilingual(function () {
             'uses' => 'LotsController@create'
         ]);
 
+        Route::get('lots/{lot}/edit', [
+            'as' => 'edit_lot',
+            'uses' => 'LotsController@edit'
+        ]);
+
+        // todo: check for user .. if he can perform actions..
+        
         Route::post('lots/create/{product}/save', [
             'as' => 'save_product',
             'uses' => 'ProductsController@saveProduct'
         ]);
 
-        Route::post('lots/create/{product}/delete', [
+        Route::post('lots/{lot}/{product}/delete', [
             'as' => 'delete_product',
-            'uses' => 'ProductController@removeProduct'
+            'uses' => 'ProductsController@removeProduct'
         ]);
 
         Route::post('lots/create/{lot}/select-category', [
@@ -221,6 +228,8 @@ Route::multilingual(function () {
             'middleware' => 'add_lot_filter',
             'uses' => 'LotsController@saveLot'
         ]);
+        
+        // todo: ----------------------------------------------->
 
         Route::get('lots/{lot}', [
             'as' => 'view_lot',

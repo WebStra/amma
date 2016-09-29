@@ -61,7 +61,7 @@
                                 <span class="label">{{ strtoupper('Currency') }}</span>
                                 <select name="currency" required class="currency">
                                     @foreach($currencies as $currency)
-                                        <option data-simbol="{{ $currency->sign }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
+                                        <option data-sign="{{ $currency->sign }}" data-title="{{ $currency->title }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -74,8 +74,10 @@
                             <div class="input-field">
                                 <span class="label">Complete dupa sumă</span>
                                 <input type="text" class="input-amount" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
-                                       placeholder="MDL">
-                                {{--<span class="comision"><i>Comision: <span class="comision-val">0</span></i></span>--}}
+                                       placeholder="0.00">
+                                @if(count($currencies))
+                                    <span class="currency_type" style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
+                                @endif
                             </div>
                         </div>
 
@@ -163,6 +165,17 @@
             });
         });
 
+        $("select[name=currency]").on('change', function()
+        {
+            var $this = $(this);
+
+            $('span.currency_type')
+                    .html($this
+                            .find(':selected')
+                            .data('title')
+                    );
+        });
+
         $('#parent_category').on('change', function(){
             var input = $(this);
             var value = input.val();
@@ -173,23 +186,41 @@
                     type: 'POST',
                     data: { category_id: value },
                     url: "{{ route('lot_select_category', [ $lot->id ]) }}"
-//                    success: function (response) {
-//
-//                        console.log(response);
-//                    }
                 });
             }
         });
 
+        function deleteProductBlock(btn)
+        {
+            if(confirm('Are you sure?'))
+            {
+                (function ($) {
+                    var $this = $(btn);
+                    var form = $this.parents('form');
+                    var product_id = form.data('product');
+
+                    $.ajax({
+                        type: 'POST',
+                        data: { product_id: product_id },
+                        url: "{{ route("delete_product", [ $lot->id, $product->id ]) }}",
+                        success: function (response) {
+                            form.remove();
+                        }
+                    });
+                }(jQuery));
+
+                return;
+            }
+
+            return false;
+        }
+
         function saveProductBlock(btn)
         {
             (function ($) {
-//                var $this = $(this);
                 var $this = $(btn);
                 var form = $this.parents('form');
                 var action = $this.parents('form').attr('action');
-
-                console.log(action);
 
                 $.ajax({
                     type: 'POST',

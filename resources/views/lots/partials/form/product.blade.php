@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('save_product', [ 'product' => $product->id ]) }}" class="form form-product"
+<form method="post" data-product="{{ $product->id }}" action="{{ route('save_product', [ 'product' => $product->id ]) }}" class="form form-product"
       enctype="multipart/form-data">
     <div class="row add_product" id="sortable">
         <div class="inner_product border margin15">
@@ -42,7 +42,11 @@
                             <span class="label">{{ strtoupper('old price') }}</span>
                             <input type="text" class="old_price" required name="old_price"
                                    value="{{ ($product->old_price) ? : '' }}"
-                                   placeholder="MDL">
+                                   placeholder="0.00">
+                            @if(count($currencies))
+                                <span class="currency_type"
+                                      style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
+                            @endif
                         </div>
                     </div>
 
@@ -51,7 +55,11 @@
                             <span class="label">{{ strtoupper('new price') }}</span>
                             <input type="text" required="" class="new_price" name="price"
                                    value="{{ ($product->price) ? : '' }}"
-                                   placeholder="MDL">
+                                   placeholder="0.00">
+                            @if(count($currencies))
+                                <span class="currency_type"
+                                      style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
+                            @endif
                         </div>
                     </div>
 
@@ -60,6 +68,7 @@
                             <span class="label">{{ strtoupper('SALE') }}</span>
                             <input type="text" class="create_sale" name="sale" placeholder="0%"
                                    value="{{ ($product->sale) ? : '' }}">
+                            <span style="position: absolute;top:31px;right: 15px;color: #ff6f00;">%</span>
                         </div>
                     </div>
                 </div>
@@ -135,37 +144,33 @@
                     </div>
                 </div>
 
-                <div class="row right-align-600-992">
-                    <div class="col l8 s12 push-l4">
+                <div class="row" style="height: 75px;margin-top: 20px">
+                    <div class="col 2">
+                        <div class="input-field">
+                            <a href="#clone-product" class="clone-product btn amber darken-4"><i
+                                        class="material-icons left">view_stream</i>Clone</a>
+                        </div>
+                    </div>
+
+                    <div class="col 2">
                         <div class="row">
-                            <div class="col l6 s12">
+                            <div class="col l12 m12 s12">
                                 <div class="input-field">
-                                    <a href="#clone-product" class="clone-product btn amber darken-4"><i
-                                                class="material-icons left">view_stream</i>Clone</a>
+                                    <a href="#remove-product" onclick="deleteProductBlock(this); return false;"
+                                       class="waves-effect waves-light btn red btn-remove-product"><i
+                                                class="material-icons left">delete</i>Del</a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col l6 s12">
-                                <div class="row">
-                                    <div class="col l12 m12 s12">
-                                        <div class="input-field">
-                                            <a href="#remove-product"
-                                               class="waves-effect waves-light btn red btn-remove-product"><i
-                                                        class="material-icons left">delete</i>Del</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col l6 s12 right-align-992">
-                                <div class="input-field">
-                                    <button type="submit" onclick="saveProductBlock(this); return false;"
-                                            class="waves-effect waves-light btn save-product"><i
-                                                class="material-icons left">loop</i>Save
-                                    </button>
-                                    {{--<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>--}}
-                                </div>
-                            </div>
+                    <div class="col l6 s12 right-align-992">
+                        <div class="input-field">
+                            <button type="submit" onclick="saveProductBlock(this); return false;"
+                                    class="waves-effect waves-light btn save-product"><i
+                                        class="material-icons left">loop</i>Save
+                            </button>
+                            {{--<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>--}}
                         </div>
                     </div>
                 </div>

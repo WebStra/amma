@@ -43,7 +43,7 @@ class ComposerServiceProvider extends ServiceProvider
 
         view()->composer('pages.support', FaqComposer::class);
 
-        view()->composer([ 'lots.create', 'lots.edit' ], AddLotComposer::class);
+        view()->composer([ 'lots.create', 'lots.partials.form.product' ], AddLotComposer::class);
     }
 
     /**
