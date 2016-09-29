@@ -263,7 +263,7 @@ Route::multilingual(function () {
        
         Route::post('vote_vendor/{vendor}',[
             'as' => 'vote_vendor',
-            'midleware' => 'accept-ajax',
+            'middleware' => 'accept-ajax',
             'uses' => 'VendorController@vote_vendor'
         ]);
     
@@ -281,16 +281,6 @@ Route::multilingual(function () {
 
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {
-            Route::get('product/{product}/edit', [
-                'as' => 'edit_product',
-                'uses' => 'ProductsController@getEditForm'
-            ]);
-
-            Route::post('product/{product}/edit', [
-                'as' => 'update_product',
-                'uses' => 'ProductsController@update'
-            ]);
-
             Route::group(['middleware' => 'accept-ajax'], function () {
                 Route::post('product/{product}/add-color', [
                     'as' => 'add_product_color',
@@ -324,11 +314,6 @@ Route::multilingual(function () {
             });
         });
 
-        Route::get('vendor/{vendor}/product/create', [
-            'as' => 'add_product',
-            'uses' => 'ProductsController@getCreate'
-        ]);
-
         Route::post('involve/product/{product}', [
             'as' => 'involve_product',
             'middleware' => 'can_involve_product',
@@ -338,11 +323,6 @@ Route::multilingual(function () {
         Route::post('involve/exit/{involved}', [
             'as' => 'involve_product_cancel',
             'uses' => 'UsersController@exitProductOffer'
-        ]);
-
-        Route::post('vendor/{vendor}/product/{product}/create', [
-            'as' => 'post_create_product',
-            'uses' => 'ProductsController@create'
         ]);
     });
 

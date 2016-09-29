@@ -6,14 +6,14 @@
             <div class="row">
                 @include('vendors.partials.left-sidebar')
                 <div class="col l8 m7 s12">
-                    @if(count($products = $item->products))
+                    @if(count($lots = $item->lots))
                         <ul class="elements divide-top bordered pd_8">
-                            @foreach($products as $product)
-                                @include('partials.products.big-item-block', ['item' => $product])
+                            @foreach($lots as $lot)
+                                @include('lots.partials.lot_product', [ 'item' => $lot ])
                             @endforeach
                         </ul>
                     @else
-                        <p>This vendor don't have a products.</p>
+                        <p>This vendor don't have a lots.</p>
                     @endif
                 </div><!--right block-->
             </div>

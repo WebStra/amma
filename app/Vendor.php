@@ -55,5 +55,4 @@ class Vendor extends Repository implements SluggableInterface
     {
         return $this->hasMany(Lot::class, 'vendor_id', 'id');
     }
-
 }
