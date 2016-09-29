@@ -11,12 +11,14 @@
                 </div>
             </div>
             <div class="buttons">
+                <?php $current= Route::currentRouteName();?>
                 <ul class="links_to">
-                    <li><a href="#" class="active">Istoria cumpărăturilor</a></li>
-                    <li><a href="#">Produse Favorite (10)</a></li>
-                    <li><a href="{{ route('my_products') }}">Produsele mele (10)</a></li>
-                    <li><a href="#">Vouchere (2)</a></li>
-                    <li><a href="{{ route('settings') }}">Setările contului</a></li>
+                    <li><a href="#">Istoria cumpărăturilor</a></li>
+                    {{--<li><a href="#">Produse Favorite (10)</a></li>--}}
+                    <li><a {{ ($current == 'my_vendors') ? 'class=active' : '' }} href="{{ route('my_vendors') }}">My vendors</a></li>
+                    <li><a {{ $current == 'my_lots' ? 'class=active' : '' }} href="{{ route('my_lots') }}">Loturile mele (10)</a></li>
+                    {{--<li><a href="#">Vouchere (2)</a></li>--}}
+                    <li><a {{ $current == 'settings' ? 'class=active' : '' }} href="{{ route('settings') }}">Setările contului</a></li>
                 </ul>
             </div>
         </div>

@@ -47,13 +47,15 @@ class SubCategoryObserver extends Observer
     {
         $image = Request::file('image');
 
-        if ($image instanceof UploadedFile) {
-            $this->removePreviousImage($category);
-            $location = 'upload/categories/';
-            $processor = new ImageProcessor();
-            $processor->uploadAndCreate($image, $category, null, $location);
-        } else {
-            throw new \Exception('Invalid Image');
+        if($image) {
+            if ($image instanceof UploadedFile) {
+                $this->removePreviousImage($category);
+                $location = 'upload/categories/';
+                $processor = new ImageProcessor();
+                $processor->uploadAndCreate($image, $category, null, $location);
+            } else {
+                throw new \Exception('Invalid Image');
+            }
         }
     }
 

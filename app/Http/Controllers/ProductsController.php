@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\SaveProductRequest;
 use App\Image;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
@@ -90,6 +91,18 @@ class ProductsController extends Controller
         return $view
             ->withUserIsInvolved(false)
             ->withSame($same_products);
+    }
+
+    /**
+     * @param SaveProductRequest $request
+     * @param Product $product
+     * @return mixed
+     */
+    public function saveProduct(SaveProductRequest $request, Product $product)
+    {
+        $product = $this->products->saveProduct($product, $request->all());
+
+        return redirect()->back()->withStatus('Product saved');
     }
 
     /**

@@ -252,11 +252,10 @@
 @endsection
 
 @section('js')
-    <script src="{!!Html::script('/assets/plugins/pickadate/lib/translations/ro_RO.js')!!}" type="text/javascript"></script>
-    <script src="{!!Html::script('/assets/js/dropzone.js')!!}" type="text/javascript"></script>
-    <!--<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js" type="text/javascript"></script>-->
-    <script src="{!!Html::script('/assets/plugins/materialize-colorpicker/prism/prism.js')!!}" type="text/javascript"></script>
-    <script src="{!!Html::script('/assets/plugins/materialize-colorpicker/dist/js/materialize-colorpicker.min.js')!!}"></script>
+    {!!Html::script('/assets/plugins/pickadate/lib/translations/ro_RO.js')!!}
+    {!!Html::script('/assets/js/dropzone.js')!!}
+    {!!Html::script('/assets/plugins/materialize-colorpicker/prism/prism.js')!!}
+    {!!Html::script('/assets/plugins/materialize-colorpicker/dist/js/materialize-colorpicker.min.js')!!}
 @endsection
 
 @section('scripts')

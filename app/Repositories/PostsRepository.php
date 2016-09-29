@@ -26,15 +26,16 @@ class PostsRepository extends Repository
     /**
      * Get public posts.
      *
+     * @param $perPage
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getPublic()
+    public function getPublic($perPage = 7)
     {
         return self::getModel()
             ->published()
             ->active()
             ->orderBy('id', self::DESC)
-            ->get();
+            ->paginate($perPage);
     }
 
     /**

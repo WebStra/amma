@@ -6,7 +6,7 @@
         <div class="content">
             <h4>{{ $involved->user->present()->renderName() }}</h4>
 
-            @if(Auth::id() == $item->user->id)
+            @if($user = $item->user && Auth::id() == $user->id)
                 email: {{ $involved->user->email }}
                 on-summ: {{ $item->present()->renderPriceWithSale() * $involved->count }}
                 telefon: {{ $item->user->profile->phone }}

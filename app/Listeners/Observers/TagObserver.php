@@ -2,6 +2,9 @@
 
 namespace App\Listeners\Observers;
 
+use App\Repositories\TaggableSubCategoriesRepository;
+use App\TaggableSubCategory;
+use Request;
 use Cviebrock\EloquentTaggable\Services\TagService;
 
 class TagObserver extends Observer
@@ -18,6 +21,18 @@ class TagObserver extends Observer
     {
         return $this->generateNormalize($model);
     }
+
+//    public function saved($model)
+//    {
+//        $subCategories = Request::get('sub_categories');
+//
+//        if(count($subCategories))
+//        {
+//            $this->addSubCategories($model, $subCategories);
+//        }
+//
+//        return $model;
+//    }
 
     /**
      * Generate normalized field from original name (default locale).
@@ -43,5 +58,29 @@ class TagObserver extends Observer
     public function normalize($string)
     {
         return app(TagService::class)->normalize($string);
+    }
+
+    /**
+     * Add subcategories for tags.
+     *
+     * @param $model
+     * @param $subCategories
+     *
+     * @return void
+     */
+    private function addSubCategories($model, $subCategories)
+    {
+//        $this->getTaggableSubCategoryRepository()->firstOrCreate([
+//            'tag_id' => $model->id,
+//            'sub_category_id' => $subCategory
+//        ]);
+    }
+
+    /**
+     * @return TaggableSubCategoriesRepository
+     */
+    private function getTaggableSubCategoryRepository()
+    {
+        return (new TaggableSubCategoriesRepository);
     }
 }

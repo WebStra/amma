@@ -2,18 +2,21 @@
 
 namespace App;
 
-use App\Libraries\Categoryable\HasCategory;
 use App\Libraries\Metaable\HasMeta;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
 use App\Traits\HasImages;
+use Cviebrock\EloquentTaggable\Taggable;
 use Keyhunter\Administrator\Repository;
+use App\Libraries\Taggable\TagService;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class Product extends Repository
 {
-    use HasCategory, ActivateableTrait, Presenterable, HasMeta, HasImages;
-    
+    use ActivateableTrait, Presenterable, HasMeta, HasImages, Taggable;
+
     /**
      * @var string
      */
@@ -27,22 +30,15 @@ class Product extends Repository
     /**
      * @var array
      */
-    protected $dates = ['expiration_date', 'published_date'];
-
-    /**
-     * @var array
-     */
     protected $fillable = [
-        'vendor_id',
+        'sub_category_id',
+        'lot_id',
         'name',
         'featured',
         'price',
+        'old_price',
         'sale',
         'count',
-        'type',
-        'status',
-        'published_date',
-        'expiration_date',
         'active',
         'description'
     ];
@@ -58,19 +54,9 @@ class Product extends Repository
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function vendor()
+    public function lot()
     {
-        return $this->belongsTo(Vendor::class);
-    }
-
-    /**
-     * Get user through vendor.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->vendor->user();
+        return $this->belongsTo(Lot::class, 'lot_id', 'id');
     }
 
     /**
@@ -123,5 +109,33 @@ class Product extends Repository
     public function scopeFeatured($query)
     {
         return $query->whereFeatured(1);
+    }
+
+    /**
+     * Get a collection of all Tags a Model has.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable', 'taggable_taggables')
+            ->withTimestamps();
+    }
+
+    /**
+     * Scope for a Model that has all of the given tags.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $tags
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAllTags(Builder $query, $tags)
+    {
+        $normalized = app(TagService::class)->buildTagArrayNormalized($tags);
+
+        return $query->has('tags', '=', count($normalized), 'and', function (Builder $q) use ($normalized) {
+            $q->whereIn('normalized', $normalized);
+        });
     }
 }

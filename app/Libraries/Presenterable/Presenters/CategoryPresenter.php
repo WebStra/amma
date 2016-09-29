@@ -47,4 +47,17 @@ class CategoryPresenter extends Presenter
     {
         return sprintf('%s, taxa (%s)', $this->renderName(), $this->getTax());
     }
+
+    /**
+     * Render tax of category.
+     *
+     * @return int
+     */
+    public function renderTax()
+    {
+        if($this->model->tax)
+            return (int) $this->model->tax;
+
+        return 0;
+    }
 }

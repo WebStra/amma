@@ -346,9 +346,20 @@ text-align: left;
     padding-left: 7px;
 }
 .product_name {
-text-decoration: none;
-color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 .profile_settings_submit {
     margin-top: 30px;
+    text-decoration: none;
+    color: inherit;
+}
+.filtru input[type="checkbox"] + label {
+    padding-left: 18px;
+}
+.filtru span {
+    width: 49%;
+    display: inline-block;
+    height: 25px;
+    overflow: hidden;
 }

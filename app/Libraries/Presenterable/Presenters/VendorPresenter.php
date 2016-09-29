@@ -40,4 +40,9 @@ class VendorPresenter extends Presenter
     {
         return count($this->model->products);
     }
+
+//    public function percentPositiveVotes()
+//    {
+//        
+//    }
 }

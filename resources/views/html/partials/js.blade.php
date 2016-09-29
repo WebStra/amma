@@ -51,28 +51,28 @@
                 });
     });
 
-    $(function () // Init dropzone and sortable it.
-    {
-        var sort_selector = $("#preview_container");
-
-        sort_selector
-                .sortable({
-                    update: function (event, ui) {
-                        var $this = $(this);
-                        var data = $this.sortable('serialize');
-                        $this.sortable("disable");
-
-                        $.ajax({
-                            data: data,
-                            type: 'POST',
-                            url: 'http://public.amma.md/ro/product/501/image-sort',
-                            success: function (response) {
-                                $this.sortable('enable');
-                            }
-                        });
-                    }
-                });
-    });
+//    $(function () // Init dropzone and sortable it.
+//    {
+//        var sort_selector = $("#preview_container");
+//
+//        sort_selector
+//                .sortable({
+//                    update: function (event, ui) {
+//                        var $this = $(this);
+//                        var data = $this.sortable('serialize');
+//                        $this.sortable("disable");
+//
+//                        $.ajax({
+//                            data: data,
+//                            type: 'POST',
+//                            url: 'http://public.amma.md/ro/product/501/image-sort',
+//                            success: function (response) {
+//                                $this.sortable('enable');
+//                            }
+//                        });
+//                    }
+//                });
+//    });
 
     $(function () // Remove image.
     {
@@ -91,10 +91,8 @@
         //var sale_zero = '0%';
         var sale_zero = '0';
 
-        function validateSale($sale)
-        {
-            if ($sale > 0)
-            {
+        function validateSale($sale) {
+            if ($sale > 0) {
                 //return Math.round($sale).toFixed(0) + '%';
                 return parseFloat($sale.toFixed(2));
             }
@@ -103,28 +101,27 @@
         }
 
         $(document).ready(function () {
-            $(".add_product").delegate("input.old_price, input.new_price, input.create_sale", "keyup", function(event){
+            $(".add_product").delegate("input.old_price, input.new_price, input.create_sale", "keyup", function (event) {
                 var curent_product = $(this).parents('.inner_product');
 
-                var sale          = curent_product.find('input.create_sale');
-                var old_price     = curent_product.find('input.old_price');
-                var new_price     = curent_product.find('input.new_price');
+                var sale = curent_product.find('input.create_sale');
+                var old_price = curent_product.find('input.old_price');
+                var new_price = curent_product.find('input.new_price');
 
-                var val_sale      = sale.val();
+                var val_sale = sale.val();
                 var val_old_price = old_price.val();
                 var val_new_price = new_price.val();
-                var target = $( event.target );
-                if (target.is( "input.old_price" ) || target.is('input.new_price')) {
+                var target = $(event.target);
+                if (target.is("input.old_price") || target.is('input.new_price')) {
                     var diff = ((val_old_price - val_new_price) / val_old_price);
 
-                    if(diff == 1 || diff == 0)
-                    {
+                    if (diff == 1 || diff == 0) {
                         return sale.val(sale_zero);
                     }
                     var calc = diff * 100;
                     var result = validateSale(calc);
-                }else if(target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price)){
-                    var result = validateSale(val_old_price - (val_old_price/100*val_sale));
+                } else if (target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price)) {
+                    var result = validateSale(val_old_price - (val_old_price / 100 * val_sale));
                     return new_price.val(result);
                 }
 
@@ -133,80 +130,30 @@
         });
     });
 
-    $(function () // Add color patterns.
-    {
-        var output_color_wrap = $('#colors_output');
-        var color_input = $('#colorpicker');
-        var add_btn = $('#add_color_old');
-
-        add_btn
-                .on('click', function () {
-                    color_input[0].click();
-                });
-
-        color_input
-                .on('input', function () {
-                    var color = $(this).val();
-
-                    $.ajax({
-                        type: "POST",
-                        url: "http://public.amma.md/ro/product/501/add-color",
-                        data: {_token: "ZbHLBfFWcS0DZbZd35FPI90OlCoEpFo4XTiy1n54", color: color},
-                        success: function (response) {
-                            if (typeof response == 'object') {
-                                output_color_wrap
-                                        .append(
-                                                '<div class="col-md-1" data-color-id="' + response.id + '" style="width: 10%; float:left; margin-top: 5px; margin-left: 1px">'
-                                                + '<div style="width: 24px; height: 24px; background-color: ' + color + '"></div>'
-                                                + '<span class="remove_color" style="color: red; cursor: pointer;margin-left: 16%;">x</span>'
-                                                + '</div>'
-                                        );
-                            }
-                        }
-                    });
-                });
-
-        output_color_wrap.on('click', 'span.remove_color', function (e) {
-            e.preventDefault();
-            var color_block = $(this).parent();
-            var color_id = color_block.data('color-id');
-
-            $.ajax({
-                type: "POST",
-                url: "http://public.amma.md/ro/product/501/remove-color",
-                data: {_token: "ZbHLBfFWcS0DZbZd35FPI90OlCoEpFo4XTiy1n54", color_id: color_id},
-                success: function () {
-                    color_block
-                            .remove(); // remove color preview box.
-                }
-            });
-        });
-    });
-
     $(function () // Add/remove specification.
     {
-        function sortable()
-        {
-            $( "#sortable" ).sortable();
-            $( "#sortable" ).disableSelection();
+        function sortable() {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
         }
-        function reInit()
-        {
+
+        function reInit() {
             //$('select').material_select('destroy');
             $('select').material_select();
 
             $('.materialboxed').materialbox();
             //$('.input-colorpicker').colorpicker();  
         }
+
         //sortable();
-        var key_lot         = {value: 2};
-        var key_product     = {value: 2};
-        var key_color       = {value: 2};
-        var key_size        = {value: 2};
-        var key_scs         = {value: 2};
+        var key_lot = {value: 2};
+        var key_product = {value: 2};
+        var key_color = {value: 2};
+        var key_size = {value: 2};
+        var key_scs = {value: 2};
         var curent_currency = {value: 'MDL'};
 
-        $(".add_product").delegate(".add_suite", "click", function(){
+        $(".add_product").delegate(".add_suite", "click", function () {
             var curent_product = $(this).parents('.inner_product');
             if (curent_product.find('.specification_suite_item').length < 20) {
                 curent_product.find('.specification_suite_lot').append(getSpecSuiteTemplateLot(key_lot.value));
@@ -214,45 +161,47 @@
             }
         });
 
-        $(".add_product").delegate(".remove-spec", "click", function(){
+        $(".add_product").delegate(".remove-spec", "click", function () {
             $(this).parents('.specification_suite_remove').remove();
         });
 
         $('.input-colorpicker').colorpicker({
-          component: '.btn',
-          format: 'hex'
+            component: '.btn',
+            format: 'hex'
         });
 
         $('#btn_add_product').click(function (event) {
-            if ($('.inner_product').length  < 10) {
+            if ($('.inner_product').length < 10) {
                 $('.add_product').append(addProduct(key_product.value, curent_currency.value));
                 reInit();
                 $('.input-colorpicker').colorpicker();
                 //sortable();
                 $('.inner_product').last()
-                    .animate({borderColor:'#26a69a'}, 1000)
-                    .delay(500)
-                    .animate({borderColor:'#e9e9e9'}, 2000);
+                        .animate({borderColor: '#26a69a'}, 1000)
+                        .delay(500)
+                        .animate({borderColor: '#e9e9e9'}, 2000);
                 key_product.value = key_product.value + 1;
             }
 
         });
-        $(".add_product").delegate("a.btn-remove-product", "click", function(){
+        $(".add_product").delegate("a.btn-remove-product", "click", function () {
             if (!confirm("Are you sure?")) return false;
-            $(this).parents('.remove_product').fadeOut(500, function() { $(this).remove(); });
+            $(this).parents('.remove_product').fadeOut(500, function () {
+                $(this).remove();
+            });
         });
 
 
-         $(".add_product").delegate("a.add_color", "click", function(){
+        $(".add_product").delegate("a.add_color", "click", function () {
             var spec_color = $(this).parents('.wrap_spec_color').find('.spec_color');
-            if (spec_color.find('.spec_color_item').length  < 10) {
+            if (spec_color.find('.spec_color_item').length < 10) {
                 spec_color.append(getSpecSuiteTemplateColor(key_color.value));
                 $('.input-colorpicker').colorpicker();
                 key_color.value = key_color.value + 1;
             }
         });
 
-        $(".add_product").delegate("a.add_size", "click", function(){
+        $(".add_product").delegate("a.add_size", "click", function () {
             var spec_size = $(this).parents('.wrap_spec_size').find('.spec_size');
             if (spec_size.find('.spec_size_item').length < 10) {
                 spec_size.append(getSpecSuiteTemplateSize(key_size.value));
@@ -260,7 +209,7 @@
             }
         });
 
-        $(".add_product").delegate("a.add_size_color_sold", "click", function(){
+        $(".add_product").delegate("a.add_size_color_sold", "click", function () {
             var curent_product = $(this).parents('.inner_product');
             if (curent_product.find('.size_color_sold_item').length < 10) {
                 curent_product.find('.wrap_size_color_sold').append(getSpecSuiteTemplateSizeColorSold(key_scs.value));
@@ -269,22 +218,22 @@
             }
         });
 
-        $(".add_product").delegate("a.clone-product", "click", function(){
+        $(".add_product").delegate("a.clone-product", "click", function () {
             var curent_product = $(this).parents('.inner_product');
-            
-            if ($('.inner_product').length  < 10) {
+
+            if ($('.inner_product').length < 10) {
                 curent_product.find('select').material_select('destroy');
                 curent_product.find('.input-colorpicker').colorpicker('destroy');
                 var curent_val = curent_product.find('select').val();
                 var clone_product = curent_product.clone();
                 curent_product.after(clone_product);
                 curent_product.next().find('select').val(curent_val);
-                curent_product.next().animate({borderColor:'#ff6f00'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
+                curent_product.next().animate({borderColor: '#ff6f00'}, 1000).delay(500).animate({borderColor: '#e9e9e9'}, 2000);
                 reInit();
                 $('.input-colorpicker').colorpicker({
-                  component: '.btn',
-                  color:'#26a69a',
-                  format:'hex'
+                    component: '.btn',
+                    color: '#26a69a',
+                    format: 'hex'
                 });
                 //$('.input-colorpicker').colorpicker('update');
                 //sortable();
@@ -292,75 +241,75 @@
             }
         });
 
-        $(".add_product").delegate("a.remove-size-color-sold", "click", function(){
+        $(".add_product").delegate("a.remove-size-color-sold", "click", function () {
             $(this).parents('.size_color_sold_item_remove').remove();
         });
 
-        $(".add_product").delegate("a.remove_spec_size", "click", function(){
+        $(".add_product").delegate("a.remove_spec_size", "click", function () {
             $(this).parents('.spec_size_item_remove').remove();
         });
 
-        $(".add_product").delegate("a.remove_spec_color", "click", function(){
+        $(".add_product").delegate("a.remove_spec_color", "click", function () {
             $(this).parents('.spec_color_item_remove').remove();
         });
 
-        $(".add_product").delegate("a.save-product", "click", function(){
+        $(".add_product").delegate("a.save-product", "click", function () {
             var curent_product = $(this).parents('.inner_product');
-            curent_product.animate({borderColor:'#26a69a'}, 1000).delay(500).animate({borderColor:'#e9e9e9'}, 2000);
+            curent_product.animate({borderColor: '#26a69a'}, 1000).delay(500).animate({borderColor: '#e9e9e9'}, 2000);
         });
-        $('.currency').change(function(event) {
-           var simbol = $(this).find(':selected').data('simbol');
-           $('.new_price, .old_price, .input-amount').attr('placeholder', simbol);
-           curent_currency.value = simbol;
-        });
-        
-        $('input.input-amount').keyup(function(event) {
-            var procent = $('#parent_categories').find(':selected').data('procent');
-            var sum     = $(this).val();
-            $('.comision-val').text(Math.round(sum/100*procent).toFixed(0));
+        $('.currency').change(function (event) {
+            var simbol = $(this).find(':selected').data('simbol');
+            $('.new_price, .old_price, .input-amount').attr('placeholder', simbol);
+            curent_currency.value = simbol;
         });
 
-        $('#parent_categories').change(function(event) {
-            var procent = $(this).find(':selected').data('procent');
-            var sum     = $('input.input-amount').val();
-            $('.comision-val').text(Math.round(sum/100*procent).toFixed(0));
+        $('input.input-amount').keyup(function (event) {
+            var procent = $('#parent_categories').find(':selected').data('procent');
+            var sum = $(this).val();
+            $('.comision-val').text(Math.round(sum / 100 * procent).toFixed(0));
         });
-        
+
+        $('#parent_categories').change(function (event) {
+            var procent = $(this).find(':selected').data('procent');
+            var sum = $('input.input-amount').val();
+            $('.comision-val').text(Math.round(sum / 100 * procent).toFixed(0));
+        });
+
 
         /*$('.remove-added-spec')
-                .on('click', function () {
-                    var item = $(this).parent();
-                    var id = item.data('spec-id');
+         .on('click', function () {
+         var item = $(this).parent();
+         var id = item.data('spec-id');
 
-                    $.ajax({
-                        url: "http://public.amma.md/ro/product/501/remove-spec",
-                        data: {id: id},
-                        method: 'post',
-                        success: function () {
-                            item.remove();
-                        }
-                    });
-                });*/
+         $.ajax({
+         url: "http://public.amma.md/ro/product/501/remove-spec",
+         data: {id: id},
+         method: 'post',
+         success: function () {
+         item.remove();
+         }
+         });
+         });*/
     });
 
-    $(function (){
-        $('.input-units').keyup(function(event) {
+    $(function () {
+        $('.input-units').keyup(function (event) {
             if ($(this).val() != '') {
                 $('.input-amount').attr('disabled', true);
-            }else{
+            } else {
                 $('.input-amount').removeAttr('disabled');
             }
         });
-        $('.input-amount').keyup(function(event) {
+        $('.input-amount').keyup(function (event) {
             if ($(this).val() != '') {
                 $('.input-units').attr('disabled', true);
-            }else{
+            } else {
                 $('.input-units').removeAttr('disabled');
             }
         });
     });
 
-    $(function (){
+    $(function () {
         var $from = $(".datepicker-from");
         var $to = $(".datepicker-to");
         var __$from = {};
@@ -376,10 +325,10 @@
             },
             onSet: function () {
                 var picker = this;
-               // __$to.set('min', +2);
+                // __$to.set('min', +2);
                 __$to.set('min', picker.get());
             },
-            onOpen: function(){
+            onOpen: function () {
                 __$from.set('max', 30);
                 //__$from.set('max', __$to.get());
             }
@@ -398,7 +347,7 @@
                 var picker = this;
                 __$from.set('max', picker.get());
             },
-            onOpen: function(){
+            onOpen: function () {
                 __$to.set('min', __$from.get());
 
             }
@@ -474,7 +423,7 @@
                 + '</select>'
                 + '</div>'
                 + '</div>'
-                
+
                 + '<div class="col l6 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">{{ strtoupper('old price') }}</span>'
@@ -581,7 +530,6 @@
                 + '</div>'
                 + '</div>'
                 + '</div>'
-
 
 
                 + '<div class="col l4 s12 pull-l8">'
