@@ -22,6 +22,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col l9 m12 s12">
+                    <div class="paginate_container">
+                        <div class="paginate_render">
+                            {!! $posts->render() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div><!-- / container-->
     </section>
 @endsection

@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->posts->getPublic();
+        $posts = $this->posts->getPublic(5);
 
         return view('blog.index')->with('posts', $posts);
     }

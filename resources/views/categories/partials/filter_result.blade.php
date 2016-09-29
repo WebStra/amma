@@ -1,14 +1,10 @@
 @if(count($products))
     @if(count($products) <= 6)
         <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-            @foreach($products as $categoryable)
-                <?php $item = $categoryable->categoryable ?>
-
-                @if(isset($item))
-                    <div class="col l4 m6 s12">
-                        @include('partials.products.item-block')
-                    </div>
-                @endif
+            @foreach($products as $item)
+                <div class="col l4 m6 s12">
+                    @include('partials.products.item-block')
+                </div>
             @endforeach
         </div>
 
@@ -18,8 +14,7 @@
         list($before_banner, $after_banner) = $products->chunk(6);
         ?>
         <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-            @foreach($before_banner as $categoryable)
-                <?php $item = $categoryable->categoryable ?>
+            @foreach($before_banner as $item)
                 <div class="col l4 m6 s12">
                     @include('partials.products.item-block')
                 </div>
@@ -29,14 +24,23 @@
         @include('partials.banners.wide')
 
         <div class="row elements bordered pd10 styled1 no-row-margin divide-top">
-            @foreach($after_banner as $categoryable)
-                <?php $item = $categoryable->categoryable ?>
+            @foreach($after_banner as $item)
                 <div class="col l4 m6 s12">
                     @include('partials.products.item-block')
                 </div>
             @endforeach
         </div>
     @endif
+
+    <div class="row">
+        <div class="col l9 m12 s12">
+            <div class="paginate_container">
+                <div class="paginate_render">
+                    {!! $products->render() !!}
+                </div>
+            </div>
+        </div>
+    </div>
 @else
     <span>Upps, no products for selected filters...</span>
 @endif

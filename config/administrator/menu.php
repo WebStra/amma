@@ -87,7 +87,11 @@ return [
                 'icon' => 'fa fa-circle-o'
             ],
 
-            'taggable_products' => [
+//            'taggable_products' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+            'taggable_subcategories' => [
                 'icon' => 'fa fa-circle-o'
             ]
         ]

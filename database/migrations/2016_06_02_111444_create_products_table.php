@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('vendor_id')->unsigned();
             $table->string('name', 255);
             $table->float('price');
             $table->integer('sale');
@@ -35,8 +34,6 @@ class CreateProductsTable extends Migration
             $table->timestamp('expiration_date');
 
             $table->timestamps();
-
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade')->onUpdate('CASCADE');
         });
     }
 

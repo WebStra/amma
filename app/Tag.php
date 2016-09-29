@@ -81,4 +81,12 @@ class Tag extends Repository implements Translatable
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subCategories()
+    {
+        return $this->hasMany(TaggableSubCategory::class, 'id', 'taggable_tag_id');
+    }
 }

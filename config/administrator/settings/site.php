@@ -12,7 +12,6 @@ return [
         'support::email'             => 'required|email',
         'contact_info::adress'       => 'required',
         'contact_info::email'        => 'required|email',
-        'contact_info::executivPhone'=> 'required|min:7|max:20',
         'contact_info::sellPhone'    => 'required|min:7|max:20',
         'contact_info::tehnicPhone'  => 'required|min:7|max:20',
 
@@ -54,11 +53,11 @@ return [
 //        ],
 
         'homepage::popular_category' => [
+            'required',
             'type' => 'select',
             'label' => 'Popular category',
             'options' => function () {
                 return Category::select("*")
-                    ->child()
                     ->active()
                     ->get()
                     ->pluck('name', 'id');
@@ -66,30 +65,30 @@ return [
         ],
 
         'home::category_first' => [
+            'required',
             'type' => 'select',
             'label' => 'Homepage first category',
             'options' => function () {
                 return Category::select("*")
-                    ->child()
                     ->active()
 //                    ->translated()
                     ->get()
-                    ->pluck('name', 'id')
-                    ->prepend('-- No --', '');
+                    ->pluck('name', 'id');
+                    /*->prepend('-- No --', '');*/
             }
         ],
 
         'home::category_second' => [
+            'required',
             'type' => 'select',
             'label' => 'Homepage second category',
             'options' => function () {
                 return Category::select("*")
-                    ->child()
                     ->active()
 //                    ->translated()
                     ->get()
-                    ->pluck('name', 'id')
-                    ->prepend('-- No --', '');
+                    ->pluck('name', 'id');
+                    /*->prepend('-- No --', '');*/
             }
         ],
 

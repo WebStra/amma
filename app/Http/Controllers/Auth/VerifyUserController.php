@@ -18,6 +18,9 @@ class VerifyUserController extends Controller
      */
     private $users;
 
+    /**
+     * @var Dispatcher
+     */
     private $events;
 
     /**
@@ -34,6 +37,7 @@ class VerifyUserController extends Controller
     /**
      * Confirm the account.
      *
+     * @param Request $request
      * @param $code
      * @return mixed
      */
@@ -61,12 +65,12 @@ class VerifyUserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param ResendConfirmationRequest $request
      * @return mixed
      */
-    public function resendConfirmationCode(Request $request)
+    public function resendConfirmationCode(ResendConfirmationRequest $request)
     {
-        $this->resendConfirmCodeforAuthUser();
+        $this->resendConfirmCodeforAuthUser($request);
 
         return redirect()->back()->withSuccess('Confirmation code was sent.');
     }

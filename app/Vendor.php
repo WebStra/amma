@@ -51,9 +51,9 @@ class Vendor extends Repository implements SluggableInterface
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function products()
+    public function lots()
     {
-        return $this->hasMany(Product::class, 'vendor_id', 'id');
+        return $this->hasMany(Lot::class, 'vendor_id', 'id');
     }
 
 }

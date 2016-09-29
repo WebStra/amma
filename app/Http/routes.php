@@ -12,11 +12,13 @@
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\InvolvedRepository;
+use App\Repositories\LotRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\PostsRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\RecoverPasswordRepository;
 use App\Repositories\SocialiteRepository;
+use App\Repositories\SubCategoriesRepository;
 use App\Repositories\VendorRepository;
 use App\Repositories\SubscribeRepository;
 
@@ -29,12 +31,20 @@ Route::bind('category', function ($slug) {
     return (new CategoryRepository)->findBySlug($slug);
 });
 
+Route::bind('sub_category', function ($slug) {
+    return (new SubCategoriesRepository())->findBySlug($slug);
+});
+
 Route::bind('post', function ($slug) {
     return (new PostsRepository)->findBySlug($slug);
 });
 
 Route::bind('product', function ($id) {
     return (new ProductsRepository)->find($id);
+});
+
+Route::bind('lot', function ($id) {
+    return (new LotRepository())->find($id);
 });
 
 Route::bind('vendor', function ($slug) {
@@ -96,19 +106,19 @@ Route::multilingual(function () {
         'uses' => 'PagesController@support'
     ]);
 
+    /** Don't use `page` instead `static_page`, is reserved by Keyhunter\Administrator package. */
     Route::get('page/{static_page}.html', [
         'as' => 'show_page',
         'uses' => 'PagesController@show'
     ]);
 
-    Route::get('category/{category}', [
+    Route::any('category/{category}', [
         'as' => 'view_category',
         'uses' => 'CategoriesController@show'
     ]);
 
-    Route::post('category/{category}', [
-        'as' => 'filter_category',
-        'midleware' => 'accept-ajax',
+    Route::any('category/{category}/{sub_category}', [
+        'as' => 'view_sub_category',
         'uses' => 'CategoriesController@show'
     ]);
 
@@ -153,7 +163,15 @@ Route::multilingual(function () {
         'uses' => 'SubscribeController@unscribe'
     ]);
 
+    /* ----------------------------------------------
+     *  Auth routes.
+     * ----------------------------------------------
+     */
     Route::group(['middleware' => 'auth'], function () {
+        /* ----------------------------------------------
+         *  Vendor routes.
+         * ----------------------------------------------
+         */
         Route::get('vendor/create', [
             'as' => 'create_vendor',
             'uses' => 'VendorController@getCreate'
@@ -169,6 +187,61 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@myVendors'
         ]);
 
+        /* ----------------------------------------------
+         *  Lots routes.
+         * ----------------------------------------------
+         */
+        Route::get('lots', [
+            'as' => 'lots',
+            'uses' => 'LotsController@index'
+        ]);
+
+        Route::get('my-lots', [
+            'as' => 'my_lots',
+            'uses' => 'LotsController@myLots'
+        ]);
+
+        Route::get('lots/create/{vendor}', [
+            'as' => 'add_lot',
+            'uses' => 'LotsController@create'
+        ]);
+
+        Route::post('lots/create/{product}/save', [
+            'as' => 'save_product',
+            'uses' => 'ProductsController@saveProduct'
+        ]);
+
+        Route::post('lots/create/{product}/delete', [
+            'as' => 'delete_product',
+            'uses' => 'ProductController@'
+        ]);
+
+        Route::post('lots/create/{lot}', [
+            'as' => 'create_lot',
+            'middleware' => 'add_lot_filter',
+            'uses' => 'LotsController@saveLot'
+        ]);
+
+        Route::get('lots/{lot}', [
+            'as' => 'view_lot',
+            'uses' => 'LotsController@show'
+        ]);
+        
+        Route::post('lots/create/{lot}/load-product-form-block', [
+            'as' => 'load_product_block_form',
+            'uses' => 'LotsController@loadProductBlock'
+        ]);
+
+        // Add middleware if current user can perform this action.
+        Route::get('lots/{lot}/delete', [
+            'as' => 'delete_lot',
+            'uses' => 'LotsController@delete'
+        ]);
+
+        /* ----------------------------------------------
+         *  Product routes.
+         * ----------------------------------------------
+         */
         Route::get('my-products', [
             'as' => 'my_products',
             'uses' => 'DashboardController@myProducts'
@@ -181,7 +254,7 @@ Route::multilingual(function () {
 
         Route::get('settings', [
             'as' => 'settings',
-            'uses' => 'DashboardController@accountsettings'
+            'uses' => 'DashboardController@accountSettings'
         ]);
 
         Route::post('settings/update_settings', [
@@ -211,7 +284,6 @@ Route::multilingual(function () {
                 'uses' => 'VendorController@update'
             ]);
         });
-
 
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {

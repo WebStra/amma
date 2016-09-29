@@ -56,14 +56,16 @@ class CategoryRepository extends Repository
     /**
      * Get category collection for footer.
      *
+     * @param $take
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getFooterCollection()
+    public function getFooterCollection($take = 7)
     {
         return self::getModel()
             ->where('show_in_footer', '=', 1)
             ->active()
             ->ranked()
+            ->take($take)
             ->get();
     }
 

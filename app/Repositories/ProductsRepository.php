@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Lot;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -40,12 +41,12 @@ class ProductsRepository extends Repository
         if (is_numeric($slug))
             return $this->getModel()
                 ->whereId((int) $slug)
-                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+//                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
                 ->first();
 
         return $this->getModel()
             ->whereSlug($slug)
-            ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
+//            ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
             ->first();
     }
 
@@ -287,10 +288,10 @@ class ProductsRepository extends Repository
     public function getPublicExpireSoon($count = 8)
     {
         return $this->getModel()
-            ->published()
+//            ->published()
             ->active()
-            ->where('expiration_date', '>', Carbon::now())
-            ->orderBy('expiration_date', self::ASC)
+//            ->where('expiration_date', '>', Carbon::now())
+//            ->orderBy('expiration_date', self::ASC)
             ->orderBy('id', self::ASC)
             ->take($count)
             ->get();
@@ -321,5 +322,31 @@ class ProductsRepository extends Repository
 
 //        return $query->orderBy('id', self::ASC)
             return $query->paginate($paginate);
+    }
+
+    /**
+     * Create plain product for \App\Lot $lot
+     *
+     * @param Lot $lot
+     * @return static
+     */
+    public function createPlain(Lot $lot)
+    {
+        return self::getModel()
+            ->create([
+                'lot_id' => $lot->id
+            ]);
+    }
+
+    public function saveProduct($product, array $data)
+    {
+        $product->fill([
+            'name' => isset($data['name']) ? $data['name'] : null,
+            'old_price' => isset($data['old_price']) ? $data['old_price'] : null,
+            'price' => isset($data['price']) ? $data['price'] : null,
+            'sale' => isset($data['sale']) ? $data['sale'] : null,
+        ]);
+
+        $product->save();
     }
 }

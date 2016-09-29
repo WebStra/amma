@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\AddLotComposer;
 use App\Http\ViewComposers\BannerComposer;
 use App\Http\ViewComposers\BlogComposer;
 use App\Http\ViewComposers\CategoryComposer;
@@ -38,9 +39,11 @@ class ComposerServiceProvider extends ServiceProvider
             'partials.header.index', 'partials.footer.navigation_sidebar'
         ], PagesComposer::class);
 
-        view()->composer(['home.index'], HomePageComposer::class);
+        view()->composer([ 'home.index' ], HomePageComposer::class);
 
         view()->composer('pages.support', FaqComposer::class);
+
+        view()->composer([ 'lots.create', 'lots.edit' ], AddLotComposer::class);
     }
 
     /**
