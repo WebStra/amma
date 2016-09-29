@@ -19,19 +19,29 @@
                         </div>
                     </div>
 
-                    <div class="col l6 s12">
-                        <div class="input-field">
-                            <span class="label">{{ strtoupper('Subcategories') }}</span>
-                            <select class="subcategories">
-                                <option value="vvvvvvvvvvvv1">vvvvvvvvvvvv11</option>
-                            </select>
-                        </div>
-                    </div><!-- Subcategories -->
+                    @if($lot->category_id)
+                        @if(count($sub_categories = $lot->category->subCategories))
+                            <div class="col l6 s12">
+                                <div class="input-field">
+                                    <span class="label">{{ strtoupper('Subcategory') }}</span>
+                                    <select class="subcategories" name="sub_category">
+                                        <option value="">Select subcategory</option>
+                                        @foreach($sub_categories as $sub_category)
+                                            <?php $selected = ($product->sub_category_id == $sub_category->id) ? 'selected' : ''; ?>
+                                            <option value="{{ $sub_category->id }}"
+                                                    {{ $selected }}>{{ $sub_category->present()->renderName() }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div><!-- Subcategories -->
+                        @endif
+                    @endif
 
                     <div class="col l6 s12">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('old price') }}</span>
-                            <input type="text" class="old_price" required name="old_price" value="{{ ($product->old_price) ? : '' }}"
+                            <input type="text" class="old_price" required name="old_price"
+                                   value="{{ ($product->old_price) ? : '' }}"
                                    placeholder="MDL">
                         </div>
                     </div>
@@ -39,7 +49,8 @@
                     <div class="col l6 s12 ">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('new price') }}</span>
-                            <input type="text" required="" class="new_price" name="price" value="{{ ($product->price) ? : '' }}"
+                            <input type="text" required="" class="new_price" name="price"
+                                   value="{{ ($product->price) ? : '' }}"
                                    placeholder="MDL">
                         </div>
                     </div>
@@ -47,14 +58,15 @@
                     <div class="col l6 s12">
                         <div class="input-field">
                             <span class="label">{{ strtoupper('SALE') }}</span>
-                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="{{ ($product->sale) ? : '' }}">
+                            <input type="text" class="create_sale" name="sale" placeholder="0%"
+                                   value="{{ ($product->sale) ? : '' }}">
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col l12 m12 s12">
-                        <label>Specifications</label>
+                       <hr>
                     </div>
                 </div>
 
@@ -78,7 +90,8 @@
                 </div>
                 <div class="row">
                     <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
-                        <a href="#add-spec" class="add_spec_btn add_suite"><i class="material-icons center">library_add</i></a>
+                        <a href="#add-spec" class="add_spec_btn add_suite"><i
+                                    class="material-icons center">library_add</i></a>
                     </div>
                 </div>
 
@@ -122,20 +135,13 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
-                        <div class="input-field">
-                            <a href="#add-spec" class="add_spec_btn add_size_color_sold"><i class="material-icons center">library_add</i></a>
-                            </div>
-                        </div>
-                    </div>
-
                 <div class="row right-align-600-992">
                     <div class="col l8 s12 push-l4">
                         <div class="row">
                             <div class="col l6 s12">
                                 <div class="input-field">
-                                    <a href="#clone-product" class="clone-product btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
+                                    <a href="#clone-product" class="clone-product btn amber darken-4"><i
+                                                class="material-icons left">view_stream</i>Clone</a>
                                 </div>
                             </div>
 
@@ -143,7 +149,9 @@
                                 <div class="row">
                                     <div class="col l12 m12 s12">
                                         <div class="input-field">
-                                            <a href="#remove-product" class="waves-effect waves-light btn red btn-remove-product"><i class="material-icons left">delete</i>Del</a>
+                                            <a href="#remove-product"
+                                               class="waves-effect waves-light btn red btn-remove-product"><i
+                                                        class="material-icons left">delete</i>Del</a>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +161,8 @@
                                 <div class="input-field">
                                     <button type="submit" onclick="saveProductBlock(this); return false;"
                                             class="waves-effect waves-light btn save-product"><i
-                                                class="material-icons left">loop</i>Save</button>
+                                                class="material-icons left">loop</i>Save
+                                    </button>
                                     {{--<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>--}}
                                 </div>
                             </div>

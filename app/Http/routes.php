@@ -207,7 +207,13 @@ Route::multilingual(function () {
 
         Route::post('lots/create/{product}/delete', [
             'as' => 'delete_product',
-            'uses' => 'ProductController@'
+            'uses' => 'ProductController@removeProduct'
+        ]);
+
+        Route::post('lots/create/{lot}/select-category', [
+            'as' => 'lot_select_category',
+            'middleware' => 'accept-ajax',
+            'uses' => 'LotsController@selectCategory'
         ]);
 
         Route::post('lots/create/{lot}', [

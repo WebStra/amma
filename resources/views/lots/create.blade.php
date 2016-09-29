@@ -24,13 +24,15 @@
                         </div>
 
                         @if(count($categories))
-                            <div class="col l6 m6 s12">
+                            <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
-                                    <span class="label">{{ strtoupper('categories') }}</span>
-                                    <select id="parent_categories" name="category" required>
+                                    <span class="label">{{ strtoupper('category') }}</span>
+                                    <select id="parent_category" name="category" required {{ ($lot->category_id) ? 'disabled' : '' }}>
                                         <option value="">Select category</option>
                                         @foreach($categories as $category)
-                                            <option data-procent="{{ $category->present()->renderTax() }}" value="{{ $category->id }}">{{ $category->present()->renderName() }}</option>
+                                            <option data-procent="{{ $category->present()->renderTax() }}"
+                                                    value="{{ $category->id }}"
+                                                    {{ ($lot->category_id == $category->id) ? 'selected' : ''}}>{{ $category->present()->renderName() }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -138,6 +140,8 @@
     @include('html.partials.js')
 
     <script>
+        var category_input = '#parent_category';
+
         $('#lot_btn_add_product').on('click', function(){
             var url = $(this).data('action');
 
@@ -145,9 +149,36 @@
                 type: 'POST',
                 url: url,
                 success: function (response) {
-                    $('#lot_canvas').append(response);
+                    if(response != 'false')
+                    {
+                        $('#lot_canvas').append(response);
+
+                        $('div#primary_category input[class=select-dropdown]').attr('disabled', '');
+                    } else {
+                        alert('Select category first');
+
+                        $(category_input).focus();
+                    }
                 }
             });
+        });
+
+        $('#parent_category').on('change', function(){
+            var input = $(this);
+            var value = input.val();
+
+            if(value != '')
+            {
+                $.ajax({
+                    type: 'POST',
+                    data: { category_id: value },
+                    url: "{{ route('lot_select_category', [ $lot->id ]) }}"
+//                    success: function (response) {
+//
+//                        console.log(response);
+//                    }
+                });
+            }
         });
 
         function saveProductBlock(btn)

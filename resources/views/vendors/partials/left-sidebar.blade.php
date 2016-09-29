@@ -23,7 +23,7 @@
                 <div class="buttons row">
                     <div class="col s12 padd_l_half">
                         <a href="{{ route('add_lot', [ $item->slug ]) }}"
-                           class="btn_ btn_white waves-effect waves-teal f_small right full_width">Add product</a>
+                           class="btn_ btn_white waves-effect waves-teal f_small right full_width">Add lot</a>
                     </div>
                 </div>
 

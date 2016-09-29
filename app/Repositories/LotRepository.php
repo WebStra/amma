@@ -55,7 +55,7 @@ class LotRepository extends Repository
         $query = $this->getModel();
 
         if($vendor)
-            $query->where('vendor_id', $vendor->id);
+            $query = $query->where('vendor_id', $vendor->id);
 
         $lot = $query->drafted()->first();
 
@@ -148,5 +148,34 @@ class LotRepository extends Repository
         ])->save();
 
         return $lot;
+    }
+
+    /**
+     * Change category.
+     *
+     * @param $lot
+     * @param $category_id
+     *
+     * @return void
+     */
+    public function changeCategory($lot, $category_id)
+    {
+        $lot->fill([
+            'category_id' => $category_id
+        ])->save();
+    }
+
+    /**
+     * Check if user can to change category.
+     *
+     * @param Lot $lot
+     * @return bool
+     */
+    public function checkIfPossibleToChangeCategory(Lot $lot)
+    {
+        if(! count($lot->products))
+            return true;
+
+        return false;
     }
 }
