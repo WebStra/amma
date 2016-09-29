@@ -345,8 +345,16 @@ text-align: left;
     color: #9e9e9e;
     padding-left: 7px;
 }
-
 .product_name {
-text-decoration: none;
-color: inherit;
+    text-decoration: none;
+    color: inherit;
+}
+.filtru input[type="checkbox"] + label {
+    padding-left: 18px;
+}
+.filtru span {
+    width: 49%;
+    display: inline-block;
+    height: 25px;
+    overflow: hidden;
 }
