@@ -6,7 +6,7 @@
             <div class="row">
                 @include('partials.dashboard.nav-bar')
                 <div class="col l9 m7 s12">
-                    <form action="{{ route('post_create_vendor') }}" class="form styled2 row validate-it" enctype="multipart/form-data" method="post">
+                    <form action="{{ route('post_create_vendor') }}" class="row validate-it" enctype="multipart/form-data" method="post">
                         @include('vendors.partials.form')
                         {!! csrf_field() !!}
                         <div class="col l12">

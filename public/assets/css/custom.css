@@ -349,6 +349,11 @@ text-align: left;
     text-decoration: none;
     color: inherit;
 }
+.profile_settings_submit {
+    margin-top: 30px;
+    text-decoration: none;
+    color: inherit;
+}
 .filtru input[type="checkbox"] + label {
     padding-left: 18px;
 }

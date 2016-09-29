@@ -5,7 +5,8 @@
     @endforeach
     <div class="file-field input-field">
         <div class="wrapp_img left settings_avatar_image">
-            <img src="{{ $item->present()->cover(null, '/assets/images/no-avatar2.png') }}" height="78" width="78" id="preview_image">
+            <?php $default_avatar = '/assets/images/no-avatar2.png'; ?>
+            <img src="{{ isset($item) ? $item->present()->cover(null, $default_avatar) : $default_avatar}}" height="78" width="78" id="preview_image">
             <label for="photo">
                 <i class="material-icons">assignment_ind</i>
             </label>
