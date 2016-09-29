@@ -8,15 +8,13 @@
                 </div>
                 <div class="content">
                     <h4>{{ $item->present()->renderTitle()}}</h4>
-                    <ul class="star_rating" data-rating_value="{{ $item->present()->roundPozitiveVotes() }}">
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                    </ul>
-                    <p class="small">{{ $item->present()->renderPozitiveVotes() }} % positive 
-                    </p>
+                    <div class="label" style=''>
+                        <div class="user-rating">
+                            <span class="stars"><span class="bg" style="width: {{ $item->present()->renderPozitiveVotes() }}%"></span></span>
+                            <span>{{ $item->present()->renderPozitiveVotes() }}%</span>
+                            <span class="c-gray"> ({{ $item->present()->getLikesNumber() }} de votari)</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             @if($item->user->id == \Auth::id())

@@ -1,9 +1,5 @@
 @extends('layout')
 
-@section('css')
-    {!!Html::style('/assets/css/mycss.css')!!}
-@endsection
-
 @section('content')
     <div class="list-lots">
         <div class="container">

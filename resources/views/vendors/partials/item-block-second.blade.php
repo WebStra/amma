@@ -4,20 +4,19 @@
         <div class="person_card">
             <div class="display_flex border_bottom">
                 <div class="wrapp_img">
-                    <img src="{{ $item->present()->cover() }}">
+                    <img src="{{ $item->present()->cover(null, '/assets/images/no-avatar2.png') }}">
                 </div>
                 <div class="content">
                     <h4>
                         <a href="{{ route('view_vendor', ['vendor' => $item->slug]) }}">{{ $item->present()->renderTitle()}}</a>
                     </h4>
-                    <ul class="star_rating" data-rating_value="{{ $item->present()->roundPozitiveVotes() }}">
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                        <li class="icon-star"></li>
-                    </ul>
-                    <p class="small">{{ $item->present()->renderPozitiveVotes() }} % positive </p>
+                    <div class="label" style=''>
+                        <div class="user-rating">
+                            <span class="stars"><span class="bg" style="width: {{ $item->present()->renderPozitiveVotes() }}%"></span></span>
+                            <span>{{ $item->present()->renderPozitiveVotes() }}%</span>
+                            <span class="c-gray"> ({{ $item->present()->getLikesNumber() }} de votari)</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="buttons row">
