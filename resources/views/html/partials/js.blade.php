@@ -1,35 +1,4 @@
 <script>
-    function removeImageAjax($image) {
-        $.ajax({
-            url: "http://public.amma.md/ro/product/501/remove-image",
-            data: {image_id: $image},
-            method: 'post'
-        });
-    }
-
-//    $(function () // Init dropzone and sortable it.
-//    {
-//        var sort_selector = $("#preview_container");
-//
-//        sort_selector
-//                .sortable({
-//                    update: function (event, ui) {
-//                        var $this = $(this);
-//                        var data = $this.sortable('serialize');
-//                        $this.sortable("disable");
-//
-//                        $.ajax({
-//                            data: data,
-//                            type: 'POST',
-//                            url: 'http://public.amma.md/ro/product/501/image-sort',
-//                            success: function (response) {
-//                                $this.sortable('enable');
-//                            }
-//                        });
-//                    }
-//                });
-//    });
-
     $(function () // Remove image.
     {
         $('.remove-image').on('click', function () {

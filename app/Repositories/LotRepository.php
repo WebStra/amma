@@ -139,7 +139,7 @@ class LotRepository extends Repository
     {
         $lot->fill([
             'name' => isset($data['name']) ? $data['name'] : $lot->present()->renderDraftedName(),
-            'category_id' => isset($data['category']) ? $data['category'] : null,
+//            'category_id' => isset($data['category']) ? $data['category'] : null,
             'currency_id' => isset($data['currency']) ? $data['currency'] : null,
             'description' => isset($data['description']) ? $data['description'] : null,
             'yield_amount' => isset($data['yield_amount']) ? $data['yield_amount'] : null,

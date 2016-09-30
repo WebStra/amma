@@ -4,11 +4,30 @@
       class="form form-product"
       enctype="multipart/form-data">
     <div class="row add_product" id="sortable">
-        <div class="inner_product border margin15">
+        <div class="inner_product border margin15" style="cursor: default;">
             <div class="col l4 m6 s12">
-                <div class="input-field">
+                <div class="input-field product_gallery">
                     <p>PHOTO</p>
-                    <img class="materialboxed img-responsive" src="http://placehold.it/350x350">
+                    @if(count($images = $product->images))
+                        <img class="materialboxed img-responsive" src="{{ $product->present()->cover() }}">
+                    @else
+                        <img class="materialboxed img-responsive" src="http://placehold.it/350x350">
+                    @endif
+
+                    <div class="product_thumbs">
+                        @if(count($images = $product->images))
+                            @foreach($images as $image)
+                                <img src="{{ $image->present()->image() }}" class="lots_product thumb" width="150">
+                            @endforeach
+                        @endif
+                    </div>
+
+                    <a href="#upload_imgs" class="waves-effect waves-light btn blue" style="width: 100%; margin-top:5px;"
+                       onclick="callUploadImages(this); return false;"><i
+                                class="material-icons left">input</i>&nbsp;Upload Images</a>
+
+                    <input type="file" multiple name="images"
+                           style="display: none" onchange="uploadImages(this);">
                 </div>
             </div><!-- Galery -->
 

@@ -27,7 +27,9 @@
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
                                     <span class="label">{{ strtoupper('category') }}</span>
-                                    <select class="browser-default" id="parent_category" name="category" required="required" {{ (count($lot->products)) ? 'disabled' : '' }}>
+                                    <select class="browser-default" id="parent_category"
+                                            name="category" required="required"
+                                            {{ (count($lot->products)) ? 'disabled' : '' }}>
                                         <option value="">Select category</option>
                                         @foreach($categories as $category)
                                             <option data-procent="{{ $category->present()->renderTax() }}"
@@ -133,6 +135,7 @@
 
 @section('js')
     {!!Html::script('/assets/plugins/pickadate/lib/translations/ro_RO.js')!!}
+    {{--{!!Html::script('/assets/js/dropzone.js')!!}--}}
     {!!Html::script('/assets/plugins/materialize-colorpicker/prism/prism.js')!!}
     {!!Html::script('/assets/plugins/materialize-colorpicker/dist/js/materialize-colorpicker.min.js')!!}
 @endsection
@@ -240,13 +243,6 @@
             }(jQuery));
         }
 
-        function createLot(form) // On create product.
-        {
-            console.log('open modal');
-            return false;
-            //
-        }
-
         function loadSpec(btn) // Load specification block
         {
             var $this = $(btn);
@@ -290,6 +286,34 @@
                     block.remove();
                 }
             }
+        }
+
+        function uploadImages(input)
+        {
+            var $this = $(input);
+            var product_gallery = $this.parents('.product_gallery');
+            var thumbs_wrap = product_gallery.find('.product_thumbs');
+            var total_file = input.files.length;
+
+            for(var i=0;i<total_file;i++)
+            {
+                thumbs_wrap.append('<img src="'+URL.createObjectURL(event.target.files[i])+'" width="75" height="70">');
+            }
+        }
+
+        function callUploadImages(btn)
+        {
+            var $this = $(btn);
+            var product_gallery = $this.parents('.product_gallery');
+
+            product_gallery.find('input[name=images]').click();
+        }
+
+        function createLot(form) // On create product.
+        {
+            console.log('open modal');
+            return false;
+            //
         }
     </script>
 @endsection
