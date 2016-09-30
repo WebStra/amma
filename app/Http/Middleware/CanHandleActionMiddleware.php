@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Requests\Request;
+use App\Lot;
 use Auth;
 
 class CanHandleActionMiddleware
@@ -52,6 +53,9 @@ class CanHandleActionMiddleware
      */
     private function getObjectHolder($model)
     {
+        if($model && $model instanceof Lot)
+            return $model->vendor->user;
+
         if($model)
             return $model->user()->first();
 

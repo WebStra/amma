@@ -4,7 +4,7 @@
             {{ $lot->present()->renderName() }}
             @if(Route::currentRouteName() == 'my_lots')
                 <div style="float: right; font-size: 12px;">
-                    <a href="#" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
+                    <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
                     <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');">
                         <i class="small material-icons" style="color: black">delete</i>
                     </a>

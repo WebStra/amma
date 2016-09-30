@@ -76,10 +76,10 @@ class CreateLotsTable extends Migration
             $table->foreign('vendor_id')->references('id')->on('vendors')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('category_id')->references('id')->on('currencies')
+            $table->foreign('currency_id')->references('id')->on('currencies')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('currency_id')->references('id')->on('categories')
+            $table->foreign('category_id')->references('id')->on('categories')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

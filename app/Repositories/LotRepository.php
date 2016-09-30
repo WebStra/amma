@@ -55,7 +55,7 @@ class LotRepository extends Repository
         $query = $this->getModel();
 
         if($vendor)
-            $query->where('vendor_id', $vendor->id);
+            $query = $query->where('vendor_id', $vendor->id);
 
         $lot = $query->drafted()->first();
 
@@ -143,10 +143,39 @@ class LotRepository extends Repository
             'currency_id' => isset($data['currency']) ? $data['currency'] : null,
             'description' => isset($data['description']) ? $data['description'] : null,
             'yield_amount' => isset($data['yield_amount']) ? $data['yield_amount'] : null,
-            'public_date' => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
-            'expire_date' => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now()
+//            'public_date' => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
+//            'expire_date' => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now()
         ])->save();
 
         return $lot;
+    }
+
+    /**
+     * Change category.
+     *
+     * @param $lot
+     * @param $category_id
+     *
+     * @return void
+     */
+    public function changeCategory($lot, $category_id)
+    {
+        $lot->fill([
+            'category_id' => $category_id
+        ])->save();
+    }
+
+    /**
+     * Check if user can to change category.
+     *
+     * @param Lot $lot
+     * @return bool
+     */
+    public function checkIfPossibleToChangeCategory(Lot $lot)
+    {
+        if(! count($lot->products))
+            return true;
+
+        return false;
     }
 }

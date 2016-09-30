@@ -345,8 +345,11 @@ class ProductsRepository extends Repository
             'old_price' => isset($data['old_price']) ? $data['old_price'] : null,
             'price' => isset($data['price']) ? $data['price'] : null,
             'sale' => isset($data['sale']) ? $data['sale'] : null,
+            'sub_category_id' => isset($data['sub_category']) ? $data['sub_category'] : null
         ]);
 
         $product->save();
+
+        return $product;
     }
 }
