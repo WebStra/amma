@@ -140,13 +140,6 @@
             }
 
         });
-        $(".add_product").delegate("a.btn-remove-product", "click", function () {
-            if (!confirm("Are you sure?")) return false;
-            $(this).parents('.remove_product').fadeOut(500, function () {
-                $(this).remove();
-            });
-        });
-
 
         $(".add_product").delegate("a.add_color", "click", function () {
             var spec_color = $(this).parents('.wrap_spec_color').find('.spec_color');

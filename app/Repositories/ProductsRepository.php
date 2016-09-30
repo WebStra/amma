@@ -349,5 +349,7 @@ class ProductsRepository extends Repository
         ]);
 
         $product->save();
+
+        return $product;
     }
 }

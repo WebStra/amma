@@ -19,7 +19,8 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'load_product_block_form',
         'view_category',
         'lot_select_category',
-        'delete_product'
+        'delete_product',
+        'load_spec'
     ];
 
     /**

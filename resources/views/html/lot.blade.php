@@ -145,6 +145,14 @@
                             </div>
                         </div>
 
+                        {{--<div class="row">--}}
+                        {{--<div class="col l6 s12 right-align-992" style="float: right">--}}
+                        {{--<a href="#add-spec" onclick="loadSpec(this); return false;"--}}
+                        {{--class="waves-effect waves-light btn blue"><i--}}
+                        {{--class="material-icons left">library_add</i>Add</a>--}}
+                        {{--</div>--}}
+                        {{--</div><!--Add spec-->--}}
+
                         <div class="row">
                             <div class="specification_suite_lot overflow">
                                 <div class="specification_suite_item overflow" data-suite-spec="1">

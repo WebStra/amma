@@ -114,6 +114,19 @@ class LotsController extends Controller
     }
 
     /**
+     * Load specification
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function loadSpec(Request $request)
+    {
+        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
+
+        return view('lots.partials.form.specification', [ 'block_id' => $block_id]);
+    }
+
+    /**
      * @param SaveLotRequest $request
      * @param Lot $lot
      * @return mixed

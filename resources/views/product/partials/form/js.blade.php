@@ -132,14 +132,6 @@
                     block_id.value = block_id.value + 1;
                 });
 
-        $('#add_suite')
-                .on('click', function () {
-                    $('.specification_suite_lot')
-                            .after(getSpecSuiteTemplateLot(block_id.value));
-
-                    block_id.value = block_id.value + 1;
-                });
-
         $('.specification-bundle')
                 .on('click', 'div.remove-spec', function () {
                     $(this).parent().remove();
