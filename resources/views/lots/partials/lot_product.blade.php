@@ -1,22 +1,33 @@
 <div class="product" {{ isset($collapse) ? $collapse ? 'collapse' : '' : '' }}>
     <div class="product-content">
         <div class="wrap-img">
-            <img src="/upload/products/385/1470752847_2ca6957f36bc17bb06b3001f8b5b994b.jpg"
+            <img src="{{ $item->present()->cover(null, '/upload/products/385/1470752847_2ca6957f36bc17bb06b3001f8b5b994b.jpg') }}"
                  alt="image from lot">
         </div>
-        <div class="name">Laptop 11.6" ACER V5-123-12104G50nss, Silver</div>
+        <div class="name">{{ $item->present()->renderName()  }}</div>
         <div class="wrap-info">
 
             <div class="block-inline">
                 <div class="clearfix"></div>
                 <div class="group-labels">
-                    <div class="label"><span class="c-gray">Subcategory: </span> <a href="#">Sandale</a>
+                    @if($subcategory = $item->subcategory)
+                        <div class="label"><span class="c-gray">Subcategory: </span>
+                            <a href="{{ route('view_sub_category', [ $subcategory->category->slug, $subcategory->slug]) }}">{{ $subcategory->present()->renderName() }}</a>
+                        </div>
+                    @endif
+                    <div class="label" style="width:70px;"><span class="c-gray">New Price:</span>
+                        {{ $item->present()->renderPrice($item
+                            ->present()
+                            ->renderNewPrice(), $item->present()->renderCurrency('sign'))
+                        }}
                     </div>
-                    <div class="label" style="width:70px;"><span class="c-gray">New Price:</span>34 $
+                    <div class="label" style="width:70px;"><span class="c-gray">Old Price:</span>
+                        {{ $item->present()->renderPrice($item
+                            ->present()
+                            ->renderOldPrice(), $item->present()->renderCurrency('sign'))
+                        }}
                     </div>
-                    <div class="label" style="width:70px;"><span class="c-gray">Old Price:</span>38 $
-                    </div>
-                    <div class="label" style="width:50px;"><span class="c-gray">Sale:</span>96%</div>
+                    <div class="label" style="width:50px;"><span class="c-gray">Sale:</span>{{ $item->present()->renderSalePercent() }}%</div>
                 </div>
             </div> {{-- /.block-inline --}}
 

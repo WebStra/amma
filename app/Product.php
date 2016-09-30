@@ -12,7 +12,6 @@ use Keyhunter\Administrator\Repository;
 use App\Libraries\Taggable\TagService;
 use Illuminate\Database\Eloquent\Builder;
 
-
 class Product extends Repository
 {
     use ActivateableTrait, Presenterable, HasMeta, HasImages, Taggable;
@@ -65,6 +64,11 @@ class Product extends Repository
     public function involved()
     {
         return $this->hasMany(Involved::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->hasOne(SubCategory::class, 'id', 'sub_category_id');
     }
 
     /**
