@@ -214,6 +214,11 @@ Route::multilingual(function () {
                 'uses' => 'ProductsController@save'
             ]);
 
+            Route::post('lots/{lot}/product/remove-image', [
+                'as' => 'remove_product_image',
+                'uses' => 'ProductsController@removeImage'
+            ]);
+
             Route::post('lots/{lot}/delete-product', [
                 'as' => 'delete_product',
                 'uses' => 'ProductsController@remove'
@@ -314,10 +319,10 @@ Route::multilingual(function () {
                     'uses' => 'ProductsController@addImage'
                 ]);
 
-                Route::post('product/{product}/remove-image', [
-                    'as' => 'remove_product_image',
-                    'uses' => 'ProductsController@removeImage'
-                ]);
+//                Route::post('product/{product}/remove-image', [
+//                    'as' => 'remove_product_image',
+//                    'uses' => 'ProductsController@removeImage'
+//                ]);
 
                 Route::post('product/{product}/image-sort', [
                     'as' => 'sort_product_image',

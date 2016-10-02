@@ -158,6 +158,8 @@
                     {
                         $('#lot_canvas').append(response);
 
+                        $('#lot_canvas').find('.materialboxed').materialbox();
+
                         $(category_input).attr('disabled', '');
                     } else {
                         alert('Select category first');
@@ -231,16 +233,30 @@
             (function ($) {
                 var $form = $(form);
                 var action = $form.attr('action');
+                var canvas = $form.parent();
+//                var data_old = $form.serialize();
+                // !!!DO NOT USE JQUERY SELECTOR!!! instead form, it will doesn't work.
+                var data = new FormData(form);
 
                 $.ajax({
                     type: 'POST',
-                    data: $form.serialize(),
+                    data: data,
                     url: action,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
-                        alert('Product Saved');
+                        canvas.html(response);
+
+                        initProductElements(canvas);
                     }
                 });
             }(jQuery));
+        }
+
+        function initProductElements(product_canvas)
+        {
+            product_canvas.find('.materialboxed').materialbox(); // zoom
+//            product_canvas.find('.product_thumbs').sortable(); // sortable images
         }
 
         function loadSpec(btn) // Load specification block
@@ -294,19 +310,41 @@
             var product_gallery = $this.parents('.product_gallery');
             var thumbs_wrap = product_gallery.find('.product_thumbs');
             var total_file = input.files.length;
+            var cover = $this.parent().find('img.cover_image_product');
+//            cover_image_product
+//            for(var i=0;i<total_file;i++)
+//            {
+//                thumbs_wrap.append('<img src="'+URL.createObjectURL(event.target.files[i])+'" width="75" height="70">');
+//            }
 
-            for(var i=0;i<total_file;i++)
-            {
-                thumbs_wrap.append('<img src="'+URL.createObjectURL(event.target.files[i])+'" width="75" height="70">');
-            }
+            cover.attr('src', URL.createObjectURL(event.target.files[0]));
         }
 
-        function callUploadImages(btn)
+        function callUploadImages(btn, inputname)
         {
             var $this = $(btn);
             var product_gallery = $this.parents('.product_gallery');
 
-            product_gallery.find('input[name=images]').click();
+//            product_gallery.find('input[name=' + inputname + ']').click();
+            product_gallery.find('input[type=file]').click();
+        }
+
+        function removeImage(img)
+        {
+            if(confirm('Remove image?'))
+            {
+                var $img = $(img);
+                var image_id = $img.data('image');
+
+                $.ajax({
+                    url: "{{ route('remove_product_image', [ $lot->id ]) }}",
+                    data: { image_id: image_id },
+                    method: 'post',
+                    success: function () {
+                        $img.remove();
+                    }
+                });
+            }
         }
 
         function createLot(form) // On create product.

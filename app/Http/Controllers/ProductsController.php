@@ -89,7 +89,12 @@ class ProductsController extends Controller
         if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);
 
-        return redirect()->back()->withStatus('Product saved');
+        if (!empty($fileInput = $request->file('image')))
+            array_walk($fileInput, function($image) use (&$product){
+                $this->addImage($image, $product);
+            });
+
+        return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product ]);
     }
 
     /**
@@ -164,33 +169,29 @@ class ProductsController extends Controller
     /**
      * Add image to product.
      *
-     * @param Request $request
-     * @param $product
+     * @param $image
+     * @param Product $product
+     *
      * @return mixed
-     * @throws \Exception
      */
-    public function addImage(Request $request, $product)
+    public function addImage($image, Product $product)
     {
-        $image = $request->file('file');
-
         if ($image instanceof UploadedFile) {
             $location = 'upload/products/' . $product->id;
             $processor = new ImageProcessor();
             $imageable = $processor->uploadAndCreate($image, $product, null, $location);
-        } else {
-            throw new \Exception('Invalid Image');
-        }
 
-        return $imageable;
+            return $imageable;
+        }
     }
 
     /**
      * Remove Image.
      *
      * @param Request $request
-     * @param $product
+     * @param $lot
      */
-    public function removeImage(Request $request, $product)
+    public function removeImage(Request $request, $lot)
     {
         Image::find($request->get('image_id'))->delete();
     }
