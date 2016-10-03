@@ -6,7 +6,9 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Image;
+use App\ImprovedSpec;
 use App\Lot;
+use App\Repositories\ImprovedSpecRepository;
 use App\Repositories\LotRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
@@ -52,6 +54,11 @@ class ProductsController extends Controller
     protected $lots;
 
     /**
+     * @var ImprovedSpec
+     */
+    protected $improvedSpecs;
+
+    /**
      * ProductsController constructor.
      * @param Store $session
      * @param ProductsRepository $productsRepository
@@ -59,6 +66,7 @@ class ProductsController extends Controller
      * @param ProductsColorsRepository $productsColorsRepository
      * @param InvolvedRepository $involvedRepository
      * @param LotRepository $lotRepository
+     * @param ImprovedSpecRepository $improvedSpecRepository
      */
     public function __construct(
         Store $session,
@@ -66,7 +74,8 @@ class ProductsController extends Controller
         CategoryableRepository $categoryableRepository,
         ProductsColorsRepository $productsColorsRepository,
         InvolvedRepository $involvedRepository,
-        LotRepository $lotRepository
+        LotRepository $lotRepository,
+        ImprovedSpecRepository $improvedSpecRepository
     )
     {
         $this->session = $session;
@@ -75,6 +84,7 @@ class ProductsController extends Controller
         $this->productsColors = $productsColorsRepository;
         $this->involved = $involvedRepository;
         $this->lots = $lotRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
     }
 
     /**
@@ -93,6 +103,9 @@ class ProductsController extends Controller
             array_walk($fileInput, function($image) use (&$product){
                 $this->addImage($image, $product);
             });
+
+        if (!empty($specs = $request->get('i_spec')))
+            $this->saveImprovedSpecifications($specs, $product);
 
         return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product ]);
     }
@@ -152,6 +165,16 @@ class ProductsController extends Controller
         });
     }
 
+    private function saveImprovedSpecifications($specs, $product)
+    {
+        array_walk($specs, function($data, $spec_id){
+            $spec = $this->improvedSpecs->find($spec_id);
+            
+            if($spec)
+                $this->improvedSpecs->update($spec, $data);
+        });
+    }
+
     /**
      * Remove spec.
      *
@@ -164,6 +187,21 @@ class ProductsController extends Controller
         $product = $this->products->find($request->get('product_id'));
 
         $product->removeMetaById($request->get('spec_id'));
+    }
+
+    /**
+     * Remove improved spec.
+     *
+     * @param Request $request
+     * @param Lot $lot
+     *
+     * @return void
+     */
+    public function removeImproveSpec(Request $request, Lot $lot)
+    {
+        $spec = $this->improvedSpecs->find($request->get('spec_id'));
+
+        $this->improvedSpecs->delete($spec);
     }
 
     /**

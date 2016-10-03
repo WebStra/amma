@@ -66,6 +66,17 @@ class Product extends Repository
         return $this->hasMany(Involved::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function improvedSpecs()
+    {
+        return $this->hasMany(ImprovedSpec::class, 'product_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function subcategory()
     {
         return $this->hasOne(SubCategory::class, 'id', 'sub_category_id');

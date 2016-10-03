@@ -119,50 +119,27 @@
                     </div><!--Specs-->
 
                     <div class="spec_improved">
-                        <div class="row">
-                            <div class="wrap_size_color_sold overflow">
-                                <div class="size_color_sold_item overflow" data-suite-spec="1">
-                                    <div class="col l4 m12 s12">
-                                        <div class="input-field">
-                                            <span class="label">Size</span>
-                                            <input type="text" required="" name="size" value="" placeholder="Size">
-                                        </div>
-                                    </div>
-                                    <div class="col l4 m12 s12">
-                                        <div class="input-field">
-                                            <span class="label">COLORS</span>
-                                            <div class="file-field input-colorpicker">
-                                                <div class="btn"></div>
-                                                <div class="file-path-wrapper">
-                                                    <input type="text" name="color" class=""/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col l4 m12 s12">
-                                        <div class="input-field">
-                                            <span class="label">Sold</span>
-                                            <input type="text" required="" name="sold" value="" placeholder="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--specs-improved-->
-
+                        @if(count($specs = $product->improvedSpecs))
+                            <div class="row improved_specs_set">
+                                @foreach($specs as $spec)
+                                    @include('lots.partials.form.improved_specs')
+                                @endforeach
+                            </div><!--specs-improved-->
+                        @endif
                         <div class="row">
                             <div class="col l12 m12 s12">
-                                <label style="float: right;">Add improved specifications for your product. <a onclick="loadSpec(this); return false;" href="#add-spec">Add</a></label>
+                                <label style="float: right;">Add improved specifications for your product. <a onclick="loadImprovedSpec(this); return false;" href="#add-spec">Add</a></label>
                             </div>
                         </div><!--add spec-->
                     </div><!--Improved specs-->
 
                     <div class="row" style="height: 75px;margin-top: 25px">
-                        <div class="col 2">
-                            <div class="input-field">
-                                <a href="#clone-product" class="clone-product btn amber darken-4"><i
-                                            class="material-icons left">view_stream</i>Clone</a>
-                            </div>
-                        </div>
+                        {{--<div class="col 2">--}}
+                            {{--<div class="input-field">--}}
+                                {{--<a href="#clone-product" class="clone-product btn amber darken-4"><i--}}
+                                            {{--class="material-icons left">view_stream</i>Clone</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         <div class="col 2">
                             <div class="row">

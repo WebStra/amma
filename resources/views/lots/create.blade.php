@@ -159,6 +159,11 @@
                         $('#lot_canvas').append(response);
 
                         $('#lot_canvas').find('.materialboxed').materialbox();
+                        var colorpicker = $('#lot_canvas').find('.disabled_colorpicker');
+                        colorpicker.colorpicker({
+                            component: '.btn',
+                            format: 'hex'
+                        }).removeClass('disabled_colorpicker');
 
                         $(category_input).attr('disabled', '');
                     } else {
@@ -257,6 +262,13 @@
         {
             product_canvas.find('.materialboxed').materialbox(); // zoom
 //            product_canvas.find('.product_thumbs').sortable(); // sortable images
+
+            product_canvas.find('.disabled_colorpicker')
+                    .colorpicker({
+                        component: '.btn',
+                        format: 'hex'
+                    })
+                    .removeClass('disabled_colorpicker');
         }
 
         function loadSpec(btn) // Load specification block
@@ -274,6 +286,30 @@
                 url: "{{ route('load_spec', [ $lot ]) }}",
                 success: function (view) {
                     form.find('.specification_suite_lot').append(view);
+                }
+            });
+        }
+
+        function loadImprovedSpec(btn)
+        {
+            var $btn = $(btn);
+            var form = $btn.parents('form');
+            var product = form.data('product');
+
+            $.ajax({
+                type: 'POST',
+                data: { product_id: product },
+                url: "{{ route('load_improved_spec', [ $lot ]) }}",
+                success: function (view) {
+                    form.find('.improved_specs_set').append(view);
+
+                    var colorpicker = form.find('.disabled_colorpicker');
+                    colorpicker
+                            .colorpicker({
+                                component: '.btn',
+                                format: 'hex'
+                            })
+                            .removeClass('disabled_colorpicker');
                 }
             });
         }
@@ -301,6 +337,27 @@
                 } else {
                     block.remove();
                 }
+            }
+        }
+
+        function removeImprovedSpec(btn)
+        {
+            var $this = $(btn);
+            var block = $this.parents('.improved_specs_item');
+            var product_id = block.parents('form').data('product');
+
+            if(confirm('Remove specification ?'))
+            {
+                var id = block.data('block');
+
+                $.ajax({
+                    url: "{{ route('remove_product_improved_spec', [ $lot->id ]) }}",
+                    data: { spec_id: id, product_id: product_id },
+                    method: 'post',
+                    success: function () {
+                        block.remove();
+                    }
+                });
             }
         }
 

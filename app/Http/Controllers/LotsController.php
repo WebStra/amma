@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveLotRequest;
 use App\Lot;
+use App\Repositories\ImprovedSpecRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
 use App\Vendor;
@@ -28,16 +29,27 @@ class LotsController extends Controller
     protected $products;
 
     /**
+     * @var ImprovedSpecRepository
+     */
+    protected $improvedSpecs;
+
+    /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
      * @param ProductsRepository $productsRepository
+     * @param ImprovedSpecRepository $improvedSpecRepository
      * @param Guard $auth
      */
-    public function __construct(LotRepository $lotRepository, ProductsRepository $productsRepository, Guard $auth)
-    {
+    public function __construct(
+        LotRepository $lotRepository,
+        ProductsRepository $productsRepository,
+        ImprovedSpecRepository $improvedSpecRepository,
+        Guard $auth
+    ) {
         $this->lots = $lotRepository;
         $this->auth = $auth;
         $this->products = $productsRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
     }
 
     /**
@@ -126,6 +138,20 @@ class LotsController extends Controller
         return view('lots.partials.form.specification', [ 'block_id' => $block_id]);
     }
 
+
+    /**
+     * Load improved spec.
+     * 
+     * @param Request $request
+     * @return mixed
+     */
+    public function loadImprovedSpec(Request $request)
+    {
+        $spec = $this->improvedSpecs->createPlain($request->get('product_id'));
+        
+        return view('lots.partials.form.improved_specs', [ 'spec' => $spec ]);
+    }
+
     /**
      * @param SaveLotRequest $request
      * @param Lot $lot
@@ -139,6 +165,9 @@ class LotsController extends Controller
             ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
     }
 
+    /**
+     *
+     */
     public function index()
     {
         dd(Lot::all());
