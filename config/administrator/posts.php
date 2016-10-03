@@ -151,6 +151,7 @@ return [
         'id' => form_key(),
 
         'title' => [
+            'required',
             'type' => 'text',
             'translatable' => true,
             'description' => '<span style="color: red">Pls fill all title inputs for all languages.</span>'
