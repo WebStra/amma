@@ -161,7 +161,7 @@ class LotsController extends Controller
     {
         $lot = $this->lots->save($lot, $request->all());
 
-        return redirect()->back()
+        return redirect()->route('edit_lot', [ $lot ])
             ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
     }
 

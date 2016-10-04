@@ -26,4 +26,44 @@ class LotPresenter extends Presenter
     {
         return 'Drafted lot #'. $this->model->id;
     }
+
+    /**
+     * @return string
+     */
+    public function cover($size = null, $default)
+    {
+        $images = $this->model->images;
+
+        if(count($images))
+        {
+            return $images->first()->present()->cover($size, $default);
+        }
+
+        return $default;
+    }
+
+    public function renderPrice($price, $currency)
+    {
+        //
+    }
+
+    public function renderNewPrice()
+    {
+        return '';
+    }
+
+    public function renderOldPrice()
+    {
+
+    }
+
+    public function renderCurrency()
+    {
+
+    }
+
+    public function renderSalePercent()
+    {
+        //
+    }
 }

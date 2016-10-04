@@ -5,6 +5,7 @@ namespace App;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\UserPresenter;
+use App\Repositories\RolesRepository;
 use App\Traits\ActivateableTrait;
 use App\Traits\Confirmed;
 use Keyhunter\Administrator\AuthRepository as Authenticatable;
@@ -95,6 +96,13 @@ class User extends Authenticatable
     public function checkAvatar()
     {
         return (bool)$this->images()->avatar()->first();
+    }
+
+    public function isAdmin()
+    {
+        $admin = (new RolesRepository)->getAdminRole();
+
+        return $this->role_id == $admin->id;
     }
 
     /**

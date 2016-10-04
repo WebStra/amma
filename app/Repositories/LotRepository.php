@@ -128,9 +128,16 @@ class LotRepository extends Repository
     {
         $datas = explode($delimiter, $date);
 
-        $new_date['d'] = $datas[0];
-        $new_date['m'] = $datas[1];
-        $new_date['y'] = $datas[2];
+        if(count($datas) == 3) {
+            $new_date['d'] = $datas[0];
+            $new_date['m'] = $datas[1];
+            $new_date['y'] = $datas[2];
+        } else {
+            $now = Carbon::now();
+            $new_date['d'] = $now->day;
+            $new_date['m'] = $now->month;
+            $new_date['y'] = $now->year;
+        }
 
         return $new_date;
     }
@@ -143,8 +150,8 @@ class LotRepository extends Repository
             'currency_id' => isset($data['currency']) ? $data['currency'] : null,
             'description' => isset($data['description']) ? $data['description'] : null,
             'yield_amount' => isset($data['yield_amount']) ? $data['yield_amount'] : null,
-//            'public_date' => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
-//            'expire_date' => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now()
+            'public_date' => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
+            'expire_date' => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now()
         ])->save();
 
         return $lot;
