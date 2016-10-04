@@ -25,7 +25,7 @@ class LotRepository extends Repository
     public function createDraft(Vendor $vendor)
     {
         return $this->getModel()
-            ->firstOrCreate([
+            ->create([
                 'vendor_id' => $vendor->id
             ]);
     }

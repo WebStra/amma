@@ -50,6 +50,8 @@ class AddLotMiddleware
                 {
                     $lot->status = Lot::STATUS_COMPLETE;
 
+                    $lot->save();
+
                     return $next($request);
                 } else {
                     return redirect()->back()->withSuccess('У вас недостаточно средств');
@@ -74,6 +76,9 @@ class AddLotMiddleware
         {
             return $this->eraseSummFromWallet($tax, $amount);
         } else {
+            $lot->status = Lot::STATUS_COMPLETE;
+            $lot->save();
+
             return true;
         }
     }
