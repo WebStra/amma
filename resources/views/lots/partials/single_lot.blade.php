@@ -19,19 +19,23 @@
                     <a href="{{ route('view_category', [ 'category' => $category->slug ]) }}">{{ $category->present()->renderName() }}</a>
                 </div>
             @endif
-            <div class="label">
-                <?php $vendor = $lot->vendor; ?>
-                <span class="c-gray">Vendor:</span>&nbsp;
-                <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
-            </div>
-            <div class="label" style=''>
-                <div class="user-rating">
-                    <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
-                    <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
-                    <span>{{ $positivePercent }}</span>
-                    <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
+            <?php $vendor = $lot->vendor; ?>
+
+            @if($vendor)
+                <div class="label">
+                    <span class="c-gray">Vendor:</span>&nbsp;
+                    <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
-            </div>
+
+                <div class="label" style=''>
+                    <div class="user-rating">
+                        <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
+                        <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
+                        <span>{{ $positivePercent }}</span>
+                        <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
+                    </div>
+                </div>
+            @endif
             @if(! empty($lot->present()->endDate()))
                 <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
                     <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
