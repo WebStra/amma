@@ -48,6 +48,11 @@ class Lot extends Repository
         'active'
     ];
 
+    protected $dates = [
+        'public_date',
+        'expire_date',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

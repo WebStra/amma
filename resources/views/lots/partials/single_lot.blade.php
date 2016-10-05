@@ -32,14 +32,16 @@
                     <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
                 </div>
             </div>
-            <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
-                <div class="countdown" data-endtime="09/12/2016">
-                    <span class="days">0</span>
-                    <span class="hours">0</span>
-                    <span class="minutes">0</span>
-                    <span class="seconds">0</span>
+            @if(! empty($lot->present()->endDate()))
+                <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
+                    <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
+                        <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>
+                        <span class="hours">{{ $lot->present()->diffEndDate()->h }}</span>
+                        <span class="minutes">{{ $lot->present()->diffEndDate()->i }}</span>
+                        <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="clearfix"></div>
         </div>
     </div> {{-- /.lot-info --}}
