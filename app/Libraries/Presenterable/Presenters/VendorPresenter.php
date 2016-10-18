@@ -25,12 +25,12 @@ class VendorPresenter extends Presenter
      */
     public function activeCount()
     {
-        return count(
-            $this->model->products()
-                ->where('expiration_date', '>', Carbon::now())
-                ->active()
-                ->get()
-        );
+//        return count(
+//            $this->model->products()
+//                ->where('expiration_date', '>', Carbon::now())
+//                ->active()
+//                ->get()
+//        );
     }
 
     /**
