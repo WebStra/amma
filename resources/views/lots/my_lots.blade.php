@@ -1,11 +1,15 @@
 @extends('layout')
 
+@section('css')
+    {!!Html::style('/assets/css/mycss.css')!!}
+@endsection
+
 @section('content')
     <div class="list-lots">
         <div class="container">
             <div class="row">
                 @include('partials.dashboard.nav-bar')
-                <div class="col l9 m7 s12">
+                <div class="col l8 m7 s12 list-lots">
                     @if(count($lots))
                         @foreach($lots as $lot)
                             @include('lots.partials.single_lot')
