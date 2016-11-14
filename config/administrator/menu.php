@@ -136,4 +136,7 @@ return [
             ],
         ]
     ],
+    'translate' => [
+        'icon' => 'fa fa-graduation-cap'
+    ],
 ];
