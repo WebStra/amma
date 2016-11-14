@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Repositories\ContactsRepository;
 use App\Http\Requests\ContactSend;
 use App\Repositories\ProductsRepository;
+use App\Repositories\PagesRepository;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -18,6 +19,8 @@ class PagesController extends Controller
      */
     protected $products;
 
+    protected $pages;
+
     /**
      * PagesController constructor.
      * @param ContactsRepository $contactsRepository
@@ -25,10 +28,12 @@ class PagesController extends Controller
      */
     public function __construct(
         ContactsRepository $contactsRepository,
-        ProductsRepository $productsRepository
+        ProductsRepository $productsRepository,
+        PagesRepository $pagesRepository
     ) {
         $this->contacts = $contactsRepository;
         $this->products = $productsRepository;
+        $this->pages = $pagesRepository;
     }
 
     /**
@@ -42,6 +47,11 @@ class PagesController extends Controller
         return view('pages.show', ['item' => $page]);
     }
 
+    public function help()
+    {
+        $helpPages = $this->pages->getPagesHelp();
+        return view('pages.help', compact('helpPages'));
+    }
     /**
      * Get contacts page.
      *

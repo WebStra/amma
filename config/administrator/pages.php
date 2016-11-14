@@ -24,8 +24,6 @@ return [
             'slug'
         ]),
 
-        'body',
-
         'active' => column_element('Active', false, function($row)
         {
             return output_boolean($row);
@@ -127,6 +125,11 @@ return [
         'id'       => form_key(),
 
         'slug'     => form_text(),
+        'page_type' => [
+            'label' => 'Page Type',
+            'type' => 'select',
+            'options' => ['' => '-- Any --', '0'=>'Despre noi', '1'=>'Ajutor', '3'=>'Aspecte generale']
+        ],
 
         'title'    => form_text() + translatable(),
 

@@ -111,6 +111,10 @@ Route::multilingual(function () {
         'as' => 'show_page',
         'uses' => 'PagesController@show'
     ]);
+    Route::get('help', [
+        'as' => 'show_help',
+        'uses' => 'PagesController@help'
+    ]);
 
     Route::any('category/{category}', [
         'as' => 'view_category',

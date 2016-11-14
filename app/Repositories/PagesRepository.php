@@ -38,4 +38,13 @@ class PagesRepository extends Repository
             ->active()
             ->get();
     }
+
+
+    public function getPagesHelp()
+    {
+        return self::getModel()
+            ->where('page_type', '!=', '')
+            ->active()
+            ->get();
+    }
 }
