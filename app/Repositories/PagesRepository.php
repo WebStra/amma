@@ -43,7 +43,8 @@ class PagesRepository extends Repository
     public function getPagesHelp()
     {
         return self::getModel()
-            ->where('page_type', '!=', '')
+            ->where('page_type', '!=', null)
+            ->orderBy('page_type',self::ASC)
             ->active()
             ->get();
     }

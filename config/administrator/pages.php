@@ -128,7 +128,7 @@ return [
         'page_type' => [
             'label' => 'Page Type',
             'type' => 'select',
-            'options' => ['' => '-- Any --', '0'=>'Despre noi', '1'=>'Ajutor', '3'=>'Aspecte generale']
+            'options' => ['' => '-- Any --', '0'=>'Despre noi', '1'=>'Ajutor', '2'=>'Aspecte generale']
         ],
 
         'title'    => form_text() + translatable(),

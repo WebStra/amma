@@ -20,6 +20,6 @@ class Page extends MainPage
      * @var array
      */
     protected $fillable = [
-        'slug', 'title', 'body', 'active', 'show_in_footer', 'show_in_header'
+        'slug', 'title', 'body', 'page_type', 'active', 'show_in_footer', 'show_in_header'
     ];
 }
