@@ -47,7 +47,7 @@ return [
             'products' => [
                 'icon' => 'fa fa-shopping-cart'
             ],
-            'vendors' => [
+            'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
             ],
         ]
