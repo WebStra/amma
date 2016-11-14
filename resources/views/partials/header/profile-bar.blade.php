@@ -1,33 +1,32 @@
 @if(Auth::check())
     <div class="right top-bar-profile">
         <a href='#' data-activates='dropdown_top-bar-profile' class="dropdown_top_bar"><i class="icon-user"></i>
-            Contul meu <i class="icon-la-down"></i></a>
+            {!! $meta->getMeta('top_bar_myprofile') !!} <i class="icon-la-down"></i></a>
         <ul id='dropdown_top-bar-profile' class='dropdown-content'>
-            <li><a href="{{ route('my_vendors') }}">My Vendors</a></li>
-            {{--<li><a href="#!">Istoria cumpărăturilor</a></li>--}}
-            <li><a href="{{ route('my_lots') }}">My lots</a></li>
-            <li><a href="{{ route('settings')}}">Settings</a></li>
-            <li><a href="{{ route('logout') }}">Logout</a></li>
+            <li><a href="{{ route('my_vendors') }}">{!! $meta->getMeta('top_bar_myvendors') !!}</a></li>
+            <li><a href="{{ route('my_lots') }}">{!! $meta->getMeta('top_bar_mylots') !!}</a></li>
+            <li><a href="{{ route('settings')}}">{!! $meta->getMeta('top_bar_settings') !!}</a></li>
+            <li><a href="{{ route('logout') }}">{!! $meta->getMeta('top_bar_logout') !!}</a></li>
         </ul>
     </div>
 
     <div class="right">
-        <a href='{{ route('create_vendor') }}'>Create vendor</a>
+        <a href='{{ route('create_vendor') }}'>{!! $meta->getMeta('top_bar_create_vendor') !!}</a>
     </div>
 
     @if(count(Auth::user()->wallet()->active()->get()))
         <div class="right">
-            <span>Balance:&nbsp;
+            <span>{!! $meta->getMeta('top_bar_balance') !!}
                 <span style="color: #ff6f00">{{ Auth::user()->wallet->amount }}&nbsp;MDL</span>
             </span>
         </div>
     @endif
 @else
     <div class="right">
-        <a href='{{ route('get_register') }}'>Register</a>
+        <a href='{{ route('get_register') }}'>{!! $meta->getMeta('top_bar_register') !!}</a>
     </div>
 
     <div class="right">
-        <a href='{{ route('get_login') }}'>Login</a>
+        <a href='{{ route('get_login') }}'>{!! $meta->getMeta('top_bar_create_login') !!}</a>
     </div>
 @endif

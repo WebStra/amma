@@ -370,3 +370,7 @@ text-align: left;
 .categories_list li, .produs li{
     list-style-type: none;
 }
+
+.subcategories_filters p span{
+    width:100%;
+}

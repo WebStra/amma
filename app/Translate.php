@@ -32,8 +32,9 @@ class Translate extends Repository implements Translatable
      */
     public $translatedAttributes = ['value'];
 
+
     /**
-     * @var MetaTransaltions
+     * @var
      */
     public $translationModel = TranslateTransaltions::class;
 }
