@@ -95,10 +95,11 @@ class ProductPresenter extends Presenter
     {
         $price = $this->reformatPrice($this->model->price - $this->getPriceAmountSale());
 //        $price = $this->getPriceAmountSale();
+        $currency = $this->renderCurrency();
         if($onlyPrice)
             return ($price != 0) ? $price : '';
 
-        return sprintf('%s MDL', $price);
+        return sprintf('%s %s', $price,$currency);
     }
 
     public function getSaledPrice()

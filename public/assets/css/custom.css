@@ -370,3 +370,6 @@ text-align: left;
 .categories_list li, .produs li{
     list-style-type: none;
 }
+.product-content .wrap-img img{
+    max-width: 250px;
+}

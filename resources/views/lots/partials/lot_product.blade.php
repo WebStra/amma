@@ -1,7 +1,7 @@
 <div class="product" {{ isset($collapse) ? $collapse ? 'collapse' : '' : '' }}>
     <div class="product-content">
         <div class="wrap-img">
-            <img src="{{ $item->present()->cover(null, '/upload/products/385/1470752847_2ca6957f36bc17bb06b3001f8b5b994b.jpg') }}"
+            <img class="img-responsive" src="{{ $item->present()->cover(null, '/upload/products/385/1470752847_2ca6957f36bc17bb06b3001f8b5b994b.jpg') }}"
                  alt="{{ $item->present()->renderName() }}">
         </div>
         <div class="name">{{ $item->present()->renderName()  }}</div>
