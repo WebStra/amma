@@ -6,6 +6,10 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Image;
+use App\ImprovedSpec;
+use App\Lot;
+use App\Repositories\ImprovedSpecRepository;
+use App\Repositories\LotRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Repositories\CategoryableRepository;
@@ -45,19 +49,33 @@ class ProductsController extends Controller
     protected $productsColors;
 
     /**
+     * @var LotRepository
+     */
+    protected $lots;
+
+    /**
+     * @var ImprovedSpec
+     */
+    protected $improvedSpecs;
+
+    /**
      * ProductsController constructor.
      * @param Store $session
      * @param ProductsRepository $productsRepository
      * @param CategoryableRepository $categoryableRepository
      * @param ProductsColorsRepository $productsColorsRepository
      * @param InvolvedRepository $involvedRepository
+     * @param LotRepository $lotRepository
+     * @param ImprovedSpecRepository $improvedSpecRepository
      */
     public function __construct(
         Store $session,
         ProductsRepository $productsRepository,
         CategoryableRepository $categoryableRepository,
         ProductsColorsRepository $productsColorsRepository,
-        InvolvedRepository $involvedRepository
+        InvolvedRepository $involvedRepository,
+        LotRepository $lotRepository,
+        ImprovedSpecRepository $improvedSpecRepository
     )
     {
         $this->session = $session;
@@ -65,6 +83,31 @@ class ProductsController extends Controller
         $this->categoryable = $categoryableRepository;
         $this->productsColors = $productsColorsRepository;
         $this->involved = $involvedRepository;
+        $this->lots = $lotRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
+    }
+
+    /**
+     * @param SaveProductRequest $request
+     * @param Product $product
+     * @return mixed
+     */
+    public function save(SaveProductRequest $request, Lot $lot, Product $product)
+    {
+        $product = $this->products->saveProduct($product, $request->all());
+
+        if (!empty($spec = $request->get('spec')))
+            $this->saveSpecifications($spec, $product);
+
+        if (!empty($fileInput = $request->file('image')))
+            array_walk($fileInput, function($image) use (&$product){
+                $this->addImage($image, $product);
+            });
+
+        if (!empty($specs = $request->get('i_spec')))
+            $this->saveImprovedSpecifications($specs, $product);
+
+        return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product ]);
     }
 
     /**
@@ -94,189 +137,105 @@ class ProductsController extends Controller
     }
 
     /**
-     * @param SaveProductRequest $request
-     * @param Product $product
-     * @return mixed
-     */
-    public function saveProduct(SaveProductRequest $request, Product $product)
-    {
-        $product = $this->products->saveProduct($product, $request->all());
-
-        return redirect()->back()->withStatus('Product saved');
-    }
-
-    /**
-     * Get create product form.
+     * Delete products..
      *
-     * @param \App\Vendor $vendor
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getCreate($vendor)
-    {
-        $product = $this->createPlainProduct($vendor->id);
-
-        $this->session->put('drafted_product', $product->id);
-
-        return view('product.create', ['vendor' => $vendor, 'item' => $product]);
-    }
-
-    /**
-     * @param ProductCreateRequest $request
-     * @param \App\Vendor $vendor
-     * @param \App\Product $product
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postSave(
-        $request,
-        $vendor = null,
-        $product = null
-    )
-    {
-        $product = $this->products->update(
-            $product,
-            $request->all()
-        );
-
-        // if (!is_null($categories = $request->get('categories')))
-        //     $this->saveCategories($categories, $product);
-
-        if (!empty($spec = $request->get('spec')))
-            $this->saveSpecifications($spec, $product);
-
-        $this->clearProductFromSession();
-
-        return redirect()->route('view_product', ['product' => $product->id])->withStatus('Product updated!');
-    }
-
-    /**
-     * @param $product
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getEditForm($product)
-    {
-        return view('product.edit', ['item' => $product]);
-    }
-
-    /**
-     * Post create method action.
+     * @param Request $request
+     * @param Lot $lot
      *
-     * @param ProductCreateRequest $request
-     * @param $product
-     * @return \Illuminate\Http\RedirectResponse
+     * @return string
      */
-    public function create(ProductCreateRequest $request, $vendor, $product)
+    public function remove(Request $request, Lot $lot)
     {
-        return $this->postSave($request, null, $product);
+        $this->products->delete($request->get('product_id'));
+
+        if($this->lots->checkIfPossibleToChangeCategory($lot))
+            return 'enable_cat';
     }
 
     /**
-     * Post update method action.
+     * Save specifications.
      *
-     * @param ProductUpdateRequest $request
-     * @param $product
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(ProductUpdateRequest $request, $product)
-    {
-        return $this->postSave($request, null, $product);
-    }
-
-    /**
-     * Create plain product.
-     *
-     * @param $vendor_id
-     * @return \App\Product
-     */
-    private function createPlainProduct($vendor_id)
-    {
-        return $this->products->create([
-            'vendor_id' => $vendor_id,
-            'status' => 'drafted',
-            'active' => 0
-        ]);
-    }
-
-    /**
-     * Clean session from drafted products.
-     *
-     * @return void
-     */
-    private function clearProductFromSession()
-    {
-        $this->session->forget('drafted_product');
-    }
-
-    /**
-     * @param $categories
-     * @param $product
-     */
-    private function saveCategories($categories, $product)
-    {
-        // todo: rework this stuff.
-        array_walk($categories, function ($category_id) use ($product) {
-            $category = $this->categoryable->getByProductAndCategoryId(
-                $product, $category_id
-            );
-
-            if(! count($category)) {
-                if($category = $product->category)
-                {
-                    $category->category_id = $category_id;
-                    $category->save();
-                } else {
-                    $this->categoryable->create((int)$category_id, $product);
-                }
-            }
-        });
-    }
-
-    /**
      * @param $specifications
      * @param $product
      */
-    private function saveSpecifications($specifications, $product)
+    private function saveSpecifications($specifications, Product $product)
     {
         array_walk($specifications, function ($meta) use ($product) {
             $product->setMeta($meta['key'], $meta['value'], 'spec');
         });
     }
 
+    private function saveImprovedSpecifications($specs, $product)
+    {
+        array_walk($specs, function($data, $spec_id){
+            $spec = $this->improvedSpecs->find($spec_id);
+            
+            if($spec)
+                $this->improvedSpecs->update($spec, $data);
+        });
+    }
+
+    /**
+     * Remove spec.
+     *
+     * @param Request $request
+     *
+     * @return void
+     */
+    public function removeSpec(Request $request)
+    {
+        $product = $this->products->find($request->get('product_id'));
+
+        $product->removeMetaById($request->get('spec_id'));
+    }
+
+    /**
+     * Remove improved spec.
+     *
+     * @param Request $request
+     * @param Lot $lot
+     *
+     * @return void
+     */
+    public function removeImproveSpec(Request $request, Lot $lot)
+    {
+        $spec = $this->improvedSpecs->find($request->get('spec_id'));
+
+        $this->improvedSpecs->delete($spec);
+    }
+
     /**
      * Add image to product.
      *
-     * @param Request $request
-     * @param $product
+     * @param $image
+     * @param Product $product
+     *
      * @return mixed
-     * @throws \Exception
      */
-    public function addImage(Request $request, $product)
+    public function addImage($image, Product $product)
     {
-        $image = $request->file('file');
-
         if ($image instanceof UploadedFile) {
             $location = 'upload/products/' . $product->id;
             $processor = new ImageProcessor();
             $imageable = $processor->uploadAndCreate($image, $product, null, $location);
-        } else {
-            throw new \Exception('Invalid Image');
-        }
 
-        return $imageable;
+            return $imageable;
+        }
     }
 
     /**
-     * @ajax Remove Image.
+     * Remove Image.
      *
      * @param Request $request
-     * @param $product
+     * @param $lot
      */
-    public function removeImage(Request $request, $product)
+    public function removeImage(Request $request, $lot)
     {
         Image::find($request->get('image_id'))->delete();
     }
 
     /**
-     * @ajax Save image order.
+     * Save image order.
      *
      * @param Request $request
      * @param $product
@@ -303,44 +262,6 @@ class ProductsController extends Controller
             $newsort,
             $oldsort
         );
-    }
-
-    /**
-     * @ajax Add color to product.
-     *
-     * @param Request $request
-     * @param $product
-     * @return static
-     */
-    public function addColor(Request $request, $product)
-    {
-        if (!$this->productsColors->hasColor($product, $request->get('color')))
-            return $this->productsColors
-                ->create($product, $request->get('color'));
-    }
-
-    /**
-     * @ajax Remove color.
-     *
-     * @param Request $request
-     * @param $product
-     * @return void
-     */
-    public function removeColor(Request $request, $product)
-    {
-        $this->productsColors->delete($request->get('color_id'));
-    }
-
-    /**
-     * @ajax Remove spec.
-     *
-     * @param Request $request
-     * @param $product
-     * @return void
-     */
-    public function removeSpec(Request $request, Product $product)
-    {
-        $product->removeMetaById($request->get('id'));
     }
 
     /**

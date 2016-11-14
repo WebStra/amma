@@ -206,21 +206,63 @@ Route::multilingual(function () {
             'uses' => 'LotsController@create'
         ]);
 
-        Route::post('lots/create/{product}/save', [
-            'as' => 'save_product',
-            'uses' => 'ProductsController@saveProduct'
-        ]);
+        Route::group(['middleware' => 'can_handle_action:lot'], function () // For product only
+        {
+            Route::get('lots/{lot}/edit', [
+                'as' => 'edit_lot',
+                'uses' => 'LotsController@edit'
+            ]);
 
-        Route::post('lots/create/{product}/delete', [
-            'as' => 'delete_product',
-            'uses' => 'ProductController@'
-        ]);
+            // todo: check for user .. if he can perform actions..
 
-        Route::post('lots/create/{lot}', [
-            'as' => 'create_lot',
-            'middleware' => 'add_lot_filter',
-            'uses' => 'LotsController@saveLot'
-        ]);
+            Route::post('lots/{lot}/create/{product}/save', [
+                'as' => 'save_product',
+                'uses' => 'ProductsController@save'
+            ]);
+
+            Route::post('lots/{lot}/product/remove-image', [
+                'as' => 'remove_product_image',
+                'uses' => 'ProductsController@removeImage'
+            ]);
+
+            Route::post('lots/{lot}/delete-product', [
+                'as' => 'delete_product',
+                'uses' => 'ProductsController@remove'
+            ]);
+
+            Route::post('lots/create/{lot}/select-category', [
+                'as' => 'lot_select_category',
+                'middleware' => 'accept-ajax',
+                'uses' => 'LotsController@selectCategory'
+            ]);
+
+            Route::post('lots/create/{lot}', [
+                'as' => 'create_lot',
+                'middleware' => 'add_lot_filter',
+                'uses' => 'LotsController@saveLot'
+            ]);
+
+            Route::post('lots/{lot}/product/load-spec', [
+                'as' => 'load_spec',
+                'uses' => 'LotsController@loadSpec'
+            ]); 
+            
+            Route::post('lots/{lot}/product/load-improved-spec', [
+                'as' => 'load_improved_spec',
+                'uses' => 'LotsController@loadImprovedSpec'
+            ]);
+
+            Route::post('lots/{lot}/product/remove-spec', [
+                'as' => 'remove_product_spec',
+                'uses' => 'ProductsController@removeSpec'
+            ]);
+            
+            Route::post('lots/{lot}/product/remove-improved-spec', [
+                'as' => 'remove_product_improved_spec',
+                'uses' => 'ProductsController@removeImproveSpec'
+            ]);
+        });
+
 
         Route::get('lots/{lot}', [
             'as' => 'view_lot',
@@ -269,7 +311,7 @@ Route::multilingual(function () {
        
         Route::post('vote_vendor/{vendor}',[
             'as' => 'vote_vendor',
-            'midleware' => 'accept-ajax',
+            'middleware' => 'accept-ajax',
             'uses' => 'VendorController@vote_vendor'
         ]);
     
@@ -287,41 +329,16 @@ Route::multilingual(function () {
 
         Route::group(['middleware' => 'can_handle_action:product'], function () // For product only
         {
-            Route::get('product/{product}/edit', [
-                'as' => 'edit_product',
-                'uses' => 'ProductsController@getEditForm'
-            ]);
-
-            Route::post('product/{product}/edit', [
-                'as' => 'update_product',
-                'uses' => 'ProductsController@update'
-            ]);
-
             Route::group(['middleware' => 'accept-ajax'], function () {
-                Route::post('product/{product}/add-color', [
-                    'as' => 'add_product_color',
-                    'uses' => 'ProductsController@addColor'
-                ]);
-
-                Route::post('product/{product}/remove-color', [
-                    'as' => 'remove_product_color',
-                    'uses' => 'ProductsController@removeColor'
-                ]);
-
                 Route::post('product/{product}/add-image', [
                     'as' => 'add_product_image',
                     'uses' => 'ProductsController@addImage'
                 ]);
 
-                Route::post('product/{product}/remove-image', [
-                    'as' => 'remove_product_image',
-                    'uses' => 'ProductsController@removeImage'
-                ]);
-
-                Route::post('product/{product}/remove-spec', [
-                    'as' => 'remove_product_spec',
-                    'uses' => 'ProductsController@removeSpec'
-                ]);
+//                Route::post('product/{product}/remove-image', [
+//                    'as' => 'remove_product_image',
+//                    'uses' => 'ProductsController@removeImage'
+//                ]);
 
                 Route::post('product/{product}/image-sort', [
                     'as' => 'sort_product_image',
@@ -329,11 +346,6 @@ Route::multilingual(function () {
                 ]);
             });
         });
-
-        Route::get('vendor/{vendor}/product/create', [
-            'as' => 'add_product',
-            'uses' => 'ProductsController@getCreate'
-        ]);
 
         Route::post('involve/product/{product}', [
             'as' => 'involve_product',
@@ -344,11 +356,6 @@ Route::multilingual(function () {
         Route::post('involve/exit/{involved}', [
             'as' => 'involve_product_cancel',
             'uses' => 'UsersController@exitProductOffer'
-        ]);
-
-        Route::post('vendor/{vendor}/product/{product}/create', [
-            'as' => 'post_create_product',
-            'uses' => 'ProductsController@create'
         ]);
     });
 

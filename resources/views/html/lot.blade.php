@@ -144,15 +144,13 @@
                                     <label>Specifications</label>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="specification_suite_lot overflow">
-                                    <div class="specification_suite_item overflow" data-suite-spec="1">
-                                        <div class="col l6 m12 s12">
-                                            <div class="input-field spec_name">
-                                                <span class="label">NAME</span>
-                                                <input type="text" name="spec[1][key]" value="">
-                                            </div>
+                        <div class="row">
+                            <div class="specification_suite_lot overflow">
+                                <div class="specification_suite_item overflow" data-suite-spec="1">
+                                    <div class="col l6 m12 s12">
+                                        <div class="input-field spec_name">
+                                            <span class="label">NAME</span>
+                                            <input type="text" name="spec[1][key]" value="">
                                         </div>
                                         <div class="col l6 m12 s12">
                                             <div class="input-field spec_value">

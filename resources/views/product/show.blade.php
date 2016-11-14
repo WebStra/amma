@@ -78,10 +78,12 @@
                         </div>
                     </div>
                 </div><!--product_info-->
-                @if($lot = $item->lot && $lot->vendor)
-                    <div class="col l3 m12 s12 product_vendor_block">
-                        @include('partials.about-seller')
-                    </div>
+                @if($lot = $item->lot)
+                    @if($vendor = $lot->vendor)
+                        <div class="col l3 m12 s12 product_vendor_block">
+                            @include('partials.about-seller')
+                        </div>
+                    @endif
                 @endif
                 <div class="col l3 m12 s12 product_vendor_block">
                     @include('share.index')

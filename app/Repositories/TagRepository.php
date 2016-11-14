@@ -21,8 +21,6 @@ class TagRepository extends Repository
     public static function renderDynamicFilterName($group, $name)
     {
         return sprintf("%s%s%s", str_slug($group), self::DYNAMIC_FILTER_SEPARATOR, str_slug($name));
-
-//        return strtolower(sprintf("%s_%s", $group, str_replace(' ', '_', $name)));
     }
 
     /**

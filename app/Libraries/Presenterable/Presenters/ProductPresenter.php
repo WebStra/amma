@@ -2,15 +2,15 @@
 
 namespace App\Libraries\Presenterable\Presenters;
 
-use App\Libraries\Presenterable\ImagePresentorPresentable;
+use App\Traits\HasImagesPresentable;
 use Carbon\Carbon;
 
 class ProductPresenter extends Presenter
 {
-    use ImagePresentorPresentable;
-    
-    /** Expiration date field. */
+    use HasImagesPresentable;
+
     const END_DATE = 'expiration_date';
+    const PRICE_EMPTY = '0.00';
 
     /**
      * Render product's name in uppercase.
@@ -19,32 +19,70 @@ class ProductPresenter extends Presenter
      */
     public function renderName()
     {
-        return strtoupper($this->model->name);
+        if($this->model->name)
+            return strtoupper($this->model->name);
+
+        return $this->renderDraftedName();
     }
 
-    /**
-     * Render name only with first character uppercase.
-     *
-     * @return string
-     */
+    public function renderDraftedName()
+    {
+        if($lot = $this->model->lot)
+            return sprintf('Drafted #%s product %s', $lot->id, $this->model->id);
+
+        return sprintf('#tempname%s', str_random(9));
+    }
+
     public function renderNameSimple()
     {
         return ucfirst($this->model->name);
     }
 
-    /**
-     * Render product's price.
-     *
-     * @param $price. Should be reformated.
-     * @return string
-     */
-    public function renderPrice($price = null)
+    public function renderPrice($price = null, $currency = null)
     {
-        if(! isset($price)) {
-            $price = $this->reformatPrice($this->model->price);
+        return sprintf("%s %s", ($price) ? $price : self::PRICE_EMPTY, ($currency) ? $currency : '');
+    }
+
+    public function renderNewPrice() {
+
+        if($price = $this->model->price) {
+            return $price;
         }
 
-        return sprintf("%s MDL", $price);
+        return self::PRICE_EMPTY;
+    }
+
+    public function renderOldPrice()
+    {
+        if($price = $this->model->old_price) {
+            return $price;
+        }
+
+        return self::PRICE_EMPTY;
+    }
+
+    public function renderCurrency($inst = 'title')
+    {
+        if($lot = $this->model->lot)
+        {
+            if($currency = $lot->currency)
+                return $currency->$inst;
+        }
+
+        return '';
+    }
+
+    /**
+     * Calculate price amount sale.
+     *
+     * @return string
+     */
+    public function renderSalePercent()
+    {
+        if($this->model->price && $this->model->old_price)
+            return round((($this->model->old_price - $this->model->price) / ($this->model->old_price)) * 100);
+
+        return 0;
     }
 
     /**

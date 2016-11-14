@@ -25,7 +25,7 @@ class LotRepository extends Repository
     public function createDraft(Vendor $vendor)
     {
         return $this->getModel()
-            ->firstOrCreate([
+            ->create([
                 'vendor_id' => $vendor->id
             ]);
     }
@@ -55,7 +55,7 @@ class LotRepository extends Repository
         $query = $this->getModel();
 
         if($vendor)
-            $query->where('vendor_id', $vendor->id);
+            $query = $query->where('vendor_id', $vendor->id);
 
         $lot = $query->drafted()->first();
 
@@ -128,9 +128,16 @@ class LotRepository extends Repository
     {
         $datas = explode($delimiter, $date);
 
-        $new_date['d'] = $datas[0];
-        $new_date['m'] = $datas[1];
-        $new_date['y'] = $datas[2];
+        if(count($datas) == 3) {
+            $new_date['d'] = $datas[0];
+            $new_date['m'] = $datas[1];
+            $new_date['y'] = $datas[2];
+        } else {
+            $now = Carbon::now();
+            $new_date['d'] = $now->day;
+            $new_date['m'] = $now->month;
+            $new_date['y'] = $now->year;
+        }
 
         return $new_date;
     }
@@ -139,7 +146,7 @@ class LotRepository extends Repository
     {
         $lot->fill([
             'name' => isset($data['name']) ? $data['name'] : $lot->present()->renderDraftedName(),
-            'category_id' => isset($data['category']) ? $data['category'] : null,
+//            'category_id' => isset($data['category']) ? $data['category'] : null,
             'currency_id' => isset($data['currency']) ? $data['currency'] : null,
             'description' => isset($data['description']) ? $data['description'] : null,
             'yield_amount' => isset($data['yield_amount']) ? $data['yield_amount'] : null,
@@ -148,5 +155,34 @@ class LotRepository extends Repository
         ])->save();
 
         return $lot;
+    }
+
+    /**
+     * Change category.
+     *
+     * @param $lot
+     * @param $category_id
+     *
+     * @return void
+     */
+    public function changeCategory($lot, $category_id)
+    {
+        $lot->fill([
+            'category_id' => $category_id
+        ])->save();
+    }
+
+    /**
+     * Check if user can to change category.
+     *
+     * @param Lot $lot
+     * @return bool
+     */
+    public function checkIfPossibleToChangeCategory(Lot $lot)
+    {
+        if(! count($lot->products))
+            return true;
+
+        return false;
     }
 }

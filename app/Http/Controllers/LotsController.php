@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveLotRequest;
 use App\Lot;
+use App\Repositories\ImprovedSpecRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
 use App\Vendor;
@@ -28,16 +29,27 @@ class LotsController extends Controller
     protected $products;
 
     /**
+     * @var ImprovedSpecRepository
+     */
+    protected $improvedSpecs;
+
+    /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
      * @param ProductsRepository $productsRepository
+     * @param ImprovedSpecRepository $improvedSpecRepository
      * @param Guard $auth
      */
-    public function __construct(LotRepository $lotRepository, ProductsRepository $productsRepository, Guard $auth)
-    {
+    public function __construct(
+        LotRepository $lotRepository,
+        ProductsRepository $productsRepository,
+        ImprovedSpecRepository $improvedSpecRepository,
+        Guard $auth
+    ) {
         $this->lots = $lotRepository;
         $this->auth = $auth;
         $this->products = $productsRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
     }
 
     /**
@@ -77,6 +89,25 @@ class LotsController extends Controller
     }
 
     /**
+     * Select category.
+     *
+     * @param Request $request
+     * @param Lot $lot
+     *
+     * @return string
+     */
+    public function selectCategory(Request $request, Lot $lot)
+    {
+        if($this->lots->checkIfPossibleToChangeCategory($lot)) {
+            $this->lots->changeCategory($lot, $request->get('category_id'));
+
+            return 'true';
+        }
+
+        return 'false';
+    }
+
+    /**
      * Load product form for lot create/edit.
      *
      * @param Request $request
@@ -85,9 +116,40 @@ class LotsController extends Controller
      */
     public function loadProductBlock(Request $request, Lot $lot)
     {
-        $product = $this->products->createPlain($lot);
+        if($lot->category_id) {
+            $product = $this->products->createPlain($lot);
 
-        return view('lots.partials.form.product', [ 'product' => $product, 'lot' => $lot ]);
+            return view('lots.partials.form.product', ['product' => $product, 'lot' => $lot]);
+        }
+
+        return 'false';
+    }
+
+    /**
+     * Load specification
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function loadSpec(Request $request)
+    {
+        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
+
+        return view('lots.partials.form.specification', [ 'block_id' => $block_id]);
+    }
+
+
+    /**
+     * Load improved spec.
+     * 
+     * @param Request $request
+     * @return mixed
+     */
+    public function loadImprovedSpec(Request $request)
+    {
+        $spec = $this->improvedSpecs->createPlain($request->get('product_id'));
+        
+        return view('lots.partials.form.improved_specs', [ 'spec' => $spec ]);
     }
 
     /**
@@ -99,15 +161,16 @@ class LotsController extends Controller
     {
         $lot = $this->lots->save($lot, $request->all());
 
-        return redirect()->back()->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
-
-//        return redirect()->route('view_lot', [ 'lot' => $lot->id ]);
+        return redirect()->route('edit_lot', [ $lot ])
+            ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
     }
 
+    /**
+     *
+     */
     public function index()
     {
         dd(Lot::all());
-//        return
     }
 
     /**

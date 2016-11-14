@@ -4,7 +4,7 @@
             {{ $lot->present()->renderName() }}
             @if(Route::currentRouteName() == 'my_lots')
                 <div style="float: right; font-size: 12px;">
-                    <a href="#" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
+                    <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
                     <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');">
                         <i class="small material-icons" style="color: black">delete</i>
                     </a>
@@ -19,27 +19,33 @@
                     <a href="{{ route('view_category', [ 'category' => $category->slug ]) }}">{{ $category->present()->renderName() }}</a>
                 </div>
             @endif
-            <div class="label">
-                <?php $vendor = $lot->vendor; ?>
-                <span class="c-gray">Vendor:</span>&nbsp;
-                <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
-            </div>
-            <div class="label" style=''>
-                <div class="user-rating">
-                    <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
-                    <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
-                    <span>{{ $positivePercent }}</span>
-                    <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
+            <?php $vendor = $lot->vendor; ?>
+
+            @if($vendor)
+                <div class="label">
+                    <span class="c-gray">Vendor:</span>&nbsp;
+                    <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
-            </div>
-            <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
-                <div class="countdown" data-endtime="09/12/2016">
-                    <span class="days">0</span>
-                    <span class="hours">0</span>
-                    <span class="minutes">0</span>
-                    <span class="seconds">0</span>
+
+                <div class="label" style=''>
+                    <div class="user-rating">
+                        <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
+                        <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
+                        <span>{{ $positivePercent }}</span>
+                        <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
+                    </div>
                 </div>
-            </div>
+            @endif
+            @if(! empty($lot->present()->endDate()))
+                <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
+                    <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
+                        <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>
+                        <span class="hours">{{ $lot->present()->diffEndDate()->h }}</span>
+                        <span class="minutes">{{ $lot->present()->diffEndDate()->i }}</span>
+                        <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
+                    </div>
+                </div>
+            @endif
             <div class="clearfix"></div>
         </div>
     </div> {{-- /.lot-info --}}

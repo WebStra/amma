@@ -48,6 +48,11 @@ class Lot extends Repository
         'active'
     ];
 
+    protected $dates = [
+        'public_date',
+        'expire_date',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -61,7 +66,7 @@ class Lot extends Repository
      */
     public function currency()
     {
-        return $this->hasOne(Currency::class, 'currency_id', 'id');
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 
     /**
@@ -72,9 +77,20 @@ class Lot extends Repository
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function products()
     {
         return $this->hasMany(Product::class, 'lot_id', 'id');
+    }
+
+    public function subCategories()
+    {
+        return $this->hasManyThrough(
+            SubCategory::class, Category::class,
+            'id', 'category_id', 'category_id'
+        );
     }
 
     /**

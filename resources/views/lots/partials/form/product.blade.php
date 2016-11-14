@@ -1,169 +1,170 @@
-<form method="post" action="{{ route('save_product', [ 'product' => $product->id ]) }}" class="form form-product"
-      enctype="multipart/form-data">
-    <div class="row add_product" id="sortable">
-        <div class="inner_product border margin15">
-            <div class="col l4 m6 s12">
-                <div class="input-field">
-                    <p>PHOTO</p>
-                    <img class="materialboxed img-responsive" src="http://placehold.it/350x350">
-                </div>
-            </div>
+<div class="product_canvas" data-product="{{ $product->id }}">
+    <form method="post" data-product="{{ $product->id }}"
+          onsubmit="saveProductBlock(this);return false;"
+          action="{{ route('save_product', [ $lot->id, 'product' => $product->id ]) }}"
+          class="form form-product"
+          enctype="multipart/form-data">
+        <div class="row add_product" id="sortable">
+            <div class="inner_product border margin15" style="cursor: default;">
+                <div class="col l4 m6 s12">
+                    <div class="input-field product_gallery">
+                        <p>PHOTO</p>
+                        @if(count($images = $product->images))
+                            <img class="materialboxed img-responsive cover_image_product" src="{{ $product->present()->cover() }}">
+                        @else
+                            <img class="materialboxed img-responsive cover_image_product" src="http://placehold.it/350x350">
+                        @endif
 
-            <div class="col l8 m6 s12">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <div class="input-field">
-                            <span class="label">NAME</span>
-                            <input type="text" required="" name="name" value="{{ ($product->name) ? : '' }}"
-                                   placeholder="Product's name">
+                        <div class="product_thumbs" style="margin-top: 5px;">
+                            @if(count($images = $product->images))
+                                @foreach($images as $image)
+                                    <img src="{{ $image->present()->image() }}" onclick="removeImage(this);return false;" data-image="{{ $image->id }}" class="lots_product thumb" width="55" height="50">
+                                @endforeach
+                            @endif
                         </div>
+
+                        <a href="#upload_imgs" class="waves-effect waves-light btn blue" style="width: 100%; margin-top:5px;"
+                           onclick="callUploadImages(this, 'image'); return false;"><i
+                                    class="material-icons left">input</i>&nbsp;Upload Image</a>
+
+                        <input type="file" name="image[]" multiple
+                               style="display: none" onchange="uploadImages(this);">
                     </div>
+                </div><!-- Galery -->
 
-                    <div class="col l6 s12">
-                        <div class="input-field">
-                            <span class="label">{{ strtoupper('Subcategories') }}</span>
-                            <select class="subcategories">
-                                <option value="vvvvvvvvvvvv1">vvvvvvvvvvvv11</option>
-                            </select>
-                        </div>
-                    </div><!-- Subcategories -->
-
-                    <div class="col l6 s12">
-                        <div class="input-field">
-                            <span class="label">{{ strtoupper('old price') }}</span>
-                            <input type="text" class="old_price" required name="old_price" value="{{ ($product->old_price) ? : '' }}"
-                                   placeholder="MDL">
-                        </div>
-                    </div>
-
-                    <div class="col l6 s12 ">
-                        <div class="input-field">
-                            <span class="label">{{ strtoupper('new price') }}</span>
-                            <input type="text" required="" class="new_price" name="price" value="{{ ($product->price) ? : '' }}"
-                                   placeholder="MDL">
-                        </div>
-                    </div>
-
-                    <div class="col l6 s12">
-                        <div class="input-field">
-                            <span class="label">{{ strtoupper('SALE') }}</span>
-                            <input type="text" class="create_sale" name="sale" placeholder="0%" value="{{ ($product->sale) ? : '' }}">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col l12 m12 s12">
-                        <label>Specifications</label>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="specification_suite_lot overflow">
-                        <div class="specification_suite_item overflow" data-suite-spec="1">
-                            <div class="col l6 m12 s12">
-                                <div class="input-field spec_name">
-                                    <span class="label">NAME</span>
-                                    <input type="text" name="spec[1][key]" value="">
-                                </div>
+                <div class="col l8 m6 s12">
+                    <div class="row">
+                        <div class="col l6 s12">
+                            <div class="input-field">
+                                <span class="label">NAME</span>
+                                <input type="text" required="required" name="name"
+                                       value="{{ ($product->name) ? : '' }}"
+                                       placeholder="Product's name">
                             </div>
-                            <div class="col l6 m12 s12">
-                                <div class="input-field spec_value">
-                                    <span class="label">DESCRIPTION</span>
-                                    <input type="text" name="spec[1][value]" value="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
-                        <a href="#add-spec" class="add_spec_btn add_suite"><i class="material-icons center">library_add</i></a>
-                    </div>
-                </div>
+                        </div><!-- name -->
 
-                <div class="row">
-                    <div class="wrap_size_color_sold overflow">
-                        <div class="size_color_sold_item overflow" data-suite-spec="1">
-                            <div class="col l4 m12 s12">
-                                <div class="input-field">
-                                    <span class="label">Size</span>
-                                    <input type="text" required="" name="size" value="" placeholder="Size">
-                                </div>
-                            </div>
-                            <div class="col l4 m12 s12">
-                                <div class="input-field">
-                                    <span class="label">COLORS</span>
-                                    <div class="file-field input-colorpicker">
-                                        <div class="btn"></div>
-                                        <div class="file-path-wrapper">
-                                            <input type="text" name="color" class=""/>
-                                        </div>
+                        @if($lot->category_id)
+                            @if(count($sub_categories = $lot->category->subCategories))
+                                <div class="col l6 s12">
+                                    <div class="input-field">
+                                        <span class="label">{{ strtoupper('Subcategory') }}</span>
+                                        <select class="subcategories browser-default" name="sub_category"
+                                                required="required">
+                                            <option value="">Select subcategory</option>
+                                            @foreach($sub_categories as $sub_category)
+                                                <?php $selected = ($product->sub_category_id == $sub_category->id) ? 'selected' : ''; ?>
+                                                <option value="{{ $sub_category->id }}"
+                                                        {{ $selected }}>{{ $sub_category->present()->renderName() }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </div>
+                                </div><!-- Subcategories -->
+                            @endif
+                        @endif
+
+                        <div class="col l6 s12">
+                            <div class="input-field">
+                                <span class="label">{{ strtoupper('old price') }}</span>
+                                <input type="text" class="old_price" required="required" name="old_price"
+                                       value="{{ ($product->old_price) ? : '' }}"
+                                       placeholder="0.00">
+                                @if(count($currencies))
+                                    <span class="currency_type"
+                                          style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
+                                @endif
                             </div>
-                            <div class="col l4 m12 s12">
-                                <div class="input-field">
-                                    <span class="label">Sold</span>
-                                    <input type="text" required="" name="sold" value="" placeholder="0">
-                                </div>
+                        </div><!--old price-->
+
+                        <div class="col l6 s12 ">
+                            <div class="input-field">
+                                <span class="label">{{ strtoupper('new price') }}</span>
+                                <input type="text" required="required" class="new_price" name="price"
+                                       value="{{ ($product->price) ? : '' }}"
+                                       placeholder="0.00">
+                                @if(count($currencies))
+                                    <span class="currency_type"
+                                          style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
+                                @endif
                             </div>
+                        </div><!--new price-->
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
-                        <div class="input-field">
-                            <a href="#add-spec" class="add_spec_btn add_size_color_sold"><i
-                                        class="material-icons center">library_add</i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col l1 m2 s2 offset-s10 offset-l11 offset-m10 center-align">
-                        <div class="input-field">
-                            <a href="#add-spec" class="add_spec_btn add_size_color_sold"><i class="material-icons center">library_add</i></a>
+                        <div class="col l6 s12">
+                            <div class="input-field">
+                                <span class="label">{{ strtoupper('SALE') }}</span>
+                                <input type="text" class="create_sale" name="sale" placeholder="0%"
+                                       value="{{ ($product->sale) ? : '' }}">
+                                <span style="position: absolute;top:31px;right: 15px;color: #ff6f00;">%</span>
                             </div>
-                        </div>
-                    </div>
+                        </div><!--sale-->
+                    </div><!--Form-->
 
-                <div class="row right-align-600-992">
-                    <div class="col l8 s12 push-l4">
+                    <div class="row" style="margin-bottom: 25px;">
+                        <div class="specification_suite_lot overflow">
+                            @if(old('spec'))
+                                @foreach(old('spec') as $block_id => $spec)
+                                    @include('lots.partials.form.specification')
+                                @endforeach
+                            @else
+                                @if(count($specs = $product->getMetaGroup('spec')))
+                                    @foreach($specs as $block_id => $spec)
+                                        @include('lots.partials.form.specification')
+                                    @endforeach
+                                @endif
+                            @endif
+                        </div>
+
+                        <div class="col l12 m12 s12">
+                            <label style="float: right;">Add specifications for your product. <a onclick="loadSpec(this); return false;" href="#add-spec">Add</a></label>
+                        </div>
+                    </div><!--Specs-->
+
+                    <div class="spec_improved">
+                        @if(count($specs = $product->improvedSpecs))
+                            <div class="row improved_specs_set">
+                                @foreach($specs as $spec)
+                                    @include('lots.partials.form.improved_specs')
+                                @endforeach
+                            </div><!--specs-improved-->
+                        @endif
                         <div class="row">
-                            <div class="col l6 s12">
-                                <div class="input-field">
-                                    <a href="#clone-product" class="clone-product btn amber darken-4"><i class="material-icons left">view_stream</i>Clone</a>
-                                </div>
+                            <div class="col l12 m12 s12">
+                                <label style="float: right;">Add improved specifications for your product. <a onclick="loadImprovedSpec(this); return false;" href="#add-spec">Add</a></label>
                             </div>
+                        </div><!--add spec-->
+                    </div><!--Improved specs-->
 
-                            <div class="col l6 s12">
-                                <div class="row">
-                                    <div class="col l12 m12 s12">
-                                        <div class="input-field">
-                                            <a href="#remove-product" class="waves-effect waves-light btn red btn-remove-product"><i class="material-icons left">delete</i>Del</a>
-                                        </div>
+                    <div class="row" style="height: 75px;margin-top: 25px">
+                        {{--<div class="col 2">--}}
+                            {{--<div class="input-field">--}}
+                                {{--<a href="#clone-product" class="clone-product btn amber darken-4"><i--}}
+                                            {{--class="material-icons left">view_stream</i>Clone</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+                        <div class="col 2">
+                            <div class="row">
+                                <div class="col l12 m12 s12">
+                                    <div class="input-field">
+                                        <a href="#remove-product" onclick="deleteProductBlock(this); return false;"
+                                           class="waves-effect waves-light btn red btn-remove-product"><i
+                                                    class="material-icons left">delete</i>Del</a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col l6 s12 right-align-992">
-                                <div class="input-field">
-                                    <button type="submit" onclick="saveProductBlock(this); return false;"
-                                            class="waves-effect waves-light btn save-product"><i
-                                                class="material-icons left">loop</i>Save</button>
-                                    {{--<a href="#save-product" class="waves-effect waves-light btn save-product"><i class="material-icons left">loop</i>Save</a>--}}
-                                </div>
+                        <div class="col l6 s12 right-align-992">
+                            <div class="input-field">
+                                <button type="submit"
+                                        class="waves-effect waves-light btn save-product"><i
+                                            class="material-icons left">loop</i>Save
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!--Add color size sold-->
+                    </div><!--buttons-->
+                </div><!--form-->
             </div>
         </div>
-    </div>
-
-    {!! csrf_field() !!}
-</form>
+        {!! csrf_field() !!}
+    </form>
+</div>

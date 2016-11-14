@@ -96,7 +96,9 @@ class CategoriesController extends Controller
 
         if($subcategory)
         {
-            $query->where('products.sub_category_id', $subcategory->id);
+            // todo: fix it, subcategory don;t incoming..
+            $query = $query->where('products.sub_category_id', $subcategory->id);
+//            $query->where('products.sub_category_id', $subcategory->id);
         }
 
         return $query->where('products.active', 1)->paginate($perPage);

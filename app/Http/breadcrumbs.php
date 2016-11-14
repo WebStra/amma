@@ -59,17 +59,19 @@ Breadcrumbs::register('view_sub_category', function ($breadcrumbs, $category, $s
     $breadcrumbs->push($subcategory->present()->renderName(), route('view_sub_category', [ $category->slug, $subcategory->slug ]));
 });
 
-//Breadcrumbs::register('view_lot', function ($breadcrumbs, $lot) {
-//    if($lot->vendor)
-//        $breadcrumbs->parent('view_vendor', $lot->vendor);
-//
-//    $breadcrumbs->push($lot->present->renderName(), route('view_lot', $lot->id));
-//});
-//
-//Breadcrumbs::register('view_product', function ($breadcrumbs, $product) {
-//    $breadcrumbs->parent('view_lot', $product->lot);
-//    $breadcrumbs->push($product->name, route('view_product', $product->id));
-//});
+Breadcrumbs::register('view_lot', function ($breadcrumbs, $lot) {
+    if($lot->vendor)
+        $breadcrumbs->parent('view_vendor', $lot->vendor);
+
+    $breadcrumbs->push($lot->present->renderName(), route('view_lot', $lot->id));
+});
+
+Breadcrumbs::register('view_product', function ($breadcrumbs, $product) {
+    if($product->lots)
+        $breadcrumbs->parent('view_lot', $product->lot);
+
+    $breadcrumbs->push($product->name, route('view_product', $product->id));
+});
 
 Breadcrumbs::register('my_vendors', function ($breadcrumbs) {
     //todo: dashoboard.
@@ -79,16 +81,6 @@ Breadcrumbs::register('my_vendors', function ($breadcrumbs) {
 Breadcrumbs::register('create_vendor', function ($breadcrumbs) {
     //todo: dashoboard.
     $breadcrumbs->push('Vendor Create', route('create_vendor'));
-});
-
-Breadcrumbs::register('add_product', function ($breadcrumbs, $vendor) {
-    $breadcrumbs->parent('view_vendor', $vendor);
-    $breadcrumbs->push('Product create', route('add_product', $vendor->id));
-});
-
-Breadcrumbs::register('edit_product', function ($breadcrumbs, $product) {
-    $breadcrumbs->parent('view_product', $product);
-    $breadcrumbs->push('Edit', route('edit_product', $product->id));
 });
 
 Breadcrumbs::register('vendors', function ($breadcrumbs) {

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\ImprovedSpec;
 use App\Lot;
 use App\Product;
 use Carbon\Carbon;
@@ -306,19 +307,23 @@ class ProductsRepository extends Repository
     public function getExpireSoon($paginate = 10)
     {
         $query = $this->getModel()
-            ->published()
-            ->active()
-            ->where('expiration_date', '>', Carbon::now())
-            ->orderBy('expiration_date', self::ASC);
+            ->select('products.*')
+            ->where('products.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
+            ->orderBy('lots.expire_date', self::ASC);
 
         if(request()->get('name'))
-            $query->orderBy('name', request()->get('name') == self::ASC ? self::ASC : self::DESC);
+            $query->orderBy('products.name', request()->get('name') == self::ASC ? self::ASC : self::DESC);
 
         if(request()->get('created_at'))
-            $query->orderBy('created_at', request()->get('created_at') == self::ASC ? self::ASC : self::DESC);
+            $query->orderBy('products.created_at', request()->get('created_at') == self::ASC ? self::ASC : self::DESC);
 
         if(request()->get('price'))
-            $query->orderBy('price', request()->get('price') == self::ASC ? self::ASC : self::DESC);
+            $query->orderBy('products.price', request()->get('price') == self::ASC ? self::ASC : self::DESC);
+
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.status', Lot::STATUS_COMPLETE)
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
 //        return $query->orderBy('id', self::ASC)
             return $query->paginate($paginate);
@@ -332,10 +337,16 @@ class ProductsRepository extends Repository
      */
     public function createPlain(Lot $lot)
     {
-        return self::getModel()
+        $product = self::getModel()
             ->create([
                 'lot_id' => $lot->id
             ]);
+
+        ImprovedSpec::create([
+            'product_id' => $product->id
+        ]);
+
+        return $product;
     }
 
     public function saveProduct($product, array $data)
@@ -345,8 +356,11 @@ class ProductsRepository extends Repository
             'old_price' => isset($data['old_price']) ? $data['old_price'] : null,
             'price' => isset($data['price']) ? $data['price'] : null,
             'sale' => isset($data['sale']) ? $data['sale'] : null,
+            'sub_category_id' => isset($data['sub_category']) ? $data['sub_category'] : null
         ]);
 
         $product->save();
+
+        return $product;
     }
 }
