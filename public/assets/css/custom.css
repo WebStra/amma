@@ -382,3 +382,6 @@ text-align: left;
 .help-page ul li{
     list-style-type: none;
 }
+.help-page .section{
+    padding: 0;
+}

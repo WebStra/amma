@@ -5,7 +5,7 @@
         {{--<img src="{{$page->image}}" class="wide_img">--}}
         <div class="container help-page">
             <div class="row content">
-                <div class="col s2 m9 l2">
+                <div class="col l3">
                     <ul class="collapsible" data-collapsible="accordion">
                         <li>
                             <div class="collapsible-header">Despre noi</div>
@@ -45,13 +45,16 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col s10 m3 l10">
+                <div class="col l8">
                     @foreach($helpPages as $item)
-                        <div id="{{$item->slug}}" class="section scrollspy">
-                            {!!$item->body!!}
-                        </div>
+                        @if($item->page_type != null)
+                            <div id="{{$item->slug}}" class="section scrollspy">
+                                {!!$item->body!!}
+                            </div>
+                         @endif
                     @endforeach
                 </div>
+                <div class="col l1"></div>
             </div>
         </div>
     </section>
