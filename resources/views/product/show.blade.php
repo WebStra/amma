@@ -15,12 +15,11 @@
                 </div>
                 <div class="col l5 m6 s12 product_info">
                     <h1>{{ $item->present()->renderName() }}</h1>
-
                     <div class="display-table td_bordered_right display-list_bloks-m-down">
                         <div class="td">
                             @if($item->sale > 0)
                                 <p class="price">{{ $item->present()->renderPriceWithSale() }}</p>
-                                <p class="old_price">{{ $item->present()->renderPrice() }}</p>
+                                <p class="old_price">{{ $item->present()->renderOldPrice() }}</p>
                             @else
                                 <p class="price">{{ $item->present()->renderPrice() }}</p>
                             @endif

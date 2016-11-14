@@ -55,7 +55,8 @@ class ProductPresenter extends Presenter
     public function renderOldPrice()
     {
         if($price = $this->model->old_price) {
-            return $price;
+            $currency = $this->renderCurrency();
+            return sprintf('%s %s', $price,$currency);
         }
 
         return self::PRICE_EMPTY;
@@ -91,9 +92,20 @@ class ProductPresenter extends Presenter
      * @param $onlyPrice
      * @return string
      */
-    public function renderPriceWithSale($onlyPrice = false)
+   /* public function renderPriceWithSale($onlyPrice = false)
     {
         $price = $this->reformatPrice($this->model->price - $this->getPriceAmountSale());
+//        $price = $this->getPriceAmountSale();
+        $currency = $this->renderCurrency();
+        if($onlyPrice)
+            return ($price != 0) ? $price : '';
+
+        return sprintf('%s %s', $price,$currency);
+    }*/
+
+    public function renderPriceWithSale($onlyPrice = false)
+    {
+        $price = $this->reformatPrice($this->model->price);
 //        $price = $this->getPriceAmountSale();
         $currency = $this->renderCurrency();
         if($onlyPrice)
