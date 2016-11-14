@@ -18,20 +18,63 @@
                         </a>
 
                         <ul class="left nav_wide hide-on-med-and-down">
-                            <li><a href='{{ route('expire_soon_products') }}'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
-                                                class="badge_top">New</span></span> </a></li>
-                            <li><a href="{{ route('view_blog') }}">BLOG</a></li>
-                            <li><a href="{{ route('vendors') }}">VENDORS</a></li>
+                            <li><a href='{{ route('expire_soon_products') }}'>
+                                    <span class="wrapp_badge">
+                                        {!! $meta->getMeta('top_menu_offers') !!}
+                                        <span class="badge_top">New</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('view_blog') }}">
+                                    {!! $meta->getMeta('top_menu_blog') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('vendors') }}">
+                                    {!! $meta->getMeta('top_menu_vendors') !!}
+                                </a>
+                            </li>
                         </ul>
                         <ul class="side-nav" id="mobile-navbar">
-                            <li><a href='{{ route('home') }}'>ACASĂ</a></li>
-                            <li><a href='{{ route('expire_soon_products') }}'><span class="wrapp_badge">OFERTE CARE EXPIRĂ <span
-                                                class="badge_top">New</span></span> </a></li>
-                            <li><a href="{{ route('view_blog') }}">BLOG</a></li>
-                            <li><a href="">DESPRE NOI</a></li>
-                            <li><a href="{{ route('contacts') }}">CONTACTE</a></li>
-                            <li><a href="{{ route('vendors') }}">VENDORS</a></li>
-                            <li><a href="{{ route('support') }}">SUPPORT</a></li>
+                            <li>
+                                <a href='{{ route('home') }}'>
+                                    {!! $meta->getMeta('top_menu_home') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href='{{ route('expire_soon_products') }}'>
+                                    <span class="wrapp_badge">
+                                        {!! $meta->getMeta('top_menu_offers') !!}
+                                        <span class="badge_top">New</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('view_blog') }}">
+                                    {!! $meta->getMeta('top_menu_blog') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    {!! $meta->getMeta('top_menu_about') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('contacts') }}">
+                                    {!! $meta->getMeta('top_menu_contacts') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('vendors') }}">
+                                    {!! $meta->getMeta('top_menu_vendors') !!}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('support') }}">
+                                    {!! $meta->getMeta('top_menu_support') !!}
+                                </a>
+                            </li>
                             @if(count($pages))
                                 @foreach($pages as $page)
                                     <li>
