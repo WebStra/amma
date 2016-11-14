@@ -1,8 +1,8 @@
 <header>
     <div class="top_bar">
         <div class="container cf">
-            <div class="left"><i class="icon-phone"></i> Telefon: {{ settings()->getOption('contact_info::sellPhone') }}</div>
-            <div class="left"><i class="icon-pin"></i> Address: {{ settings()->getOption('contact_info::adress') }}</div>
+            <div class="left"><i class="icon-phone"></i>{!! $meta->getMeta('top_bar_phone') !!}  {{ settings()->getOption('contact_info::sellPhone') }}</div>
+            <div class="left"><i class="icon-pin"></i>{!! $meta->getMeta('top_bar_adress') !!}  {{ settings()->getOption('contact_info::adress') }}</div>
             @include('partials.header.language-bar')
 
             @include('partials.header.profile-bar')
@@ -93,13 +93,13 @@
                 @if(Auth::check())
                     <?php $count = count(Auth::user()->involved()->active()->get()) ?>
 
-                    <a href="{{ route('my_involved') }}" class="cart btn_">Particip ({{ $count >= 1 ? $count : 0 }})</a>
+                    <a href="{{ route('my_involved') }}" class="cart btn_">{!! $meta->getMeta('top_menu_particip') !!} ({{ $count >= 1 ? $count : 0 }})</a>
                 @endif
             </div>
             <div class="top_categories row cf">
                 <div class="col l3 m3 s12 wrapp_categories">
                     <a href='#' data-activates='dropdown_all_categories' class="navbar_dropdown"><i
-                                class="icon-grid-line"></i> Categorii</a>
+                                class="icon-grid-line"></i>{!! $meta->getMeta('top_menu_categorii') !!}</a>
                     @include('partials.categories.header_dropdown')
                 </div>
                 <div class="col l9 m9 s12">
@@ -114,7 +114,7 @@
                         <div class="wrapp_submit">
                             <button type="submit">
                                 <i class="icon-search"></i>
-                                <span class="hide_767_down">Cauta</span>
+                                <span class="hide_767_down">{!! $meta->getMeta('top_menu_search') !!}</span>
                             </button>
                         </div>
                     </form>

@@ -1,42 +1,52 @@
 <?php
+use App\Repositories\TranslateRepository;
 
-Breadcrumbs::register('home', function ($breadcrumbs) {
-    $breadcrumbs->push('Home', route('home'));
+
+Breadcrumbs::register('home', function ($breadcrumbs, $key = 'breadcrumbs_home') {
+    $repository = new TranslateRepository();
+    $breadcrumbs->push($repository->getKey($key)->value, route('home'));
 });
 
-Breadcrumbs::register('expire_soon_products', function ($breadcrumbs) {
+Breadcrumbs::register('expire_soon_products', function ($breadcrumbs, $key = 'breadcrumbs_offerts') {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Oferte care exipra', route('expire_soon_products'));
+    $breadcrumbs->push($repository->getKey($key)->value, route('expire_soon_products'));
 });
 
-Breadcrumbs::register('view_blog', function ($breadcrumbs) {
+Breadcrumbs::register('view_blog', function ($breadcrumbs, $key = 'breadcrumbs_blog') {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Blog', route('view_blog'));
+    $breadcrumbs->push($repository->getKey($key)->value, route('view_blog'));
 });
 
 Breadcrumbs::register('view_post', function ($breadcrumbs, $post) {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('view_blog');
     $breadcrumbs->push($post->title, route('view_post', $post->id));
 });
 
-Breadcrumbs::register('contacts', function ($breadcrumbs) {
+Breadcrumbs::register('contacts', function ($breadcrumbs, $key = 'breadcrumbs_contacts') {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Contacts', route('contacts'));
+    $breadcrumbs->push($repository->getKey($key)->value, route('contacts'));
 });
 
-Breadcrumbs::register('frontend_vendors', function ($breadcrumbs) {
+Breadcrumbs::register('frontend_vendors', function ($breadcrumbs, $key = 'breadcrumbs_vendors') {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Vendors', route('vendors'));
+    $breadcrumbs->push($repository->getKey($key)->value, route('vendors'));
 });
 
 Breadcrumbs::register('view_vendor_frontend', function ($breadcrumbs, $vendor) {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('view_blog');
     $breadcrumbs->push($vendor->name, route('view_vendor', $vendor->id));
 });
 
-Breadcrumbs::register('support', function ($breadcrumbs) {
+Breadcrumbs::register('support', function ($breadcrumbs, $key = 'breadcrumbs_support') {
+    $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Support', route('support'));
+    $breadcrumbs->push($repository->getKey($key)->value, route('support'));
 });
 
 Breadcrumbs::register('show_page', function ($breadcrumbs, $static_page) {
@@ -83,8 +93,9 @@ Breadcrumbs::register('create_vendor', function ($breadcrumbs) {
     $breadcrumbs->push('Vendor Create', route('create_vendor'));
 });
 
-Breadcrumbs::register('vendors', function ($breadcrumbs) {
-    $breadcrumbs->push('Vendors', route('vendors'));
+Breadcrumbs::register('vendors', function ($breadcrumbs, $key = 'breadcrumbs_vendors') {
+    $repository = new TranslateRepository();
+    $breadcrumbs->push($repository->getKey($key)->value, route('vendors'));
 });
 
 Breadcrumbs::register('add_lot', function ($breadcrumbs, $vendor) {
@@ -93,9 +104,10 @@ Breadcrumbs::register('add_lot', function ($breadcrumbs, $vendor) {
     $breadcrumbs->push('Create lot', route('add_lot', $vendor->slug));
 });
 
-Breadcrumbs::register('settings', function ($breadcrumbs) {
-    //todo: dashoboard.
-    $breadcrumbs->push('Settings Account', route('settings'));
+Breadcrumbs::register('settings', function ($breadcrumbs, $key = 'breadcrumbs_settings') {
+    $repository = new TranslateRepository();
+
+    $breadcrumbs->push($repository->getKey($key)->value, route('settings'));
 });
 
 Breadcrumbs::register('my_involved', function ($breadcrumbs) {

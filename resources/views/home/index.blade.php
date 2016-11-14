@@ -58,7 +58,7 @@
                                     <h4 class="title">{{ $item->present()->renderTitle(true) }}</h4>
                                     {!!  $item->present()->renderShortDescription(175) !!}
                                     <a class="link" href="{{ route('view_post', ['slug' => $item->slug]) }}">
-                                        Citeste <i class="icon-arrow-to-right" style="font-size: initial; vertical-align: baseline"></i>
+                                       {!! $meta->getMeta('blog_home_read') !!}  <i class="icon-arrow-to-right" style="font-size: initial; vertical-align: baseline"></i>
                                     </a>
                                 </div>
                             @endforeach

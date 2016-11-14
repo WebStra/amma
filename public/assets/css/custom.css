@@ -370,6 +370,12 @@ text-align: left;
 .categories_list li, .produs li{
     list-style-type: none;
 }
+<<<<<<< HEAD
 .product-content .wrap-img img{
     max-width: 250px;
+=======
+
+.subcategories_filters p span{
+    width:100%;
+>>>>>>> 376c8d9791aabc578f6d456944d4ce4c5229d7fc
 }
