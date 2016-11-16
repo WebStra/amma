@@ -11,7 +11,7 @@
                     <li></li>
                     <li><a href="{{ route('contacts') }}">{!! $meta->getMeta('footer_menu_contacts') !!}</a></li>
                     <li><a href="{{ route('support') }}">{!! $meta->getMeta('footer_menu_support') !!}</a></li>
-                    <li><a href="">{!! $meta->getMeta('footer_menu_about') !!}</a></li>
+
                     @foreach($pages as $page)
                         <li><a href="{{ route('show_page',['page' => $page->slug] ) }}">{{ $page->title }}</a></li>
                     @endforeach
@@ -21,7 +21,6 @@
         <div class="td">
             <h4>{!! $meta->getMeta('footer_menu_colaboration') !!}</h4>
             <ul>
-                <li><a href="#">{!! $meta->getMeta('footer_menu_termens') !!}</a></li>
                 <li><a href="#">{!! $meta->getMeta('footer_menu_colaborations') !!}</a></li>
             </ul>
         </div>

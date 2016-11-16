@@ -28,6 +28,7 @@ return [
                 $image = $row->images()->cover()->first();
 
                 return $image ? output_image($image->image, null, ['width' => '100']) : '';
+
             }
         ],
 
