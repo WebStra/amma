@@ -12,8 +12,8 @@
                                 <div class="collapsible-body">
                                     <ul class="section table-of-contents">
                                     @foreach($helpPages as $item)
-                                        @if($item->page_type == 0)
-                                            <li><a href="#{{$item->slug}}">{{$item->title}}</a></li>
+                                        @if($item->page_type == 1)
+                                            <li><a class="go-to" data-go-to="{{$item->slug}}" href="#{{$item->slug}}">{{$item->title}}</a></li>
                                         @endif
                                      @endforeach
                                     </ul>
@@ -24,8 +24,8 @@
                                 <div class="collapsible-body">
                                     <ul class="section table-of-contents">
                                         @foreach($helpPages as $item)
-                                            @if($item->page_type == 1)
-                                                <li><a href="#{{$item->slug}}">{{$item->title}}</a></li>
+                                            @if($item->page_type == 2)
+                                                <li><a class="go-to" data-go-to="{{$item->slug}}" href="#{{$item->slug}}">{{$item->title}}</a></li>
                                             @endif
                                          @endforeach
                                     </ul>
@@ -36,8 +36,8 @@
                                 <div class="collapsible-body">
                                     <ul class="section table-of-contents">
                                         @foreach($helpPages as $item)
-                                            @if($item->page_type == 2)
-                                                <li><a href="#{{$item->slug}}">{{$item->title}}</a></li>
+                                            @if($item->page_type == 3)
+                                                <li><a class="go-to" data-go-to="{{$item->slug}}" href="#{{$item->slug}}">{{$item->title}}</a></li>
                                             @endif
                                          @endforeach
                                     </ul>
@@ -47,11 +47,9 @@
                 </div>
                 <div class="col l8">
                     @foreach($helpPages as $item)
-                        @if($item->page_type != null)
-                            <div id="{{$item->slug}}" class="section scrollspy">
+                            <div id="{{$item->slug}}" class="section">
                                 {!!$item->body!!}
                             </div>
-                         @endif
                     @endforeach
                 </div>
                 <div class="col l1"></div>

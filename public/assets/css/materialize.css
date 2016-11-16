@@ -3199,9 +3199,9 @@ ul {
   padding: 0;
 }
 /* line 49, ../scss_default/components/_global.scss */
-ul li {
+/* ul li {
   list-style-type: none;
-}
+} */
 
 /* line 55, ../scss_default/components/_global.scss */
 .clearfix {
