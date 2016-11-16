@@ -2,6 +2,10 @@
     max-width: 100%;
 }
 
+ul  {
+    list-style: none;
+}
+
 .sort{
 	display: inline-block;
 	vertical-align: middle;
@@ -14,9 +18,13 @@
 .select-wrapper span.caret{
 	right: 15px;
 }
-ul, ul li{
+
+.article ul li,
+.suport ul li{
     list-style-type: initial;
 }
+
+
 footer .links ul li{
    list-style-type: none; 
 }

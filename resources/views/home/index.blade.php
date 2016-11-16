@@ -71,7 +71,7 @@
                         <?php $items = $expire['data']() ?>
 
                         @if(count($items))
-                            <?php $name = $expire['name'] ?>
+                            <?php $name = $meta->getMeta('expire_soon') ?>
 
                             @include('home.partials.carousel')
                         @endif

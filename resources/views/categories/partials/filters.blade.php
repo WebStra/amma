@@ -52,7 +52,7 @@
         </div>
 
         <div class="wrapp_submit">
-            <button type="submit">Filter</button>
+            <button type="submit">{!! $meta->getMeta('filter_submit') !!}</button>
         </div>
     </form>
 </div><!-- category filter -->
