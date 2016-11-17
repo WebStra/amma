@@ -170,7 +170,6 @@ class ProductPresenter extends Presenter
     public function endDate($format = 'm/d/Y')
     {
         $enddate = self::END_DATE;
-
         return $this->model->$enddate->format($format);
     }
 
@@ -189,7 +188,12 @@ class ProductPresenter extends Presenter
 
     public function getTotalSumm()
     {
-        return number_format($this->getSaledPrice() * $this->model->count);
+        if ($this->model->count) {
+            $number = $this->getSaledPrice() * $this->model->count;
+        }else{
+            $number = $this->getSaledPrice();
+        }
+        return number_format($number);
     }
 
     public function getSalesSumm()
@@ -213,8 +217,8 @@ class ProductPresenter extends Presenter
      */
     public function getSalesPercent($rotate = true)
     {   
-        if($this->getSalesSumm()) {
-        $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
+        if($this->getSalesSumm() != 0) {
+            $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
         }
         else {
             $result=0;

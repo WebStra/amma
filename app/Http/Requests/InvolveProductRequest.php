@@ -13,10 +13,7 @@ class InvolveProductRequest extends Request
     public function authorize()
     {
         $product = $this->route()->getParameter('product');
-
-        if ($product
-            && $product->user()->first()->id !== Auth::id()
-        ) {
+        if ($product) {
             if (! $this->getInvolvedRepository()->checkIfAuthInvolved($product))
                 return true;
         }

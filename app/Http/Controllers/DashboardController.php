@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
+use App\Repositories\LotRepository;
 use App\Repositories\ProfileRepository;
 use Illuminate\Contracts\Auth\Guard;
 use App\Http\Requests\UpdateUserSettings;
 use App\Http\Requests\UpdateUserPassword;
 use App\Services\ImageProcessor;
 use Illuminate\Http\UploadedFile;
+
 
 class DashboardController extends Controller
 {
@@ -26,17 +28,20 @@ class DashboardController extends Controller
      * @var Guard
      */
     private $auth;
-
+    
+    private $lots;
     /**
      * DashboardController constructor.
      * @param UserRepository $userRepository
      * @param Guard $auth
      */
-    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository)
+    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository,LotRepository $lotRepository)
     {
         $this->users = $userRepository;
         $this->profile = $profileRepository;
         $this->auth = $auth;
+        $this->lots = $lotRepository;
+
     }
 
     /**
@@ -71,7 +76,7 @@ class DashboardController extends Controller
     public function myInvolved()
     {
         $involved = $this->auth->user()->involved()->active()->get();
-
+        
         return view('dashboard.my-involved', compact('involved'));
     }
 

@@ -31,8 +31,7 @@
                             {{ $item->present()->getSalesPercent() }}% este vândut
                         </div>
                     </div>
-
-                    {{--@include('product.partials.item.countdown')--}}
+                    @include('product.partials.item.countdown')
 
                     <div class="sell_info display-table td_bordered_right">
                         <div class="td">
@@ -49,7 +48,7 @@
                         </div>
                     </div>
 
-                    {{--@include('product.partials.item.form')--}}
+                    @include('product.partials.item.form')
 
                     <div class="row">
                         <div class="col s12">

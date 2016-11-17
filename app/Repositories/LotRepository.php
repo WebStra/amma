@@ -30,6 +30,18 @@ class LotRepository extends Repository
             ]);
     }
 
+    public function find($slug)
+    {
+        if (is_numeric($slug))
+            return $this->getModel()
+                ->whereId((int) $slug)
+                ->first();
+
+        return $this->getModel()
+            ->whereSlug($slug)
+            ->first();
+    }
+
     /**
      * Add empty lot or modify just existed (drafted)..
      *

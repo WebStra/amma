@@ -118,7 +118,8 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        $view = view('product.show')->withItem($product);
+        $lot = $this->lots->find($product->lot_id);
+        $view = view('product.show',['item'=>$product,'lot'=>$lot]);
 
         $same_products = $this->products->getSameProduct($product);
 
