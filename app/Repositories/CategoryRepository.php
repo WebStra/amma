@@ -101,27 +101,17 @@ class CategoryRepository extends Repository
      */
     public function getPopularCategory()
     {
-        $defaultCategory = $this->getDefaultPopularCategory();
-        $category_id = ($defaultCategory) ? $defaultCategory->id : '';
-
         return $this->getModel()
             ->select('*')
             ->where(
                 'id',
                 settings()->getOption(
                     'homepage::popular_category',
-                    $category_id
+                    'value'
                 )
             )
             ->active()
             ->first();
     }
 
-    private function getDefaultPopularCategory()
-    {
-        return self::getModel()
-            ->active()
-            // add join where will show category which the product's count is the bigger.
-            ->first();
-    }
 }

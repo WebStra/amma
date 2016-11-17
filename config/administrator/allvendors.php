@@ -132,6 +132,11 @@ return [
 
         'id' => form_key(),
 
+        'image' => [
+            'type' => 'image',
+            'location' => '/upload/vendors/(:id)',
+        ],
+
         'name' => form_text(),
 
         'phone' => form_text(),

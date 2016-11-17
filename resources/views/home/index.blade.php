@@ -11,7 +11,7 @@
                     <div class="row top_block">
                         @if($popular_category)
                             <div class="col l8 m12 s12 no_padd_l- no_paddl_m-l">
-                                <a href="{{ route('view_category', ['category' => $popular_category->slug]) }}" class="wrapp_img categorie img_hover_over">
+                                <a href="{{ route('view_category', ['category' => str_slug($popular_category->slug)]) }}" class="wrapp_img categorie img_hover_over">
                                     <div class="text">
                                         <h6>{{ $popular_category->present()->renderName(true) }}</h6>
                                         <h3>CATEGORIE POPULARĂ</h3>
@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col l3 m12 s12 hide-on-small-only">
                     <div class="elements divide-top">
-                        <div class="title">{{ $recommended['name'] }}</div>
+                        <div class="title">{{ $meta->getMeta('products_recomendend') }}</div>
                         <ul class="collapsible items" data-collapsible="accordion">
                             <?php $i = 1; ?>
                             @foreach($recommended['data']() as $item)
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="elements bordered mt-15  hide-on-small-only">
-                        <div class="title">{{ strtoupper($posts['name']) }}</div>
+                        <div class="title">{{ $meta->getMeta('blogs_article_recomendend') }}</div>
                         <div class="owl-carousel l-single">
                             @foreach($posts['data']() as $item)
                                 <div class="item article">
@@ -117,7 +117,7 @@
                 <?php $items = $latest['data']() ?>
 
                 @if(count($items))
-                    <?php $name = $latest['name'] ?>
+                    <?php $name = $meta->getMeta('products_latest_homepage') ?>
 
                     @include('home.partials.carousel')
                 @endif
