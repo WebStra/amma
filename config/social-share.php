@@ -14,7 +14,7 @@ return [
             'uri' => 'https://plus.google.com/share', 
             'only' => [ 'url' ]
         ],
-        'twitter' => [
+      /*  'twitter' => [
             'uri' => 'https://twitter.com/intent/tweet',
             'titleName' => 'text'
         ],
@@ -25,6 +25,6 @@ return [
             'extra' => [
                 'noparse' => 'false',
             ]
-        ],
+        ],*/
     ],
 ];
