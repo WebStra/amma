@@ -113,7 +113,7 @@
                         <div class="form_white_area cf">
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">
-                                <input placeholder="Cauta pe site" name="search" type="text"
+                                <input placeholder="{!! $meta->getMeta('top_menu_search_placeholder') !!}" name="search" type="text"
                                        value="{{ (isset($_GET['search'])) ? $_GET['search'] : '' }}">
                             </div>
                         </div>

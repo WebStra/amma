@@ -24,7 +24,7 @@
                                 <?php
                                     /* @warning: This stuff works only for checkbox input's. */
                                     $name = (\App\Repositories\TagRepository::renderDynamicFilterName($group, $tag->normalized));
-                                    $id   = strtolower(sprintf("%s_%s", $group, $tag->name));
+                                    $id   = str_slug(sprintf("%s_%s", $group, $tag->name));
                                 ?>
                                 <input type="checkbox" data-value="{{ (isset($_GET[$name]) ? '1' : '0') }}" name="{{ $name }}" id="{{ $id }}"
                                         {{ (isset($_GET[$name])) ? 'checked' : '' }}>
