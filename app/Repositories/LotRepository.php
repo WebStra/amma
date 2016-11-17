@@ -197,4 +197,14 @@ class LotRepository extends Repository
 
         return false;
     }
+
+    public function getLatestLot($limit = 10)
+    {
+        return self::getModel()
+            ->orderBy('id','DESC')
+            ->active()
+            ->limit($limit)
+            ->get();
+    }
+
 }

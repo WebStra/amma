@@ -101,6 +101,11 @@ Route::multilingual(function () {
         'uses' => 'PagesController@expireSoonProducts'
     ]);
 
+    Route::get('last_added_products', [
+        'as' => 'last_added_products',
+        'uses' => 'PagesController@lastAddedLots'
+    ]);
+
     Route::get('support.html', [
         'as' => 'support',
         'uses' => 'PagesController@support'

@@ -16,11 +16,16 @@
                         <a href="{{ route('home') }}" class="brand-logo valign-wrapper left ">
                             <img src="/assets/images/logo.png" class="valign" alt="">
                         </a>
-
                         <ul class="left nav_wide hide-on-med-and-down">
                             <li><a href='{{ route('expire_soon_products') }}'>
                                     <span class="wrapp_badge">
                                         {!! $meta->getMeta('top_menu_offers') !!}
+                                    </span>
+                                </a>
+                            </li>
+                            <li><a href='{{ route('last_added_products') }}'>
+                                    <span class="wrapp_badge">
+                                        {!! $meta->getMeta('top_menu_last_added') !!}
                                         <span class="badge_top">New</span>
                                     </span>
                                 </a>
@@ -36,6 +41,7 @@
                                 </a>
                             </li>
                         </ul>
+
                         <ul class="side-nav" id="mobile-navbar">
                             <li>
                                 <a href='{{ route('home') }}'>
