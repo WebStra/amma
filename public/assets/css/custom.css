@@ -381,6 +381,9 @@ text-align: left;
 .product-content .wrap-img img{
     max-width: 250px;
 }
+.product-content .name a {
+    color: inherit;
+}
 .subcategories_filters p span{
     width:100%;
 }

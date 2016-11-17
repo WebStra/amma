@@ -93,11 +93,11 @@ class PagesController extends Controller
      * 
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function expireSoonProducts()
+    public function expireSoonLots()
     {
-        $products = $this->products->getExpireSoon(6);
+        $lot = $this->lot->getExpireSoon(10);
 
-        return view('pages.expire_soon_products', compact('products'));
+        return view('pages.expire_soon_products', compact('lot'));
     }
 
     /**

@@ -207,4 +207,15 @@ class LotRepository extends Repository
             ->get();
     }
 
+    public function getExpireSoon($paginate = 10)
+    {
+        $query = $this->getModel()
+            ->select('lots.*')
+            ->where('lots.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
+            ->orderBy('lots.expire_date', self::ASC);
+
+        return $query->paginate($paginate);
+    }
+
 }

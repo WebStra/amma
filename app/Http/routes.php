@@ -96,12 +96,12 @@ Route::multilingual(function () {
         'uses' => 'HomeController@index'
     ]);
 
-    Route::get('expire-soon-products', [
+    Route::get('expire-lots', [
         'as' => 'expire_soon_products',
-        'uses' => 'PagesController@expireSoonProducts'
+        'uses' => 'PagesController@expireSoonLots'
     ]);
 
-    Route::get('last_added_products', [
+    Route::get('last-lots', [
         'as' => 'last_added_products',
         'uses' => 'PagesController@lastAddedLots'
     ]);
