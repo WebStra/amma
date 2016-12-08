@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l12 m6 s12">
+                            <div class="col l12 m12 s12">
                                 <div class="col s2">
                                     <span class="label">NUMELE</span>
                                 </div>
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l12 m6 s12">
+                            <div class="col l12 m12 s12">
                                 <div class="col s2">
                                     <span class="label">PRENUMELE</span>
                                 </div>
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l12 m6 s12">
+                            <div class="col l12 m12 s12">
                                 <div class="col s2">
                                     <span class="label">TELEFON</span>
                                 </div>
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l12 m6 s12">
+                            <div class="col l12 m12 s12">
                                 <div class="col s2">
                                     <span class="label">EMAIL</span>
                                 </div>
@@ -82,10 +82,22 @@
                                 </div>
                             </div>
                             {{csrf_field()}}
-                            <div class="col l8 m12 s12 offset-l2 profile_settings_submit">
+                            <div class="profile_settings_submit" style="max-width:250px; float: right; margin-right: 25px;">
                                 <input type="submit" class="btn btn_base center-block full_width" value="Salveaza modificarile">
                             </div>
                         </form>
+                    </div>
+                    <br>
+                    <div class="profile-delete">
+                        <div class="row">
+                            <div class="col s12">
+                                <h4>Sterge Contul</h4>
+                                <hr color="#eee">
+                                <div class="col s12">
+                                    <a href="#" onclick="return confirm('Are you sure you want to delete account?');"><i class="material-icons">delete</i>Sterge Contul meu</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

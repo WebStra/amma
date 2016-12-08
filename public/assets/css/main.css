@@ -1563,7 +1563,8 @@ ul.social a.icon-google-plus {
 }
 /* line 1333, ../sass/main.scss */
 .person_card .links_to li {
-  margin-top: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 /* line 1335, ../sass/main.scss */
 .person_card .links_to li a {

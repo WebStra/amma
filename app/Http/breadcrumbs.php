@@ -110,6 +110,12 @@ Breadcrumbs::register('settings', function ($breadcrumbs, $key = 'breadcrumbs_se
     $breadcrumbs->push($repository->getKey($key)->value, route('settings'));
 });
 
+Breadcrumbs::register('user_password', function ($breadcrumbs, $key = 'breadcrumbs_user_password') {
+    $repository = new TranslateRepository();
+
+    $breadcrumbs->push($repository->getKey($key)->value, route('user_password'));
+});
+
 Breadcrumbs::register('my_involved', function ($breadcrumbs) {
     //todo: dashoboard.
     $breadcrumbs->push('My Involved', route('my_involved'));

@@ -410,7 +410,23 @@ text-align: left;
     padding: 0 10px;
     padding-bottom: 50px;
 }
-.profile-settings h4{
+.profile-delete {
+    border:1px solid #eee;
+    padding: 0 10px;
+}
+.profile-delete a{
+    display: block;
+    color: #424242;
+    padding: 10px 0;
+}
+.profile-delete i {
+    font-size: 20px;
+    position: relative;
+    top: 4px;
+    right: 4px;
+}
+.profile-settings h4,
+.profile-delete h4{
     font-weight: 600;
 }
 
@@ -427,3 +443,8 @@ text-align: left;
     margin-top:30px;
 }
 
+.profile_settings_submit {
+    max-width: 250px;
+    float: right;
+    margin-right: 25px;
+}
