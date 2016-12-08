@@ -448,3 +448,15 @@ text-align: left;
     float: right;
     margin-right: 25px;
 }
+
+.dropdown-content li {
+    min-height: 5px;
+}
+
+.top_bar .dropdown-content li:first-of-type a {
+    padding-top: 0;
+}
+
+.top_bar .dropdown-content li:last-of-type a {
+    padding-bottom: 0;
+}
