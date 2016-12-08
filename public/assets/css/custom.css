@@ -392,7 +392,6 @@ text-align: left;
 .help-page .section{
     padding: 0;
 }
-<<<<<<< HEAD
 .label-delivery{
     display: block;
     text-align: left;
@@ -401,7 +400,6 @@ text-align: left;
     font-size: 0.8rem;
     color: #9e9e9e;
 }
-=======
 
 .info_video_amma {
     margin-top:30px;
@@ -428,4 +426,4 @@ text-align: left;
 .profile-settings input[type=submit] {
     margin-top:30px;
 }
->>>>>>> 57f52bc633176badaec84cd4c87c4c7a68c036ce
+
