@@ -10,10 +10,12 @@
                         <hr color="#eee">
                         <form action="{{route('update_settings')}}" method="POST" class="styled2 row"
                               enctype="multipart/form-data">
+                            <div class="col s12">
                             <?php $fields = ['fname', 'lname', 'phone', 'email']; ?>
                             @foreach($fields as $field)
                                 @include('partials.errors.settings-error',['field' => $field])
                             @endforeach
+                            </div>
                             <div class="col l12 m12 s12">
                                 <div class="col s2">
                                     <span class="label">Avatar</span>
@@ -30,6 +32,17 @@
                                                    value="{{ Auth::user()->present()->cover()}}">
                                         </div>
                                         <p class="left settings_avatar_format">* PNG, JPG minim 76x76px, proportie 1:1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l12 m12 s12">
+                                <div class="col s2">
+                                    <span class="label">EMAIL</span>
+                                </div>
+                                <div class="col s10">
+                                    <div class="input-field">
+                                        <input type="email" name="email" value="{{ old('email') ? : Auth::user()->email }}"
+                                               placeholder="Ex: maria@gmail.com">
                                     </div>
                                 </div>
                             </div>
@@ -67,17 +80,6 @@
                                                value="{{ old('phone') ? : isset(Auth::user()->profile->phone) ? Auth::user()->profile->phone : '' }}"
                                                length="8">
                                         <span class="country_code">+373</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l12 m12 s12">
-                                <div class="col s2">
-                                    <span class="label">EMAIL</span>
-                                </div>
-                                <div class="col s10">
-                                    <div class="input-field">
-                                        <input type="email" name="email" value="{{ old('email') ? : Auth::user()->email }}"
-                                               placeholder="Ex: maria@gmail.com">
                                     </div>
                                 </div>
                             </div>
