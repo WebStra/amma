@@ -28,4 +28,13 @@ class SubCategoriesRepository extends Repository
             ->whereSlug($slug)
             ->first();
     }
+
+    public function getSubCategory($category_id)
+    {
+        return self::getModel()
+            ->select('*')
+            ->translated()
+            ->whereCategoryId($category_id)
+            ->get();
+    }  
 }

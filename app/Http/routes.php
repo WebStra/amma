@@ -251,6 +251,34 @@ Route::multilingual(function () {
                 'uses' => 'LotsController@saveLot'
             ]);
 
+            Route::post('lots/update/{lot}', [
+                'as' => 'update_lot',
+                'middleware' => 'accept-ajax',
+
+                'uses' => 'LotsController@updateLot'
+            ]);
+
+            Route::group(['middleware' => 'accept-ajax'], function () {
+                Route::post('product/{product}/add-image', [
+                    'as' => 'add_product_image',
+                    'uses' => 'ProductsController@addImage'
+                ]);
+
+//                Route::post('product/{product}/remove-image', [
+//                    'as' => 'remove_product_image',
+//                    'uses' => 'ProductsController@removeImage'
+//                ]);
+
+                Route::post('product/{product}/image-sort', [
+                    'as' => 'sort_product_image',
+                    'uses' => 'ProductsController@saveImagesOrder'
+                ]);
+            });
+/*            Route::post('lots/update/{lot}', [
+                'as' => 'update_lot',
+                'middleware' => 'update_lot_filter',
+                'uses' => 'LotsController@updateLot'
+            ]);*/
             Route::post('lots/{lot}/product/load-spec', [
                 'as' => 'load_spec',
                 'uses' => 'LotsController@loadSpec'

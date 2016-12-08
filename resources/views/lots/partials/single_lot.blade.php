@@ -52,7 +52,7 @@
     @if(count($lot->products))
         <?php $i = 1?>
         @foreach($lot->products as $item)
-            @include('lots.partials.lot_product', [ 'collapse' => ($i > 3) ? true : false ])
+            @include('lots.partials.lot_product', [ 'collapse' => ($i > 1) ? true : false ])
             <?php $i++ ?>
         @endforeach
 

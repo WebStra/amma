@@ -25,13 +25,19 @@ return [
 
         'tag_id' => [
             'output' => function($row){
-                return $row->tag->name;
+                if($row->tag)
+                    return $row->tag->name;
+
+                return 'no tag';
+
             }
         ],
-
         'taggable_id' => [
             'output' => function($row){
-                return $row->taggable->name;
+                if($row->taggable)
+                    return $row->taggable->name;
+
+                return 'no taggable';
             }
         ],
 

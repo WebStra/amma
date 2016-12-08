@@ -8,7 +8,7 @@
             <div class="inner_product border margin15" style="cursor: default;">
                 <div class="col l4 m6 s12">
                     <div class="input-field product_gallery">
-                        <p>PHOTO</p>
+                        <p>{{ $meta->getMeta('photo') }}</p>
                         @if(count($images = $product->images))
                             <img class="materialboxed img-responsive cover_image_product" src="{{ $product->present()->cover() }}">
                         @else
@@ -25,7 +25,7 @@
 
                         <a href="#upload_imgs" class="waves-effect waves-light btn blue" style="width: 100%; margin-top:5px;"
                            onclick="callUploadImages(this, 'image'); return false;"><i
-                                    class="material-icons left">input</i>&nbsp;Upload Image</a>
+                                    class="material-icons left">input</i>&nbsp;{{ $meta->getMeta('form_lot_upload') }}</a>
 
                         <input type="file" name="image[]" multiple
                                style="display: none" onchange="uploadImages(this);">
@@ -36,10 +36,10 @@
                     <div class="row">
                         <div class="col l6 s12">
                             <div class="input-field">
-                                <span class="label">NAME</span>
+                                <span class="label">{{ $meta->getMeta('label_name') }}</span>
                                 <input type="text" required="required" name="name"
                                        value="{{ ($product->name) ? : '' }}"
-                                       placeholder="Product's name">
+                                       placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
                             </div>
                         </div><!-- name -->
 
@@ -47,10 +47,10 @@
                             @if(count($sub_categories = $lot->category->subCategories))
                                 <div class="col l6 s12">
                                     <div class="input-field">
-                                        <span class="label">{{ strtoupper('Subcategory') }}</span>
+                                        <span class="label">{{ $meta->getMeta('subcategory') }}</span>
                                         <select class="subcategories browser-default" name="sub_category"
                                                 required="required">
-                                            <option value="">Select subcategory</option>
+                                            <option value="">{{ $meta->getMeta('select_subcategory') }}</option>
                                             @foreach($sub_categories as $sub_category)
                                                 <?php $selected = ($product->sub_category_id == $sub_category->id) ? 'selected' : ''; ?>
                                                 <option value="{{ $sub_category->id }}"
@@ -64,7 +64,7 @@
 
                         <div class="col l6 s12">
                             <div class="input-field">
-                                <span class="label">{{ strtoupper('old price') }}</span>
+                                <span class="label">{{ $meta->getMeta('old_price') }}</span>
                                 <input type="text" class="old_price" required="required" name="old_price"
                                        value="{{ ($product->old_price) ? : '' }}"
                                        placeholder="0.00">
@@ -77,7 +77,7 @@
 
                         <div class="col l6 s12 ">
                             <div class="input-field">
-                                <span class="label">{{ strtoupper('new price') }}</span>
+                                <span class="label">{{ $meta->getMeta('new_price') }}</span>
                                 <input type="text" required="required" class="new_price" name="price"
                                        value="{{ ($product->price) ? : '' }}"
                                        placeholder="0.00">
@@ -90,7 +90,7 @@
 
                         <div class="col l6 s12">
                             <div class="input-field">
-                                <span class="label">{{ strtoupper('SALE') }}</span>
+                                <span class="label">{{ $meta->getMeta('sale') }}</span>
                                 <input type="text" class="create_sale" name="sale" placeholder="0%"
                                        value="{{ ($product->sale) ? : '' }}">
                                 <span style="position: absolute;top:31px;right: 15px;color: #ff6f00;">%</span>
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="col l12 m12 s12">
-                            <label style="float: right;">Add specifications for your product. <a onclick="loadSpec(this); return false;" href="#add-spec">Add</a></label>
+                            <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpec(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
                         </div>
                     </div><!--Specs-->
 
@@ -128,7 +128,7 @@
                         @endif
                         <div class="row">
                             <div class="col l12 m12 s12">
-                                <label style="float: right;">Add improved specifications for your product. <a onclick="loadImprovedSpec(this); return false;" href="#add-spec">Add</a></label>
+                                <label style="float: right;">{{ $meta->getMeta('add_specifications') }} <a onclick="loadImprovedSpec(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
                             </div>
                         </div><!--add spec-->
                     </div><!--Improved specs-->
@@ -147,7 +147,7 @@
                                     <div class="input-field">
                                         <a href="#remove-product" onclick="deleteProductBlock(this); return false;"
                                            class="waves-effect waves-light btn red btn-remove-product"><i
-                                                    class="material-icons left">delete</i>Del</a>
+                                                    class="material-icons left">delete</i>{{ $meta->getMeta('form_lot_del') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                             <div class="input-field">
                                 <button type="submit"
                                         class="waves-effect waves-light btn save-product"><i
-                                            class="material-icons left">loop</i>Save
+                                            class="material-icons left">loop</i>{{ $meta->getMeta('form_lot_save') }}
                                 </button>
                             </div>
                         </div>

@@ -1,18 +1,18 @@
 
-            <h1>ÎNREGISTRAREA CONTULUI</h1>
-            <p>Completează formularul pentru a crea un cont.</p>
+            <h1>{!!$meta->getMeta('register_account')!!}</h1>
+            <p>{!!$meta->getMeta('label_register_account')!!}</p>
             <form action="{{ route('post_register') }}" class="form styled3 
             {{ (request()->route()->getName() == 'get_register') ? "row" : ""}}" data-authtype="register" 
                 method="post" data-action='{{ route('auth_modal_register') }}'>
                 @include('partials.errors.list')
                  <div class="col s12">
                         <div class="input-field">
-                            <input type="text" name="firstname" required placeholder="Firstname" value="{{ old('firstname') }}">
+                            <input type="text" name="firstname" required placeholder="{!!$meta->getMeta('firstname')!!}" value="{{ old('firstname') }}">
                         </div>
                     </div>
                      <div class="col s12">
                         <div class="input-field">
-                            <input type="text" name="lastname" required placeholder="Lastname" value="{{ old('lastname') }}">
+                            <input type="text" name="lastname" required placeholder="{!!$meta->getMeta('lastname')!!}" value="{{ old('lastname') }}">
                         </div>
                     </div>
                      <div class="col s12">
@@ -29,25 +29,25 @@
                     </div>
                     <div class="col s12">
                         <div class="input-field">
-                            <input type="password" required name="password" placeholder="Enter password">
+                            <input type="password" required name="password" placeholder="{!!$meta->getMeta('enter_password')!!}">
                         </div>
                     </div>
                     <div class="col s12">
                         <div class="input-field">
-                            <input type="password" required name="password_confirmation" placeholder="Confirm password">
+                            <input type="password" required name="password_confirmation" placeholder="{!!$meta->getMeta('password_confirmation')!!}">
                         </div>
                     </div>
                     <div class="col s12">
-                        <input type="submit" value="Crează un cont" class="btn btn_base btn_submit full_width auth_register_ajax">
+                        <input type="submit" value="{!!$meta->getMeta('create_account')!!}" class="btn btn_base btn_submit full_width auth_register_ajax">
                         <div class="input-field">
                             <a href="{{ route('social_auth', 'facebook') }}" class="btn btn_facebook full_width">
-                                <i class="icon-facebook"></i>&nbsp;Intră cu ajutorul Facebook
+                                <i class="icon-facebook"></i>&nbsp;{!!$meta->getMeta('login_fb')!!}
                             </a>
                             <a href="#" class="btn btn_gplus full_width">
-                                <i class="icon-google-plus"></i>&nbsp;Intră cu ajutorul Google+
+                                <i class="icon-google-plus"></i>&nbsp;{!!$meta->getMeta('login_gplus')!!}
                             </a>
-                            <p class="center">Ai deja un cont? <a href="{{ route('get_login') }}" class="c_base
-                            ">Intră în cont</a></p>
+                            <p class="center">{!!$meta->getMeta('am_deja_account')!!} <a href="{{ route('get_login') }}" class="c_base
+                            ">{!!$meta->getMeta('login_to_account')!!}</a></p>
                         </div>
                     </div>
                 {!! csrf_field() !!}

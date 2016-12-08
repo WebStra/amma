@@ -26,7 +26,7 @@
         }
 
         $(document).ready(function () {
-            $(".add_product").delegate("input.old_price, input.new_price, input.create_sale", "keyup", function (event) {
+            $('body').delegate("input.old_price, input.new_price, input.create_sale", "keyup", function (event) {
                 var curent_product = $(this).parents('.inner_product');
 
                 var sale = curent_product.find('input.create_sale');
@@ -182,15 +182,19 @@
         });
 
         $('input.input-amount').keyup(function (event) {
-            var procent = $('#parent_categories').find(':selected').data('procent');
+            var procent = $('#parent_category').find(':selected').data('procent');
             var sum = $(this).val();
-            $('.comision-val').text(Math.round(sum / 100 * procent).toFixed(0));
+            var comision = Math.round(sum / 100 * procent).toFixed(0);
+            $('.comision-val').text(comision);
+            $('.js-comision').val(comision);
         });
 
-        $('#parent_categories').change(function (event) {
+        $('#parent_category').change(function (event) {
             var procent = $(this).find(':selected').data('procent');
             var sum = $('input.input-amount').val();
-            $('.comision-val').text(Math.round(sum / 100 * procent).toFixed(0));
+            var comision = Math.round(sum / 100 * procent).toFixed(0);
+            $('.comision-val').text(comision);
+            $('.js-comision').val(comision);
         });
 
 
@@ -217,16 +221,22 @@
         var __$to = {};
         $from.pickadate({
             selectMonths: true,
-            selectYears: 3,
+            selectYears: 2,
             format: 'dd.mm.yyyy',
+            closeOnSelect: true,
             closeOnClear: true,
-            min: true,
+            min: 1,
+            today:'',
             onRender: function () {
                 __$from = this;
             },
-            onSet: function () {
+            onSet: function (ele) {
                 var picker = this;
                 __$to.set('min', picker.get());
+                if(ele.select){
+                    picker.close();
+                }
+                //picker.close();
             },
             onOpen: function(){
                 __$from.set('max', __$to.get());
@@ -238,10 +248,13 @@
 
         $to.pickadate({
             selectMonths: true,
-            selectYears: 3,
+            selectYears: 2,
             format: 'dd.mm.yyyy',
+            closeOnSelect: true,
             closeOnClear: true,
-            min: 2,
+            min: 1,
+            max: 30,
+            today:'',
             onRender: function () {
                 __$to = this;
             },
@@ -251,8 +264,19 @@
                 $(document.activeElement).blur();
             },
             onOpen: function(){
-                __$to.set('min', __$from.get());
+                var new_date = moment(__$from.get(), "DD.MM.YYYY").add(5, 'days').locale('ro');
+                console.log(new Date());
+                console.log(moment());
+                __$to.set('min', new_date.format('L'));
+            },
+            onSet: function (ele) {
+                var picker = this;
+                //picker.close();
+                if(ele.select){
+                    picker.close();
+                }
             }
+
         });
     });
 

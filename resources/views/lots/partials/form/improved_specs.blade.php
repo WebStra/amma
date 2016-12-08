@@ -2,13 +2,13 @@
     <div class="size_color_sold_item overflow" data-suite-spec="{{ $spec->id }}">
         <div class="col l4 m12 s12">
             <div class="input-field">
-                <span class="label">{{ strtoupper('size') }}</span>
+                <span class="label">{{ $meta->getMeta('form_lot_size') }}</span>
                 <input type="text" required="" name="i_spec[{{ $spec->id }}][size]" value="{{ ($spec->size) ? $spec->size : '' }}" placeholder="Size">
             </div>
         </div>
         <div class="col l4 m12 s12">
             <div class="input-field">
-                <span class="label">{{ strtoupper('colors') }}</span>
+                <span class="label">{{ $meta->getMeta('form_lot_color') }}</span>
                 <div class="file-field input-colorpicker">
                     <div class="btn" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></div>
                     <div class="file-path-wrapper">
@@ -19,7 +19,7 @@
         </div>
         <div class="col l3 m10 s10">
             <div class="input-field">
-                <span class="label">{{ strtoupper('sold') }}</span>
+                <span class="label">{{ $meta->getMeta('form_lot_sold') }}</span>
                 <input type="text" required="" name="i_spec[{{ $spec->id }}][sold]" value="{{ ($spec->amount) ? $spec->amount : '' }}" placeholder="0">
             </div>
         </div>

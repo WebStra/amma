@@ -35,13 +35,12 @@ class DashboardController extends Controller
      * @param UserRepository $userRepository
      * @param Guard $auth
      */
-    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository,LotRepository $lotRepository)
+    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository, LotRepository $lotRepository)
     {
-        $this->users = $userRepository;
+        $this->users   = $userRepository;
         $this->profile = $profileRepository;
-        $this->auth = $auth;
-        $this->lots = $lotRepository;
-
+        $this->auth    = $auth;
+        $this->lots    = $lotRepository;
     }
 
     /**

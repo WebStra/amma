@@ -7,9 +7,12 @@ use App\Lot;
 use App\Repositories\ImprovedSpecRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\SubCategoriesRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
 
 class LotsController extends Controller
 {
@@ -34,6 +37,11 @@ class LotsController extends Controller
     protected $improvedSpecs;
 
     /**
+     * @var ImprovedSpecRepository
+     */
+    protected $sub_category;
+
+    /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
      * @param ProductsRepository $productsRepository
@@ -44,12 +52,14 @@ class LotsController extends Controller
         LotRepository $lotRepository,
         ProductsRepository $productsRepository,
         ImprovedSpecRepository $improvedSpecRepository,
+        SubCategoriesRepository $subCategoriesRepository,
         Guard $auth
     ) {
         $this->lots = $lotRepository;
         $this->auth = $auth;
         $this->products = $productsRepository;
         $this->improvedSpecs = $improvedSpecRepository;
+        $this->sub_category = $subCategoriesRepository;
     }
 
     /**
@@ -96,15 +106,25 @@ class LotsController extends Controller
      *
      * @return string
      */
-    public function selectCategory(Request $request, Lot $lot)
+/*    public function selectCategory(Request $request, Lot $lot)
     {
         if($this->lots->checkIfPossibleToChangeCategory($lot)) {
             $this->lots->changeCategory($lot, $request->get('category_id'));
-
             return 'true';
         }
 
         return 'false';
+    }*/
+
+    public function selectCategory(Request $request, Lot $lot)
+    {
+        $sub_category = $this->sub_category->getSubCategory($request->get('category_id'));
+        $this->lots->changeCategory($lot, $request->get('category_id'));
+        $json = array(
+            'sub_category' => $sub_category,
+            'respons'      => true
+        );
+         return response($json);
     }
 
     /**
@@ -160,10 +180,18 @@ class LotsController extends Controller
     public function saveLot(SaveLotRequest $request, Lot $lot)
     {
         $lot = $this->lots->save($lot, $request->all());
-
         return redirect()->route('edit_lot', [ $lot ])
             ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
     }
+
+    public function updateLot(SaveLotRequest $request, Lot $lot)
+    {
+        $lot = $this->lots->save($lot, $request->all());
+
+        return response(array('respons'=>true));
+        
+    }
+
 
     /**
      *

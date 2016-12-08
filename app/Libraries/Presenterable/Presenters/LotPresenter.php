@@ -3,6 +3,7 @@
 namespace App\Libraries\Presenterable\Presenters;
 
 use Carbon\Carbon;
+use Jenssegers\Date\Date;
 
 class LotPresenter extends Presenter
 {
@@ -89,37 +90,27 @@ class LotPresenter extends Presenter
      *
      * @return string
      */
-    public function getExpireDateAsString()
+
+
+    public function getExpireDateAsString($format = 'd.m.Y')
     {
-        $enddate = self::END_DATE;
+        Date::setLocale(\Lang::slug());
 
-        $date = $this->model->$enddate;
-
-        if($date instanceof Carbon)
-        {
-            return $date->toDateTimeString();
-        }
-
-        return '';
+        $date = Date::createFromTimestamp(
+            $this->model->expire_date->timestamp
+        );
+        return $date->format($format);
     }
 
-    /**
-     * Get expire date as string.
-     *
-     * @return string
-     */
-    public function getPublicDateAsString()
+    public function getPublicDateAsString($format = 'd.m.Y')
     {
-        $public_date = self::PUBLIC_DATE;
+        Date::setLocale(\Lang::slug());
 
-        $date = $this->model->$public_date;
+        $date = Date::createFromTimestamp(
+            $this->model->public_date->timestamp
+        );
 
-        if($date instanceof Carbon)
-        {
-            return $date->toDateTimeString();
-        }
-
-        return '';
+        return $date->format($format);
     }
 
 

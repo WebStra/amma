@@ -45,7 +45,10 @@ class Lot extends Repository
         'expire_date',
         'status',
         'verify_status',
-        'active'
+        'active',
+        'comision',
+        'description_delivery',
+        'description_payment'
     ];
 
     protected $dates = [

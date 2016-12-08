@@ -10,27 +10,26 @@
     <section class="">
         <div class="container" id="lot_canvas">
             <div class="card-panel amber darken-4">
-                <span class="white-text">Setarii generale pentru lot (Step 1)</span>
+                <span class="white-text">{{ $meta->getMeta('create_lot_step_1') }}</span>
             </div>
             <div class="padding15 border lot">
                 <div class="row">
-                    <form method="post" action="{{ route('create_lot', [ 'lot' => $lot->id ]) }}" id="create_form_lot" onsubmit="createLot(this)" class="form form-lot"
+                    <form method="post" action="{{ route('create_lot', [ 'lot' => $lot->id ]) }}" id="create_form_lot" class="form form-lot"
                           enctype="multipart/form-data">
                         <div class="col l6 m6 s12">
                             <div class="input-field">
-                                <span class="label">NAME</span>
-                                <input type="text" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="Lot's name">
+                                <span class="label">{{ $meta->getMeta('lot_name') }}</span>
+                                <input type="text" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
                             </div>
                         </div>
 
                         @if(count($categories))
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
-                                    <span class="label">{{ strtoupper('category') }}</span>
+                                    <span class="label">{{ $meta->getMeta('category_lot') }}</span>
                                     <select class="browser-default" id="parent_category"
-                                            name="category" required="required"
-                                            {{ (count($lot->products)) ? 'disabled' : '' }}>
-                                        <option value="">Select category</option>
+                                            name="category" required="required">
+                                        <option value="">{{ $meta->getMeta('label_select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option data-procent="{{ $category->present()->renderTax() }}"
                                                     value="{{ $category->id }}"
@@ -40,53 +39,90 @@
                                 </div>
                             </div><!-- Categories -->
                         @else
-                            <span>No categories</span>
+                            <span>{{ $meta->getMeta('no_category') }}</span>
                         @endif
                         <div class="col l6 m6 s12">
                             <div class="input-field date-published">
-                                <span class="label">{{ strtoupper('published date(from)') }}</span>
-                                <input type="date" class="datepicker-from" required="" name="public_date" value="{{ $lot->public_date }}"
+                                <span class="label">{{ $meta->getMeta('published_date') }}</span>
+                                <input type="date" class="datepicker-from" required="" name="public_date" value="{{ $lot->present()->getPublicDateAsString() }}"
                                        data-value="">
+                                <span class="date-publish-info info-label"><i>{{ $meta->getMeta('info_label_date_publish') }}</i></span>
                             </div>
                         </div><!-- Datetime (from) -->
                         <div class="col l6 m6 s12">
                             <div class="input-field date-expiration">
-                                <span class="label">{{ strtoupper('expiration date(to)') }}</span>
-                                <input type="date" class="datepicker-to" required="" name="expirate_date" value="{{ $lot->expire_date }}"
+                                <span class="label">{{ $meta->getMeta('expiration_date') }}</span>
+                                <input type="date" class="datepicker-to" required="" name="expirate_date" value="{{ $lot->present()->getExpireDateAsString() }}"
                                        data-value="">
+                                <br>
+                                <br>
                             </div>
                         </div><!-- Datetime (to) -->
 
                         @if(count($currencies))
                         <div class="col l6 m6 s12">
                             <div class="input-field">
-                                <span class="label">{{ strtoupper('Currency') }}</span>
+                                <span class="label">{{ $meta->getMeta('currency') }}</span>
                                 <select name="currency" required class="currency">
                                     @foreach($currencies as $currency)
-                                        <option data-sign="{{ $currency->sign }}" data-title="{{ $currency->title }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
+                                        <option data-sign="{{ $currency->sign }}" {{ ($lot->currency_id == $currency->id) ? 'selected' : ''}} data-title="{{ $currency->title }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div><!-- Currency -->
                         @else
-                            <span>No active currencies</span>
+                            <span>{{ $meta->getMeta('no_active_currency') }}</span>
                         @endif
 
-                        <div class="col l3 m6 s12">
+                        <div class="col l6 m6 s12">
                             <div class="input-field">
-                                <span class="label">Complete dupa sumă</span>
+                                <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
                                 <input type="text" class="input-amount" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
+                                <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span></i></span>
+                                <input type="hidden" class="js-comision" value="{{$lot->comision}}" name="comision">
                                 @if(count($currencies))
                                     <span class="currency_type" style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="col l12 m12 s12">
+                        <div class="col l6 m6 s12">
+                            <span class="label label-delivery">{{ $meta->getMeta('label_delivery_method') }}</span>
+                            <input id="delivery1" type="checkbox" class="" name="delivery1" value="">
+                            <label for="delivery1">Livrare la domiciliu</label>
+                            <input id="delivery2" type="checkbox" class=""  name="delivery2" value="">
+                            <label for="delivery2">Ridicarea de la vânzator</label>
+                            <input id="delivery3" type="checkbox" class="" name="delivery3" value="">
+                            <label for="delivery3">Nu necesita livrare</label>
                             <div class="input-field">
-                                <span class="label">DESCRIPTION</span>
-                                <textarea name="description">{{ old('description') ? old('description') : $lot->description }}</textarea>
+                                <span class="label">{{ $meta->getMeta('description_delivery') }}</span>
+                                <textarea name="description_delivery" maxlength="300" placeholder="{{ $meta->getMeta('placeholder_description_delivery') }}">{{ old('description_delivery') ? old('description_delivery') : $lot->description_delivery }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col l6 m6 s12">
+                            <span class="label label-delivery">{{ $meta->getMeta('label_payment_method') }}</span>
+                            <input id="payment1" type="checkbox" class="" name="payment1" value="">
+                            <label for="payment1">Numerar</label>
+                            <input id="payment2" type="checkbox" class=""  name="payment2" value="">
+                            <label for="payment2">Prin transfer</label>
+                            <input id="payment3" type="checkbox" class="" name="payment3" value="">
+                            <label for="payment3">Alte metode</label>
+                            <div class="input-field">
+                                <span class="label">{{ $meta->getMeta('description_payment') }}</span>
+                                <textarea name="description_payment" maxlength="300" placeholder="{{ $meta->getMeta('placeholder_description_payment') }}">{{ old('description_payment') ? old('description_payment') : $lot->description_payment }}</textarea>
+                            </div>
+                        </div>
+                       <div class="col l12 m12 s12">
+                           <div class="input-field">
+                               <span class="label">{{ $meta->getMeta('label_description_lot') }}</span>
+                               <textarea name="description" maxlength="300" placeholder="{{ $meta->getMeta('placeholder_description_lot') }}">{{ old('description') ? old('description') : $lot->description }}</textarea>
+                           </div>
+                       </div>
+                        <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
+                            <div class="input-field">
+                                <button type="submit" class="waves-effect waves-light btn save-lot"><i class="material-icons left">loop</i>{{ $meta->getMeta('form_lot_save') }}
+                                </button>
                             </div>
                         </div>
 
@@ -95,7 +131,7 @@
                 </div>
             </div>
             <div class="card-panel amber darken-4">
-                <span class="white-text">Adaugarea produselor in lot (Step 2)</span>
+                <span class="white-text">{{ $meta->getMeta('create_lot_step_2') }}</span>
             </div>
 
             @if(count($lot->products))
@@ -110,7 +146,7 @@
                 <div class="margin15">
                     <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
                         <a href="#add-product" class="waves-effect waves-light btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
-                                    class="material-icons left">library_add</i>Add product</a>
+                                    class="material-icons left">library_add</i>{{ $meta->getMeta('add_product') }}</a>
                     </div>
                 </div>
             </div>
@@ -118,14 +154,14 @@
 
         <div class="container">
             <div class="card-panel amber darken-4">
-                <span class="white-text">Crearea lotului (Step 3)</span>
+                <span class="white-text">{{ $meta->getMeta('create_lot_step_3') }}</span>
             </div>
 
             <div class="row">
                 <div class="margin15">
                     <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
                         <button form="create_form_lot" class="btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
-                                    class="material-icons left">save</i>Create</button>
+                                    class="material-icons left">save</i>{{ $meta->getMeta('create') }}</button>
                     </div>
                 </div>
             </div>
@@ -134,6 +170,7 @@
 @endsection
 
 @section('js')
+    {!!Html::script('/assets/plugins/moment/min/moment-with-locales.js')!!}
     {!!Html::script('/assets/plugins/pickadate/lib/translations/ro_RO.js')!!}
     {{--{!!Html::script('/assets/js/dropzone.js')!!}--}}
     {!!Html::script('/assets/plugins/materialize-colorpicker/prism/prism.js')!!}
@@ -165,7 +202,7 @@
                             format: 'hex'
                         }).removeClass('disabled_colorpicker');
 
-                        $(category_input).attr('disabled', '');
+                        //$(category_input).attr('disabled', '');
                     } else {
                         alert('Select category first');
 
@@ -197,7 +234,14 @@
                     $.ajax({
                         type: 'POST',
                         data: { category_id: value },
-                        url: "{{ route('lot_select_category', [ $lot->id ]) }}"
+                        url: "{{ route('lot_select_category', [ $lot->id ]) }}",
+                         success: function (response) {
+                            var option = '<option value="">{{ $meta->getMeta('select_subcategory') }}</option>';
+                            $.each(response.sub_category, function(index, item) {
+                                 option += '<option value="'+item.id+'">'+item.name+'</option>'
+                            });
+                            $('.subcategories').html(option);
+                        }
                     });
                 }
             });
@@ -403,12 +447,27 @@
                 });
             }
         }
-
         function createLot(form) // On create product.
         {
             console.log('open modal');
             return false;
             //
         }
+        $('#create_form_lot').submit(function(event) {
+            event.preventDefault();
+            current = $(this);
+            var serialize = current.serialize();
+            console.log(current.attr('action'));
+            $.ajax({
+                url: "{{ route('update_lot', [ $lot->id ]) }}",
+                data: serialize,
+                method: 'POST',
+                success: function (response) {
+                    toastr["success"]("Success.");
+                  console.log(response);
+                    // use it here
+                }
+            });
+        });
     </script>
 @endsection

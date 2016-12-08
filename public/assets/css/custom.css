@@ -234,10 +234,6 @@ b, strong{
     background-color: #fff;
     cursor: move;
 }
-.comision{
-    font-size: 0.8rem;
-    color: #9e9e9e;
-}
 .set_vote i {
     font-size: 18px;
     color: #828384;
@@ -395,4 +391,12 @@ text-align: left;
 }
 .help-page .section{
     padding: 0;
+}
+.label-delivery{
+    display: block;
+    text-align: left;
+}
+.info-label {
+    font-size: 0.8rem;
+    color: #9e9e9e;
 }

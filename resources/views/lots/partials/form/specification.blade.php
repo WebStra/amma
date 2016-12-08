@@ -2,7 +2,7 @@
      data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
     <div class="col l6 m12 s12">
         <div class="input-field spec_name">
-            <span class="label">{{ strtoupper('name') }}</span>
+            <span class="label">{{ $meta->getMeta('label_name') }}</span>
             <input type="text" name="spec[{{ isset($block_id) ? $block_id : 1 }}][key]"
                    value="{{ isset($spec['key']) ? $spec['key'] : '' }}">
         </div>
@@ -10,7 +10,7 @@
 
     <div class="col l5 m10 s10">
         <div class="input-field spec_value">
-            <span class="label">{{ strtoupper('description') }}</span>
+            <span class="label">{{ $meta->getMeta('description_spec') }}</span>
             <input type="text" name="spec[{{ isset($block_id) ? $block_id : 1 }}][value]"
                    value="{{ isset($spec['value']) ? $spec['value'] : '' }}">
         </div>
