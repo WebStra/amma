@@ -298,7 +298,7 @@ text-align: left;
 .country_code {
     position: absolute;
     left: 3px;
-    top: 34px;
+    top: 12px;
 }
 .register_form_phone input{
     padding-left: 32px;
@@ -392,6 +392,7 @@ text-align: left;
 .help-page .section{
     padding: 0;
 }
+<<<<<<< HEAD
 .label-delivery{
     display: block;
     text-align: left;
@@ -400,3 +401,31 @@ text-align: left;
     font-size: 0.8rem;
     color: #9e9e9e;
 }
+=======
+
+.info_video_amma {
+    margin-top:30px;
+}
+
+.profile-settings {
+    border:1px solid #eee;
+    padding: 0 10px;
+    padding-bottom: 50px;
+}
+.profile-settings h4{
+    font-weight: 600;
+}
+
+.profile-settings .label{
+    text-align: left;
+    display: block;
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.profile-settings input[type=submit] {
+    margin-top:30px;
+}
+>>>>>>> 57f52bc633176badaec84cd4c87c4c7a68c036ce

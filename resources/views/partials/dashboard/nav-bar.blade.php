@@ -13,16 +13,29 @@
             <div class="buttons">
                 <?php $current= Route::currentRouteName();?>
                 <ul class="links_to">
-                    <li><a href="#">Istoria cumpărăturilor</a></li>
-                    {{--<li><a href="#">Produse Favorite (10)</a></li>--}}
-                    <li><a {{ ($current == 'my_vendors') ? 'class=active' : '' }} href="{{ route('my_vendors') }}">My vendors</a></li>
-                    <li><a {{ $current == 'my_lots' ? 'class=active' : '' }} href="{{ route('my_lots') }}">Loturile mele (10)</a></li>
-                    {{--<li><a href="#">Vouchere (2)</a></li>--}}
-                    <li><a {{ $current == 'settings' ? 'class=active' : '' }} href="{{ route('settings') }}">Setările contului</a></li>
+                    <li><a {{ $current == 'how_work' ? 'class=active' : '' }} href="{{route('how_work')}}">Cum functioneaza Amma</a></li>
+                    <li><a href="#">Oferrtele active</a></li>
+                    <li><a href="#">Ofertele salvate</a></li>
+                    <li><a href="#">Istoria Cumparaturilor</a></li>
+                    <li><a {{ $current == 'settings' ? 'class=active' : '' }} href="{{ route('settings') }}">{!! $meta->getMeta('top_bar_settings') !!}</a></li>
                 </ul>
             </div>
         </div>
     </div>
+    <br>
+    @if(count(Auth::user()->vendors))
+    <div class="bordered divide-top">
+        <div class="person_card styled1">
+            <div class="buttons">
+                <?php $current= Route::currentRouteName();?>
+                <ul class="links_to">
+                    <li><a {{ $current == 'my_lots' ? 'class=active' : '' }} href="{{ route('my_lots') }}">{!! $meta->getMeta('top_bar_mylots') !!}</a></li>
+                    <li><a {{ ($current == 'my_vendors') ? 'class=active' : '' }} href="{{ route('my_vendors') }}">{!! $meta->getMeta('top_bar_myvendors') !!}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @endif
     {{--todo: (HIGH) rework it.--}}
     @if(request()->route()->getName() == 'my_products')
         <div class="elements bordered divide-top border_bottom">
