@@ -45,6 +45,16 @@ return [
             'label' => 'Support skype'
         ],
 
+        'info::video' => [
+            'type' => 'text',
+            'label' => 'Cum functioneaza link1'
+        ],
+
+        'info::video2' => [
+            'type' => 'text',
+            'label' => 'Cum functioneaza link2'
+        ],
+
         'site::about' => ['type' => 'textarea'],
 
 //        'site::roles' => [

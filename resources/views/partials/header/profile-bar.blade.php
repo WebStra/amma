@@ -1,19 +1,14 @@
 @if(Auth::check())
     <div class="right top-bar-profile">
-        <a href='#' data-activates='dropdown_top-bar-profile' class="dropdown_top_bar"><i class="icon-user"></i>
+        <a href='{{ route('how_work')}}' data-activates='dropdown_top-bar-profile' class="dropdown_top_bar"><i class="icon-user"></i>
             {!! $meta->getMeta('top_bar_myprofile') !!} <i class="icon-la-down"></i></a>
         <ul id='dropdown_top-bar-profile' class='dropdown-content'>
-            <li><a href="{{ route('my_vendors') }}">{!! $meta->getMeta('top_bar_myvendors') !!}</a></li>
-            <li><a href="{{ route('my_lots') }}">{!! $meta->getMeta('top_bar_mylots') !!}</a></li>
-            <li><a href="{{ route('settings')}}">{!! $meta->getMeta('top_bar_settings') !!}</a></li>
             <li><a href="{{ route('logout') }}">{!! $meta->getMeta('top_bar_logout') !!}</a></li>
         </ul>
     </div>
-
     <div class="right">
         <a href='{{ route('create_vendor') }}'>{!! $meta->getMeta('top_bar_create_vendor') !!}</a>
     </div>
-
     @if(count(Auth::user()->wallet()->active()->get()))
         <div class="right">
             <span>{!! $meta->getMeta('top_bar_balance') !!}

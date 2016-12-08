@@ -151,6 +151,11 @@ Route::multilingual(function () {
         'uses' => 'VendorController@index'
     ]);
 
+    Route::get('how-amma-work',[
+        'as'=>'how_work',
+        'uses'=> 'DashboardController@howWork'
+    ]);
+
     Route::get('contacts', [
         'as' => 'contacts',
         'uses' => 'PagesController@contacts'
@@ -306,6 +311,11 @@ Route::multilingual(function () {
         Route::get('settings', [
             'as' => 'settings',
             'uses' => 'DashboardController@accountSettings'
+        ]);
+
+        Route::get('user-password', [
+            'as' => 'user_password',
+            'uses' => 'DashboardController@userPassword'
         ]);
 
         Route::post('settings/update_settings', [

@@ -43,6 +43,9 @@ class DashboardController extends Controller
         $this->lots = $lotRepository;
 
     }
+    public function howWork(){
+        return view('dashboard.how-amma-work');
+    }
 
     /**
      * My vendors.
@@ -88,6 +91,11 @@ class DashboardController extends Controller
     public function accountSettings()
     {
         return view('dashboard.account-settings');
+    }
+
+    public function userPassword()
+    {
+        return view('dashboard.user-password');
     }
 
     /**
