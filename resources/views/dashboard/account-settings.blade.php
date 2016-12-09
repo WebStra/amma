@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             {{csrf_field()}}
-                            <div class="profile_settings_submit" style="max-width:250px; float: right; margin-right: 25px;">
+                            <div class="profile_settings_submit">
                                 <input type="submit" class="btn btn_base center-block full_width" value="Salveaza modificarile">
                             </div>
                         </form>
