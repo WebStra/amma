@@ -9,8 +9,10 @@
                         <h4>Schimba Parola</h4>
                         <hr color="#eee">
                         <form action="{{route('update_password')}}" method="POST" class="styled2 row">
-                                @include('partials.errors.settings-error',[ 'field' => 'password' ])
-                                @include('partials.errors.settings-error',[ 'field' => 'old_password' ])
+                                <div class="col s12">
+                                    @include('partials.errors.settings-error',[ 'field' => 'password' ])
+                                    @include('partials.errors.settings-error',[ 'field' => 'old_password' ])
+                                </div>
                                 <div class="col l12 m12 s12">
                                     <div class="col s3">
                                         <span class="label">PAROLA NOUA</span>

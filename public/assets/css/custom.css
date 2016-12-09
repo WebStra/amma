@@ -392,7 +392,7 @@ text-align: left;
 .help-page .section{
     padding: 0;
 }
-.label-delivery{
+.label-delivery, .label-payment{
     display: block;
     text-align: left;
 }

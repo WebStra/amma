@@ -89,25 +89,21 @@
 
                         <div class="col l6 m6 s12">
                             <span class="label label-delivery">{{ $meta->getMeta('label_delivery_method') }}</span>
-                            <input id="delivery1" type="checkbox" class="" name="delivery1" value="">
-                            <label for="delivery1">Livrare la domiciliu</label>
-                            <input id="delivery2" type="checkbox" class=""  name="delivery2" value="">
-                            <label for="delivery2">Ridicarea de la vânzator</label>
-                            <input id="delivery3" type="checkbox" class="" name="delivery3" value="">
-                            <label for="delivery3">Nu necesita livrare</label>
+                            @foreach($delivery as $item)
+                                <input id="delivery{{$item->id}}" type="checkbox" class="" name="method[delivery][]" value="{{$item->id}}">
+                                <label for="delivery{{$item->id}}">{{$item->name}}</label>
+                            @endforeach
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('description_delivery') }}</span>
                                 <textarea name="description_delivery" maxlength="300" placeholder="{{ $meta->getMeta('placeholder_description_delivery') }}">{{ old('description_delivery') ? old('description_delivery') : $lot->description_delivery }}</textarea>
                             </div>
                         </div>
                         <div class="col l6 m6 s12">
-                            <span class="label label-delivery">{{ $meta->getMeta('label_payment_method') }}</span>
-                            <input id="payment1" type="checkbox" class="" name="payment1" value="">
-                            <label for="payment1">Numerar</label>
-                            <input id="payment2" type="checkbox" class=""  name="payment2" value="">
-                            <label for="payment2">Prin transfer</label>
-                            <input id="payment3" type="checkbox" class="" name="payment3" value="">
-                            <label for="payment3">Alte metode</label>
+                            <span class="label label-payment">{{ $meta->getMeta('label_payment_method') }}</span>
+                            @foreach($payment as $item)
+                                <input id="payment{{$item->id}}" type="checkbox" class="" name="method[payment][]" value="{{$item->id}}">
+                                <label for="payment{{$item->id}}">{{$item->name}}</label>
+                            @endforeach
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('description_payment') }}</span>
                                 <textarea name="description_payment" maxlength="300" placeholder="{{ $meta->getMeta('placeholder_description_payment') }}">{{ old('description_payment') ? old('description_payment') : $lot->description_payment }}</textarea>
@@ -463,9 +459,7 @@
                 data: serialize,
                 method: 'POST',
                 success: function (response) {
-                    toastr["success"]("Success.");
-                  console.log(response);
-                    // use it here
+                    Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 3000, 'green');
                 }
             });
         });

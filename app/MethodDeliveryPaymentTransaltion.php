@@ -1,7 +1,7 @@
 <?php
 namespace App;
-use App\Libraries\TranslatableModel;
-class MethodDeliveryPaymentTransaltion extends TranslatableModel 
+use App\Libraries\WithoutTimestampsModel;
+class MethodDeliveryPaymentTransaltion extends WithoutTimestampsModel
 {
     public $timestamps  = false;
     protected $table    = 'method_delivery_payment_translations';

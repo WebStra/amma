@@ -581,10 +581,11 @@ $(document).ready(function() {
 
     $(function () {
         var $span = $('span[data-notification]');
+        var $color = $span.attr('data-color');
 
         if($span.length)
         {
-            Materialize.toast($span.html(), 5000);
+            Materialize.toast($span.html(),5000,$color);
         }
     });
 

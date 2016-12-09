@@ -43,6 +43,7 @@ class DashboardController extends Controller
         $this->lots    = $lotRepository;
     }
     public function howWork(){
+
         return view('dashboard.how-amma-work');
     }
 
@@ -110,7 +111,7 @@ class DashboardController extends Controller
             (new ImageProcessor())->changeAvatar($image);
         }
 
-        return back()->withStatus('Profile Updated!')->with('activeclass', 'update_settings');
+        return back()->withStatus('Setarile au fost modificate!')->withColor('green')->with('activeclass', 'update_settings');
     }
 
     /**

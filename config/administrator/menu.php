@@ -139,4 +139,15 @@ return [
     'translate' => [
         'icon' => 'fa fa-graduation-cap'
     ],
+    'General settings' => [
+        'icon' => 'fa fa-gears',
+        'pages' => [
+            'method-delivery' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+            'method-payment' => [
+                'icon' => 'fa fa-circle-o'
+            ]
+        ]
+    ]
 ];

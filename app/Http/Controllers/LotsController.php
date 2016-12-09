@@ -8,6 +8,7 @@ use App\Repositories\ImprovedSpecRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\SubCategoriesRepository;
+use App\Repositories\MethodDeliveryPaymentRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -36,10 +37,10 @@ class LotsController extends Controller
      */
     protected $improvedSpecs;
 
-    /**
-     * @var ImprovedSpecRepository
-     */
+
     protected $sub_category;
+
+    protected $method;
 
     /**
      * LotsController constructor.
@@ -53,6 +54,7 @@ class LotsController extends Controller
         ProductsRepository $productsRepository,
         ImprovedSpecRepository $improvedSpecRepository,
         SubCategoriesRepository $subCategoriesRepository,
+        MethodDeliveryPaymentRepository $methodDeliveryPaymentRepository,
         Guard $auth
     ) {
         $this->lots = $lotRepository;
@@ -60,6 +62,7 @@ class LotsController extends Controller
         $this->products = $productsRepository;
         $this->improvedSpecs = $improvedSpecRepository;
         $this->sub_category = $subCategoriesRepository;
+        $this->method = $methodDeliveryPaymentRepository;
     }
 
     /**
@@ -71,8 +74,9 @@ class LotsController extends Controller
     public function create(Vendor $vendor)
     {
         $lot = $this->lots->addLot($vendor);
-
-        return view('lots.create', compact('lot'));
+        $delivery = $this->method->getPublic('delivery');
+        $payment = $this->method->getPublic('payment');
+        return view('lots.create', compact('lot','delivery','payment'));
     }
 
     /**
@@ -81,7 +85,9 @@ class LotsController extends Controller
      */
     public function edit(Lot $lot)
     {
-        return view('lots.create', compact('lot'));
+        $delivery = $this->method->getPublic('delivery');
+        $payment = $this->method->getPublic('payment');
+        return view('lots.create', compact('lot','delivery','payment'));
     }
 
     /**
@@ -187,7 +193,8 @@ class LotsController extends Controller
     public function updateLot(SaveLotRequest $request, Lot $lot)
     {
         $lot = $this->lots->save($lot, $request->all());
-
+        $method  = $request->input('method');
+        dd($method);
         return response(array('respons'=>true));
         
     }

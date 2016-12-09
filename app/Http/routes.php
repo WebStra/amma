@@ -151,10 +151,6 @@ Route::multilingual(function () {
         'uses' => 'VendorController@index'
     ]);
 
-    Route::get('how-amma-work',[
-        'as'=>'how_work',
-        'uses'=> 'DashboardController@howWork'
-    ]);
 
     Route::get('contacts', [
         'as' => 'contacts',
@@ -339,6 +335,11 @@ Route::multilingual(function () {
         Route::get('settings', [
             'as' => 'settings',
             'uses' => 'DashboardController@accountSettings'
+        ]);
+
+        Route::get('how-amma-work',[
+            'as'=>'how_work',
+            'uses'=> 'DashboardController@howWork'
         ]);
 
         Route::get('user-password', [

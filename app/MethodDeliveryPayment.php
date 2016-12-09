@@ -2,17 +2,12 @@
 namespace App;
 use Keyhunter\Administrator\Repository;
 use Keyhunter\Translatable\HasTranslations;
-use App\Libraries\Presenterable\Presenters\MainPresenter;
 use App\Traits\ActivateableTrait;
 class MethodDeliveryPayment extends Repository
 {
-    use HasTranslations, ,ActivateableTrait;
+    use HasTranslations,ActivateableTrait;
 
-    /**
-     * @var MenuTranslations
-     */
-    public $translationModel = MethodDeliveryPaymentTranslation::class;
-
+    public $translationModel = MethodDeliveryPaymentTransaltion::class;
     /**
      * @var string
      */
@@ -38,8 +33,8 @@ class MethodDeliveryPayment extends Repository
     }
 
     public function delete(){
-        if($this->attributes['image']){
-            $file = $this->attributes['image'];
+        if($this->attributes['ico']){
+            $file = $this->attributes['ico'];
             if(File::exists(public_path($file))){
                 \File::delete(public_path($file));
             }
