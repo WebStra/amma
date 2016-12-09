@@ -243,9 +243,20 @@ class ProductsRepository extends Repository
      *
      * @param mixed
      */
-    public function getSameProduct($product)
+    public function getSameProduct($id,$limit=10)
     {
-        //
+        $query = $this->getModel()
+            ->select('products.*')
+            ->where('sub_category_id',$id)
+            ->where('products.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
+            ->limit($limit);
+
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.verify_status', 'verified');
+
+        return $query->get();
+
     }
 
     /**

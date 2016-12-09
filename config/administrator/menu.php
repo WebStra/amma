@@ -43,18 +43,17 @@ return [
     ],
 
     'Content' => [
-        'page_header' => 'main content site',
+        'page_header' => 'Lots and Vendors',
         'pages' => [
             'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
             ],
-
             'lot' => [
                 'icon' => 'fa fa-users'
             ],
-            'products' => [
+            /*'products' => [
                 'icon' => 'fa fa-shopping-cart'
-            ],
+            ],*/
         ]
     ],
     'Categories' => [
