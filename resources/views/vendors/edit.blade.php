@@ -9,7 +9,7 @@
                 </div>
                 <div class="col l9 m7 s12">
                     <div class="profile-settings">
-                        <h4>Editeaza profilul</h4>
+                        <h4>Editeaza magazinul</h4>
                         <hr color="#eee">
                         <div class="row">
                             <div class="col l12 m12 s12">

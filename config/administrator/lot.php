@@ -1,14 +1,11 @@
 <?php
 
-use App\Lot;
-use Illuminate\Database\Eloquent\Builder;
-
 return [
-    'title' => 'Products',
+    'title' => 'Lots',
 
-    'description' => 'Users products',
+    'description' => 'Users Lots',
 
-    'model' => 'App\Product',
+    'model' => 'App\lot',
 
     /*
     |-------------------------------------------------------
@@ -22,47 +19,48 @@ return [
     'columns' => [
         'id',
 
-        'name',
+        'name' => [
+            'title'=>'Denumire',
+            'output'=> function($row) {
+                return sprintf('%s','<a href="/admin/products?lot_id='.$row->id.'">'.$row->name.'</a>');
+            }
+        ],
 
-        'lot_id' => [
-            'title' =>'Lot',
+        'vendor' => [
+            'title' => 'Magazin',
             'output' => function ($row) {
-                if($lot = $row->lot_id)
-                    $lotname = Lot::where('id',$lot)->first();
-                return sprintf('%s','<a href="/admin/lot?lot_id='.$row->lot_id.'">'.$lotname['name'].'</a>');
+                if($vendor = $row->vendor)
+                    return sprintf('Magazin: <a href="/admin/vendors?id=%s">%s</a>', $vendor->id, $vendor->present()->renderTitle());
+                return sprintf('No vendor');
+            }
+        ],
+
+        'status' => [
+            'output' => function ($row){
+                switch ($row->verify_status) {
+                    case 'verified':
+                        $status = '<b style="color: #00a65a">Verified</b>';
+                        break;
+                    case 'pending':
+                        $status = '<b style="color: #ffb336">Not Verified</b>';
+                        break;
+                    case 'declined':
+                        $status = '<b style="color: #ea0b0b">Declined</b>';
+                        break;
+
+                    default:
+                        $status = '<b>No Status</b>';
+                }
+
+                return $status;
             }
         ],
 
         'price_info' => [
             'title' => 'Price Information',
-            'elements' => [
-                'price' => [
-                    'title' => 'Current Price',
-                    'output' => function ($row) {
-                        return sprintf('%s MDL', ceil($row->price));
-                    }
-                ],
-                'sale' => [
-                    'title' => 'Sale',
-                    'output' => function ($row) {
-                        return sprintf("%s %%", $row->sale);
-                    }
-                ],
-                'new_price' => [
-                    'title' => 'Price with sale',
-                    'output' => function ($row) {
-                        return sprintf('%s MDL', ( // calc percent.
-                            ceil($row->price - ($row->price * ($row->sale / 100))))
-                        );
-                    }
-                ],
-                'count' => [
-                    'title' => 'Remains',
-                    'output' => function ($row) {
-                        return sprintf('%s штук.', $row->count);
-                    }
-                ]
-            ]
+                'output' => function ($row) {
+                    return sprintf('%s MDL', ceil($row->yield_amount));
+                }
         ],
 
         'dates' => [
@@ -107,10 +105,10 @@ return [
     | Extend the main scaffold index query
     |
     */
-    'query' => function (Builder $query) {
+    'query' => function ($query) {
 
         if(request('lot_id'))
-        return $query->where('lot_id',request('lot_id'));
+            return $query->where('id', request('lot_id'));
 
         return $query;
     },
@@ -126,18 +124,13 @@ return [
     'filters' => [
         'id' => filter_hidden(),
 
-
-        'price' => filter_number_range('Price Range', [
-            'min' => '100',
-            'max' => '10000'
-        ]),
-
-
-        'active' => filter_select('Active', [
+        'verify_status' => filter_select('Status', [
             '' => '-- Any --',
-            '1' => '-- Active --',
-            '0' => '-- None Active --',
+            'verified' => '-- Verificat --',
+            'pending' => '-- In Asteptare --',
+            'declined' => '-- Refuzat --',
         ]),
+
 
         'created_at' => filter_daterange('Created period'),
         'published_date' => filter_daterange('Published date'),
@@ -156,7 +149,16 @@ return [
 
         'id' => form_key(),
 
-        'name' => form_ckeditor(),
+        'name' => form_text(),
+
+        'verify_status' => [
+            'type' => 'select',
+            'options' => function() {
+                $options = ['verified'=>'Verificat','pending' => 'In Asteptare','declined'=>'Refuzat'];
+
+                return $options;
+            }
+        ],
 
         'active' => form_boolean()
     ]

@@ -41,14 +41,19 @@ return [
             ]
         ]
     ],
+
     'Content' => [
         'page_header' => 'main content site',
         'pages' => [
-            'products' => [
-                'icon' => 'fa fa-shopping-cart'
-            ],
             'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
+            ],
+            
+            'lot' => [
+                'icon' => 'fa fa-users'
+            ],
+            'products' => [
+                'icon' => 'fa fa-shopping-cart'
             ],
         ]
     ],
