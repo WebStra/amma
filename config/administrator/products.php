@@ -2,6 +2,8 @@
 
 use App\Lot;
 use Illuminate\Database\Eloquent\Builder;
+use App\Currency;
+use App\SubCategory;
 
 return [
     'title' => 'Products',
@@ -22,6 +24,16 @@ return [
     'columns' => [
         'id',
 
+        'image' => [
+            'title' => 'Imagine',
+            'output' => function($row)
+            {
+                $image = $row->images()->cover()->first();
+
+                return $image ? output_image($image->image, null, ['width' => '100']) : '';
+            }
+        ],
+
         'name',
 
         'lot_id' => [
@@ -29,7 +41,7 @@ return [
             'output' => function ($row) {
                 if($lot = $row->lot_id)
                     $lotname = Lot::where('id',$lot)->first();
-                return sprintf('%s','<a href="/admin/lot?lot_id='.$row->lot_id.'">'.$lotname['name'].'</a>');
+                return sprintf('%s','<a href="/admin/lot?id='.$row->lot_id.'">'.$lotname['name'].'</a>');
             }
         ],
 
@@ -39,7 +51,9 @@ return [
                 'price' => [
                     'title' => 'Current Price',
                     'output' => function ($row) {
-                        return sprintf('%s MDL', ceil($row->price));
+                        $lotid = lot::where('id',$row->lot_id)->pluck('currency_id')->first();
+                        $currency = Currency::where('id',$lotid)->pluck('sign')->first();
+                        return sprintf('%s%s', ceil($row->price) ,$currency);
                     }
                 ],
                 'sale' => [
@@ -51,28 +65,21 @@ return [
                 'new_price' => [
                     'title' => 'Price with sale',
                     'output' => function ($row) {
-                        return sprintf('%s MDL', ( // calc percent.
-                            ceil($row->price - ($row->price * ($row->sale / 100))))
+                        $lotid = lot::where('id',$row->lot_id)->pluck('currency_id')->first();
+                        $currency = Currency::where('id',$lotid)->pluck('sign')->first();
+                        return sprintf('%s%s', ( // calc percent.
+                            ceil($row->price - ($row->price * ($row->sale / 100)))),$currency
                         );
                     }
                 ],
                 'count' => [
                     'title' => 'Remains',
                     'output' => function ($row) {
-                        return sprintf('%s штук.', $row->count);
+                        return sprintf('%s unit.', $row->count);
                     }
                 ]
             ]
         ],
-
-        'dates' => [
-            'elements' => [
-                'published_date',
-                'expiration_date',
-                'created_at',
-                'updated_at',
-            ]
-        ]
     ],
 
     /*
@@ -131,17 +138,6 @@ return [
             'min' => '100',
             'max' => '10000'
         ]),
-
-
-        'active' => filter_select('Active', [
-            '' => '-- Any --',
-            '1' => '-- Active --',
-            '0' => '-- None Active --',
-        ]),
-
-        'created_at' => filter_daterange('Created period'),
-        'published_date' => filter_daterange('Published date'),
-        'expiration_date' => filter_daterange('Expiration date')
     ],
 
     /*
@@ -156,7 +152,30 @@ return [
 
         'id' => form_key(),
 
-        'name' => form_ckeditor(),
+        'sub_category_id' => form_select('Subcategoria', function () {
+            $items = [];
+
+            $collection = SubCategory::select('*')->active()->get();
+
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
+        }),
+
+        'name' => form_text(),
+
+        'description' => form_ckeditor(),
+
+        'price' => form_text(),
+
+        'sale' => form_text(),
+
+        'old_price' => form_text(),
+
+        'count' => form_text(),
 
         'active' => form_boolean()
     ]

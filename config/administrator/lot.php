@@ -1,11 +1,14 @@
 <?php
 
+use App\Category;
+use App\Currency;
+use App\Lot;
 return [
     'title' => 'Lots',
 
     'description' => 'Users Lots',
 
-    'model' => 'App\lot',
+    'model' => Lot::class,
 
     /*
     |-------------------------------------------------------
@@ -30,7 +33,7 @@ return [
             'title' => 'Magazin',
             'output' => function ($row) {
                 if($vendor = $row->vendor)
-                    return sprintf('Magazin: <a href="/admin/vendors?id=%s">%s</a>', $vendor->id, $vendor->present()->renderTitle());
+                    return sprintf('Magazin: <a href="/admin/allvendors?id=%s">%s</a>', $vendor->id, $vendor->present()->renderTitle());
                 return sprintf('No vendor');
             }
         ],
@@ -59,16 +62,17 @@ return [
         'price_info' => [
             'title' => 'Price Information',
                 'output' => function ($row) {
-                    return sprintf('%s MDL', ceil($row->yield_amount));
+                   $currency= Currency::where('id', $row->currency_id)->pluck('title')->first();
+                    return sprintf('%s %s', ceil($row->yield_amount),$currency);
                 }
         ],
 
+        'comision',
+
         'dates' => [
             'elements' => [
-                'published_date',
-                'expiration_date',
-                'created_at',
-                'updated_at',
+                'public_date',
+                'expire_date',
             ]
         ]
     ],
@@ -106,9 +110,6 @@ return [
     |
     */
     'query' => function ($query) {
-
-        if(request('lot_id'))
-            return $query->where('id', request('lot_id'));
 
         return $query;
     },
@@ -149,7 +150,45 @@ return [
 
         'id' => form_key(),
 
+        'category_id' => form_select('Categoria', function () {
+            $items = [];
+
+            $collection = Category::select('*')->active()->get();
+
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
+        }),
+
         'name' => form_text(),
+
+        'description' => form_wysi_html5(),
+
+        'currency_id' => form_select('Currency', function () {
+            $items = [];
+
+            $collection = Currency::select('*')->active()->get();
+
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->title;
+            }
+
+            return $items;
+        }),
+
+        'comision' => form_text(),
+
+        'description_delivery' => form_text(),
+
+        'description_payment' => form_text(),
+
+        'public_date' => form_date(),
+
+        'expire_date' => form_date(),
 
         'verify_status' => [
             'type' => 'select',

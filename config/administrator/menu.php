@@ -48,7 +48,7 @@ return [
             'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
             ],
-            
+
             'lot' => [
                 'icon' => 'fa fa-users'
             ],
