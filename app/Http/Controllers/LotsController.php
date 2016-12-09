@@ -9,6 +9,7 @@ use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\SubCategoriesRepository;
 use App\Repositories\MethodDeliveryPaymentRepository;
+use App\Repositories\LotDeliveryPaymentRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class LotsController extends Controller
 
     protected $method;
 
+    protected $lot_method;
+
     /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
@@ -55,14 +58,16 @@ class LotsController extends Controller
         ImprovedSpecRepository $improvedSpecRepository,
         SubCategoriesRepository $subCategoriesRepository,
         MethodDeliveryPaymentRepository $methodDeliveryPaymentRepository,
+        LotDeliveryPaymentRepository $lotDeliveryPaymentRepository,
         Guard $auth
     ) {
-        $this->lots = $lotRepository;
-        $this->auth = $auth;
-        $this->products = $productsRepository;
+        $this->lots          = $lotRepository;
+        $this->auth          = $auth;
+        $this->products      = $productsRepository;
         $this->improvedSpecs = $improvedSpecRepository;
-        $this->sub_category = $subCategoriesRepository;
-        $this->method = $methodDeliveryPaymentRepository;
+        $this->sub_category  = $subCategoriesRepository;
+        $this->method        = $methodDeliveryPaymentRepository;
+        $this->lot_method    = $lotDeliveryPaymentRepository;
     }
 
     /**
@@ -85,6 +90,7 @@ class LotsController extends Controller
      */
     public function edit(Lot $lot)
     {
+        //dd($lot->lotDeliveryPayment());
         $delivery = $this->method->getPublic('delivery');
         $payment = $this->method->getPublic('payment');
         return view('lots.create', compact('lot','delivery','payment'));
@@ -193,8 +199,11 @@ class LotsController extends Controller
     public function updateLot(SaveLotRequest $request, Lot $lot)
     {
         $lot = $this->lots->save($lot, $request->all());
-        $method  = $request->input('method');
-        dd($method);
+        $method = [];
+        if ($request->input('method')) {
+            $method  = $request->input('method');
+        }
+        $lot = $this->lot_method->save($lot, $method);
         return response(array('respons'=>true));
         
     }

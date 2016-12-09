@@ -90,16 +90,28 @@
             $(this).parents('.specification_suite_remove').remove();
         });
 
-        $('.input-colorpicker').colorpicker({
+        /*$('.input-colorpicker').colorpicker({
             component: '.btn',
             format: 'hex'
+        });*/
+        var btn_colorpicker = $('.btn-colorpicker');
+        btn_colorpicker.colorpickerplus();
+        btn_colorpicker.on('changeColor', function(e,color){
+            if(color==null) {
+              //when select transparent color
+              $(this).next().find('input').val('#fff');
+              $(this).css('background-color', '#fff');//tranparent
+            } else {
+                $(this).next().find('input').val(color);
+                $(this).css('background-color', color);
+            }
         });
 
         $('#btn_add_product').click(function (event) {
             if ($('.inner_product').length < 10) {
                 $('.add_product').append(addProduct(key_product.value, curent_currency.value));
                 reInit();
-                $('.input-colorpicker').colorpicker();
+                //$('.input-colorpicker').colorpicker();
                 //sortable();
                 $('.inner_product').last()
                         .animate({borderColor: '#26a69a'}, 1000)
@@ -114,7 +126,7 @@
             var spec_color = $(this).parents('.wrap_spec_color').find('.spec_color');
             if (spec_color.find('.spec_color_item').length < 10) {
                 spec_color.append(getSpecSuiteTemplateColor(key_color.value));
-                $('.input-colorpicker').colorpicker();
+                //$('.input-colorpicker').colorpicker();
                 key_color.value = key_color.value + 1;
             }
         });
@@ -131,7 +143,7 @@
             var curent_product = $(this).parents('.inner_product');
             if (curent_product.find('.size_color_sold_item').length < 10) {
                 curent_product.find('.wrap_size_color_sold').append(getSpecSuiteTemplateSizeColorSold(key_scs.value));
-                $('.input-colorpicker').colorpicker();
+                //$('.input-colorpicker').colorpicker();
                 key_scs.value = key_scs.value + 1;
             }
         });
@@ -141,18 +153,18 @@
 
             if ($('.inner_product').length < 10) {
                 curent_product.find('select').material_select('destroy');
-                curent_product.find('.input-colorpicker').colorpicker('destroy');
+                //curent_product.find('.input-colorpicker').colorpicker('destroy');
                 var curent_val = curent_product.find('select').val();
                 var clone_product = curent_product.clone();
                 curent_product.after(clone_product);
                 curent_product.next().find('select').val(curent_val);
                 curent_product.next().animate({borderColor: '#ff6f00'}, 1000).delay(500).animate({borderColor: '#e9e9e9'}, 2000);
                 reInit();
-                $('.input-colorpicker').colorpicker({
+                /*$('.input-colorpicker').colorpicker({
                     component: '.btn',
                     color: '#26a69a',
                     format: 'hex'
-                });
+                });*/
                 //$('.input-colorpicker').colorpicker('update');
                 //sortable();
                 key_product.value = key_product.value + 1;
