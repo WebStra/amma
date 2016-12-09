@@ -111,7 +111,7 @@ return [
     */
     'query' => function ($query) {
 
-        return $query;
+        return $query->orderBy('verify_status','asc')->orderBy('public_date','desc');
     },
 
     /*
@@ -165,7 +165,7 @@ return [
 
         'name' => form_text(),
 
-        'description' => form_wysi_html5(),
+        'description' => form_textarea(),
 
         'currency_id' => form_select('Currency', function () {
             $items = [];
@@ -182,9 +182,9 @@ return [
 
         'comision' => form_text(),
 
-        'description_delivery' => form_text(),
+        'description_delivery' => form_textarea(),
 
-        'description_payment' => form_text(),
+        'description_payment' => form_textarea(),
 
         'public_date' => form_date(),
 
@@ -193,7 +193,7 @@ return [
         'verify_status' => [
             'type' => 'select',
             'options' => function() {
-                $options = ['verified'=>'Verificat','pending' => 'In Asteptare','declined'=>'Refuzat'];
+                $options = ['verified'=>'Verified','pending' => 'Pendding','declined'=>'Declined'];
 
                 return $options;
             }

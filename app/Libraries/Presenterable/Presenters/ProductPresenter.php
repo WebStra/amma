@@ -9,7 +9,7 @@ class ProductPresenter extends Presenter
 {
     use HasImagesPresentable;
 
-    const END_DATE = 'expiration_date';
+    const END_DATE = 'expire_date';
     const PRICE_EMPTY = '0.00';
 
     /**
@@ -36,6 +36,12 @@ class ProductPresenter extends Presenter
     public function renderNameSimple()
     {
         return ucfirst($this->model->name);
+    }
+
+    public function renderCountItem()
+    {
+            return strtoupper($this->model->count);
+
     }
 
     public function renderPrice($price = null, $currency = null)
@@ -170,6 +176,7 @@ class ProductPresenter extends Presenter
     public function endDate($format = 'm/d/Y')
     {
         $enddate = self::END_DATE;
+
         return $this->model->$enddate->format($format);
     }
 
@@ -216,7 +223,7 @@ class ProductPresenter extends Presenter
      * @return float|string
      */
     public function getSalesPercent($rotate = true)
-    {   
+    {
         if($this->getSalesSumm() != 0) {
             $result = ($this->getSalesSumm() * 100) / $this->getTotalSumm();
         }

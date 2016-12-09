@@ -119,9 +119,10 @@ class ProductsController extends Controller
     public function show($product)
     {
         $lot = $this->lots->find($product->lot_id);
-        $view = view('product.show',['item'=>$product,'lot'=>$lot]);
 
-        $same_products = $this->products->getSameProduct($product);
+        $same_products = $this->products->getSameProduct($product->sub_category_id);
+
+        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products]);
 
         if(Auth::check()) {
             $auth_is_involved = $this->involved
@@ -136,6 +137,15 @@ class ProductsController extends Controller
             ->withUserIsInvolved(false)
             ->withSame($same_products);
     }
+
+
+    public function getSalesPercent($id)
+    {
+       /*$count = $this->products->where('id',$id)->pluck('count')->first();*/
+
+
+    }
+
 
     /**
      * Delete products..

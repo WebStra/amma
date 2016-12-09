@@ -57,6 +57,7 @@ class LotPresenter extends Presenter
      */
     public function endDate($format = 'm/d/Y')
     {
+
         $enddate = self::END_DATE;
 
         $date = $this->model->$enddate;
