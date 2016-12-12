@@ -118,13 +118,17 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        $itemPercentage = $this->getSalesPercent($product->id);
+        $itemPercentage = $this->getSalledPercent($product->id);
 
         $lot = $this->lots->find($product->lot_id);
 
+        $productInLot=$this->products->countInLotProduct($product->lot_id);
+
         $same_products = $this->products->getSameProduct($product->sub_category_id);
 
-        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage]);
+         $same_product_saled = $this->involved;
+
+        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage,'salled'=>$same_product_saled,'procductinlot'=>$productInLot]);
 
         if(Auth::check()) {
             $auth_is_involved = $this->involved
@@ -141,7 +145,7 @@ class ProductsController extends Controller
     }
 
 
-    public function getSalesPercent($id)
+    public function getSalledPercent($id)
     {
         $count = $this->products->getCount($id);
         $selled = $this->involved->getCountSelled($id);

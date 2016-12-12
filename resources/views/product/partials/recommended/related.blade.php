@@ -13,9 +13,9 @@
                 <div class="old_price">{!! $item->present()->renderOldPrice()!!}</div>
             </div>
             <div class="stock">
-                22/50
+                {{($salled->getCountSelled($item->id)) ? $salled->getCountSelled($item->id) : '0'}}/{{$item->count}}
                 <div class="progress">
-                    <div class="determinate" style="width: 42%"></div>
+                    <div class="determinate" style="width:{{($item->count) ?  number_format((100 * $salled->getCountSelled($item->id))  / $item->count) : 0 }}%"></div>
                 </div>
             </div>
         </div>

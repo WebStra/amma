@@ -1,7 +1,7 @@
 <div class="person_card ">
     <div class="display_flex">
         <div class="wrapp_img">
-            <img src="{{$involved->user->present()->cover() }}">
+            <img src="{{($involved->user->present()->cover()) ? $involved->user->present()->cover() : '/assets/images/no-avatar.png' }}">
         </div>
         <div class="content">
             <h4>{{ $involved->user->present()->renderName() }}</h4>

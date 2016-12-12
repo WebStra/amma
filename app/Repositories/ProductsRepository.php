@@ -203,6 +203,13 @@ class ProductsRepository extends Repository
             ->first();
     }
 
+    public function countInLotProduct($id)
+    {
+        return self::getModel()
+            ->where('lot_id',$id)
+            ->count();
+    }
+
     public function search($filters)
     {
         $product = $filters['search'];
