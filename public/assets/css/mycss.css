@@ -411,3 +411,8 @@ section.produs.single_produs .countdown {
 .about_lot_single_prod {
   margin: 4px 0;
 }
+
+.show_single_lot.list-lots .lot{
+  box-shadow: none;
+  margin-top: 0;
+}

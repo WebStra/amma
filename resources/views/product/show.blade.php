@@ -106,7 +106,7 @@
                                 <span class="c-gray">Suma lotului:</span> {{ $lot->yield_amount }}
                             </div>
                             <div class="about_lot_single_prod">
-                                <span class="c-gray">Nr. de produse in lot:</span> {{ $procductinlot }}
+                                <span class="c-gray">Nr. de produse in lot:</span> {{ $productinlot }}
                             </div>
                             <span class="c-gray">Data expirarii:</span>
                             @if(! empty($lot->present()->endDate()))
