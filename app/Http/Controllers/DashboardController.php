@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Guard;
 use App\Http\Requests\UpdateUserSettings;
 use App\Http\Requests\UpdateUserPassword;
 use App\Services\ImageProcessor;
+use App\Video;
 use Illuminate\Http\UploadedFile;
 
 
@@ -44,7 +45,9 @@ class DashboardController extends Controller
     }
     public function howWork(){
 
-        return view('dashboard.how-amma-work');
+        $video = Video::get();
+
+        return view('dashboard.how-amma-work',compact('video'));
     }
 
     /**

@@ -214,7 +214,7 @@ class LotsController extends Controller
      */
     public function index()
     {
-        dd(Lot::all());
+       /* dd(Lot::all());*/
     }
 
     /**

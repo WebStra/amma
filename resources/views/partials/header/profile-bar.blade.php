@@ -9,13 +9,15 @@
     <div class="right">
         <a href='{{ route('create_vendor') }}'>{!! $meta->getMeta('top_bar_create_vendor') !!}</a>
     </div>
-    @if(count(Auth::user()->wallet()->active()->get()))
+
+    @if(count(Auth::user()->vendors()->active()->get()))
         <div class="right">
             <span>{!! $meta->getMeta('top_bar_balance') !!}
                 <span style="color: #ff6f00">{{ Auth::user()->wallet->amount }}&nbsp;MDL</span>
             </span>
         </div>
     @endif
+
 @else
     <div class="right">
         <a href='{{ route('get_register') }}'>{!! $meta->getMeta('top_bar_register') !!}</a>
