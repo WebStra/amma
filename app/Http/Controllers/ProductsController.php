@@ -107,7 +107,7 @@ class ProductsController extends Controller
         if (!empty($specs = $request->get('i_spec')))
             $this->saveImprovedSpecifications($specs, $product);
 
-        return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product ]);
+        return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product]);
     }
 
     /**
@@ -118,11 +118,13 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
+        $itemPercentage = $this->getSalesPercent($product->id);
+
         $lot = $this->lots->find($product->lot_id);
 
         $same_products = $this->products->getSameProduct($product->sub_category_id);
 
-        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products]);
+        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage]);
 
         if(Auth::check()) {
             $auth_is_involved = $this->involved
@@ -141,9 +143,11 @@ class ProductsController extends Controller
 
     public function getSalesPercent($id)
     {
-       /*$count = $this->products->where('id',$id)->pluck('count')->first();*/
+        $count = $this->products->getCount($id);
+        $selled = $this->involved->getCountSelled($id);
+        ($count) ? $result = number_format((100 * $selled)  / $count) : $result = 0;
 
-
+        return array(['totalItems'=>$count,'salePercent'=>$result]);
     }
 
 

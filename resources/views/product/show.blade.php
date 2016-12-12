@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="td sell_amount">
-                            <div class="pie" data-procent="{{ $item->present()->getSalesPercent() }}"
-                                 style="animation-delay: - {{ $item->present()->getSalesPercent() }}%"></div>
-                            {{ $item->present()->getSalesPercent() }}% este vândut
+                            <div class="pie" data-procent="{{$productItem[0]['totalItems']}}"
+                                 style="animation-delay: -{{ $productItem[0]['salePercent'] }}s"></div>
+                            {{ $productItem[0]['salePercent'] }}% este vândut
                         </div>
                     </div>
                     @include('product.partials.item.countdown')

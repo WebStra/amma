@@ -195,6 +195,14 @@ class ProductsRepository extends Repository
             ->first();
     }
 
+    public function getCount($id)
+    {
+        return self::getModel()
+            ->whereId($id)
+            ->pluck('count')
+            ->first();
+    }
+
     public function search($filters)
     {
         $product = $filters['search'];

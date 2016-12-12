@@ -125,4 +125,15 @@ class InvolvedRepository extends Repository
     {
         return count($this->getModelsByUserAndProduct($product, false));
     }
+
+    public function getCountSelled($id)
+    {
+        return $this->getModel()
+            ->where('product_id', $id)
+            ->active()
+            ->sum('count');
+    }
+
+
+
 }
