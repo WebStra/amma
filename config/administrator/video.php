@@ -17,17 +17,10 @@ return [
     */
     'columns' => [
         'id',
-        'video1' => [
-            'title' => 'Video1',
+        'video' => [
+            'title' => 'Video link',
             'output' => function ($row){
-                return sprintf('<iframe width="300" height="200" src="%s" frameborder="0" allowfullscreen></iframe>', $row->video1);
-            }
-        ],
-
-        'video2' => [
-            'title' => 'Video2',
-            'output' => function ($row){
-                return sprintf('<iframe width="300" height="200" src="%s" frameborder="0" allowfullscreen></iframe>', $row->video2);
+                return sprintf('<iframe width="300" height="200" src="%s" frameborder="0" allowfullscreen></iframe>', $row->video);
             }
         ]
     ],
@@ -96,8 +89,7 @@ return [
     'edit_fields' => [
         'id'       => ['type' => 'key'],
 
-        'video1' => form_text() + translatable(),
-        'video2' => form_text() + translatable(),
+        'video' => form_text() + translatable(),
 
         'active' => [
             'title' => 'Active',

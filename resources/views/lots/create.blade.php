@@ -20,7 +20,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('lot_name') }}</span>
-                                <input type="text" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
+                                <input type="text" class="iText" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
                             </div>
                         </div>
 
@@ -28,9 +28,9 @@
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
                                     <span class="label">{{ $meta->getMeta('category_lot') }}</span>
-                                    <select class="browser-default" id="parent_category"
+                                    <select class="iText" id="parent_category"
                                             name="category" required="required">
-                                        <option value="">{{ $meta->getMeta('label_select_category') }}</option>
+                                        <option value=''>{{ $meta->getMeta('label_select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option data-procent="{{ $category->present()->renderTax() }}"
                                                     value="{{ $category->id }}"
@@ -45,7 +45,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field date-published">
                                 <span class="label">{{ $meta->getMeta('published_date') }}</span>
-                                <input type="date" class="datepicker-from" required="" name="public_date" value="{{ $lot->present()->getPublicDateAsString() }}"
+                                <input type="date" class="datepicker-from iText" required="" name="public_date" value="{{ $lot->present()->getPublicDateAsString() }}"
                                        data-value="">
                                 <span class="date-publish-info info-label"><i>{{ $meta->getMeta('info_label_date_publish') }}</i></span>
                             </div>
@@ -53,7 +53,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field date-expiration">
                                 <span class="label">{{ $meta->getMeta('expiration_date') }}</span>
-                                <input type="date" class="datepicker-to" required="" name="expirate_date" value="{{ $lot->present()->getExpireDateAsString() }}"
+                                <input type="date" class="datepicker-to iText" required="" name="expirate_date" value="{{ $lot->present()->getExpireDateAsString() }}"
                                        data-value="">
                                 <br>
                                 <br>
@@ -64,7 +64,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('currency') }}</span>
-                                <select name="currency" required class="currency">
+                                <select name="currency" required class="currency iText">
                                     @foreach($currencies as $currency)
                                         <option data-sign="{{ $currency->sign }}" {{ ($lot->currency_id == $currency->id) ? 'selected' : ''}} data-title="{{ $currency->title }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
                                     @endforeach
@@ -78,7 +78,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
-                                <input type="text" class="input-amount" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
+                                <input type="text" class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
                                 <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span></i></span>
                                 <input type="hidden" class="js-comision" value="{{$lot->comision}}" name="comision">
@@ -194,11 +194,11 @@
                         $('#lot_canvas').append(response);
 
                         $('#lot_canvas').find('.materialboxed').materialbox();
-                        var colorpicker = $('#lot_canvas').find('.disabled_colorpicker');
-                        colorpicker.colorpicker({
-                            component: '.btn',
-                            format: 'hex'
-                        }).removeClass('disabled_colorpicker');
+                        $('select').material_select();
+                        initColor();
+                        //var colorpicker = $('#lot_canvas').
+                      
+
 
                         //$(category_input).attr('disabled', '');
                     } else {
@@ -209,7 +209,21 @@
                 }
             });
         });
-
+        function initColor(){
+            var btn_colorpicker = $('.btn-colorpicker');
+            btn_colorpicker.colorpickerplus();
+            btn_colorpicker.on('changeColor', function(e,color){
+                if(color==null) {
+                  //when select transparent color
+                  $(this).next().find('input').val('#fff');
+                  $(this).css('background-color', '#fff');//tranparent
+                } else {
+                    $(this).next().find('input').val(color);
+                    $(this).css('background-color', color);
+                }
+            });
+        }
+        initColor();
         $("select[name=currency]").on('change', function() // change globaly currency.
         {
             var $this = $(this);
@@ -234,11 +248,13 @@
                         data: { category_id: value },
                         url: "{{ route('lot_select_category', [ $lot->id ]) }}",
                          success: function (response) {
+                            $('.subcategories').material_select('destroy');
                             var option = '<option value="">{{ $meta->getMeta('select_subcategory') }}</option>';
                             $.each(response.sub_category, function(index, item) {
                                  option += '<option value="'+item.id+'">'+item.name+'</option>'
                             });
-                            $('.subcategories').html(option);
+                            
+                            $('.subcategories').html(option).material_select();
                         }
                     });
                 }
@@ -451,18 +467,32 @@
             return false;
             //
         }
+
+        $.validator.setDefaults({
+               ignore: []
+        });
+
         var form_lot = $('#create_form_lot');
         form_lot.validate({
                 onkeyup: false,
                 errorClass: 'error',
                 validClass: 'valid', 
         });
-        if (form_lot.valid()) {
-            $('#create_form_lot').submit(function(event) {
-                event.preventDefault();
-                current = $(this);
-                var serialize = current.serialize();
-                console.log(current.attr('action'));
+
+
+
+        $('#create_form_lot').submit(function(event) {
+            event.preventDefault();
+            current = $(this);
+            var serialize = current.serialize();
+            console.log(current.attr('action'));
+            if(!$("#parent_category").valid()){
+              $("#parent_category").prevAll('input.select-dropdown').addClass('iText error');
+            }else{
+                $("#parent_category").prevAll('input.select-dropdown').removeClass('iText error');
+            }
+            
+            if (current.valid()) {
                 $.ajax({
                     url: "{{ route('update_lot', [ $lot->id ]) }}",
                     data: serialize,
@@ -471,8 +501,9 @@
                         Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 3000, 'green');
                     }
                 });
-            });
-        }
+            }
+        });
+        
 
     </script>
 @endsection

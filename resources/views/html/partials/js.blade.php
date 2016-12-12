@@ -94,18 +94,6 @@
             component: '.btn',
             format: 'hex'
         });*/
-        var btn_colorpicker = $('.btn-colorpicker');
-        btn_colorpicker.colorpickerplus();
-        btn_colorpicker.on('changeColor', function(e,color){
-            if(color==null) {
-              //when select transparent color
-              $(this).next().find('input').val('#fff');
-              $(this).css('background-color', '#fff');//tranparent
-            } else {
-                $(this).next().find('input').val(color);
-                $(this).css('background-color', color);
-            }
-        });
 
         $('#btn_add_product').click(function (event) {
             if ($('.inner_product').length < 10) {
@@ -426,10 +414,10 @@
                 + '<div class="col l4 m12 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">COLORS</span>'
-                + '<div class="file-field input-colorpicker" data-color="#26a69a"  data-format="hex" data-component=".btn">'
-                + '<div class="btn"></div>'
+                + '<div class="file-field">'
+                + '<button type="button" class="waves-effect waves-light btn btn-colorpicker"></button>'
                 + '<div class="file-path-wrapper">'
-                + '<input type="text" name="color" class="" />'
+                + '<input type="text" name="color" class="input-colorpicker" />'
                 + '</div>'
                 + '</div>'
                 + '</div>'
@@ -507,10 +495,10 @@
                 + '<div class="col l10 m10 s10">'
                 + '<div class="input-field">'
                 + '<span class="label">COLORS</span>'
-                + '<div class="file-field input-colorpicker" data-color="#26a69a"  data-format="hex" data-component=".btn">'
-                + '<div class="btn"></div>'
+                + '<div class="file-field">'
+                + '<button type="button" class="waves-effect waves-light btn btn-colorpicker"></button>'
                 + '<div class="file-path-wrapper">'
-                + '<input type="text" name="color[' + key + '][value]" class="" />'
+                + '<input type="text" name="color[' + key + '][value]" class="input-colorpicker" />'
                 + '</div>'
                 + '</div>'
                 + '</div>'
@@ -535,10 +523,10 @@
                 + '<div class="col l4 m12 s12">'
                 + '<div class="input-field">'
                 + '<span class="label">COLORS</span>'
-                + '<div class="file-field input-colorpicker" data-color="#26a69a"  data-format="hex" data-component=".btn">'
-                + '<div class="btn"></div>'
+                + '<div class="file-field">'
+                + '<button type="button" class="waves-effect waves-light btn btn-colorpicker"></button>'
                 + '<div class="file-path-wrapper">'
-                + '<input type="text" name="color" class="" />'
+                + '<input type="text" name="color" class="input-colorpicker" />'
                 + '</div>'
                 + '</div>'
                 + '</div>'

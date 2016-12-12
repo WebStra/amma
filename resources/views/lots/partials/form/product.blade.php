@@ -48,7 +48,7 @@
                                 <div class="col l6 s12">
                                     <div class="input-field">
                                         <span class="label">{{ $meta->getMeta('subcategory') }}</span>
-                                        <select class="subcategories browser-default" name="sub_category"
+                                        <select class="subcategories" name="sub_category"
                                                 required="required">
                                             <option value="">{{ $meta->getMeta('select_subcategory') }}</option>
                                             @foreach($sub_categories as $sub_category)

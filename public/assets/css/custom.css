@@ -460,3 +460,9 @@ text-align: left;
 .top_bar .dropdown-content li:last-of-type a {
     padding-bottom: 0;
 }
+.form-lot .iText.error{
+    border:1px solid #EC4153!important;
+}
+.form-lot label.error{
+    display: none !important;
+}

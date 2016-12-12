@@ -28,6 +28,6 @@ class Video extends Repository
     /**
      * @var array
      */
-    public $translatedAttributes = ['video1', 'video2'];
+    public $translatedAttributes = ['video'];
 
 }

@@ -13,5 +13,5 @@ class VideoTranslations extends WithoutTimestampsModel
     /**
      * @var array
      */
-    protected $fillable = ['language_id', 'video_id', 'video1', 'video2'];
+    protected $fillable = ['language_id', 'video_id', 'video'];
 }
