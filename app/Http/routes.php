@@ -173,6 +173,11 @@ Route::multilingual(function () {
         'uses' => 'SubscribeController@unscribe'
     ]);
 
+    Route::get('lots/{lot}', [
+        'as' => 'view_lot',
+        'uses' => 'LotsController@show'
+    ]);
+
     /* ----------------------------------------------
      *  Auth routes.
      * ----------------------------------------------
@@ -301,10 +306,7 @@ Route::multilingual(function () {
             ]);
         });
 
-        Route::get('lots/{lot}', [
-            'as' => 'view_lot',
-            'uses' => 'LotsController@show'
-        ]);
+
 
         Route::post('lots/create/{lot}/load-product-form-block', [
             'as' => 'load_product_block_form',

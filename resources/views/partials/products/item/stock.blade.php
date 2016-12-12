@@ -1,7 +1,7 @@
 <div class="stock">
-    {{ $item->present()->renderPrice($item->present()->getSalesSumm()) }}
-    {{ $item->present()->renderPrice($item->present()->getTotalSumm()) }}
+    {{ $item->involved->sum('count') }} /
+    {{ $item->count }}
     <div class="progress">
-        <div class="determinate" style="width: {{ $item->present()->getSalesPercent() }}%"></div>
+        <div class="determinate" style="width: {{($item->count) ?  number_format((100 * $item->involved->sum('count'))  / $item->count) : 0 }}%"></div>
     </div>
 </div>

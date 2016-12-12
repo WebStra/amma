@@ -10,7 +10,7 @@
                         @include('partials.about-seller')
                     </div>
                 @endif
-            <div class="col l8 m12 s12 list-lots">
+            <div class="col l9 m12 s12  show_single_lot list-lots">
                 <div class="lot">
                     <div class="lot-info">
                         <div class="lot-name">

@@ -126,9 +126,7 @@ class ProductsController extends Controller
 
         $same_products = $this->products->getSameProduct($product->sub_category_id);
 
-        $same_product_saled = $this->involved;
-
-        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage,'salled'=>$same_product_saled,'procductinlot'=>$productInLot]);
+        $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage,'productinlot'=>$productInLot]);
 
         if(Auth::check()) {
             $auth_is_involved = $this->involved

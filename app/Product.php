@@ -63,7 +63,7 @@ class Product extends Repository
      */
     public function involved()
     {
-        return $this->hasMany(Involved::class);
+        return $this->hasMany(Involved::class)->active();
     }
 
     /**
