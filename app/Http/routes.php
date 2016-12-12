@@ -301,12 +301,11 @@ Route::multilingual(function () {
             ]);
         });
 
-
         Route::get('lots/{lot}', [
             'as' => 'view_lot',
             'uses' => 'LotsController@show'
         ]);
-        
+
         Route::post('lots/create/{lot}/load-product-form-block', [
             'as' => 'load_product_block_form',
             'uses' => 'LotsController@loadProductBlock'

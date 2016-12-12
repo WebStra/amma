@@ -238,6 +238,7 @@ class LotsController extends Controller
         return view('lots.show', compact('lot'));
     }
 
+
     /**
      * Get user from Guard\Auth
      *

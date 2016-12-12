@@ -1,7 +1,7 @@
 @include('auth.auth_modal')
 <div class="bordered divide-top hide-on-small-only">
     <div class="block_title">DESPRE VÂNZĂTOR</div>
-    <?php $vendor = $item->lot->vendor;?>
+    <?php if(!$vendor){ $vendor = $item->lot->vendor; }?>
     <div class="person_card">
         <div class="display_flex border_bottom">
             <div class="wrapp_img">
