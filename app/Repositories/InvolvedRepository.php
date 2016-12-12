@@ -29,6 +29,7 @@ class InvolvedRepository extends Repository
             ->create([
                 'user_id' => \Auth::id(),
                 'product_id' => $product->id,
+                'lot_id' => $product->lot_id,
                 'count' => isset($data['count']) ? $data['count'] : 1
             ]);
     }

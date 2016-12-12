@@ -79,7 +79,7 @@ class DashboardController extends Controller
     public function myInvolved()
     {
         $involved = $this->auth->user()->involved()->active()->get();
-        
+
         return view('dashboard.my-involved', compact('involved'));
     }
 

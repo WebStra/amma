@@ -17,7 +17,7 @@ class Involved extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'product_id', 'active', 'count'];
+    protected $fillable = ['user_id', 'product_id','lot_id', 'active', 'count'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

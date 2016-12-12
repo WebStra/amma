@@ -25,8 +25,7 @@
                 @endforeach
             </ul>
         </div>
-
-        @if($item->user->id == \Auth::id())
+       {{-- @if($item->user->id == \Auth::id())
 
             <div class="colors cf">
                 <span class="small">Actions:</span>
@@ -36,7 +35,7 @@
                 </ul>
             </div>
 
-        @endif
+        @endif--}}
 
        <!--  @include('partials.products.item.stock') -->
     </div>
