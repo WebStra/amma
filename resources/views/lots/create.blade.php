@@ -2,8 +2,9 @@
 
 @section('css')
     {{--{!!Html::style('/assets/css/dropzone.css')!!}--}}
-    {!!Html::style('/assets/plugins/materialize-colorpicker/dist/css/materialize-colorpicker.min.css')!!}
-    {!!Html::style('/assets/plugins/materialize-colorpicker/prism/themes/prism.css')!!}
+    {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker.min.css')!!}
+    {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker-plus.min.css')!!}
+
 @endsection
 
 @section('content')
@@ -88,9 +89,10 @@
                         </div>
 
                         <div class="col l6 m6 s12">
+                            
                             <span class="label label-delivery">{{ $meta->getMeta('label_delivery_method') }}</span>
                             @foreach($delivery as $item)
-                                <input id="delivery{{$item->id}}" type="checkbox" class="" name="method[delivery][]" value="{{$item->id}}">
+                                <input {{($lot->lotDeliveryPayment->where('method_type','delivery')->where('method_id',$item->id)->all()) ? 'checked ' : ''}}  id="delivery{{$item->id}}" type="checkbox" class="" name="method[delivery][]" value="{{$item->id}}">
                                 <label for="delivery{{$item->id}}">{{$item->name}}</label>
                             @endforeach
                             <div class="input-field">
@@ -101,7 +103,7 @@
                         <div class="col l6 m6 s12">
                             <span class="label label-payment">{{ $meta->getMeta('label_payment_method') }}</span>
                             @foreach($payment as $item)
-                                <input id="payment{{$item->id}}" type="checkbox" class="" name="method[payment][]" value="{{$item->id}}">
+                                <input {{($lot->lotDeliveryPayment->where('method_type','payment')->where('method_id',$item->id)->all()) ? 'checked ' : ''}} id="payment{{$item->id}}" type="checkbox" class="" name="method[payment][]" value="{{$item->id}}">
                                 <label for="payment{{$item->id}}">{{$item->name}}</label>
                             @endforeach
                             <div class="input-field">
@@ -169,8 +171,8 @@
     {!!Html::script('/assets/plugins/moment/min/moment-with-locales.js')!!}
     {!!Html::script('/assets/plugins/pickadate/lib/translations/ro_RO.js')!!}
     {{--{!!Html::script('/assets/js/dropzone.js')!!}--}}
-    {!!Html::script('/assets/plugins/materialize-colorpicker/prism/prism.js')!!}
-    {!!Html::script('/assets/plugins/materialize-colorpicker/dist/js/materialize-colorpicker.min.js')!!}
+    {!!Html::script('/assets/plugins/colorpicker/dist/js/bootstrap-colorpicker.min.js')!!}
+    {!!Html::script('/assets/plugins/colorpicker/dist/js/bootstrap-colorpicker-plus.min.js')!!}
 @endsection
 
 @section('scripts')

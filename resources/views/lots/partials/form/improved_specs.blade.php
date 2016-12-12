@@ -9,10 +9,11 @@
         <div class="col l4 m12 s12">
             <div class="input-field">
                 <span class="label">{{ $meta->getMeta('form_lot_color') }}</span>
-                <div class="file-field input-colorpicker">
-                    <div class="btn" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></div>
+                <div class="file-field">
+                    <!-- <div class="btn" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></div> -->
+                    <button type="button" class="waves-effect waves-light btn btn-colorpicker" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></button>
                     <div class="file-path-wrapper">
-                        <input type="text" name="i_spec[{{ $spec->id }}][color]" value="{{ ($spec->color_hash) ? $spec->color_hash : '' }}" data-type="colorpicker" class="disabled_colorpicker"/>
+                       <input type="text" class="input-colorpicker" name="i_spec[{{ $spec->id }}][color]" value="{{ ($spec->color_hash) ? $spec->color_hash : '' }}"/>
                     </div>
                 </div>
             </div>

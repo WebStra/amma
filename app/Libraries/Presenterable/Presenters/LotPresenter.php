@@ -96,22 +96,30 @@ class LotPresenter extends Presenter
     public function getExpireDateAsString($format = 'd.m.Y')
     {
         Date::setLocale(\Lang::slug());
+        $enddate = self::END_DATE;
+        $date = $this->model->$enddate;
 
-        $date = Date::createFromTimestamp(
-            $this->model->expire_date->timestamp
-        );
-        return $date->format($format);
+        if($date){
+            $date = Date::createFromTimestamp(
+                $this->model->expire_date->timestamp
+            );
+            return $date->format($format);
+        }
+        return '';
     }
 
     public function getPublicDateAsString($format = 'd.m.Y')
     {
         Date::setLocale(\Lang::slug());
-
-        $date = Date::createFromTimestamp(
-            $this->model->public_date->timestamp
-        );
-
-        return $date->format($format);
+        $public_date = self::PUBLIC_DATE;
+        $date = $this->model->$public_date;
+        if ($date) {
+            $date = Date::createFromTimestamp(
+                $this->model->public_date->timestamp
+            );
+            return $date->format($format);
+        }
+        return '';
     }
 
 

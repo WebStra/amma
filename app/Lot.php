@@ -88,6 +88,11 @@ class Lot extends Repository
         return $this->hasMany(Product::class, 'lot_id', 'id');
     }
 
+    public function lotDeliveryPayment()
+    {
+        return $this->hasMany(LotDeliveryPayment::class, 'lot_id', 'id');
+    }
+
     public function subCategories()
     {
         return $this->hasManyThrough(
