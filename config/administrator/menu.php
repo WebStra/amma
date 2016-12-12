@@ -151,6 +151,9 @@ return [
             ],
             'method-payment' => [
                 'icon' => 'fa fa-circle-o'
+            ],
+            'video' => [
+                'icon' => 'fa fa-circle-o'
             ]
         ]
     ]

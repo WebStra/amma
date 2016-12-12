@@ -451,19 +451,28 @@
             return false;
             //
         }
-        $('#create_form_lot').submit(function(event) {
-            event.preventDefault();
-            current = $(this);
-            var serialize = current.serialize();
-            console.log(current.attr('action'));
-            $.ajax({
-                url: "{{ route('update_lot', [ $lot->id ]) }}",
-                data: serialize,
-                method: 'POST',
-                success: function (response) {
-                    Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 3000, 'green');
-                }
-            });
+        var form_lot = $('#create_form_lot');
+        form_lot.validate({
+                onkeyup: false,
+                errorClass: 'error',
+                validClass: 'valid', 
         });
+        if (form_lot.valid()) {
+            $('#create_form_lot').submit(function(event) {
+                event.preventDefault();
+                current = $(this);
+                var serialize = current.serialize();
+                console.log(current.attr('action'));
+                $.ajax({
+                    url: "{{ route('update_lot', [ $lot->id ]) }}",
+                    data: serialize,
+                    method: 'POST',
+                    success: function (response) {
+                        Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 3000, 'green');
+                    }
+                });
+            });
+        }
+
     </script>
 @endsection
