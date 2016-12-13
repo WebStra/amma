@@ -18,6 +18,7 @@ return [
     | on main listing page
     |
     */
+
     'columns' => [
         'id',
 
@@ -189,6 +190,11 @@ return [
         'image' => [
             'type' => 'image',
             'location' => 'upload/categories'
+        ],
+
+        'ico' => [
+            'type' => 'image',
+            'location' => 'upload/categories/ico'
         ],
 
         'name' => form_text() + translatable(),

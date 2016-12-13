@@ -466,3 +466,24 @@ text-align: left;
 .form-lot label.error{
     display: none !important;
 }
+
+i.ico_menu_ {
+    display: inline-block;
+    height: 21px!important;
+    width: 25px;
+    background-position: -50px -10px!important;
+}
+
+.categories_list li > a:hover i.ico_menu_ {
+    display: inline-block;
+    height: 21px!important;
+    width: 25px;
+    background-position: -12px -10px!important;
+}
+
+.top_content .top_categories .wrapp_categories ul > li > a:hover i.ico_menu_ {
+    display: inline-block;
+    height: 21px!important;
+    width: 25px;
+    background-position: -12px -10px!important;
+}
