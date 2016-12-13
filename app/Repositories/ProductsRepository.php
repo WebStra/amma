@@ -212,6 +212,7 @@ class ProductsRepository extends Repository
 
     public function search($filters)
     {
+
         $product = $filters['search'];
 
         if(isset($filters['category']))
@@ -234,8 +235,8 @@ class ProductsRepository extends Repository
                 ->where('name', 'like', '%'.$product.'%');
         }
 
-        $query->where('products.active', 1)
-            ->whereIn('status', ['published', 'completed']);
+        $query->where('products.active', 1);
+            /*->whereIn('active', ['published', 'completed']);*/
 
         return $query->get();
     }

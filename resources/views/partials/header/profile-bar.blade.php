@@ -17,7 +17,6 @@
             </span>
         </div>
     @endif
-
 @else
     <div class="right">
         <a href='{{ route('get_register') }}'>{!! $meta->getMeta('top_bar_register') !!}</a>
