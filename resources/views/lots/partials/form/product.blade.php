@@ -61,8 +61,8 @@
                                 </div><!-- Subcategories -->
                             @endif
                         @endif
-
-                        <div class="col l6 s12">
+<!-- 
+                        <div class="col l4 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('old_price') }}</span>
                                 <input type="text" class="old_price" required="required" name="old_price"
@@ -73,9 +73,9 @@
                                           style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
                                 @endif
                             </div>
-                        </div><!--old price-->
+                        </div>old price
 
-                        <div class="col l6 s12 ">
+                        <div class="col l4 s12 ">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('new_price') }}</span>
                                 <input type="text" required="required" class="new_price" name="price"
@@ -86,17 +86,37 @@
                                           style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
                                 @endif
                             </div>
-                        </div><!--new price-->
+                        </div>new price
 
-                        <div class="col l6 s12">
+                        <div class="col l4 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('sale') }}</span>
                                 <input type="text" class="create_sale" name="sale" placeholder="0%"
                                        value="{{ ($product->sale) ? : '' }}">
                                 <span style="position: absolute;top:31px;right: 15px;color: #ff6f00;">%</span>
                             </div>
-                        </div><!--sale-->
+                        </div>sale -->
                     </div><!--Form-->
+
+                    <div class="row" style="margin-bottom: 25px;">
+                        <div class="specification_price overflow">
+                            @if(old('spec_price'))
+                                @foreach(old('spec_price') as $block_id => $spec)
+                                    @include('lots.partials.form.specification_price')
+                                @endforeach
+                            @else
+                                @if(count($spec_price = $product->getMetaGroup('spec_price')))
+                                    @foreach($spec_price as $block_id => $spec)
+                                        @include('lots.partials.form.specification_price')
+                                    @endforeach
+                                @endif
+                            @endif
+                        </div>
+
+                        <div class="col l12 m12 s12">
+                            <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpecPrice(this); return false;" href="#add-spec-price">{{ $meta->getMeta('add') }}</a> <a href="#remove-spec-price" onclick="removeSpecPrice(this); return false;" class="ico-remove remove-spec-price">{{ $meta->getMeta('form_lot_del') }}</a></label>
+                        </div>
+                    </div><!--Specs-->
 
                     <div class="row" style="margin-bottom: 25px;">
                         <div class="specification_suite_lot overflow">
@@ -117,21 +137,6 @@
                             <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpec(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
                         </div>
                     </div><!--Specs-->
-
-                    <div class="spec_improved">
-                        @if(count($specs = $product->improvedSpecs))
-                            <div class="row improved_specs_set">
-                                @foreach($specs as $spec)
-                                    @include('lots.partials.form.improved_specs')
-                                @endforeach
-                            </div><!--specs-improved-->
-                        @endif
-                        <div class="row">
-                            <div class="col l12 m12 s12">
-                                <label style="float: right;">{{ $meta->getMeta('add_specifications') }} <a onclick="loadImprovedSpec(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
-                            </div>
-                        </div><!--add spec-->
-                    </div><!--Improved specs-->
 
                     <div class="row" style="height: 75px;margin-top: 25px">
                         {{--<div class="col 2">--}}

@@ -348,6 +348,26 @@
             });
         }
 
+        function loadSpecPrice(btn) // Load specification block
+        {
+            var $this = $(btn);
+            var form = $this.parents('form');
+            var product = form.data('product');
+            var block_id = 'temp'
+                    + Math.floor((Math.random() * 10000) + 1)
+                    + Math.random().toString(36).substring(7)
+                    + Math.floor((Math.random() * 10000) + 1);
+
+            $.ajax({
+                type: 'POST',
+                data: { block_id: block_id,product_id: product },
+                url: "{{ route('load_spec_price', [ $lot ]) }}",
+                success: function (view) {
+                    form.find('.specification_price').append(view);
+                    initColor();
+                }
+            });
+        }
         function loadImprovedSpec(btn)
         {
             var $btn = $(btn);
@@ -386,6 +406,32 @@
 
                     $.ajax({
                         url: "{{ route('remove_product_spec', [ $lot->id ]) }}",
+                        data: { spec_id: id, product_id: product_id },
+                        method: 'post',
+                        success: function () {
+                            block.remove();
+                        }
+                    });
+                } else {
+                    block.remove();
+                }
+            }
+        }
+
+        function removeSpecPrice(btn) // On remove spec.
+        {
+            var $this = $(btn);
+            var block = $this.parents('.specification_price');
+            var product_id = block.parents('form').data('product');
+
+            if(confirm('Remove specification Price?'))
+            {
+                if(block.hasClass('saved'))
+                {
+                    var id = block.data('spec-id');
+
+                    $.ajax({
+                        url: "{{ route('remove_product_spec_price', [ $lot->id ]) }}",
                         data: { spec_id: id, product_id: product_id },
                         method: 'post',
                         success: function () {

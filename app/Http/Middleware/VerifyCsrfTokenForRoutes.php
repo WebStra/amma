@@ -10,6 +10,7 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'add_product_image',
         'remove_product_image',
         'remove_product_spec',
+        'remove_product_spec_price',
         'sort_product_image',
         'resend_verify_email',
         'involve_product',
@@ -21,6 +22,7 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'lot_select_category',
         'delete_product',
         'load_spec',
+        'load_spec_price',
         'remove_product_improved_spec',
         'load_improved_spec'
 //        'save_product'

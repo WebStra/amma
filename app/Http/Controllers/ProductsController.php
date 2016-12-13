@@ -205,7 +205,12 @@ class ProductsController extends Controller
 
         $product->removeMetaById($request->get('spec_id'));
     }
+    public function removeSpecPrice(Request $request)
+    {
+        $product = $this->products->find($request->get('product_id'));
 
+        $product->removeMetaById($request->get('spec_id'));
+    }
     /**
      * Remove improved spec.
      *

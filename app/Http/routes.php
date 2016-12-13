@@ -288,8 +288,13 @@ Route::multilingual(function () {
             Route::post('lots/{lot}/product/load-spec', [
                 'as' => 'load_spec',
                 'uses' => 'LotsController@loadSpec'
-            ]); 
-            
+            ]);
+
+            Route::post('lots/{lot}/product/load-spec-price', [
+                'as' => 'load_spec_price',
+                'uses' => 'LotsController@loadSpecPrice'
+            ]);
+
             Route::post('lots/{lot}/product/load-improved-spec', [
                 'as' => 'load_improved_spec',
                 'uses' => 'LotsController@loadImprovedSpec'
@@ -299,7 +304,10 @@ Route::multilingual(function () {
                 'as' => 'remove_product_spec',
                 'uses' => 'ProductsController@removeSpec'
             ]);
-            
+            Route::post('lots/{lot}/product/remove-spec-price', [
+                'as' => 'remove_product_spec_price',
+                'uses' => 'ProductsController@removeSpecPrice'
+            ]);
             Route::post('lots/{lot}/product/remove-improved-spec', [
                 'as' => 'remove_product_improved_spec',
                 'uses' => 'ProductsController@removeImproveSpec'

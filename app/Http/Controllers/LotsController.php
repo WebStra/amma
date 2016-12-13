@@ -10,6 +10,7 @@ use App\Repositories\ProductsRepository;
 use App\Repositories\SubCategoriesRepository;
 use App\Repositories\MethodDeliveryPaymentRepository;
 use App\Repositories\LotDeliveryPaymentRepository;
+use App\Repositories\CurrenciesRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -45,6 +46,8 @@ class LotsController extends Controller
 
     protected $lot_method;
 
+    protected $currencies;
+
     /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
@@ -59,6 +62,7 @@ class LotsController extends Controller
         SubCategoriesRepository $subCategoriesRepository,
         MethodDeliveryPaymentRepository $methodDeliveryPaymentRepository,
         LotDeliveryPaymentRepository $lotDeliveryPaymentRepository,
+        CurrenciesRepository $currenciesRepository,
         Guard $auth
     ) {
         $this->lots          = $lotRepository;
@@ -68,6 +72,7 @@ class LotsController extends Controller
         $this->sub_category  = $subCategoriesRepository;
         $this->method        = $methodDeliveryPaymentRepository;
         $this->lot_method    = $lotDeliveryPaymentRepository;
+        $this->currencies    = $currenciesRepository;
     }
 
     /**
@@ -166,8 +171,16 @@ class LotsController extends Controller
     public function loadSpec(Request $request)
     {
         $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
+        return view('lots.partials.form.specification', ['block_id' => $block_id]);
+    }
 
-        return view('lots.partials.form.specification', [ 'block_id' => $block_id]);
+    public function loadSpecPrice(Request $request, Lot $lot)
+    {
+        $block_id   = ($request->get('block_id')) ? $request->get('block_id') : 1;
+        $product    = $this->products->createPlain($lot);
+        $currencies = $this->currencies->getPublic();
+        $spec = $this->improvedSpecs->createPlain($request->get('product_id'));
+        return view('lots.partials.form.specification_price', ['spec' => $spec, 'currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
     }
 
 

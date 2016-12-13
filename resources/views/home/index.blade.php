@@ -6,38 +6,6 @@
             <div class="row">
                 <div class="col l3 m4 s12 hide-on-small-only">
                     @include('partials.categories.l_sidebar')
-                </div>
-                <div class="col l9 m8 s12">
-                    <div class="row top_block">
-                        @if($popular_category)
-                            <div class="col l8 m12 s12 no_padd_l- no_paddl_m-l">
-                                <a href="{{ route('view_category', ['category' => str_slug($popular_category->slug)]) }}" class="wrapp_img categorie img_hover_over">
-                                    <div class="text">
-                                        <h6>{{ $popular_category->present()->renderName(true) }}</h6>
-                                        <h3>CATEGORIE POPULARĂ</h3>
-                                    </div>
-                                    <img src="{{ $popular_category->present()->cover() }}">
-                                </a>
-                            </div>
-                        @endif
-                        <div class="col l4 hide-on-med-and-down">
-                            <div class="elements">
-                                <div class="owl-carousel m-l-single">
-                                    @foreach($expire['data'](5) as $item)
-                                        @include('partials.products.item-block')
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        @include('partials.banners.small')
-
-                        @include('partials.banners.r_sidebar')
-                    </div><!-- / top_block-->
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col l3 m12 s12 hide-on-small-only">
                     <div class="elements divide-top">
                         <div class="title">{{ $meta->getMeta('products_recomendend') }}</div>
                         <ul class="collapsible items" data-collapsible="accordion">
@@ -65,31 +33,58 @@
                         </div>
                     </div>
                 </div>
+                <div class="col l9 m8 s12">
+                        <div class="row top_block">
+                            @if($popular_category)
+                                <div class="col l8 m12 s12">
+                                    <a href="{{ route('view_category', ['category' => str_slug($popular_category->slug)]) }}" class="wrapp_img categorie img_hover_over">
+                                        <div class="text">
+                                            <h6>{{ $popular_category->present()->renderName(true) }}</h6>
+                                            <h3>CATEGORIE POPULARĂ</h3>
+                                        </div>
+                                        <img src="{{ $popular_category->present()->cover() }}">
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="col l4 hide-on-med-and-down">
+                                <div class="elements">
+                                    <div class="owl-carousel m-l-single">
+                                        @foreach($expire['data'](5) as $item)
+                                            @include('partials.products.item-block')
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @include('partials.banners.small')
+                            @include('partials.banners.r_sidebar')
+                        </div>
 
-                <div class="col l9 m12 s12">
-                    @if(isset($expire))
-                        <?php $items = $expire['data']() ?>
 
-                        @if(count($items))
-                            <?php $name = $meta->getMeta('expire_soon') ?>
+                        @if(isset($expire))
+                            <?php $items = $expire['data']() ?>
 
-                            @include('home.partials.carousel')
+                            @if(count($items))
+                                <?php $name = $meta->getMeta('expire_soon') ?>
+
+                                @include('home.partials.carousel')
+                            @endif
                         @endif
-                    @endif
 
-                    @include('partials.banners.wide')
+                        @include('partials.banners.wide')
 
-                    @if(isset($popular))
-                        <?php $items = $popular['data']() ?>
+                        @if(isset($popular))
+                            <?php $items = $popular['data']() ?>
 
-                        @if(count($items))
-                            <?php $name = $popular['name'] ?>
+                            @if(count($items))
+                                <?php $name = $popular['name'] ?>
 
-                            @include('home.partials.carousel')
+                                @include('home.partials.carousel')
+                            @endif
                         @endif
-                    @endif
 
-                </div>
+                    </div><!-- / top_block-->
             </div>
 
             @include('partials.banners.big')
