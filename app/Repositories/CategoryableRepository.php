@@ -6,6 +6,9 @@ use App\Libraries\Categoryable\Categoryable;
 
 class CategoryableRepository extends Repository
 {
+    /**
+     * @return Categoryable
+     */
     public function getModel()
     {
         return new Categoryable();

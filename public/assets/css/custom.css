@@ -469,6 +469,8 @@ text-align: left;
 
 i.ico_menu_ {
     display: inline-block;
+    position: relative;
+    top: 3px;
     height: 21px!important;
     width: 25px;
     background-position: -50px -10px!important;

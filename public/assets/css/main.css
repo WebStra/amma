@@ -681,7 +681,7 @@ body {
 /* line 548, ../sass/main.scss */
 .categories_list li a {
   font-family: "robotolight", sans-serif;
-  padding: 10px 15px 9px;
+  padding: 3px 15px;
   color: #616161;
   display: block;
 }
