@@ -133,6 +133,7 @@
             </div>
 
             @if(count($lot->products))
+
                 @foreach($lot->products as $product)
                     @include('lots.partials.form.product')
                 @endforeach
@@ -421,7 +422,7 @@
         function removeSpecPrice(btn) // On remove spec.
         {
             var $this = $(btn);
-            var block = $this.parents('.specification_price');
+            var block = $this.parents('.specification_price_item');
             var product_id = block.parents('form').data('product');
 
             if(confirm('Remove specification Price?'))

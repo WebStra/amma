@@ -497,3 +497,11 @@ i.ico_menu_ {
     max-width: 145px;
     float: right;
 }
+.specification_price_item {
+    border: 1px solid #e9e9e9;
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+.label-add-spec-color{
+    padding-bottom: 10px;
+}

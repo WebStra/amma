@@ -4,6 +4,7 @@ namespace App;
 
 use App\Libraries\ActivateableTrait;
 use App\Libraries\Metaable\Metaable;
+//use App\Libraries\MetaablePrice\Metaable;
 use Keyhunter\Administrator\Repository;
 use Keyhunter\Translatable\HasTranslations;
 use Keyhunter\Translatable\Translatable;

@@ -4,17 +4,17 @@ namespace App;
 
 use Keyhunter\Administrator\Repository;
 
-class ImprovedSpec extends Repository
+class SpecPrice extends Repository
 {
     /**
      * @var string
      */
-    protected $table = 'product_improved_specifications';
+    protected $table = 'product_specifications_price';
 
     /**
      * @var array
      */
-    protected $fillable = [ 'product_id', 'size', 'color_hash', 'amount' ];
+    protected $fillable = [ 'product_id','price_new','price_old','sale','size', 'color_hash', 'amount','key','value'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,11 +22,6 @@ class ImprovedSpec extends Repository
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
-    }
-    
-    public function specPrice()
-    {
-        return $this->belongsTo(SpecPrice::class, 'price_spec_id', 'id');
     }
 
     /**
