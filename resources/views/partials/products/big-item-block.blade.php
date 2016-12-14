@@ -1,42 +1,40 @@
 <li class="product_card">
     <div class="wrapp_img wrapp_countdown">
         @include('partials.products.item.info-label')
-        @include('partials.products.item.countdown')
         <a href="{{ route('view_product', ['product' => $item->id]) }}"><img src="{{ $item->present()->cover() }}"></a>
     </div>
     <div class="content">
         @include('partials.products.item.name')
         <div class="price_wrapp">
-            @if($item->sale > 0)
-                <div class="price">{{ $item->present()->renderPriceWithSale() }}</div>
-                <div class="old_price">{{ $item->present()->renderPrice() }}</div>
-            @else
-                <div class="price">{{ $item->present()->renderPrice() }}</div>
-            @endif
+            @include('partials.products.item.price')
         </div>
-        <div class="colors cf">
-            <span class="small">Colors:</span>
-            <ul>
-                @foreach($item->colors as $color)
-                    <li>
-                    <span class="color_view"
-                          style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-       {{-- @if($item->user->id == \Auth::id())
-
+        <div class="col l6 m6 s12">
             <div class="colors cf">
-                <span class="small">Actions:</span>
+                <span class="small">Colors:</span>
                 <ul>
-                    <li><a href="{{ route('edit_product', ['product' => $item]) }}">Edit</a></li>
-                    <li><a href="#">Delete</a></li>
+                    @foreach($item->colors as $color)
+                        <li>
+                            <span class="color_view"
+                                  style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
+                        </li>
+                    @endforeach
                 </ul>
+                <br>
+                <span class="small">Items: {{$count}}</span>
+                <br>
+                @include('partials.products.item.countdown')
             </div>
-
-        @endif--}}
-
-       <!--  @include('partials.products.item.stock') -->
+        </div>
+        <div class="col l6 m6 s12">
+            <form class="row childs_margin_top" method="post"
+                  action="{{ route('involve_product_cancel', ['involved' => $item->id]) }}">
+                <button type="submit" class="full_width btn_base  put_in_basket bascket_button_style">
+                    <i class="icon-basket"></i>
+                    <span class="hide-on-med-only"><!--Adaugă în coș-->Exit</span>
+                </button>
+            </form>
+        </div>
+        <br>
+    <!--  @include('partials.products.item.stock') -->
     </div>
 </li>

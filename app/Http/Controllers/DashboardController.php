@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\UserRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProfileRepository;
+use App\Repositories\InvolvedRepository;
 use Illuminate\Contracts\Auth\Guard;
 use App\Http\Requests\UpdateUserSettings;
 use App\Http\Requests\UpdateUserPassword;
@@ -31,17 +32,25 @@ class DashboardController extends Controller
     private $auth;
     
     private $lots;
+
+    private $involved;
     /**
      * DashboardController constructor.
      * @param UserRepository $userRepository
      * @param Guard $auth
      */
-    public function __construct(UserRepository $userRepository, Guard $auth, ProfileRepository $profileRepository, LotRepository $lotRepository)
+    public function __construct(UserRepository $userRepository,
+                                Guard $auth,
+                                ProfileRepository $profileRepository,
+                                LotRepository $lotRepository,
+                                InvolvedRepository $involvedRepository
+    )
     {
         $this->users   = $userRepository;
         $this->profile = $profileRepository;
         $this->auth    = $auth;
         $this->lots    = $lotRepository;
+        $this->invoved    = $involvedRepository;
     }
     public function howWork(){
 

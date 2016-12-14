@@ -4,6 +4,10 @@ namespace App\Repositories;
 
 use App\Libraries\Categoryable\Categoryable;
 
+/**
+ * Class CategoryableRepository
+ * @package App\Repositories
+ */
 class CategoryableRepository extends Repository
 {
     /**

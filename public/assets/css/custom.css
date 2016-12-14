@@ -489,3 +489,11 @@ i.ico_menu_ {
     width: 25px;
     background-position: -12px -10px!important;
 }
+
+.bascket_button_style {
+    display: block;
+    position: relative;
+    top: 50px;
+    max-width: 145px;
+    float: right;
+}

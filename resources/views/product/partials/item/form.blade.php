@@ -1,4 +1,5 @@
 @if($lot->vendor->user->id !== \Auth::id())
+
     @if(! $user_is_involved)
         <form class="row childs_margin_top" method="post"
               action="{{ route('involve_product', ['product' => $item->id]) }}">

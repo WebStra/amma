@@ -1,7 +1,6 @@
-{{--
-<div class="countdown" data-endtime="{{ $item->present()->endDate() }}">
-    <span class="days">{{ $item->present()->diffEndDate()->d }}</span>
-    <span class="hours">{{ $item->present()->diffEndDate()->h }}</span>
-    <span class="minutes">{{ $item->present()->diffEndDate()->i }}</span>
-    <span class="seconds">{{ $item->present()->diffEndDate()->s }}</span>
-</div>--}}
+<div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
+    <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>
+    <span class="hours">{{ $lot->present()->diffEndDate()->h }}</span>
+    <span class="minutes">{{ $lot->present()->diffEndDate()->i }}</span>
+    <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
+</div>
