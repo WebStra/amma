@@ -497,11 +497,82 @@ i.ico_menu_ {
     max-width: 145px;
     float: right;
 }
+
 .specification_price_item {
     border: 1px solid #e9e9e9;
     padding: 15px 0;
     margin-bottom: 15px;
 }
+
 .label-add-spec-color{
     padding-bottom: 10px;
+}
+
+.product_info .countdown span{
+    background: #ffffff;
+    color: #7ac943;
+    height: 35px!important;
+    font-weight: 600;
+}
+.product_info .count_down {
+    margin-top: 0;
+}
+.product_info .countdown.big .wrapp_span {
+    color: #424242;
+}
+
+.sell_amount .pie {
+    width: 25px;
+    height: 25px;
+    margin:0;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, #ff6f00 0%);
+}
+
+.sell_amount span {
+    color: #ff6f00;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.product_price_block {
+    border-radius: 5px;
+    overflow: hidden;
+    -webkit-box-shadow: 2px 2px 11px -2px rgba(0,0,0,1);
+    -moz-box-shadow: 2px 2px 11px -2px rgba(0,0,0,1);
+    box-shadow: 2px 2px 11px -2px rgba(0,0,0,1);
+}
+
+.first_block_product {
+  background-color: #f2f2f2;
+    padding: 20px 0 25px;
+}
+.produs.single_produs h5{
+    color: #424242;
+    font-size: 15px;
+    text-align: right;
+}
+
+.about_product {
+    margin:30px 0;
+}
+
+.tab_content ul li span:first-of-type {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.sell_info p {
+    font-size: 17px;
+    color: #e31212;
+}
+
+.product_info .counting .wrapp_input{
+    width:85px;
+}
+
+.product_select .select-wrapper input.select-dropdown {
+    border:none;
+    border: 1px solid #eee;
+    padding-left: 10px;
+    color: #9e9e9e;
 }

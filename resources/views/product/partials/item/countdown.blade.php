@@ -1,5 +1,5 @@
 <div class="count_down">
-    <h5>PÂNĂ LA FINELE OFERTEI</h5>
+ {{--   <h5>PÂNĂ LA FINELE OFERTEI</h5>--}}
     <div class="countdown big" data-endtime="{{ $lot->present()->endDate() }}"> <!-- m/d/Y -->
         <span class="wrapp_span">
             <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>

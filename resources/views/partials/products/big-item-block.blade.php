@@ -20,17 +20,16 @@
                     @endforeach
                 </ul>
                 <br>
-                <span class="small">Items: {{$count}}</span>
+                <span class="small">Items: {{$involved->count}}</span>
                 <br>
                 @include('partials.products.item.countdown')
             </div>
         </div>
         <div class="col l6 m6 s12">
             <form class="row childs_margin_top" method="post"
-                  action="{{ route('involve_product_cancel', ['involved' => $item->id]) }}">
+                  action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
                 <button type="submit" class="full_width btn_base  put_in_basket bascket_button_style">
-                    <i class="icon-basket"></i>
-                    <span class="hide-on-med-only"><!--Adaugă în coș-->Exit</span>
+                    <span class="hide-on-med-only">Exit</span>
                 </button>
             </form>
         </div>

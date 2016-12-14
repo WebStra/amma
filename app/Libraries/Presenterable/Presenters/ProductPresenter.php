@@ -154,7 +154,10 @@ class ProductPresenter extends Presenter
      */
     public function economyPrice()
     {
-        return $this->renderPrice($this->reformatPrice($this->getPriceAmountSale()));
+        $currency = $this->renderCurrency();
+        $economy = $this->renderPrice($this->reformatPrice($this->getPriceAmountSale()));
+
+        return sprintf('%s%s',$economy,$currency);
     }
 
     /**
