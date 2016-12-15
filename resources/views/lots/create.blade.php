@@ -303,7 +303,7 @@
                     var product_id = form.data('product');
 
                     $.ajax({
-                        type: 'POST',
+                        method: 'POST',
                         data: { spec_id: spec_id },
                         url: "{{ route("delete_group_price") }}",
                         success: function (response) {

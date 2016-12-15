@@ -25,7 +25,7 @@ class SpecPriceController extends Controller
 
     public function remove(Request $request)
     {
-        return true;
+        return response(array('type' => true));
        /* $this->specPrice->delete($request->get('spec_id'));
         $spec = $this->specPrice->find($request->get('spec_id'));
         $spec->removeMetaGroupById('spec_price', $request->get('spec_id'));

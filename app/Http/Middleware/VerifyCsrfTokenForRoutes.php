@@ -25,7 +25,7 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'load_spec_price',
         'remove_product_improved_spec',
         'load_improved_spec',
-        'delete_group_price'
+        'delete_group_price',
 //        'save_product'
     ];
 

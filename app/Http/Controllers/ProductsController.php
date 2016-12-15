@@ -152,6 +152,7 @@ class ProductsController extends Controller
 
     public function convertAmount(){
         $xml = XmlParser::load('http://www.bnm.org/ro/official_exchange_rates?get_xml=1&date='.date("d.m.Y"));
+
         $parsed = $xml->parse([
             'cursToDay' => ['uses' => 'Valute[CharCode,Value]'],
         ]);
