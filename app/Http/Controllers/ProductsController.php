@@ -9,6 +9,7 @@ use App\Image;
 use App\ImprovedSpec;
 use App\Lot;
 use App\Repositories\ImprovedSpecRepository;
+use App\Repositories\SpecPriceRepository;
 use App\Repositories\LotRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
@@ -58,6 +59,7 @@ class ProductsController extends Controller
      * @var ImprovedSpec
      */
     protected $improvedSpecs;
+    protected $specPrice;
 
     /**
      * ProductsController constructor.
@@ -76,16 +78,19 @@ class ProductsController extends Controller
         ProductsColorsRepository $productsColorsRepository,
         InvolvedRepository $involvedRepository,
         LotRepository $lotRepository,
-        ImprovedSpecRepository $improvedSpecRepository
+        ImprovedSpecRepository $improvedSpecRepository,
+        SpecPriceRepository $specPriceRepository
     )
     {
-        $this->session = $session;
-        $this->products = $productsRepository;
-        $this->categoryable = $categoryableRepository;
+        $this->session        = $session;
+        $this->products       = $productsRepository;
+        $this->categoryable   = $categoryableRepository;
         $this->productsColors = $productsColorsRepository;
-        $this->involved = $involvedRepository;
-        $this->lots = $lotRepository;
-        $this->improvedSpecs = $improvedSpecRepository;
+        $this->involved       = $involvedRepository;
+        $this->lots           = $lotRepository;
+        $this->improvedSpecs  = $improvedSpecRepository;
+        $this->specPrice      = $specPriceRepository;
+
     }
 
     /**
@@ -224,11 +229,11 @@ class ProductsController extends Controller
 
         $product->removeMetaById($request->get('spec_id'));
     }
+
     public function removeSpecPrice(Request $request)
     {
-        $product = $this->products->find($request->get('product_id'));
-
-        $product->removeMetaById($request->get('spec_id'));
+        $spec = $this->specPrice->find($request->get('spec_id'));
+        $this->specPrice->delete($spec);
     }
     /**
      * Remove improved spec.

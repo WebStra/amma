@@ -27,7 +27,7 @@
 
         $(document).ready(function () {
             $('body').delegate("input.old_price, input.new_price, input.create_sale", "keyup", function (event) {
-                var curent_product = $(this).parents('.inner_product');
+                var curent_product = $(this).parents('.specification_price_item');
 
                 var sale = curent_product.find('input.create_sale');
                 var old_price = curent_product.find('input.old_price');

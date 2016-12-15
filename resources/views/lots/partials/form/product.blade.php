@@ -99,13 +99,13 @@
                     </div><!--Form-->
 
                     <div class="row" style="margin-bottom: 25px;">
-                        <div class="specification_price overflow">
+                        <div class="col l12 specification_price overflow">
                             @if(old('spec_price'))
                                 @foreach(old('spec_price') as $block_id => $spec)
                                     @include('lots.partials.form.specification_price')
                                 @endforeach
                             @else
-                                @if(count($spec_price = $product->getMetaGroup('spec_price')))
+                                @if(count($spec_price = $product->specPrice))
                                     @foreach($spec_price as $block_id => $spec)
                                         @include('lots.partials.form.specification_price')
                                     @endforeach
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="col l12 m12 s12">
-                            <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpecPrice(this); return false;" href="#add-spec-price">{{ $meta->getMeta('add') }}</a> <a href="#remove-spec-price" onclick="removeSpecPrice(this); return false;" class="ico-remove remove-spec-price">{{ $meta->getMeta('form_lot_del') }}</a></label>
+                            <label style="float: right;">Add group price <a onclick="loadSpecPrice(this); return false;" href="#add-spec-price">{{ $meta->getMeta('add') }}</a></label>
                         </div>
                     </div><!--Specs-->
 
@@ -126,6 +126,7 @@
                                 @endforeach
                             @else
                                 @if(count($specs = $product->getMetaGroup('spec')))
+
                                     @foreach($specs as $block_id => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach
@@ -137,6 +138,7 @@
                             <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpec(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
                         </div>
                     </div><!--Specs-->
+
 
                     <div class="row" style="height: 75px;margin-top: 25px">
                         {{--<div class="col 2">--}}

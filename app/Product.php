@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Libraries\Metaable\HasMeta;
+//use App\Libraries\MetaablePrice\HasMeta;
 use App\Libraries\Presenterable\Presenterable;
 use App\Libraries\Presenterable\Presenters\ProductPresenter;
 use App\Traits\ActivateableTrait;
@@ -73,7 +74,13 @@ class Product extends Repository
     {
         return $this->hasMany(ImprovedSpec::class, 'product_id', 'id');
     }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function specPrice()
+    {
+        return $this->hasMany(SpecPrice::class, 'product_id', 'id');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

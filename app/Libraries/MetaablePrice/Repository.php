@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Libraries\Metaable;
+namespace App\Libraries\MetaablePrice;
 
 use App\Repositories\Repository as BaseRepository;
 
 class Repository extends BaseRepository
 {
     /**
-     * @return Meta
+     * @return SpecPrice
      */
     public function getModel()
     {
-        return new Meta();
+        return new SpecPrice();
     }
 
     /**
@@ -57,13 +57,6 @@ class Repository extends BaseRepository
     public function removeById($id)
     {
         return self::getModel()
-            ->find($id)
-            ->delete();
-    }
-    public function removeGroupById($group, $id)
-    {
-        return self::getModel()
-            ->where('group', $group)
             ->find($id)
             ->delete();
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveLotRequest;
 use App\Lot;
 use App\Repositories\ImprovedSpecRepository;
+use App\Repositories\SpecPriceRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\SubCategoriesRepository;
@@ -39,6 +40,8 @@ class LotsController extends Controller
      */
     protected $improvedSpecs;
 
+    protected $specPrice;
+
 
     protected $sub_category;
 
@@ -59,6 +62,7 @@ class LotsController extends Controller
         LotRepository $lotRepository,
         ProductsRepository $productsRepository,
         ImprovedSpecRepository $improvedSpecRepository,
+        SpecPriceRepository $specPriceRepository,
         SubCategoriesRepository $subCategoriesRepository,
         MethodDeliveryPaymentRepository $methodDeliveryPaymentRepository,
         LotDeliveryPaymentRepository $lotDeliveryPaymentRepository,
@@ -69,6 +73,7 @@ class LotsController extends Controller
         $this->auth          = $auth;
         $this->products      = $productsRepository;
         $this->improvedSpecs = $improvedSpecRepository;
+        $this->specPrice     = $specPriceRepository;
         $this->sub_category  = $subCategoriesRepository;
         $this->method        = $methodDeliveryPaymentRepository;
         $this->lot_method    = $lotDeliveryPaymentRepository;
@@ -177,10 +182,10 @@ class LotsController extends Controller
     public function loadSpecPrice(Request $request, Lot $lot)
     {
         $block_id   = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        $product    = $this->products->createPlain($lot);
+        $product    = $this->products->find($request->get('product_id'));
         $currencies = $this->currencies->getPublic();
-        $spec = $this->improvedSpecs->createPlain($request->get('product_id'));
-        return view('lots.partials.form.specification_price', ['spec' => $spec, 'currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
+        $spec       = $this->specPrice->createPlain($request->get('product_id'));
+        return view('lots.partials.form.specification_price', ['spec'=>$spec,'currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
     }
 
 

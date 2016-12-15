@@ -498,6 +498,16 @@ i.ico_menu_ {
     float: right;
 }
 
+.specification_price_item {
+    border: 1px solid #e9e9e9;
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+
+.label-add-spec-color{
+    padding-bottom: 10px;
+}
+
 .product_info .countdown span{
     background: #ffffff;
     color: #7ac943;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Libraries\Metaable;
+namespace App\Libraries\MetaablePrice;
 
-use App\Libraries\Metaable\Repository as MetaRepository;
+use App\Libraries\MetaablePrice\Repository as MetaRepository;
 
 trait HasMeta
 {
@@ -104,11 +104,6 @@ trait HasMeta
     public function removeMetaById($id)
     {
         $this->getRepository()->removeById((int) $id);
-    }
-    
-    public function removeMetaGroupById($group, $id)
-    {
-        $this->getRepository()->removeGroupById((int) $id);
     }
 
     /**

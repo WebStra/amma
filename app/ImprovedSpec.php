@@ -23,6 +23,11 @@ class ImprovedSpec extends Repository
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+    
+    public function specPrice()
+    {
+        return $this->hasMany(SpecPrice::class, 'price_spec_id', 'id');
+    }
 
     /**
      * @var bool
