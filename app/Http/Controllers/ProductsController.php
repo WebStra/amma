@@ -125,7 +125,7 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        $this->convertAmount();
+        /*$this->convertAmount();*/
 
         $itemPercentage = $this->getSalledPercent($product->id);
 
