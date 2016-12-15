@@ -164,7 +164,8 @@ return [
         App\Providers\SocialiteServiceProvider::class,
         Chencha\Share\ShareServiceProvider::class,
         Conner\Likeable\LikeableServiceProvider::class,
-        Cviebrock\EloquentTaggable\ServiceProvider::class
+        Cviebrock\EloquentTaggable\ServiceProvider::class,
+        Orchestra\Parser\XmlServiceProvider::class
     ],
 
     /*
@@ -212,7 +213,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Date' => Jenssegers\Date\Date::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Share' => Chencha\Share\ShareFacade::class
+        'Share' => Chencha\Share\ShareFacade::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class
 
     ],
 

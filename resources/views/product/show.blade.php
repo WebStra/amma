@@ -21,35 +21,14 @@
                         <div class="col l8 m8 s12 product_info">
                             <h1>{{ $item->present()->renderName() }}</h1>
                             <hr>
-                            <div class="row">
+                            {{--<div class="row">
                                 <div class="col l3 m3 s12">
                                     <h5>Valabil:</h5>
                                 </div>
                                 <div class="col l9 m9 s12">
                                     @include('product.partials.item.countdown')
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col l3 m3 s12">
-                                    <h5>Produs:</h5>
-                                </div>
-                                <div class="product_select col l6 m9 s12">
-                                    <select>
-                                        <option value="0" selected> Select Box </option>
-                                        <option value="1">Short Option</option>
-                                        <option value="2">This Is A Longer Option</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col l3 m3 s12">
-                                    <h5>Cantitate:</h5>
-                                </div>
-                                <div class="col l19 m9 s12">
-                                    @include('product.partials.item.form')
-                                </div>
-                            </div>
+                            </div>--}}
                             <br>
                             <div class="row">
                                 <div class="col l3 m3 s12">
@@ -64,47 +43,103 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="product_price_block">
-                                <div class="first_block_product">
-                                    <div class="row">
-                                        <div class="col l3 m3 s12">
-                                            <h5>Suma:</h5>
+                            @if($lot->vendor->user->id !== \Auth::id())
+                                @if(! $user_is_involved)
+                                    <form method="post"
+                                          action="{{ route('involve_product', ['product' => $item->id]) }}">
+                                        <div class="row">
+                                            <div class="col l3 m3 s12">
+                                                <h5>Produs:</h5>
+                                            </div>
+                                            <div class="product_select col l6 m9 s12">
+                                                <select name="select_product" class="browser-default">
+                                                    <option value="0" selected> Select Box</option>
+                                                    <option value="1">Short Option</option>
+                                                    <option value="2">This Is A Longer Option</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col l9 m9 m4 s12">
-                                            <div class="display-table td_bordered_right display-list_bloks-m-down">
-                                                <div class="td">
-                                                    @if($item->sale > 0)
-                                                        <p class="price">{{ $item->present()->renderPriceWithSale() }}</p>
-                                                        <p class="old_price">{{ $item->present()->renderOldPrice() }}</p>
-                                                    @else
-                                                        <p class="price">{{ $item->present()->renderPrice() }}</p>
-                                                    @endif
+                                        <br>
+                                        <div class="row">
+                                            <div class="col l3 m3 s12">
+                                                <h5>Cantitate:</h5>
+                                            </div>
+                                            <div class="col l19 m9 s12">
+                                                <div class="counting">
+                                                    <div class="wrapp_input">
+                                                        <span class="minus left in"><i class="icon-minus"></i></span>
+                                                        <input type="text" readonly="readonly" value="1" name="count">
+                                                        <span class="plus right in"><i class="icon-plus"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col l12 m12 s12">
+                                                <button type="submit"
+                                                        class="btn_ full_width btn_base put_in_basket product_involve">
+                                                    <span class="hide-on-med-only"><!--Adaugă în coș-->Participa</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                @endif
+                            @endif
+                            <br>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="product_price_block">
+                                        <div class="first_block_product">
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Suma:</h5>
+                                                </div>
+                                                <div class="col l6 m4 s12">
+                                                    <div class="display-table td_bordered_right display-list_bloks-m-down">
+                                                        <div class="td">
+                                                            <p class="price">{{ $item->present()->renderPriceWithSale() }}</p>
+                                                            <p class="old_price">{{ $item->present()->renderOldPrice() }}</p>
+                                                        </div>
+                                                        <div class="td">
+                                                            <span class="conver_mdl">≈ 5220 MDL</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if($user_is_involved)
+                                                    <div class="col l3 m3 s12">
+                                                        <form method="post"
+                                                              action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
+                                                            <button type="submit"
+                                                                    class="btn_ full_width btn_base  put_in_basket">
+                                                                <span class="hide-on-med-only">Exit</span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="sell_info display-table td_bordered_right">
+                                            <div class="row">
+                                                <div class="td col m3 s6">
+                                                    <p>{{ count($item->involved()->active()->get()) }}</p>
+                                                    <h6>PARTICIPANTI</h6>
+                                                </div>
+                                                <div class="td col m3 s6">
+                                                    <p>{{ $item->present()->renderSale() }}</p>
+                                                    <h6>REDUCERE</h6>
+                                                </div>
+                                                <div class="td col m3 s6">
+                                                    <p>{{ $item->present()->economyPrice() }}</p>
+                                                    <h6>ECONOMISEȘTI</h6>
+                                                </div>
+                                                <div class="td col m3 s6">
+                                                    <p>{{ $item->present()->renderCountItem() }}</p>
+                                                    <h6>CANTITATE</h6>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="sell_info display-table td_bordered_right">
-                                    <div class="td">
-                                        <p>{{ count($item->involved()->active()->get()) }}</p>
-                                        <h6>PARTICIPANTI</h6>
-                                    </div>
-                                    <div class="td">
-                                        <p>{{ $item->present()->renderSale() }}</p>
-                                        <h6>REDUCERE</h6>
-                                    </div>
-                                    <div class="td">
-                                        <p>{{ $item->present()->economyPrice() }}</p>
-                                        <h6>ECONOMISEȘTI</h6>
-                                    </div>
-                                    <div class="td">
-                                        <p>{{ $item->present()->renderCountItem() }}</p>
-                                        <h6>CANTITATE</h6>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
-
                                 <div class="col s12 tab_content about_product">
                                     <ul class="">
                                         @if(count($specifications = $item->getMetaFromGroup('spec')))

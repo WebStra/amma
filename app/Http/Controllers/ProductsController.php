@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Session\Store;
 use App\Repositories\ProductsRepository;
+use XmlParser;
 
 class ProductsController extends Controller
 {
@@ -118,6 +119,8 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
+        /*$this->convertAmount();*/
+
         $itemPercentage = $this->getSalledPercent($product->id);
 
         $lot = $this->lots->find($product->lot_id);
@@ -142,6 +145,22 @@ class ProductsController extends Controller
             ->withSame($same_products);
     }
 
+    public function convertAmount(){
+        $xml = XmlParser::load('http://www.bnm.org/ro/official_exchange_rates?get_xml=1&date='.date("d.m.Y"));
+        $parsed = $xml->parse([
+            'cursToDay' => ['uses' => 'Valute[CharCode,Value]'],
+        ]);
+
+        $currency = array('EUR','USD');
+
+        foreach ($parsed as $key => $item) {
+            foreach ($item as $key => $val) {
+                if (in_array($val['CharCode'], $currency)) {
+                    echo $val['CharCode'].' '.$val['Value'].'</br>';
+                }
+            }
+        }
+    }
 
     public function getSalledPercent($id)
     {
