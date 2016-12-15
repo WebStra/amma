@@ -22,6 +22,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Session\Store;
 use App\Repositories\ProductsRepository;
 use XmlParser;
+use Storage;
 
 class ProductsController extends Controller
 {
@@ -124,7 +125,7 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        /*$this->convertAmount();*/
+        $this->convertAmount();
 
         $itemPercentage = $this->getSalledPercent($product->id);
 
@@ -158,14 +159,15 @@ class ProductsController extends Controller
         ]);
 
         $currency = array('EUR','USD');
-
+        $json = array();
         foreach ($parsed as $key => $item) {
             foreach ($item as $key => $val) {
                 if (in_array($val['CharCode'], $currency)) {
-                    echo $val['CharCode'].' '.$val['Value'].'</br>';
+                    $json[$val['CharCode']] = $val['Value'];
                 }
             }
         }
+        $put = Storage::put('json_currency.json', json_encode($json));
     }
 
     public function getSalledPercent($id)
