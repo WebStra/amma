@@ -1,4 +1,5 @@
 /vendor
+!vendor/orchestra/
 /node_modules
 Homestead.yaml
 Homestead.json
