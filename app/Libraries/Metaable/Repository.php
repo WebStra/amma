@@ -60,4 +60,11 @@ class Repository extends BaseRepository
             ->find($id)
             ->delete();
     }
+    public function removeGroupById($group, $id)
+    {
+        return self::getModel()
+            ->where('group', $group)
+            ->find($id)
+            ->delete();
+    }
 }

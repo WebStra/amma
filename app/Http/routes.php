@@ -245,6 +245,11 @@ Route::multilingual(function () {
                 'uses' => 'ProductsController@remove'
             ]);
 
+            Route::post('delete_group_price', [
+                'as' => 'delete_group_price',
+                'uses' => 'SpecPriceController@remove'
+            ]);
+
             Route::post('lots/create/{lot}/select-category', [
                 'as' => 'lot_select_category',
                 'middleware' => 'accept-ajax',

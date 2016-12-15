@@ -70,7 +70,7 @@ class Product extends Repository
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function improvedSpecs($spec_id)
+    public function improvedSpecs()
     {
         return $this->hasMany(ImprovedSpec::class, 'product_id', 'id');
     }

@@ -126,6 +126,7 @@
                                 @endforeach
                             @else
                                 @if(count($specs = $product->getMetaGroup('spec')))
+
                                     @foreach($specs as $block_id => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach

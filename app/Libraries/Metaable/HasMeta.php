@@ -105,6 +105,11 @@ trait HasMeta
     {
         $this->getRepository()->removeById((int) $id);
     }
+    
+    public function removeMetaGroupById($group, $id)
+    {
+        $this->getRepository()->removeGroupById((int) $id);
+    }
 
     /**
      * Remove group of meta.

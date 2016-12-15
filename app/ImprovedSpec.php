@@ -26,7 +26,7 @@ class ImprovedSpec extends Repository
     
     public function specPrice()
     {
-        return $this->belongsTo(SpecPrice::class, 'price_spec_id', 'id');
+        return $this->hasMany(SpecPrice::class, 'price_spec_id', 'id');
     }
 
     /**

@@ -44,8 +44,8 @@ class PagesController extends Controller
     ) {
         $this->contacts = $contactsRepository;
         $this->products = $productsRepository;
-        $this->pages = $pagesRepository;
-        $this->lot = $lotRepository;
+        $this->pages    = $pagesRepository;
+        $this->lot      = $lotRepository;
     }
 
     /**

@@ -1,18 +1,18 @@
-    <div class="size_color_sold_item overflow" data-suite-spec="{{ $spec->id }}">
+    <div class="size_color_sold_item overflow" data-suite-spec="{{ $item->id }}">
         <div class="col l4 m12 s12">
             <div class="input-field">
                 <span class="label">{{ $meta->getMeta('form_lot_size') }}</span>
-                <input type="text" required="" name="i_spec[{{ $spec->id }}][size]" value="{{ ($spec->size) ? $spec->size : '' }}" placeholder="Size">
+                <input type="text" required="" name="i_spec[{{ $item->id }}][size]" value="{{ ($item->size) ? $item->size : '' }}" placeholder="Size">
             </div>
         </div>
         <div class="col l4 m12 s12">
             <div class="input-field">
                 <span class="label">{{ $meta->getMeta('form_lot_color') }}</span>
                 <div class="file-field">
-                    <!-- <div class="btn" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></div> -->
-                    <button type="button" class="waves-effect waves-light btn btn-colorpicker" {{ $spec->color_hash ? 'style="background-color:'. $spec->color_hash .'"' : '' }}></button>
+                    <!-- <div class="btn" {{ $item->color_hash ? 'style="background-color:'. $item->color_hash .'"' : '' }}></div> -->
+                    <button type="button" class="waves-effect waves-light btn btn-colorpicker" {{ $item->color_hash ? 'style="background-color:'. $item->color_hash .'"' : '' }}></button>
                     <div class="file-path-wrapper">
-                       <input type="text" class="input-colorpicker" name="i_spec[{{ $spec->id }}][color]" value="{{ ($spec->color_hash) ? $spec->color_hash : '' }}"/>
+                       <input type="text" class="input-colorpicker" name="i_spec[{{ $item->id }}][color]" value="{{ ($item->color_hash) ? $item->color_hash : '' }}"/>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
         <div class="col l3 m10 s10">
             <div class="input-field">
                 <span class="label">{{ $meta->getMeta('form_lot_sold') }}</span>
-                <input type="text" required="" name="i_spec[{{ $spec->id }}][sold]" value="{{ ($spec->amount) ? $spec->amount : '' }}" placeholder="0">
+                <input type="text" required="" name="i_spec[{{ $item->id }}][sold]" value="{{ ($item->amount) ? $item->amount : '' }}" placeholder="0">
             </div>
         </div>
         <div class="col l1 m2 s2">

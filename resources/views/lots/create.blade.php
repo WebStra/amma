@@ -292,6 +292,32 @@
             return false;
         }
 
+        function removeGroupPrice(group_price) // On delete product.
+        {
+            if(confirm('Are you sure?'))
+            {
+                (function ($) {
+                    var $this = $(group_price);
+                    var form = $this.parents('.specification_price_item');
+                    var spec_id = form.data('spec-id');
+                    var product_id = form.data('product');
+
+                    $.ajax({
+                        type: 'POST',
+                        data: { spec_id: spec_id },
+                        url: "{{ route("delete_group_price") }}",
+                        success: function (response) {
+                            console.log(response);
+                            form.remove();
+                        }
+                    });
+                }(jQuery));
+
+                return;
+            }
+
+            return false;
+        }
         function saveProductBlock(form) // On save product.
         {
             (function ($) {
