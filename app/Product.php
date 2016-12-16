@@ -48,7 +48,7 @@ class Product extends Repository
      */
     public function colors()
     {
-        return $this->hasMany(ProductsColors::class, 'product_id', 'id');
+        return $this->hasMany(ModelColors::class, 'product_id', 'id');
     }
 
     /**

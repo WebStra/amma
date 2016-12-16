@@ -252,7 +252,22 @@ Route::multilingual(function () {
             'middleware' => 'accept-ajax',
             'uses'       => 'SpecPriceController@removeSpec'
         ]);
-        
+
+        Route::post('load_spec_price_color', [
+            'as'         => 'load_spec_price_color',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@loadSpecPriceColor'
+        ]);
+        Route::post('remove-group-size-color', [
+            'as'         => 'remove-group-size-color',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@removeGroupSizeColor'
+        ]);
+        Route::post('remove_spec_price_color', [
+            'as'         => 'remove_spec_price_color',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@removeSpecPriceColor'
+        ]);
         Route::group(['middleware' => 'can_handle_action:lot'], function () // For product only
         {
             Route::get('lots/{lot}/edit', [

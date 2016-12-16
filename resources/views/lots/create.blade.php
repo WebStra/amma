@@ -450,7 +450,28 @@
                 data: { block_id: block_id},
                 url: "{{ route('load_improved_spec_price') }}",
                 success: function (view) {
-                    form.find('.wrap_color_price').append(view);
+                    form.find('.wrap_size_price').append(view);
+                    initColor();
+
+                }
+            });
+        }
+
+        function loadSpecPriceColor(btn)
+        {
+            var $btn = $(btn);
+            var form = $btn.parents('.wrap_size_price');
+            //var product = form.data('product');
+            var block_id = 'temp'
+                + Math.floor((Math.random() * 10000) + 1)
+                + Math.random().toString(36).substring(7)
+                + Math.floor((Math.random() * 10000) + 1);
+            $.ajax({
+                type: 'POST',
+                data: { block_id: block_id},
+                url: "{{ route('load_spec_price_color') }}",
+                success: function (view) {
+                    form.find('.inner_color_price').append(view);
                     initColor();
 
                 }
@@ -481,7 +502,31 @@
                 }
             }
         }
+        function removeGroupSizeColor(btn) // On remove spec.
+        {
+            var $this = $(btn);
+            var block = $this.parents('.group-size-color');
+            //var product_id = block.parents('form').data('product');
 
+            if(confirm('Remove group size color ?'))
+            {
+                if(block.hasClass('saved'))
+                {
+                    var id = block.data('spec-id');
+
+                    $.ajax({
+                        url: "{{ route('remove-group-size-color') }}",
+                        data: { spec_id: id},
+                        method: 'post',
+                        success: function () {
+                            block.remove();
+                        }
+                    });
+                } else {
+                    block.remove();
+                }
+            }
+        }
         function removeSpecPrice(btn) // On remove spec.
         {
             var $this = $(btn);
@@ -508,6 +553,31 @@
             }
         }
 
+        function removeSpecPriceColor(btn) // On remove spec.
+        {
+            var $this = $(btn);
+            var block = $this.parents('.color_sold_item');
+            //var product_id = block.parents('form').data('product');
+
+            if(confirm('Remove specification color?'))
+            {
+                if(block.hasClass('saved'))
+                {
+                    var id = block.data('spec-id');
+
+                    $.ajax({
+                        url: "{{ route('remove_spec_price_color') }}",
+                        data: { spec_id: id},
+                        method: 'post',
+                        success: function () {
+                            block.remove();
+                        }
+                    });
+                } else {
+                    block.remove();
+                }
+            }
+        }
         function removeImprovedSpec(btn)
         {
             var $this = $(btn);

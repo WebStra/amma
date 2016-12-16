@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Repositories\CategoryableRepository;
 use App\Repositories\InvolvedRepository;
-use App\Repositories\ProductsColorsRepository;
+use App\Repositories\ModelColorsRepository;
 use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -47,9 +47,9 @@ class ProductsController extends Controller
     protected $involved;
 
     /**
-     * @var ProductsColorsRepository
+     * @var modelColorsRepository
      */
-    protected $productsColors;
+    protected $modelColors;
 
     /**
      * @var LotRepository
@@ -67,7 +67,7 @@ class ProductsController extends Controller
      * @param Store $session
      * @param ProductsRepository $productsRepository
      * @param CategoryableRepository $categoryableRepository
-     * @param ProductsColorsRepository $productsColorsRepository
+     * @param ModelColorsRepository $modelColorsRepository
      * @param InvolvedRepository $involvedRepository
      * @param LotRepository $lotRepository
      * @param ImprovedSpecRepository $improvedSpecRepository
@@ -76,21 +76,21 @@ class ProductsController extends Controller
         Store $session,
         ProductsRepository $productsRepository,
         CategoryableRepository $categoryableRepository,
-        ProductsColorsRepository $productsColorsRepository,
+        ModelColorsRepository $modelColorsRepository,
         InvolvedRepository $involvedRepository,
         LotRepository $lotRepository,
         ImprovedSpecRepository $improvedSpecRepository,
         SpecPriceRepository $specPriceRepository
     )
     {
-        $this->session        = $session;
-        $this->products       = $productsRepository;
-        $this->categoryable   = $categoryableRepository;
-        $this->productsColors = $productsColorsRepository;
-        $this->involved       = $involvedRepository;
-        $this->lots           = $lotRepository;
-        $this->improvedSpecs  = $improvedSpecRepository;
-        $this->specPrice      = $specPriceRepository;
+        $this->session       = $session;
+        $this->products      = $productsRepository;
+        $this->categoryable  = $categoryableRepository;
+        $this->modelColors   = $modelColorsRepository;
+        $this->involved      = $involvedRepository;
+        $this->lots          = $lotRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
+        $this->specPrice     = $specPriceRepository;
 
     }
 
@@ -190,6 +190,11 @@ class ProductsController extends Controller
      */
     public function remove(Request $request, Lot $lot)
     {
+
+        $product = $this->products->find($request->get('product_id'));
+        if ($product) {
+            $product->removeMetaGroupById('spec', $request->get('product_id'));
+        }
         $this->products->delete($request->get('product_id'));
 
         /*if($this->lots->checkIfPossibleToChangeCategory($lot))

@@ -44,20 +44,39 @@ class SpecPriceController extends Controller
         if ($spec) {
             $spec->removeMetaById($request->get('spec_id'));
         }
-        
+    }
+
+    public function removeGroupSizeColor(Request $request)
+    {
+        $spec = $this->specPrice->find($request->get('spec_id'));
+        if ($spec) {
+            $spec->removeMetaById($request->get('spec_id'));
+        }
+    }
+    
+    public function removeSpecPriceColor(Request $request)
+    {
+        $spec = $this->specPrice->find($request->get('spec_id'));
+        if ($spec) {
+            $spec->removeMetaById($request->get('spec_id'));
+        }
     }
 
     public function loadImprovedSpecPrice(Request $request)
     {
         $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        return view('lots.partials.form.color_specs', ['block_id' => $block_id]);
+        return view('lots.partials.form.size_specs', ['block_id' => $block_id]);
     }
     public function loadSpecPriceDescription(Request $request)
     {
         $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
         return view('lots.partials.form.description_specs', ['block_id' => $block_id]);
     }
-
+    public function loadSpecPriceColor(Request $request)
+    {
+        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
+        return view('lots.partials.form.color_specs', ['block_id' => $block_id]);
+    }
     public function removeImproveSpecPrice(Request $request)
     {
         $spec = $this->improvedSpecs->find($request->get('spec_id'));
@@ -66,5 +85,6 @@ class SpecPriceController extends Controller
         }
         
     }
+
 
 }

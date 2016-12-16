@@ -36,14 +36,14 @@
         </div>
     </div><!--sale-->
 
-    <div class="wrap_color_price">
+    <div class="wrap_size_price">
         @if(isset($spec) && count($specs = $spec->improvedSpecs))
             @foreach($specs as $item_spec)
-                @include('lots.partials.form.color_specs')
+                @include('lots.partials.form.size_specs')
             @endforeach
-            @include('lots.partials.form.color_specs')
+            @include('lots.partials.form.size_specs')
         @else
-            @include('lots.partials.form.color_specs')
+            @include('lots.partials.form.size_specs')
         @endif
     </div>
 

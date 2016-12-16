@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\ProductsColors as Color;
+use App\ModelColors as Color;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductsColorsRepository extends Repository
+class ModelColorsRepository extends Repository
 {
     /**
      * @return Color

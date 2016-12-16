@@ -5,19 +5,19 @@ namespace App;
 use App\Traits\ActivateableTrait;
 use Keyhunter\Administrator\Repository;
 
-class ProductsColors extends Repository
+class ModelColors extends Repository
 {
     use ActivateableTrait;
 
     /**
      * @var string
      */
-    protected $table = 'products_colors';
+    protected $table = 'model_colors';
 
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'color_hash', 'active'];
+    protected $fillable = ['product_id','size_id','color_hash', 'amount', 'active'];
 
     /**
      * @var bool
