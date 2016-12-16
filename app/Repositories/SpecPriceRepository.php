@@ -44,9 +44,13 @@ class SpecPriceRepository extends Repository
      * 
      * @param SpecPrice $model
      */
-    public function delete(SpecPrice $model)
+/*    public function delete(SpecPrice $model)
     {
         $model->delete();
+    }*/
+    public function delete($id)
+    {
+        return $this->find($id)->delete();
     }
 
     /**

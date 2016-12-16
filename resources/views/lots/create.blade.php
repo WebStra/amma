@@ -278,10 +278,10 @@
                         success: function (response) {
                             form.remove();
 
-                            if(response == 'enable_cat')
+                            /*if(response == 'enable_cat')
                             {
                                 $(category_input).removeAttr('disabled');
-                            }
+                            }*/
                         }
                     });
                 }(jQuery));
@@ -300,10 +300,10 @@
                     var $this = $(group_price);
                     var form = $this.parents('.specification_price_item');
                     var spec_id = form.data('spec-id');
-                    var product_id = form.data('product');
+                    //var product_id = form.data('product');
 
                     $.ajax({
-                        method: 'POST',
+                        type: 'POST',
                         data: { spec_id: spec_id },
                         url: "{{ route("delete_group_price") }}",
                         success: function (response) {
@@ -374,7 +374,24 @@
                 }
             });
         }
+        function loadSpecPriceDescription(btn) // Load specification block
+        {
+            var $this = $(btn);
+            var form = $this.parents('.specification_price_item');
+            var block_id = 'temp'
+                    + Math.floor((Math.random() * 10000) + 1)
+                    + Math.random().toString(36).substring(7)
+                    + Math.floor((Math.random() * 10000) + 1);
 
+            $.ajax({
+                type: 'POST',
+                data: { block_id: block_id },
+                url: "{{ route('load_spec_price_description') }}",
+                success: function (view) {
+                    form.find('.wrap_description_price').append(view);
+                }
+            });
+        }
         function loadSpecPrice(btn) // Load specification block
         {
             var $this = $(btn);
@@ -419,6 +436,26 @@
             });
         }
 
+        function loadImprovedSpecPrice(btn)
+        {
+            var $btn = $(btn);
+            var form = $btn.parents('.specification_price_item');
+            //var product = form.data('product');
+            var block_id = 'temp'
+                + Math.floor((Math.random() * 10000) + 1)
+                + Math.random().toString(36).substring(7)
+                + Math.floor((Math.random() * 10000) + 1);
+            $.ajax({
+                type: 'POST',
+                data: { block_id: block_id},
+                url: "{{ route('load_improved_spec_price') }}",
+                success: function (view) {
+                    form.find('.wrap_color_price').append(view);
+                    initColor();
+
+                }
+            });
+        }
         function removeSpec(btn) // On remove spec.
         {
             var $this = $(btn);
@@ -432,7 +469,7 @@
                     var id = block.data('spec-id');
 
                     $.ajax({
-                        url: "{{ route('remove_product_spec', [ $lot->id ]) }}",
+                        url: "{{ route('remove-spec') }}",
                         data: { spec_id: id, product_id: product_id },
                         method: 'post',
                         success: function () {
@@ -492,6 +529,26 @@
             }
         }
 
+        function removeImprovedSpecPrice(btn)
+        {
+            var $this = $(btn);
+            var block = $this.parents('.size_color_sold_item');
+            var product_id = block.parents('form').data('product');
+
+            if(confirm('Remove specification ?'))
+            {
+                var id = block.data('block');
+
+                $.ajax({
+                    url: "{{ route('remove_product_improved_spec_price') }}",
+                    //data: { spec_id: id, product_id: product_id },
+                    method: 'post',
+                    success: function () {
+                        block.remove();
+                    }
+                });
+            }
+        }
         function uploadImages(input)
         {
             var $this = $(input);

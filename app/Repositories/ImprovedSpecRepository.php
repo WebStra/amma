@@ -18,12 +18,14 @@ class ImprovedSpecRepository extends Repository
      * @param $product_id
      * @return static
      */
-    public function createPlain($product_id)
+    public function createPlain($product_id, $spec_id = null)
     {
+        $insert = array('product_id' => (int)$product_id);
+        if ($spec_id != null) {
+            $insert['price_spec_id'] = (int)$spec_id;
+        }
         return self::getModel()
-            ->create([
-                'product_id' => $product_id
-            ]);
+            ->create($insert);
     }
 
     /**

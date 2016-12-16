@@ -14,7 +14,7 @@ class ImprovedSpec extends Repository
     /**
      * @var array
      */
-    protected $fillable = [ 'product_id', 'size', 'color_hash', 'amount' ];
+    protected $fillable = [ 'product_id', 'size', 'color_hash', 'amount','price_spec_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

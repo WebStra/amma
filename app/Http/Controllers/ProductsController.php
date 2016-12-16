@@ -125,7 +125,7 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        $this->convertAmount();
+        /*$this->convertAmount();*/
 
         $itemPercentage = $this->getSalledPercent($product->id);
 
@@ -192,8 +192,8 @@ class ProductsController extends Controller
     {
         $this->products->delete($request->get('product_id'));
 
-        if($this->lots->checkIfPossibleToChangeCategory($lot))
-            return 'enable_cat';
+        /*if($this->lots->checkIfPossibleToChangeCategory($lot))
+            return 'enable_cat';*/
     }
 
     /**
@@ -213,7 +213,6 @@ class ProductsController extends Controller
     {
         array_walk($specs, function($data, $spec_id){
             $spec = $this->improvedSpecs->find($spec_id);
-            
             if($spec)
                 $this->improvedSpecs->update($spec, $data);
         });
@@ -229,8 +228,10 @@ class ProductsController extends Controller
     public function removeSpec(Request $request)
     {
         $product = $this->products->find($request->get('product_id'));
-
-        $product->removeMetaById($request->get('spec_id'));
+        if ($product) {
+            $product->removeMetaById($request->get('spec_id'));
+        }
+        
     }
 
     public function removeSpecPrice(Request $request)

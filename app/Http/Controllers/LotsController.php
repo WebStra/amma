@@ -184,8 +184,7 @@ class LotsController extends Controller
         $block_id   = ($request->get('block_id')) ? $request->get('block_id') : 1;
         $product    = $this->products->find($request->get('product_id'));
         $currencies = $this->currencies->getPublic();
-        $spec       = $this->specPrice->createPlain($request->get('product_id'));
-        return view('lots.partials.form.specification_price', ['spec'=>$spec,'currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
+        return view('lots.partials.form.specification_price', ['currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
     }
 
 

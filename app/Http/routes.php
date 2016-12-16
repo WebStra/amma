@@ -221,6 +221,38 @@ Route::multilingual(function () {
             'uses' => 'LotsController@create'
         ]);
 
+        Route::post('delete_group_prices', [
+            'as'         => 'delete_group_price',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@remove'
+        ]);
+        Route::post('load_improved_spec_price', [
+            'as'         => 'load_improved_spec_price',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@loadImprovedSpecPrice'
+        ]);
+        Route::post('load_spec_price_description', [
+            'as'         => 'load_spec_price_description',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@loadSpecPriceDescription'
+        ]);
+        Route::post('remove_product_improved_spec_price', [
+            'as'         => 'remove_product_improved_spec_price',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@removeImproveSpecPrice'
+        ]);
+        Route::post('remove-improved-spec', [
+            'as'         => 'remove-improved-spec',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@removeImproveSpec'
+        ]);
+
+        Route::post('remove-spec', [
+            'as'         => 'remove-spec',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'SpecPriceController@removeSpec'
+        ]);
+        
         Route::group(['middleware' => 'can_handle_action:lot'], function () // For product only
         {
             Route::get('lots/{lot}/edit', [
@@ -243,11 +275,6 @@ Route::multilingual(function () {
             Route::post('lots/{lot}/delete-product', [
                 'as' => 'delete_product',
                 'uses' => 'ProductsController@remove'
-            ]);
-
-            Route::post('delete_group_price', [
-                'as' => 'delete_group_price',
-                'uses' => 'SpecPriceController@remove'
             ]);
 
             Route::post('lots/create/{lot}/select-category', [

@@ -64,7 +64,7 @@ class Repository extends BaseRepository
     {
         return self::getModel()
             ->where('group', $group)
-            ->find($id)
+            ->where('metaable_id', $id)
             ->delete();
     }
 }

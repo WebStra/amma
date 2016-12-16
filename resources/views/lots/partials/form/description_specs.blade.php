@@ -1,4 +1,4 @@
-    <div class="specification_suite_item overflow {{ isset($spec) ? 'saved' : '' }}" data-spec-id="{{ isset($spec) ? $spec->id : '' }}" data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
+    <div class="specification_suite_price_item overflow {{ isset($spec) ? 'saved' : '' }}" data-spec-id="{{ isset($spec) ? $spec->id : '' }}" data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
 
         <div class="col l6 m12 s12">
             <div class="input-field spec_name">
@@ -17,7 +17,7 @@
         </div>
 
         <div class="col l1 m2 s2">
-            <div class="input-field center-align"><br><a href="#remove-spec-price" onclick="removeSpecPrice(this); return false;" class="ico-remove remove-spec-price"><i class="material-icons">delete</i></a></div>
+            <div class="input-field center-align"><br><a href="#remove-spec-price" onclick="removeSpecPriceDescription(this); return false;" class="ico-remove remove-spec-price"><i class="material-icons">delete</i></a></div>
         </div>
 
     </div>

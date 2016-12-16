@@ -105,10 +105,12 @@ trait HasMeta
     {
         $this->getRepository()->removeById((int) $id);
     }
-    
-    public function removeMetaGroupById($group, $id)
+
+    public function removeMetaGroupById($group=null, $id=null)
     {
-        $this->getRepository()->removeGroupById((int) $id);
+        if ($id!=null) {
+            $this->getRepository()->removeGroupById($group,(int)$id);
+        }
     }
 
     /**

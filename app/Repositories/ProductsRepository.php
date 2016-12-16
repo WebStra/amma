@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\ImprovedSpec;
+use App\SpecPrice;
 use App\Lot;
 use App\Product;
 use Carbon\Carbon;
@@ -368,10 +369,13 @@ class ProductsRepository extends Repository
             ->create([
                 'lot_id' => $lot->id
             ]);
-
-        ImprovedSpec::create([
+        /*$spec_price =  SpecPrice::create([
             'product_id' => $product->id
         ]);
+        ImprovedSpec::create([
+            'product_id' => $product->id,
+            'price_spec_id' => $spec_price->id
+        ]);*/
 
         return $product;
     }

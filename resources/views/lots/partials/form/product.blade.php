@@ -104,11 +104,15 @@
                                 @foreach(old('spec_price') as $block_id => $spec)
                                     @include('lots.partials.form.specification_price')
                                 @endforeach
+                                @include('lots.partials.form.specification_price')
                             @else
                                 @if(count($spec_price = $product->specPrice))
                                     @foreach($spec_price as $block_id => $spec)
                                         @include('lots.partials.form.specification_price')
                                     @endforeach
+                                    @include('lots.partials.form.specification_price')
+                                @else
+                                    @include('lots.partials.form.specification_price')
                                 @endif
                             @endif
                         </div>
@@ -124,12 +128,15 @@
                                 @foreach(old('spec') as $block_id => $spec)
                                     @include('lots.partials.form.specification')
                                 @endforeach
+                                @include('lots.partials.form.specification')
                             @else
                                 @if(count($specs = $product->getMetaGroup('spec')))
-
                                     @foreach($specs as $block_id => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach
+                                    @include('lots.partials.form.specification')
+                                @else
+                                    @include('lots.partials.form.specification')
                                 @endif
                             @endif
                         </div>
