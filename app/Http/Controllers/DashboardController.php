@@ -54,7 +54,7 @@ class DashboardController extends Controller
     }
     public function howWork(){
 
-        $video = Video::get();
+        $video = Video::orderBy('id','desc')->get();
 
         return view('dashboard.how-amma-work',compact('video'));
     }

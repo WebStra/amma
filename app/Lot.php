@@ -72,6 +72,16 @@ class Lot extends Repository
         return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 
+    public function specPrice()
+    {
+        return $this->hasMany(SpecPrice::class, 'lot_id', 'id');
+    }
+
+    public function involved()
+    {
+        return $this->hasMany(Involved::class, 'lot_id', 'id')->active();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

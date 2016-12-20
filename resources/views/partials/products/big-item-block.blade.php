@@ -27,7 +27,7 @@
         </div>
         <div class="col l6 m6 s12">
             <form class="row childs_margin_top" method="post"
-                  action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
+                  action="{{ route('involve_product_cancel', ['involved' => $involved->id, 'product'=>$item->id]) }}">
                 <button type="submit" class="full_width btn_base  put_in_basket bascket_button_style">
                     <span class="hide-on-med-only">Exit</span>
                 </button>

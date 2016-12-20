@@ -217,6 +217,9 @@ $(document).ready(function() {
         function incrementValue() {
             value = isNaN(value) ? 0 : value;
             value++;
+            if(value > this_.attr('max')) {
+                value--;
+            }
             this_.attr('value', value);
         }
 
@@ -224,6 +227,9 @@ $(document).ready(function() {
             value = isNaN(value) ? 0 : value;
             value = value == 0 ? 1 : value;
             value--;
+            if(value === 0) {
+                value++;
+            }
             this_.attr('value', value);
         }
 
@@ -235,7 +241,7 @@ $(document).ready(function() {
             incrementValue();
         });
 
-    }
+    };
 
     $(".counting").counting();
 
