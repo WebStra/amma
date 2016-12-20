@@ -103,7 +103,10 @@ class ProductsController extends Controller
     {
         $product = $this->products->saveProduct($product, $request->all());
 
-        if (!empty($spec = $request->get('spec')))
+        if (!empty($spec_price = $request->get('spec_price')))
+            $this->saveSpecificationsAll($request,$product);
+
+       /* if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);
 
         if (!empty($fileInput = $request->file('image')))
@@ -113,8 +116,12 @@ class ProductsController extends Controller
 
         if (!empty($specs = $request->get('i_spec')))
             $this->saveImprovedSpecifications($specs, $product);
-
-        return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product]);
+*/
+        $json = array(
+            'respons' => true
+        );
+         return response($json);
+        //return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product]);
     }
 
     /**
@@ -151,7 +158,7 @@ class ProductsController extends Controller
             ->withSame($same_products);
     }
 
-    public function convertAmount(){
+/*    public function convertAmount(){
         $xml = XmlParser::load('http://www.bnm.org/ro/official_exchange_rates?get_xml=1&date='.date("d.m.Y"));
 
         $parsed = $xml->parse([
@@ -168,7 +175,7 @@ class ProductsController extends Controller
             }
         }
         $put = Storage::put('json_currency.json', json_encode($json));
-    }
+    }*/
 
     public function getSalledPercent($id)
     {
@@ -214,9 +221,43 @@ class ProductsController extends Controller
         });
     }
 
+
+    private function saveSpecificationsAll($request, Product $product)
+    {
+        //dd($request->get('spec_price'));
+        //dd(collect($request->get('spec_price'))->first());
+        //$collection = $request->get('spec_price');
+       /* $collection = collect($request->get('spec_price'));
+        $filtered = $collection->filter(function ($item) {
+            return $item['new_price'] != '' && $item['old_price'] != '';
+        })->values();
+        dd($filtered->all());*/
+        if (!empty($spec = $request->get('spec_price'))) {
+            array_walk($spec, function($data) use ($product,$request) {
+                if (($data['new_price'] >= 0 && $data['old_price'] >= 0) && ($data['new_price'] != null && $data['old_price'] != null)) {
+                    $specPriceInsert = $this->specPrice->save($data, $product);
+                    if (!empty($specSize = $request->get('spec_size'))) {
+                        array_walk($specSize, function($data) use ($specPriceInsert,$request) {
+                            if ($data['size'] >= 0  && $data['size'] != null) {
+                                $specSizeInsert = $this->improvedSpecs->create($data, $specPriceInsert);
+                                if (!empty($specColor = $request->get('spec_color'))) {
+                                    array_walk($specColor, function($data) use ($specSizeInsert,$request) {
+                                        if ($data['color_hash'] != null  or ($data['amount'] >= 0 && $data['amount'] != null)) {
+                                            $specColorInsert = $this->modelColors->create($data, $specSizeInsert);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
     private function saveImprovedSpecifications($specs, $product)
     {
-        array_walk($specs, function($data, $spec_id){
+        array_walk($specs, function($data, $product){
             $spec = $this->improvedSpecs->find($spec_id);
             if($spec)
                 $this->improvedSpecs->update($spec, $data);

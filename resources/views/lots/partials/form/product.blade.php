@@ -50,7 +50,6 @@
                                         <span class="label">{{ $meta->getMeta('subcategory') }}</span>
                                         <select class="subcategories" name="sub_category"
                                                 required="required">
-                                            <option value="">{{ $meta->getMeta('select_subcategory') }}</option>
                                             @foreach($sub_categories as $sub_category)
                                                 <?php $selected = ($product->sub_category_id == $sub_category->id) ? 'selected' : ''; ?>
                                                 <option value="{{ $sub_category->id }}"
@@ -110,6 +109,7 @@
                                     @foreach($spec_price as $block_id => $spec)
                                         @include('lots.partials.form.specification_price')
                                     @endforeach
+                                    <?php unset($spec); ?>
                                     @include('lots.partials.form.specification_price')
                                 @else
                                     @include('lots.partials.form.specification_price')
@@ -134,6 +134,7 @@
                                     @foreach($specs as $block_id => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach
+                                    <?php unset($spec); ?>
                                     @include('lots.partials.form.specification')
                                 @else
                                     @include('lots.partials.form.specification')

@@ -250,7 +250,7 @@
                         url: "{{ route('lot_select_category', [ $lot->id ]) }}",
                          success: function (response) {
                             $('.subcategories').material_select('destroy');
-                            var option = '<option value="">{{ $meta->getMeta('select_subcategory') }}</option>';
+                            //var option = '<option value="">{{ $meta->getMeta('select_subcategory') }}</option>';
                             $.each(response.sub_category, function(index, item) {
                                  option += '<option value="'+item.id+'">'+item.name+'</option>'
                             });
@@ -335,9 +335,9 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        canvas.html(response);
-
-                        initProductElements(canvas);
+                        //canvas.html(response);
+                        Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 2000, 'green');
+                        //initProductElements(canvas);
                     }
                 });
             }(jQuery));
@@ -460,7 +460,7 @@
         function loadSpecPriceColor(btn)
         {
             var $btn = $(btn);
-            var form = $btn.parents('.wrap_size_price');
+            var form = $btn.parents('.wrap_color_price');
             //var product = form.data('product');
             var block_id = 'temp'
                 + Math.floor((Math.random() * 10000) + 1)

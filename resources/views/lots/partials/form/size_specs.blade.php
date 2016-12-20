@@ -1,16 +1,14 @@
 <div class="group-size-color">
-    <div class="size_color_sold_item overflow {{ isset($item_spec->id) ? 'saved' : '' }}" data-suite-id="{{ isset($item_spec->id) ? $item_spec->id->id : '' }}" data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
+    <div class="size_color_sold_item overflow {{ isset($item_spec->id) ? 'saved' : '' }}" data-suite-id="{{ isset($item_spec->id) ? $item_spec->id : '' }}" data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
         <div class="col l4 m12 s12">
             <div class="input-field">
                 <span class="label">{{ $meta->getMeta('form_lot_size') }}</span>
-                <input type="text" required="" name="i_spec[{{ isset($block_id) ? $block_id : 1 }}][size]" value="{{ isset($item_spec->id->size) ? $item_spec->id->size : '' }}" placeholder="Size">
+                <input type="text" name="spec_size[{{ isset($block_id) ? $block_id : 1 }}][size]" value="{{ isset($item_spec->size) ? $item_spec->size : '' }}" placeholder="Size">
             </div>
         </div>
-        @if(isset($colors) && count($colors = $spec->specColors))
+        @if(isset($item_spec) && count($colors = $item_spec->specColors))
             @foreach($colors as $color)
-                @if($loop->first)
-                    @include('lots.partials.form.size_color_specs')
-                @endif   
+                @include('lots.partials.form.size_color_specs')
                 @break;
             @endforeach
         @else
@@ -20,16 +18,18 @@
 
     <div class="wrap_color_price">
         <div class="inner_color_price">
-            @if(isset($colors) && count($colors = $spec->specColors))
-                @foreach($colors as $color)
-                    @include('lots.partials.form.color_specs')
+            @if(isset($item_spec) && count($colors = $item_spec->specColors))
+                @foreach($colors as $key => $color)
+                    @if($key > 0)
+                        @include('lots.partials.form.color_specs')
+                    @endif
                 @endforeach
+                <?php unset($color); ?>  
                 @include('lots.partials.form.color_specs')
             @else
-                <!-- @if(isset($colors) && count($colors = $spec->specColors))
+                @if(isset($item_spec) && count($colors = $item_spec->specColors))
                     @include('lots.partials.form.color_specs')
-                @endif -->
-                @include('lots.partials.form.color_specs')
+                @endif
             @endif
         </div>
 

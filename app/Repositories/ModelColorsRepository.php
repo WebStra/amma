@@ -15,12 +15,14 @@ class ModelColorsRepository extends Repository
         return new Color();
     }
 
-    public function create($product, $color)
+    public function create(array $data,$specSize)
     {
         return self::getModel()
             ->create([
-                'product_id' => is_numeric($product) ? $product : $product->id,
-                'color_hash' => $color
+                'size_id'    => $specSize->id,
+                'product_id' => $specSize->product_id,
+                'color_hash' => (isset($data['color_hash']) ? $data['color_hash'] : ''),
+                'amount'     => (isset($data['amount']) ? $data['amount'] : '')
             ]);
     }
 

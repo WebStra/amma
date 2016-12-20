@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\SpecPrice;
-
+use App\Product;
 class SpecPriceRepository extends Repository
 {
     /**
@@ -60,6 +60,33 @@ class SpecPriceRepository extends Repository
      * @param array $data
      * @return mixed
      */
+
+    public function save(array $data, $product)
+    {
+
+        $insert = [
+            'product_id' => 624,
+            'lot_id'     => 56,
+            'new_price'  => 200,
+            'old_price'  => 1000,
+            'sale'       => 40
+        ];
+
+        //dd($data);
+        dd(self::getModel()->firstOrNew(array('id'=>64))->save($insert));
+        return self::getModel()->save($insert);
+        //$price->save($insert);
+
+/*        return self::getModel()
+            ->save([
+                'product_id' => $product->id,
+                'lot_id'     => $product->lot_id,
+                'new_price'  => (isset($data['new_price']) ? $data['new_price'] : ''),
+                'old_price'  => (isset($data['old_price']) ? $data['old_price'] : ''),
+                'sale'       => (isset($data['sale'])) ? $data['sale'] : 0
+            ]);*/
+    }
+
     public function update($spec, array $data)
     {
         $spec->fill([

@@ -17,7 +17,7 @@ class SpecPrice extends Repository
     /**
      * @var array
      */
-    protected $fillable = [ 'product_id','price_new','price_old','sale','size', 'color_hash', 'amount','key','value'];
+    protected $fillable = ['lot_id','product_id','new_price','old_price','sale'];
 
     protected $presenter = SpecPricePresenter::class;
 
@@ -32,11 +32,6 @@ class SpecPrice extends Repository
     public function improvedSpecs()
     {
         return $this->hasMany(ImprovedSpec::class, 'price_spec_id', 'id');
-    }
-
-    public function specColors()
-    {
-        return $this->hasMany(ModelColors::class, 'size_id', 'id')->orderBy('id','DESC');
     }
 
     /**

@@ -29,6 +29,11 @@ class ImprovedSpec extends Repository
         return $this->hasMany(SpecPrice::class, 'price_spec_id', 'id');
     }
 
+    public function specColors()
+    {
+        return $this->hasMany(ModelColors::class, 'size_id', 'id')->orderBy('id','DESC');
+    }
+
     /**
      * @var bool
      */

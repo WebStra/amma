@@ -5,8 +5,8 @@
     <div class="col l4 s12">
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('old_price') }}</span>
-            <input type="text" class="old_price" required="required" name="spec_price[{{ isset($block_id) ? $block_id : 1 }}][old_price]"
-                   value="{{ ($product->old_price) ? : '' }}"
+            <input type="text" class="old_price" name="spec_price[{{ isset($block_id) ? $block_id : 1 }}][old_price]"
+                   value="{{ isset($spec->old_price) ? $spec->old_price : '' }}"
                    placeholder="0.00">
             @if(count($currencies))
                 <span class="currency_type"
@@ -18,8 +18,8 @@
     <div class="col l4 s12 ">
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('new_price') }}</span>
-            <input type="text" required="required" class="new_price" name="spec_price[{{ isset($block_id) ? $block_id : 1 }}][new_price]"
-                   value="{{ ($product->price) ? : '' }}"
+            <input type="text" class="new_price" name="spec_price[{{ isset($block_id) ? $block_id : 1 }}][new_price]"
+                   value="{{ isset($spec->new_price) ? $spec->new_price : '' }}"
                    placeholder="0.00">
             @if(count($currencies))
                 <span class="currency_type" style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
@@ -31,7 +31,7 @@
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('sale') }}</span>
             <input type="text" class="create_sale" name="spec_price[{{ isset($block_id) ? $block_id : 1 }}][sale]" placeholder="0%"
-                   value="{{ ($product->sale) ? : '' }}">
+                   value="{{ isset($spec->sale) ? $spec->sale : '' }}">
             <span style="position: absolute;top:31px;right: 15px;color: #ff6f00;">%</span>
         </div>
     </div><!--sale-->
@@ -41,6 +41,7 @@
             @foreach($specs as $item_spec)
                 @include('lots.partials.form.size_specs')
             @endforeach
+            <?php unset($item_spec); ?>
             @include('lots.partials.form.size_specs')
         @else
             @include('lots.partials.form.size_specs')
@@ -56,6 +57,7 @@
             @foreach($specs as $spec)
                 @include('lots.partials.form.description_specs')
             @endforeach
+            <?php unset($spec); ?>
             @include('lots.partials.form.description_specs')
         @else
             @include('lots.partials.form.description_specs')

@@ -58,6 +58,15 @@ class ImprovedSpecRepository extends Repository
      * @param array $data
      * @return mixed
      */
+    public function create(array $data, $specSize)
+    {
+        return self::getModel()
+            ->create([
+                'product_id'    => $specSize->product_id,
+                'price_spec_id' => $specSize->id,
+                'size'          => (isset($data['size'])) ? $data['size'] : null
+            ]);
+    }
     public function update($spec, array $data)
     {
         $spec->fill([
