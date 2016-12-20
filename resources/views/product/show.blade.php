@@ -30,6 +30,7 @@
                                 </div>
                             </div>--}}
                             <br>
+                            @if($item->lot->verify_status != 'expired')
                             <div class="row">
                                 <div class="col l3 m3 s12">
                                     <h5>Status:</h5>
@@ -45,43 +46,57 @@
                             <br>
                             @if($lot->vendor->user->id !== \Auth::id())
                                 @if(! $user_is_involved)
-                                    <form method="post"
-                                          action="{{ route('involve_product', ['product' => $item->id]) }}">
-                                        <div class="row">
-                                            <div class="col l3 m3 s12">
-                                                <h5>Produs:</h5>
-                                            </div>
-                                            <div class="product_select col l6 m9 s12">
-                                                <select name="select_product" class="browser-default">
-                                                    <option value="0" selected> Select Box</option>
-                                                    <option value="1">Short Option</option>
-                                                    <option value="2">This Is A Longer Option</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col l3 m3 s12">
-                                                <h5>Cantitate:</h5>
-                                            </div>
-                                            <div class="col l19 m9 s12">
-                                                <div class="counting">
-                                                    <div class="wrapp_input">
-                                                        <span class="minus left in"><i class="icon-minus"></i></span>
-                                                        <input type="text" readonly="readonly" value="1" name="count">
-                                                        <span class="plus right in"><i class="icon-plus"></i></span>
-                                                    </div>
+                                        <form method="post"
+                                              action="{{ route('involve_product', ['product' => $item->id]) }}">
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Produs:</h5>
+                                                </div>
+                                                <div class="product_select col l6 m9 s12">
+                                                    <select name="select_product" class="browser-default">
+                                                        <option value="0" selected> Select Box</option>
+                                                        <option value="1">Short Option</option>
+                                                        <option value="2">This Is A Longer Option</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="col l12 m12 s12">
-                                                <button type="submit"
-                                                        class="btn_ full_width btn_base put_in_basket product_involve">
-                                                    <span class="hide-on-med-only"><!--Adaugă în coș-->Participa</span>
-                                                </button>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Cantitate:</h5>
+                                                </div>
+                                                <div class="col l19 m9 s12">
+                                                    <div class="counting">
+                                                        <div class="wrapp_input">
+                                                            <span class="minus left in"><i
+                                                                        class="icon-minus"></i></span>
+                                                            <input type="number" readonly="readonly" value="1"
+                                                                   name="count" max="{{$item->count - $item->involved->sum('count')}}">
+                                                            <span class="plus right in"><i class="icon-plus"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col l12 m12 s12">
+                                                    <button type="submit"
+                                                            class="btn_ full_width btn_base put_in_basket product_involve">
+                                                        <span class="hide-on-med-only"><!--Adaugă în coș-->Participa</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    @endif
                                 @endif
+                                @else
+                                <div class="row">
+                                    <div class="col l3 m3 s12">
+                                        <h5>Status:</h5>
+                                    </div>
+                                    <div class="col l19 m9 s12">
+                                        <div class="td sell_amount">
+                                            <span>Oferta a expirat!</span>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                             <br>
                             <div class="row">
@@ -104,15 +119,17 @@
                                                     </div>
                                                 </div>
                                                 @if($user_is_involved)
-                                                    <div class="col l3 m3 s12">
-                                                        <form method="post"
-                                                              action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
-                                                            <button type="submit"
-                                                                    class="btn_ full_width btn_base  put_in_basket">
-                                                                <span class="hide-on-med-only">Exit</span>
-                                                            </button>
-                                                        </form>
-                                                    </div>
+                                                    @if($item->lot->verify_status =! 'expired')
+                                                        <div class="col l3 m3 s12">
+                                                            <form method="post"
+                                                                  action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
+                                                                <button type="submit"
+                                                                        class="btn_ full_width btn_base  put_in_basket">
+                                                                    <span class="hide-on-med-only">Exit</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </div>

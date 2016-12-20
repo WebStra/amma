@@ -42,6 +42,10 @@ class LotRepository extends Repository
             ->first();
     }
 
+    public function statusChange(){
+
+    }
+
     /**
      * Add empty lot or modify just existed (drafted)..
      *

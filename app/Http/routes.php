@@ -457,7 +457,7 @@ Route::multilingual(function () {
             'uses' => 'UsersController@involveProductOffer'
         ]);
 
-        Route::post('involve/exit/{involved}', [
+        Route::post('involve/exit/{involved}/{product}', [
             'as' => 'involve_product_cancel',
             'uses' => 'UsersController@exitProductOffer'
         ]);

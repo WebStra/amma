@@ -34,4 +34,10 @@ class Involved extends Repository
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
+
+    public function lot()
+    {
+        return $this->hasMany(Lot::class, 'id', 'lot_id');
+    }
+
 }

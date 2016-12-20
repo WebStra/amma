@@ -14,6 +14,12 @@ class SpecPriceRepository extends Repository
         return new SpecPrice();
     }
 
+    public function getPriceById($specId) {
+        return self::getModel()
+            ->where('id',$specId)
+            ->pluck('new_price')
+            ->first();
+    }
     /**
      * @param $product_id
      * @return static
