@@ -124,7 +124,7 @@ class InvolvedRepository extends Repository
      */
     public function getInvolveTimesProduct($product)
     {
-        return count($this->getModelsByUserAndProduct($product, false));
+        return count($this->getModelsByUserAndProduct($product, true));
     }
 
     public function getCountSelled($id)

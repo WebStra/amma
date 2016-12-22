@@ -586,11 +586,11 @@ i.ico_menu_ {
 }
 .conver_mdl {
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     position: relative;
     top: -12px;
-    right: 8px;
+    right: 5px;
 }
 
 
@@ -607,7 +607,7 @@ i.ico_menu_ {
     .product_involve {
         position: relative;
         right: 0;
-        top: 189px;
+        top: 145px;
         max-width:100%;
         float: none;
     }

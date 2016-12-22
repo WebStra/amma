@@ -49,9 +49,10 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
-        $selledPrice = $this->countInvolvedLot($product);
 
-        $this->involved->createOrUpdate(['count' => $request->get('count')], $product);
+        $this->involved->create(['count' => $request->get('count')], $product);
+
+        $selledPrice = $this->countInvolvedLot($product);
 
         if ($selledPrice >= $product->lot->yield_amount) {
 
@@ -72,19 +73,18 @@ class UsersController extends Controller
      */
     public function exitProductOffer(ExitProductRequest $request, $involve, $product)
     {
+        $selledPrice = $this->countInvolvedLot($product);
+
         $involve = $this->involved->update($involve, ['active' => 0]);
 
         $remaining = config('product.times') - $this->involved->getInvolveTimesProduct($involve->product);
 
-        $selledPrice = $this->countInvolvedLot($product);
-
         if ($selledPrice < $product->lot->yield_amount) {
             $product->lot->update(['verify_status' => 'verified']);
-            return redirect()->back()->with(['status' => 'Oferta continua!', 'color' => 'green']);
         }
 
 
-        return redirect()->back()->withStatus('Success! You are exit from product offer. Remaining attempts (' . $remaining . ')');
+        return redirect()->back()->with(['status'=>'Success! You are exit from product offer. Remaining attempts (' . $remaining . ')','color'=>'green']);
     }
 
     /**
