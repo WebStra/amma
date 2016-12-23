@@ -23,15 +23,16 @@ class Repository extends BaseRepository
      * @param $group
      * @return Meta
      */
-    public function create($metaable, $key, $value, $group)
+    public function create($metaable, $meta, $group)
     {
         return $this->getModel()
             ->create([
-                'metaable_id' => $metaable->id,
+                'metaable_id'   => $metaable->id,
                 'metaable_type' => get_class($metaable),
-                'key' => $key,
-                'value' => $value,
-                'group' => (! is_null($group)) ? $group : 'other'
+                'key'           => $meta['key'],
+                'value'         => $meta['value'],
+                'group'         => (! is_null($group)) ? $group : 'other',
+                'key_unique'    => $meta['key_unique']
             ]);
     }
 
@@ -58,6 +59,13 @@ class Repository extends BaseRepository
     {
         return self::getModel()
             ->find($id)
+            ->delete();
+    }
+    public function removeByKey($key)
+    {
+        return self::getModel()
+            ->where('key_unique',$key)
+            ->first()
             ->delete();
     }
     public function removeGroupById($group, $id)

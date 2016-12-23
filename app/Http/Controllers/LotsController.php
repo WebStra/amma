@@ -173,19 +173,6 @@ class LotsController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function loadSpec(Request $request)
-    {
-        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        return view('lots.partials.form.specification', ['block_id' => $block_id]);
-    }
-
-    public function loadSpecPrice(Request $request, Lot $lot)
-    {
-        $block_id   = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        $product    = $this->products->find($request->get('product_id'));
-        $currencies = $this->currencies->getPublic();
-        return view('lots.partials.form.specification_price', ['currencies' => $currencies,'lot' => $lot, 'product' => $product,'block_id' => $block_id]);
-    }
 
 
     /**

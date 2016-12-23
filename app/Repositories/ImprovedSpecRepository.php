@@ -41,6 +41,12 @@ class ImprovedSpecRepository extends Repository
             ->first();
     }
 
+    public function findKey($key)
+    {
+        return $this->getModel()
+            ->whereKey($key)
+            ->first();
+    }
     /**
      * Delete model..
      * 
@@ -58,14 +64,26 @@ class ImprovedSpecRepository extends Repository
      * @param array $data
      * @return mixed
      */
-    public function create(array $data, $specSize)
+    public function create(array $data, $specPrice)
     {
         return self::getModel()
             ->create([
-                'product_id'    => $specSize->product_id,
-                'price_spec_id' => $specSize->id,
+                'product_id'    => $specPrice->product_id,
+                'price_spec_id' => $specPrice->id,
                 'size'          => (isset($data['size'])) ? $data['size'] : null
             ]);
+    }
+
+    public function save(array $data, $specPrice)
+    {
+        $key = ((isset($data['key']) &&  $data['key'] != null) ? $data['key'] : null);
+        $size                = self::getModel()->firstOrNew(array('key'=>$key));
+        $size->product_id    = $specPrice->product_id;
+        $size->price_spec_id = $specPrice->id;
+        $size->size          = (isset($data['size'])) ? $data['size'] : '';
+        $size->key           = (isset($data['key']) ? $data['key'] : '');
+        $size->save();
+        return $size;
     }
     public function update($spec, array $data)
     {

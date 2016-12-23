@@ -221,21 +221,6 @@ Route::multilingual(function () {
             'uses' => 'LotsController@create'
         ]);
 
-        Route::post('delete_group_prices', [
-            'as'         => 'delete_group_price',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@remove'
-        ]);
-        Route::post('load_improved_spec_price', [
-            'as'         => 'load_improved_spec_price',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@loadImprovedSpecPrice'
-        ]);
-        Route::post('load_spec_price_description', [
-            'as'         => 'load_spec_price_description',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@loadSpecPriceDescription'
-        ]);
         Route::post('remove_product_improved_spec_price', [
             'as'         => 'remove_product_improved_spec_price',
             'middleware' => 'accept-ajax',
@@ -247,29 +232,60 @@ Route::multilingual(function () {
             'uses'       => 'SpecPriceController@removeImproveSpec'
         ]);
 
-        Route::post('remove-spec', [
-            'as'         => 'remove-spec',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@removeSpec'
-        ]);
 
-        Route::post('load_spec_price_color', [
-            'as'         => 'load_spec_price_color',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@loadSpecPriceColor'
-        ]);
-        Route::post('remove-group-size-color', [
-            'as'         => 'remove-group-size-color',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@removeGroupSizeColor'
-        ]);
-        Route::post('remove_spec_price_color', [
-            'as'         => 'remove_spec_price_color',
-            'middleware' => 'accept-ajax',
-            'uses'       => 'SpecPriceController@removeSpecPriceColor'
-        ]);
         Route::group(['middleware' => 'can_handle_action:lot'], function () // For product only
         {
+
+
+
+            Route::post('lots/{lot}/product/load-spec-price', [
+                'as' => 'load_spec_price',
+                'uses' => 'ProductsController@loadSpecPrice'
+            ]);
+
+            Route::post('lots/{lot}/product/load_spec_price_description', [
+                'as'         => 'load_spec_price_description',
+                'uses'       => 'ProductsController@loadSpecPriceDescription'
+            ]);
+
+            Route::post('lots/{lot}/product/load_improved_spec_price', [
+                'as'         => 'load_improved_spec_price',
+                'uses'       => 'ProductsController@loadImprovedSpecPrice'
+            ]);
+            Route::post('lots/{lot}/product/load_spec_price_color', [
+                'as'         => 'load_spec_price_color',
+                'uses'       => 'ProductsController@loadSpecPriceColor'
+            ]);
+            Route::post('lots/{lot}/product/delete_group_price', [
+                'as'         => 'delete_group_price',
+                'uses'       => 'ProductsController@removeGroupPrice'
+            ]);
+            Route::post('lots/{lot}/product/remove-spec-price-desc', [
+                'as'         => 'remove-spec-price-desc',
+                'uses'       => 'ProductsController@removeSpecPriceDescription'
+            ]);
+
+            Route::post('lots/{lot}/product/remove-group-size-color', [
+                'as'         => 'remove-group-size-color',
+                'uses'       => 'ProductsController@removeGroupSizeColor'
+            ]);
+
+            Route::post('lots/{lot}/product/remove_spec_price_color', [
+                'as'         => 'remove_spec_price_color',
+                'uses'       => 'ProductsController@removeSpecPriceColor'
+            ]);
+
+            Route::post('lots/{lot}/product/load-spec', [
+                'as' => 'load_spec',
+                'uses' => 'ProductsController@loadSpec'
+            ]);
+            
+            Route::post('lots/{lot}/product/remove-spec', [
+                'as'         => 'remove-spec',
+                'uses'       => 'ProductsController@removeSpec'
+            ]);
+
+
             Route::get('lots/{lot}/edit', [
                 'as' => 'edit_lot',
                 'uses' => 'LotsController@edit'
@@ -332,25 +348,16 @@ Route::multilingual(function () {
                 'middleware' => 'update_lot_filter',
                 'uses' => 'LotsController@updateLot'
             ]);*/
-            Route::post('lots/{lot}/product/load-spec', [
-                'as' => 'load_spec',
-                'uses' => 'LotsController@loadSpec'
-            ]);
-
-            Route::post('lots/{lot}/product/load-spec-price', [
-                'as' => 'load_spec_price',
-                'uses' => 'LotsController@loadSpecPrice'
-            ]);
 
             Route::post('lots/{lot}/product/load-improved-spec', [
                 'as' => 'load_improved_spec',
                 'uses' => 'LotsController@loadImprovedSpec'
             ]);
 
-            Route::post('lots/{lot}/product/remove-spec', [
+            /*Route::post('lots/{lot}/product/remove-spec', [
                 'as' => 'remove_product_spec',
                 'uses' => 'ProductsController@removeSpec'
-            ]);
+            ]);*/
             Route::post('lots/{lot}/product/remove-spec-price', [
                 'as' => 'remove_product_spec_price',
                 'uses' => 'ProductsController@removeSpecPrice'

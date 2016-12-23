@@ -31,7 +31,7 @@ class ImprovedSpec extends Repository
 
     public function specColors()
     {
-        return $this->hasMany(ModelColors::class, 'size_id', 'id')->orderBy('id','DESC');
+        return $this->hasMany(ModelColors::class, 'size_id', 'id');
     }
 
     /**

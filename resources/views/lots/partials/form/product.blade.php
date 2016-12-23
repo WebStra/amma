@@ -34,18 +34,18 @@
 
                 <div class="col l8 m6 s12">
                     <div class="row">
-                        <div class="col l6 s12">
+                        <!-- <div class="col l6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('label_name') }}</span>
                                 <input type="text" required="required" name="name"
                                        value="{{ ($product->name) ? : '' }}"
                                        placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
                             </div>
-                        </div><!-- name -->
+                        </div> -->
 
                         @if($lot->category_id)
                             @if(count($sub_categories = $lot->category->subCategories))
-                                <div class="col l6 s12">
+                                <div class="col l12 s12">
                                     <div class="input-field">
                                         <span class="label">{{ $meta->getMeta('subcategory') }}</span>
                                         <select class="subcategories" name="sub_category"
@@ -96,20 +96,20 @@
                             </div>
                         </div>sale -->
                     </div><!--Form-->
-
                     <div class="row" style="margin-bottom: 25px;">
                         <div class="col l12 specification_price overflow">
                             @if(old('spec_price'))
-                                @foreach(old('spec_price') as $block_id => $spec)
+                                @foreach(old('spec_price') as $key_spec => $spec)
                                     @include('lots.partials.form.specification_price')
                                 @endforeach
+                                <?php $key_spec+=1;?>
                                 @include('lots.partials.form.specification_price')
                             @else
                                 @if(count($spec_price = $product->specPrice))
-                                    @foreach($spec_price as $block_id => $spec)
+                                    @foreach($spec_price as $key_spec => $spec)
                                         @include('lots.partials.form.specification_price')
                                     @endforeach
-                                    <?php unset($spec); ?>
+                                    <?php unset($spec); $key_spec+=1;?>
                                     @include('lots.partials.form.specification_price')
                                 @else
                                     @include('lots.partials.form.specification_price')
@@ -125,16 +125,17 @@
                     <div class="row" style="margin-bottom: 25px;">
                         <div class="specification_suite_lot overflow">
                             @if(old('spec'))
-                                @foreach(old('spec') as $block_id => $spec)
+                                @foreach(old('spec') as $key_spec_product => $spec)
                                     @include('lots.partials.form.specification')
                                 @endforeach
+                                <?php $key_spec_product+=1;?>
                                 @include('lots.partials.form.specification')
                             @else
                                 @if(count($specs = $product->getMetaGroup('spec')))
-                                    @foreach($specs as $block_id => $spec)
+                                    @foreach($specs as $key_spec_product => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach
-                                    <?php unset($spec); ?>
+                                    <?php unset($spec); $key_spec_product+=1;?>
                                     @include('lots.partials.form.specification')
                                 @else
                                     @include('lots.partials.form.specification')
