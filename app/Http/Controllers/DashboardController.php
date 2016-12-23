@@ -102,18 +102,19 @@ class DashboardController extends Controller
     }
 
     public function sortInvolvedProducts($involved) {
+
         if (count($involved)) {
             foreach ($involved as $item) {
                 if ($item->lot->verify_status == 'verified') {
-                    $product[] = ['item' => $item->lot->public_date, 'product' => $item->product, 'involved' => $item];
-                } else {
-                    $product[] = ['item' => 0, 'product' => $item->product, 'involved' => $item];
+                    $product[] = ['date' =>$item->lot->public_date, 'product' => $item->product, 'involved' => $item];
+                }else {
+                    $product[] = ['date' =>date('dmy',strtotime('9999999')), 'product' => $item->product, 'involved' => $item];
                 }
             }
             usort($product, function ($product, $b) {
-                return strtotime($product['item']) - strtotime($b['item']);
+                return date('dmy',strtotime($b['date'])) - date('dmy',strtotime($product['date']));
             });
-            
+
             return $product;
         }
     }

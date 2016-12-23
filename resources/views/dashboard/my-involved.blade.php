@@ -9,7 +9,7 @@
                     <ul class="elements divide-top bordered pd_8">
                         @if(isset($product))
                             @foreach($product as $item)
-                                @include('partials.products.big-item-block', ['item' => $item['product'],'lot'=>$item['product']->lot,'involved'=>$item['involved']])
+                                    @include('partials.products.big-item-block', ['item' => $item['product'],'lot'=>$item['product']->lot,'involved'=>$item['involved']])
                             @endforeach
                         @else
                             <p>You don't involve any products offer.</p>
