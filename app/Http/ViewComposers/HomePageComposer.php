@@ -71,6 +71,7 @@ class HomePageComposer extends Composer
                     ])
                     ->with('expire', [
                         'name' => 'produse care expira in curand',
+                        'label' => 'info_corner.png',
                         'data' => function ($count = 8) {
                             return $this->products->getPublicExpireSoon($count);
                         }

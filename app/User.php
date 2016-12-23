@@ -72,6 +72,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         return $this->hasMany(Involved::class, 'user_id', 'id');
     }
 
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

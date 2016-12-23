@@ -40,7 +40,7 @@ Route::bind('post', function ($slug) {
 });
 
 Route::bind('product', function ($id) {
-    return (new ProductsRepository)->find($id);
+    return ((new ProductsRepository)->find($id)) ? (new ProductsRepository)->find($id) : abort(404);
 });
 
 Route::bind('lot', function ($id) {

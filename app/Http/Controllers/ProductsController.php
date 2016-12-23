@@ -132,8 +132,6 @@ class ProductsController extends Controller
      */
     public function show($product)
     {
-        /*$this->convertAmount();*/
-
         $itemPercentage = $this->getSalledPercent($product->id);
 
         $lot = $this->lots->find($product->lot_id);
