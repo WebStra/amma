@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Product;
 use App\Involved;
+use App\Lot;
+use Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InvolvedRepository extends Repository
@@ -135,5 +137,14 @@ class InvolvedRepository extends Repository
             ->sum('count');
     }
 
+    public function getInvolvedProductforUser() {
+
+        return  $this->getModel()
+                ->active()
+                ->where('user_id',\Auth::user()->id)
+                ->get();
+
+
+    }
 
 }

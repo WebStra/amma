@@ -37,7 +37,7 @@ class Involved extends Repository
 
     public function lot()
     {
-        return $this->hasMany(Lot::class, 'id', 'lot_id');
+        return $this->hasOne(Lot::class, 'id', 'lot_id');
     }
 
 }

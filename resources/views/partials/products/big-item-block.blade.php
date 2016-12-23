@@ -22,7 +22,12 @@
                 <br>
                 <span class="small">Items: {{$involved->count}}</span>
                 <br>
-                @include('partials.products.item.countdown')
+                @if($item->lot->verify_status == 'verified')
+
+                    @include('partials.products.item.countdown')
+                @else
+                    <span style="display: block; color: red;">Oferta a expirat</span>
+                @endif
             </div>
         </div>
         <div class="col l6 m6 s12">
@@ -33,7 +38,8 @@
                 </button>
             </form>
         </div>
-        <br>
-    <!--  @include('partials.products.item.stock') -->
+        <div class="col s12">
+            @include('partials.products.item.stock')
+        </div>
     </div>
 </li>

@@ -7,7 +7,7 @@
                 </div>
                 <div class="content">
                     <h4>{{ \Auth::user()->present()->renderName() }}</h4>
-                    <a href="{{ route('my_vendors') }}" class="btn_ btn_small btn_base waves-effect waves-teal f_small">My Vendors</a>
+                    <a href="{{ route('my_vendors') }}" class="btn_ btn_small btn_base waves-effect waves-teal f_small">Vinzatorii mei</a>
                 </div>
             </div>
             <div class="buttons">

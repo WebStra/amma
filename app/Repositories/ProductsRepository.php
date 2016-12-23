@@ -266,7 +266,7 @@ class ProductsRepository extends Repository
             ->select('products.*')
             ->where('sub_category_id',$id)
             ->where('products.active', 1)
-            ->where('lots.expire_date', '>', Carbon::now())
+            /*->where('lots.expire_date', '>', Carbon::now())*/
             ->limit($limit);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')

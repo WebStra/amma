@@ -6,6 +6,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ProfileRepository;
 use App\Repositories\InvolvedRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use App\Http\Requests\UpdateUserSettings;
 use App\Http\Requests\UpdateUserPassword;
@@ -30,10 +31,11 @@ class DashboardController extends Controller
      * @var Guard
      */
     private $auth;
-    
+
     private $lots;
 
     private $involved;
+
     /**
      * DashboardController constructor.
      * @param UserRepository $userRepository
@@ -46,17 +48,19 @@ class DashboardController extends Controller
                                 InvolvedRepository $involvedRepository
     )
     {
-        $this->users   = $userRepository;
+        $this->users = $userRepository;
         $this->profile = $profileRepository;
-        $this->auth    = $auth;
-        $this->lots    = $lotRepository;
-        $this->invoved    = $involvedRepository;
+        $this->auth = $auth;
+        $this->lots = $lotRepository;
+        $this->involved = $involvedRepository;
     }
-    public function howWork(){
 
-        $video = Video::orderBy('id','desc')->get();
+    public function howWork()
+    {
 
-        return view('dashboard.how-amma-work',compact('video'));
+        $video = Video::orderBy('id', 'desc')->get();
+
+        return view('dashboard.how-amma-work', compact('video'));
     }
 
     /**
@@ -92,7 +96,27 @@ class DashboardController extends Controller
     {
         $involved = $this->auth->user()->involved()->active()->get();
 
-        return view('dashboard.my-involved', compact('involved'));
+        $product = $this->sortInvolvedProducts($involved);
+
+        return view('dashboard.my-involved', compact('product'));
+    }
+
+    public function sortInvolvedProducts($involved) {
+
+        if (count($involved)) {
+            foreach ($involved as $item) {
+                if ($item->lot->verify_status == 'verified') {
+                    $product[] = ['date' =>$item->lot->public_date, 'product' => $item->product, 'involved' => $item];
+                }else {
+                    $product[] = ['date' =>date('dmy',strtotime('9999999')), 'product' => $item->product, 'involved' => $item];
+                }
+            }
+            usort($product, function ($product, $b) {
+                return date('dmy',strtotime($b['date'])) - date('dmy',strtotime($product['date']));
+            });
+
+            return $product;
+        }
     }
 
     /**
