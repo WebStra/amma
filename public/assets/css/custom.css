@@ -597,6 +597,46 @@ i.ico_menu_ {
     background: rgba(0,0,0,0.2);
 }
 
+ul.sizes_product {
+    list-style: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+ul.sizes_product > li {
+    float: left;
+    margin: 0 3px;
+    border: 1px solid #000000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+ul.sizes_product > li.active {
+    background: #dbdbdb;
+}
+ul.color_product {
+    height: 30px;
+}
+ul.color_product > li{
+    float: left;
+    margin:0 3px;
+    width:30px;
+    height:30px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+ul.color_product > li.active{
+    content: url('/assets/images/ok.png');
+    width:30px;
+    height:30px;
+    opacity: 0.9;
+}
+
+.notclickable {
+    pointer-events: none;
+}
 
 @media(max-width: 768px) {
     .display-list_bloks-m-down .td {

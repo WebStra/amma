@@ -57,6 +57,12 @@ class ImprovedSpecRepository extends Repository
         $model->delete();
     }
 
+    public function getById($id) {
+        return $this->getModel()
+            ->where('price_spec_id',(int)$id)
+            ->get();
+    }
+
     /**
      * Update suite of improved specs.
      * 

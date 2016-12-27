@@ -25,6 +25,7 @@ class InvolvedRepository extends Repository
      * @param Product $product
      * @return Involved
      */
+
     public function create(array $data, $product)
     {
         return $this->getModel()
@@ -32,6 +33,9 @@ class InvolvedRepository extends Repository
                 'user_id' => \Auth::id(),
                 'product_id' => $product->id,
                 'lot_id' => $product->lot_id,
+                'price_id' => $data['select_product'],
+                'color_id' => $data['color_product'],
+                'size_id'=>$data['sizes_product'],
                 'count' => isset($data['count']) ? $data['count'] : 1
             ]);
     }
