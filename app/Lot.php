@@ -15,6 +15,7 @@ class Lot extends Repository
     const STATUS_DRAFTED = 'drafted';
     const STATUS_COMPLETE = 'complete';
     const STATUS_DELETED = 'deleted';
+    
 
     /** `verify_status` field options */
     const STATUS_VERIFY_ACCEPTED = 'verified';

@@ -236,8 +236,6 @@ Route::multilingual(function () {
         Route::group(['middleware' => 'can_handle_action:lot'], function () // For product only
         {
 
-
-
             Route::post('lots/{lot}/product/load-spec-price', [
                 'as' => 'load_spec_price',
                 'uses' => 'ProductsController@loadSpecPrice'
@@ -322,11 +320,13 @@ Route::multilingual(function () {
 
             Route::post('lots/update/{lot}', [
                 'as' => 'update_lot',
-                'middleware' => 'accept-ajax',
-
                 'uses' => 'LotsController@updateLot'
             ]);
-
+            Route::post('lots/published/{lot}', [
+                'as' => 'published_lot',
+                'middleware' => 'add_lot_filter',
+                'uses' => 'LotsController@publishedLot'
+            ]);
             Route::group(['middleware' => 'accept-ajax'], function () {
                 Route::post('product/{product}/add-image', [
                     'as' => 'add_product_image',

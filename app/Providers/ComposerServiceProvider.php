@@ -12,6 +12,7 @@ use App\Http\ViewComposers\LanguageComposer;
 use App\Http\ViewComposers\PagesComposer;
 use App\Http\ViewComposers\PartnerComposer;
 use App\Http\ViewComposers\SocialComposer;
+use App\Http\ViewComposers\MainComposer;
 use Illuminate\Support\ServiceProvider;
 
 class ComposerServiceProvider extends ServiceProvider
@@ -32,6 +33,8 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer(['partials.categories.*', 'product.partials.*'], CategoryComposer::class);
 
         view()->composer('partials.header.language-bar', LanguageComposer::class);
+
+        view()->composer('partials.header.profile-bar', MainComposer::class);
 
         view()->composer('blog.partials.popular-sidebar', BlogComposer::class);
      

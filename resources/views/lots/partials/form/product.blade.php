@@ -24,11 +24,9 @@
                         </div>
 
                         <a href="#upload_imgs" class="waves-effect waves-light btn blue" style="width: 100%; margin-top:5px;"
-                           onclick="callUploadImages(this, 'image'); return false;"><i
-                                    class="material-icons left">input</i>&nbsp;{{ $meta->getMeta('form_lot_upload') }}</a>
+                           onclick="callUploadImages(this, 'image'); return false;"><i class="material-icons left">input</i>&nbsp;{{ $meta->getMeta('form_lot_upload') }}</a>
 
-                        <input type="file" name="image[]" multiple
-                               style="display: none" onchange="uploadImages(this);">
+                        <input type="file" name="image[]" multiple style="display: none" onchange="uploadImages(this);">
                     </div>
                 </div><!-- Galery -->
 
@@ -103,14 +101,14 @@
                                     @include('lots.partials.form.specification_price')
                                 @endforeach
                                 <?php $key_spec+=1;?>
-                                @include('lots.partials.form.specification_price')
+                                {{--@include('lots.partials.form.specification_price')--}}
                             @else
                                 @if(count($spec_price = $product->specPrice))
                                     @foreach($spec_price as $key_spec => $spec)
                                         @include('lots.partials.form.specification_price')
                                     @endforeach
                                     <?php unset($spec); $key_spec+=1;?>
-                                    @include('lots.partials.form.specification_price')
+                                    {{--@include('lots.partials.form.specification_price')--}}
                                 @else
                                     @include('lots.partials.form.specification_price')
                                 @endif
@@ -129,14 +127,14 @@
                                     @include('lots.partials.form.specification')
                                 @endforeach
                                 <?php $key_spec_product+=1;?>
-                                @include('lots.partials.form.specification')
+                                {{--@include('lots.partials.form.specification')--}}
                             @else
                                 @if(count($specs = $product->getMetaGroup('spec')))
                                     @foreach($specs as $key_spec_product => $spec)
                                         @include('lots.partials.form.specification')
                                     @endforeach
                                     <?php unset($spec); $key_spec_product+=1;?>
-                                    @include('lots.partials.form.specification')
+                                    {{--@include('lots.partials.form.specification')--}}
                                 @else
                                     @include('lots.partials.form.specification')
                                 @endif
@@ -162,8 +160,7 @@
                                 <div class="col l12 m12 s12">
                                     <div class="input-field">
                                         <a href="#remove-product" onclick="deleteProductBlock(this); return false;"
-                                           class="waves-effect waves-light btn red btn-remove-product"><i
-                                                    class="material-icons left">delete</i>{{ $meta->getMeta('form_lot_del') }}</a>
+                                           class="waves-effect waves-light btn red btn-remove-product"><i class="material-icons left">delete</i>{{ $meta->getMeta('form_lot_del') }}</a>
                                     </div>
                                 </div>
                             </div>

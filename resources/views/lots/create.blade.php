@@ -119,7 +119,7 @@
                        </div>
                         <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
                             <div class="input-field">
-                                <button type="submit" class="waves-effect waves-light btn save-lot"><i class="material-icons left">loop</i>{{ $meta->getMeta('form_lot_save') }}
+                                <button type="submit" id="save-lot" class="waves-effect waves-light btn save-lot"><i class="material-icons left">loop</i>{{ $meta->getMeta('form_lot_save') }}
                                 </button>
                             </div>
                         </div>
@@ -159,8 +159,7 @@
             <div class="row">
                 <div class="margin15">
                     <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
-                        <button form="create_form_lot" class="btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
-                                    class="material-icons left">save</i>{{ $meta->getMeta('btn_publish_oferta') }}</button>
+                        <button id="publish_lot" onclick="publishedLot('#create_form_lot'); return false;" class="btn"><i class="material-icons left">save</i>{{ $meta->getMeta('btn_publish_oferta') }}</button>
                     </div>
                 </div>
             </div>
@@ -192,11 +191,12 @@
                 success: function (response) {
                     if(response != 'false')
                     {
-                        $('#lot_canvas').append(response);
-
+                        var formlast =  $('#lot_canvas').append(response).find('form:last');
                         $('#lot_canvas').find('.materialboxed').materialbox();
                         $('select').material_select();
                         initColor();
+                        validateProduct(formlast);
+                        Materialize.toast('{{ $meta->getMeta('msg_add_product') }}', 2000, 'green');
                         //var colorpicker = $('#lot_canvas').
                       
 
@@ -314,28 +314,40 @@
 
             return false;
         }
+
+
+        function validateProduct(form){
+            $(form).validate({
+                onkeyup: false,
+                errorClass: 'error',
+                validClass: 'valid'
+            });
+        }
+        validateProduct('form');
         function saveProductBlock(form) // On save product.
         {
             (function ($) {
+                validateProduct(form);
                 var $form = $(form);
                 var action = $form.attr('action');
                 var canvas = $form.parent();
 //                var data_old = $form.serialize();
                 // !!!DO NOT USE JQUERY SELECTOR!!! instead form, it will doesn't work.
                 var data = new FormData(form);
-
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    url: action,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        //canvas.html(response);
-                        Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 2000, 'green');
-                        //initProductElements(canvas);
-                    }
-                });
+                if ($form.valid()) {
+                    $.ajax({
+                        type: 'POST',
+                        data: data,
+                        url: action,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            //canvas.html(response);
+                            Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 2000, 'green');
+                            //initProductElements(canvas);
+                        }
+                    });
+                }
             }(jQuery));
         }
 
@@ -399,7 +411,6 @@
                     + Math.random().toString(36).substring(7)
                     + Math.floor((Math.random() * 10000) + 1);
             var key_spec = form.data('suite-spec');
-            console.log(key_spec);
             $.ajax({
                 type: 'POST',
                 data: { key_spec: key_spec, key_desc: key_desc },
@@ -670,6 +681,27 @@
                 });
             }
         }
+        function publishedLot(form)
+        {
+            var serialize = $(form).serialize();
+            $.ajax({
+                url: "{{ route('published_lot', [$lot->id]) }}",
+                data: serialize,
+                method: 'post',
+                success: function (respons) {
+                    if (respons.status == 'complete') {
+                        window.location.href = "{{route('my_lots')}}";
+                    }else{
+                        Materialize.toast('{{ $meta->getMeta('msg_published_lot') }}', 6000, 'green');
+                    }
+                },
+                error: function(respons){
+                    // Error...
+                    Materialize.toast('{{ $meta->getMeta('no_amount') }}', 3000, 'red');
+                }
+            });
+        }
+
         function createLot(form) // On create product.
         {
             console.log('open modal');
@@ -688,19 +720,15 @@
                 validClass: 'valid', 
         });
 
-
-
-        $('#create_form_lot').submit(function(event) {
+        form_lot.submit(function(event) {
             event.preventDefault();
             current = $(this);
             var serialize = current.serialize();
-            console.log(current.attr('action'));
             if(!$("#parent_category").valid()){
               $("#parent_category").prevAll('input.select-dropdown').addClass('iText error');
             }else{
                 $("#parent_category").prevAll('input.select-dropdown').removeClass('iText error');
             }
-            
             if (current.valid()) {
                 $.ajax({
                     url: "{{ route('update_lot', [ $lot->id ]) }}",

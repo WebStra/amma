@@ -44,23 +44,57 @@ class AddLotMiddleware
         {
             if($lot->status == Lot::STATUS_DRAFTED)
             {
-                $category = $lot->category;
-
-                if($this->eraseFromWallet($lot, $category->tax))
+                /*$category = $lot->category;*/
+                if($this->issetAmount($lot, $request->get('comision')))
                 {
                     $lot->status = Lot::STATUS_COMPLETE;
-
                     $lot->save();
-
                     return $next($request);
                 } else {
-                    return redirect()->back()->withSuccess('У вас недостаточно средств');
+                    //return redirect()->back()->withErrors('No amount');
+                    return response('No amount',402);
                 }
             }
         }
 
         return redirect()->back()->withSuccess('Something Wrong!');
     }
+
+    private function issetAmount($lot, $requestComision)
+    {
+        $comision = $this->lots->userLotsPendingComision(\Auth::user(),$lot->id) + $requestComision;
+        $wallet   = $this->auth->user()->wallet;
+        if ($wallet->amount >= $comision) {
+            return true;
+        }
+        return false;
+    }
+
+    private function blockAmount($lot, $tax)
+    {
+        $user = $this->auth->user();
+        $amount = $lot->yield_amount;
+        return $this->blockSumm($tax, $amount);
+    }
+
+    public function blockSumm($tax, $amount)
+    {
+        $wallet = $this->auth->user()->wallet;
+
+        $summ = $this->calcEraseSumm($tax, $amount);
+
+        $calc = $wallet->amount - $summ;
+        if($calc > 0)
+        {
+            return $wallet->fill([
+                //'amount'       => $calc,
+                'amount_block' => $summ
+            ])->save();
+        }
+
+        return false;
+    }
+
 
     /**
      * @param $lot
@@ -82,7 +116,6 @@ class AddLotMiddleware
             return true;
         }
     }
-
     /**
      * @param $tax
      * @param $amount
@@ -95,7 +128,6 @@ class AddLotMiddleware
         $summ = $this->calcEraseSumm($tax, $amount);
 
         $calc = $wallet->amount - $summ;
-
         if($calc > 0)
         {
             return $wallet->fill([
@@ -113,6 +145,6 @@ class AddLotMiddleware
      */
     public function calcEraseSumm($tax, $amount)
     {
-        return ($amount / (100 * $tax));
+        return ($amount / 100 * $tax);
     }
 }

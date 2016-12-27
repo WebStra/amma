@@ -13,7 +13,7 @@
     @if(count(Auth::user()->vendors()->active()->get()))
         <div class="right">
             <span>{!! $meta->getMeta('top_bar_balance') !!}
-                <span style="color: #ff6f00">{{ Auth::user()->wallet->amount }}&nbsp;MDL</span>
+                <span style="color: #ff6f00">{{ Auth::user()->wallet->amount - $comision}}&nbsp;MDL</span>
             </span>
         </div>
     @endif

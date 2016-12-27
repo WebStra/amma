@@ -99,9 +99,32 @@ class LotRepository extends Repository
         $lots = $this->getModel()
             ->whereIn('vendor_id', $vendors)
             ->where('status', '!=', $model::STATUS_DELETED)
+            ->orderBy('expire_date', 'desc')
+            ->orderBy('status', 'asc')
             ->paginate($perPage);
 
         return ($lots->count()) ? $lots : null;
+    }
+
+    public function userLotsPendingComision($user,$lotId=null)
+    {
+
+        $model = self::getModel();
+
+        $vendors = [];
+        $user->vendors()->active()->get()
+            ->each(function($vendor) use (&$vendors){
+                $vendors[] = $vendor->id;
+            });
+        $query = $this->getModel()->where('verify_status', $model::STATUS_VERIFY_PENDING);
+        if (!empty($vendors)) {
+            $query->whereIn('vendor_id', $vendors);
+        }
+        if ($lotId != null) {
+            $query->where('id','!=', $lotId);
+        }
+        $sum = $query->sum('comision');
+        return  $sum ? (int)$sum : 0;
     }
 
     /**
@@ -161,16 +184,16 @@ class LotRepository extends Repository
     public function save($lot, array $data)
     {
         $lot->fill([
-            'name'                      => isset($data['name']) ? $data['name'] : $lot->present()->renderDraftedName(),
-            //            'category_id' => isset($data['category']) ? $data['category'] : null,
-            'currency_id'               => isset($data['currency']) ? (int)$data['currency'] : null,
-            'description'               => isset($data['description']) ? $data['description'] : null,
-            'yield_amount'              => isset($data['yield_amount']) ? $data['yield_amount'] : null,
-            'public_date'               => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now(),
-            'expire_date'               => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) : Carbon::now(),
-            'comision'                  => isset($data['comision']) ? $data['comision'] : 0,
-            'description_delivery'      => isset($data['description_delivery']) ? $data['description_delivery'] : null,
-            'description_payment'       => isset($data['description_payment']) ? $data['description_payment'] : null,
+            'name'                 => isset($data['name']) ? $data['name'] : $lot->present()->renderDraftedName(),
+            'category_id'          => isset($data['category']) ? $data['category'] : null,
+            'currency_id'          => isset($data['currency']) ? (int)$data['currency'] : null,
+            'description'          => isset($data['description']) ? $data['description'] : null,
+            'yield_amount'         => isset($data['yield_amount']) ? $data['yield_amount'] : null,
+            'public_date'          => isset($data['public_date']) ? $this->dateToTimestamp($data['public_date']) : Carbon::now()->addDays(1),
+            'expire_date'          => isset($data['expirate_date']) ? $this->dateToTimestamp($data['expirate_date']) :Carbon::now()->addDays(5),
+            'comision'             => isset($data['comision']) ? $data['comision'] : 0,
+            'description_delivery' => isset($data['description_delivery']) ? $data['description_delivery'] : null,
+            'description_payment'  => isset($data['description_payment']) ? $data['description_payment'] : null,
         ])->save();
         return $lot;
     }

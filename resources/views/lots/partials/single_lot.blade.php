@@ -4,10 +4,14 @@
             {{ $lot->present()->renderName() }}
             @if(Route::currentRouteName() == 'my_lots')
                 <div style="float: right; font-size: 12px;">
-                    <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
-                    <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');">
-                        <i class="small material-icons" style="color: black">delete</i>
-                    </a>
+                    @if(in_array($lot->verify_status, array('expired','declined')))
+                        <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
+                    @endif
+                    @if(in_array($lot->verify_status, array('expired','declined')))
+                        <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');">
+                            <i class="small material-icons" style="color: black">delete</i>
+                        </a>
+                    @endif
                 </div>
             @endif
         </div>
@@ -36,6 +40,9 @@
                     </div>
                 </div>
             @endif
+            <div class="label">
+                <div class="c-gray">Status: <span class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
+            </div>
             @if(! empty($lot->present()->endDate()))
                 <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
                     <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">

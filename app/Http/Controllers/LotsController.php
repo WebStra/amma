@@ -117,7 +117,8 @@ class LotsController extends Controller
         $this->lots->delete($lot);
 
         return redirect()->route('my_lots')
-            ->withStatus(sprintf('Lot %s was removed', $lot->present()->renderName()));
+            ->withStatus(sprintf('Lot %s was removed', $lot->present()->renderName()))
+            ->withColor('green');
     }
 
     /**
@@ -207,11 +208,23 @@ class LotsController extends Controller
         if ($request->input('method')) {
             $method  = $request->input('method');
         }
-        $lot = $this->lot_method->save($lot, $method);
+        $lotMethod = $this->lot_method->save($lot, $method);
         return response(array('respons'=>true));
         
     }
 
+    public function publishedLot(SaveLotRequest $request, Lot $lot)
+    {
+        $lot = $this->lots->save($lot, $request->all());
+        $method = [];
+        if ($request->input('method')) {
+            $method  = $request->input('method');
+        }
+        $lotMethod = $this->lot_method->save($lot, $method);
+
+        return response(array('respons'=>true,'status'=>$lot->status));
+        
+    }
 
     /**
      *
@@ -229,7 +242,6 @@ class LotsController extends Controller
     public function myLots()
     {
         $lots = $this->lots->userLots($this->getUser(), 5);
-
         return view('lots.my_lots', compact('lots'));
     }
 

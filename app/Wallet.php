@@ -17,7 +17,7 @@ class Wallet extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'amount', 'type', 'active'];
+    protected $fillable = ['user_id', 'amount','amount_block','type', 'active'];
 
     /**
      * @var bool

@@ -30,7 +30,7 @@
             var $span = $('span[data-notification]');
 
             if ($span.length) {
-                Materialize.toast($span.html(), 5000);
+                Materialize.toast($span.html(), 5000, 'green');
             }
         });
     });
