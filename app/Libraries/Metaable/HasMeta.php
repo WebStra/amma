@@ -24,9 +24,9 @@ trait HasMeta
     public function getMeta($key, $group = null)
     {
         if (is_null($group))
-            return $this->meta()->whereKey($key)->first();
+            return $this->meta()->whereKeyUnique($key)->first();
 
-        return $this->meta()->whereKey($key)->group($group)->first();
+        return $this->meta()->whereKeyUnique($key)->group($group)->first();
     }
 
     /**
@@ -37,12 +37,12 @@ trait HasMeta
      * @param null $group
      * @return mixed
      */
-    public function setMeta($key, $value, $group = null)
+    public function setMeta($meta_data, $group = null)
     {
-        if (!$meta = $this->getMeta($key, $group)) {
-            return $this->getRepository()->create($this, $key, $value, $group);
+        if (!$meta = $this->getMeta($meta_data['key_unique'], $group)) {
+            return $this->getRepository()->create($this, $meta_data, $group);
         } else {
-            return $this->updateMeta($meta, $key, $value);
+            return $this->updateMeta($meta, $meta_data);
         }
     }
 
@@ -55,13 +55,13 @@ trait HasMeta
      * @param null $group
      * @return mixed
      */
-    public function updateMeta($meta, $key, $value, $group = null)
+    public function updateMeta($meta, $meta_data, $group = null)
     {
         if(is_numeric($meta))
             $meta = $this->getRepository()->getModel()->find((int) $meta)->first();
 
-        $meta->key = $key;
-        $meta->value = $value;
+        $meta->key   = $meta_data['key'];
+        $meta->value = $meta_data['value'];
         if(isset($group))
             $meta->group = $group;
 
@@ -88,12 +88,12 @@ trait HasMeta
      * @param null $group
      * @return mixed
      */
-    public function removeMeta($key, $group = null)
+    public function removeMeta($meta_data, $group = null)
     {
         if(isset($group))
-            return $this->unsetMeta($key, $group);
+            return $this->unsetMeta($meta_data['key_unique'], $group);
 
-        return $this->unsetMeta($key);
+        return $this->unsetMeta($meta_data['key_unique']);
     }
 
     /**
@@ -105,7 +105,12 @@ trait HasMeta
     {
         $this->getRepository()->removeById((int) $id);
     }
-
+    public function removeMetaByKey($key)
+    {
+        if ($this->getMeta($key)) {
+            $this->getRepository()->removeByKey($key);
+        }
+    }
     public function removeMetaGroupById($group=null, $id=null)
     {
         if ($id!=null) {
@@ -180,7 +185,7 @@ trait HasMeta
      */
     public function getMetaFromGroup($group)
     {
-        return $this->meta()->group($group)->get();
+        return $this->meta()->group($group)->orderBy('id', 'asc')->get();
     }
 
     /**

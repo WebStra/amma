@@ -40,7 +40,8 @@ class Product extends Repository
         'sale',
         'count',
         'active',
-        'description'
+        'description',
+        'uniqid'
     ];
 
     /**

@@ -5,78 +5,39 @@ use Illuminate\Session\Store;
 use Illuminate\Http\Request;
 use App\SpecPrice;
 use App\ImprovedSpec;
-use App\Repositories\SpecPriceRepository;
+use App\Repositories\LotRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\SpecPriceRepository;
 use App\Repositories\ImprovedSpecRepository;
+use App\Repositories\CurrenciesRepository;
 
 class SpecPriceController extends Controller
 {
 
     protected $session;
+    protected $lots;
+    protected $products;
     protected $specPrice;
     protected $improvedSpecs;
+    protected $currencies;
     public function __construct(
         Store $session,
+        LotRepository $lotRepository,
+        ProductsRepository $productsRepository,
         SpecPriceRepository $specPriceRepository,
-        ImprovedSpecRepository $improvedSpecRepository
+        ImprovedSpecRepository $improvedSpecRepository,
+        CurrenciesRepository $currenciesRepository
     )
     {
-        $this->session        = $session;
-        $this->specPrice      = $specPriceRepository;
-        $this->improvedSpecs  = $improvedSpecRepository;
+        $this->session       = $session;
+        $this->lots          = $lotRepository;
+        $this->products      = $productsRepository;
+        $this->specPrice     = $specPriceRepository;
+        $this->improvedSpecs = $improvedSpecRepository;
+        $this->currencies    = $currenciesRepository;
 
     }
 
-
-    public function remove(Request $request)
-    {
-        $spec = $this->specPrice->find($request->get('spec_id'));
-        if ($spec) {
-            $spec->removeMetaGroupById('spec_price', $request->get('spec_id'));
-            $this->specPrice->delete($request->get('spec_id'));
-        }
-        return response(array('type' => true));
-    }
-
-    public function removeSpec(Request $request)
-    {
-        $spec = $this->specPrice->find($request->get('spec_id'));
-        if ($spec) {
-            $spec->removeMetaById($request->get('spec_id'));
-        }
-    }
-
-    public function removeGroupSizeColor(Request $request)
-    {
-        $spec = $this->specPrice->find($request->get('spec_id'));
-        if ($spec) {
-            $spec->removeMetaById($request->get('spec_id'));
-        }
-    }
-    
-    public function removeSpecPriceColor(Request $request)
-    {
-        $spec = $this->specPrice->find($request->get('spec_id'));
-        if ($spec) {
-            $spec->removeMetaById($request->get('spec_id'));
-        }
-    }
-
-    public function loadImprovedSpecPrice(Request $request)
-    {
-        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        return view('lots.partials.form.size_specs', ['block_id' => $block_id]);
-    }
-    public function loadSpecPriceDescription(Request $request)
-    {
-        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        return view('lots.partials.form.description_specs', ['block_id' => $block_id]);
-    }
-    public function loadSpecPriceColor(Request $request)
-    {
-        $block_id = ($request->get('block_id')) ? $request->get('block_id') : 1;
-        return view('lots.partials.form.color_specs', ['block_id' => $block_id]);
-    }
     public function removeImproveSpecPrice(Request $request)
     {
         $spec = $this->improvedSpecs->find($request->get('spec_id'));

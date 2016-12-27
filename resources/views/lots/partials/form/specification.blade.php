@@ -1,9 +1,9 @@
 <div class="specification_suite_item overflow {{ isset($spec) ? 'saved' : '' }}" data-spec-id="{{ isset($spec) ? $spec->id : '' }}"
-     data-suite-spec="{{ isset($block_id) ? $block_id : 1 }}">
+     data-suite-spec="{{ isset($key_spec_product) ? $key_spec_product : 1 }}">
     <div class="col l6 m12 s12">
         <div class="input-field spec_name">
             <span class="label">{{ $meta->getMeta('label_name') }}</span>
-            <input type="text" name="spec[{{ isset($block_id) ? $block_id : 1 }}][key]"
+            <input type="text" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][key]"
                    value="{{ isset($spec['key']) ? $spec['key'] : '' }}">
         </div>
     </div>
@@ -11,8 +11,9 @@
     <div class="col l5 m10 s10">
         <div class="input-field spec_value">
             <span class="label">{{ $meta->getMeta('description_spec') }}</span>
-            <input type="text" name="spec[{{ isset($block_id) ? $block_id : 1 }}][value]"
+            <input type="text" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][value]"
                    value="{{ isset($spec['value']) ? $spec['value'] : '' }}">
+            <input type="hidden" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][key_unique]" value="{{ isset($spec['key_unique']) ? $spec['key_unique'] : md5(microtime().rand()) }}"/>
         </div>
     </div>
 

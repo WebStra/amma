@@ -88,16 +88,16 @@ class ProductsRepository extends Repository
             throw new Exception('First argument MUST be an instance of '.Model::class);
 
         $product->fill([
-            'name' => (isset($data['name']) ? $data['name'] : $product->name),
-            'price' => (isset($data['price']) ? $data['price'] : $product->price),
-            'sale' => (isset($data['sale'])) ? $this->formatSale($data['sale']) : $product->sale,
-            'count' => (isset($data['count'])) ? $data['count'] : $product->count,
-            'description' => (isset($data['description'])) ? $data['description'] : $product->description,
-            'type' => (isset($data['type'])) ? $data['type'] : 'new',
-            'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
-            'published_date' => (isset($data['published_date']) ? $this->dateToTimestamp($data['published_date']) : $product->published_date),
+            'name'            => (isset($data['name']) ? $data['name'] : $product->name),
+            'price'           => (isset($data['price']) ? $data['price'] : $product->price),
+            'sale'            => (isset($data['sale'])) ? $this->formatSale($data['sale']) : $product->sale,
+            'count'           => (isset($data['count'])) ? $data['count'] : $product->count,
+            'description'     => (isset($data['description'])) ? $data['description'] : $product->description,
+            'type'            => (isset($data['type'])) ? $data['type'] : 'new',
+            'status'          => ($product->status == 'drafted') ? 'notverified' : $product->status,
+            'published_date'  => (isset($data['published_date']) ? $this->dateToTimestamp($data['published_date']) : $product->published_date),
             'expiration_date' => (isset($data['expiration_date']) ? $this->dateToTimestamp($data['expiration_date']) : $product->published_date),
-            'active' => 1
+            'active'          => 1
         ]);
 
         $product->save();
@@ -367,7 +367,9 @@ class ProductsRepository extends Repository
     {
         $product = self::getModel()
             ->create([
-                'lot_id' => $lot->id
+                'lot_id' => $lot->id,
+                'uniqid' => substr(str_replace('.','',uniqid('00'.rand(),true)),0,10)
+
             ]);
         /*$spec_price =  SpecPrice::create([
             'product_id' => $product->id
@@ -383,10 +385,10 @@ class ProductsRepository extends Repository
     public function saveProduct($product, array $data)
     {
         $product->fill([
-            'name' => isset($data['name']) ? $data['name'] : null,
-            'old_price' => isset($data['old_price']) ? $data['old_price'] : null,
-            'price' => isset($data['price']) ? $data['price'] : null,
-            'sale' => isset($data['sale']) ? $data['sale'] : null,
+            /*'name'            => isset($data['name']) ? $data['name'] : null,
+            'old_price'       => isset($data['old_price']) ? $data['old_price'] : null,
+            'price'           => isset($data['price']) ? $data['price'] : null,
+            'sale'            => isset($data['sale']) ? $data['sale'] : null,*/
             'sub_category_id' => isset($data['sub_category']) ? $data['sub_category'] : null
         ]);
 

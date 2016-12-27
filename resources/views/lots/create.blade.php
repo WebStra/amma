@@ -158,7 +158,7 @@
                 <div class="margin15">
                     <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
                         <button form="create_form_lot" class="btn" id="lot_btn_add_product" data-action="{{ route('load_product_block_form', [ 'lot' => $lot->id ]) }}"><i
-                                    class="material-icons left">save</i>{{ $meta->getMeta('create') }}</button>
+                                    class="material-icons left">save</i>{{ $meta->getMeta('btn_publish_oferta') }}</button>
                     </div>
                 </div>
             </div>
@@ -248,6 +248,7 @@
                         url: "{{ route('lot_select_category', [ $lot->id ]) }}",
                          success: function (response) {
                             $('.subcategories').material_select('destroy');
+                            var option = '';
                             //var option = '<option value="">{{ $meta->getMeta('select_subcategory') }}</option>';
                             $.each(response.sub_category, function(index, item) {
                                  option += '<option value="'+item.id+'">'+item.name+'</option>'
@@ -274,12 +275,8 @@
                         data: { product_id: product_id },
                         url: "{{ route("delete_product", [ $lot->id ]) }}",
                         success: function (response) {
+                            Materialize.toast('{{ $meta->getMeta('delete_product_success') }}', 2000, 'green');
                             form.remove();
-
-                            /*if(response == 'enable_cat')
-                            {
-                                $(category_input).removeAttr('disabled');
-                            }*/
                         }
                     });
                 }(jQuery));
@@ -296,16 +293,15 @@
             {
                 (function ($) {
                     var $this = $(group_price);
-                    var form = $this.parents('.specification_price_item');
-                    var spec_id = form.data('spec-id');
+                    var form  = $this.parents('.specification_price_item');
+                    var key   = form.find('input.js-remove-group-price').val();
                     //var product_id = form.data('product');
-
                     $.ajax({
                         type: 'POST',
-                        data: { spec_id: spec_id },
-                        url: "{{ route("delete_group_price") }}",
+                        data: { key: key },
+                        url: "{{ route("delete_group_price", [ $lot->id ]) }}",
                         success: function (response) {
-                            console.log(response);
+                            Materialize.toast('{{ $meta->getMeta('delete_price_group_success') }}', 2000, 'green');
                             form.remove();
                         }
                     });
@@ -358,35 +354,17 @@
         {
             var $this = $(btn);
             var form = $this.parents('form');
-            var block_id = 'temp'
+            var key_spec_product = 'temp'
                     + Math.floor((Math.random() * 10000) + 1)
                     + Math.random().toString(36).substring(7)
                     + Math.floor((Math.random() * 10000) + 1);
 
             $.ajax({
                 type: 'POST',
-                data: { block_id: block_id },
+                data: { key_spec_product: key_spec_product },
                 url: "{{ route('load_spec', [ $lot ]) }}",
                 success: function (view) {
                     form.find('.specification_suite_lot').append(view);
-                }
-            });
-        }
-        function loadSpecPriceDescription(btn) // Load specification block
-        {
-            var $this = $(btn);
-            var form = $this.parents('.specification_price_item');
-            var block_id = 'temp'
-                    + Math.floor((Math.random() * 10000) + 1)
-                    + Math.random().toString(36).substring(7)
-                    + Math.floor((Math.random() * 10000) + 1);
-
-            $.ajax({
-                type: 'POST',
-                data: { block_id: block_id },
-                url: "{{ route('load_spec_price_description') }}",
-                success: function (view) {
-                    form.find('.wrap_description_price').append(view);
                 }
             });
         }
@@ -395,18 +373,84 @@
             var $this = $(btn);
             var form = $this.parents('form');
             var product = form.data('product');
-            var block_id = 'temp'
+            var key_spec = 'temp'
                     + Math.floor((Math.random() * 10000) + 1)
                     + Math.random().toString(36).substring(7)
                     + Math.floor((Math.random() * 10000) + 1);
 
             $.ajax({
                 type: 'POST',
-                data: { block_id: block_id,product_id: product },
+                data: { key_spec: key_spec,product_id: product },
                 url: "{{ route('load_spec_price', [ $lot ]) }}",
                 success: function (view) {
                     form.find('.specification_price').append(view);
                     initColor();
+                }
+            });
+        }
+        function loadSpecPriceDescription(btn) // Load specification block
+        {
+            var $this = $(btn);
+            var form = $this.parents('.specification_price_item');
+            var key_desc = 'temp'
+                    + Math.floor((Math.random() * 10000) + 1)
+                    + Math.random().toString(36).substring(7)
+                    + Math.floor((Math.random() * 10000) + 1);
+            var key_spec = form.data('suite-spec');
+            console.log(key_spec);
+            $.ajax({
+                type: 'POST',
+                data: { key_spec: key_spec, key_desc: key_desc },
+                url: "{{ route('load_spec_price_description', [ $lot ]) }}",
+                success: function (view) {
+                    form.find('.wrap_description_price').append(view);
+                }
+            });
+        }
+        function loadImprovedSpecPrice(btn)
+        {
+            var $btn = $(btn);
+            var form = $btn.parents('.specification_price_item');
+            //var product = form.data('product');
+            var key_size = 'temp'
+                + Math.floor((Math.random() * 10000) + 1)
+                + Math.random().toString(36).substring(7)
+                + Math.floor((Math.random() * 10000) + 1);
+
+            var key_spec = form.data('suite-spec');
+            $.ajax({
+                type: 'POST',
+                data: { key_spec: key_spec, key_size: key_size},
+                url: "{{ route('load_improved_spec_price', [ $lot ]) }}",
+                success: function (view) {
+                    form.find('.wrap_size_price').append(view);
+                    initColor();
+
+                }
+            });
+        }
+
+        function loadSpecPriceColor(btn)
+        {
+            var $btn = $(btn);
+            var form = $btn.parents('.group-size-color');
+            //var product = form.data('product');
+
+            var key_spec = form.find('.size_color_sold_item ').data('suite-spec');
+            var key_size = form.find('.size_color_sold_item ').data('suite-size');
+
+            var key_color = 'temp'
+                + Math.floor((Math.random() * 10000) + 1)
+                + Math.random().toString(36).substring(7)
+                + Math.floor((Math.random() * 10000) + 1);
+            $.ajax({
+                type: 'POST',
+                data: {key_spec: key_spec, key_size: key_size, key_color: key_color},
+                url: "{{ route('load_spec_price_color', [ $lot ]) }}",
+                success: function (view) {
+                    form.find('.inner_color_price').append(view);
+                    initColor();
+
                 }
             });
         }
@@ -434,47 +478,6 @@
             });
         }
 
-        function loadImprovedSpecPrice(btn)
-        {
-            var $btn = $(btn);
-            var form = $btn.parents('.specification_price_item');
-            //var product = form.data('product');
-            var block_id = 'temp'
-                + Math.floor((Math.random() * 10000) + 1)
-                + Math.random().toString(36).substring(7)
-                + Math.floor((Math.random() * 10000) + 1);
-            $.ajax({
-                type: 'POST',
-                data: { block_id: block_id},
-                url: "{{ route('load_improved_spec_price') }}",
-                success: function (view) {
-                    form.find('.wrap_size_price').append(view);
-                    initColor();
-
-                }
-            });
-        }
-
-        function loadSpecPriceColor(btn)
-        {
-            var $btn = $(btn);
-            var form = $btn.parents('.wrap_color_price');
-            //var product = form.data('product');
-            var block_id = 'temp'
-                + Math.floor((Math.random() * 10000) + 1)
-                + Math.random().toString(36).substring(7)
-                + Math.floor((Math.random() * 10000) + 1);
-            $.ajax({
-                type: 'POST',
-                data: { block_id: block_id},
-                url: "{{ route('load_spec_price_color') }}",
-                success: function (view) {
-                    form.find('.inner_color_price').append(view);
-                    initColor();
-
-                }
-            });
-        }
         function removeSpec(btn) // On remove spec.
         {
             var $this = $(btn);
@@ -483,21 +486,39 @@
 
             if(confirm('Remove specification ?'))
             {
-                if(block.hasClass('saved'))
-                {
-                    var id = block.data('spec-id');
 
+                var key = block.find('input[type=hidden]').val();
+
+                $.ajax({
+                    url: "{{ route('remove-spec', [ $lot ]) }}",
+                    data: { key: key, product_id: product_id },
+                    method: 'post',
+                    success: function () {
+                        block.remove();
+                        Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 2000, 'green');
+                    }
+                });
+            }
+        }
+        function removeSpecPriceDescription(btn) // On remove spec.
+        {
+
+            if(confirm('Remove specification ?'))
+            {
+                    var $this       = $(btn);
+                    var block_price = $this.parents('.specification_price_item');
+                    var block       = $this.parents('.specification_suite_price_item');
+                    var key         = block.find('input[type=hidden]').val();
+                    var key_price   = block_price.find('input.js-remove-group-price').val();
                     $.ajax({
-                        url: "{{ route('remove-spec') }}",
-                        data: { spec_id: id, product_id: product_id },
+                        url: "{{ route('remove-spec-price-desc', [ $lot ])}}",
+                        data: { key: key,key_price:key_price},
                         method: 'post',
                         success: function () {
                             block.remove();
+                            Materialize.toast('{{ $meta->getMeta('delete_price_group_success') }}', 2000, 'green');
                         }
                     });
-                } else {
-                    block.remove();
-                }
             }
         }
         function removeGroupSizeColor(btn) // On remove spec.
@@ -508,21 +529,17 @@
 
             if(confirm('Remove group size color ?'))
             {
-                if(block.hasClass('saved'))
-                {
-                    var id = block.data('spec-id');
-
+                    var key   = block.find('input.js-group-size-color').val();
+                    console.log(key);
                     $.ajax({
-                        url: "{{ route('remove-group-size-color') }}",
-                        data: { spec_id: id},
+                        url: "{{ route('remove-group-size-color', [ $lot]) }}",
+                        data: { key: key},
                         method: 'post',
                         success: function () {
                             block.remove();
+                            Materialize.toast('{{ $meta->getMeta('delete_price_group_success') }}', 2000, 'green');
                         }
                     });
-                } else {
-                    block.remove();
-                }
             }
         }
         function removeSpecPrice(btn) // On remove spec.
@@ -533,8 +550,6 @@
 
             if(confirm('Remove specification Price?'))
             {
-                if(block.hasClass('saved'))
-                {
                     var id = block.data('spec-id');
 
                     $.ajax({
@@ -543,11 +558,9 @@
                         method: 'post',
                         success: function () {
                             block.remove();
+                            Materialize.toast('{{ $meta->getMeta('save_lot_success') }}', 2000, 'green');
                         }
                     });
-                } else {
-                    block.remove();
-                }
             }
         }
 
@@ -559,21 +572,17 @@
 
             if(confirm('Remove specification color?'))
             {
-                if(block.hasClass('saved'))
-                {
-                    var id = block.data('spec-id');
-
+                    var key = block.find('input[type=hidden]').val();
+                    console.log(key);
                     $.ajax({
-                        url: "{{ route('remove_spec_price_color') }}",
-                        data: { spec_id: id},
+                        url: "{{ route('remove_spec_price_color', [ $lot->id ]) }}",
+                        data: { key: key},
                         method: 'post',
                         success: function () {
                             block.remove();
+                            Materialize.toast('{{ $meta->getMeta('delete_price_group_success') }}', 2000, 'green');
                         }
                     });
-                } else {
-                    block.remove();
-                }
             }
         }
         function removeImprovedSpec(btn)

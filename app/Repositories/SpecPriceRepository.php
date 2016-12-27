@@ -14,12 +14,6 @@ class SpecPriceRepository extends Repository
         return new SpecPrice();
     }
 
-    public function getPriceById($specId) {
-        return self::getModel()
-            ->where('id',$specId)
-            ->pluck('new_price')
-            ->first();
-    }
     /**
      * @param $product_id
      * @return static
@@ -42,6 +36,13 @@ class SpecPriceRepository extends Repository
     {
         return $this->getModel()
             ->whereId((int) $id)
+            ->first();
+    }
+    
+    public function findKey($key)
+    {
+        return $this->getModel()
+            ->whereKey($key)
             ->first();
     }
 
@@ -67,30 +68,32 @@ class SpecPriceRepository extends Repository
      * @return mixed
      */
 
-    public function save(array $data, $product)
+    public function create(array $data, $product)
     {
-
-        $insert = [
-            'product_id' => 624,
-            'lot_id'     => 56,
-            'new_price'  => 200,
-            'old_price'  => 1000,
-            'sale'       => 40
-        ];
-
-        //dd($data);
-        dd(self::getModel()->firstOrNew(array('id'=>64))->save($insert));
-        return self::getModel()->save($insert);
-        //$price->save($insert);
-
-/*        return self::getModel()
-            ->save([
-                'product_id' => $product->id,
+        return self::getModel()
+            ->create([
                 'lot_id'     => $product->lot_id,
+                'product_id' => $product->id,
                 'new_price'  => (isset($data['new_price']) ? $data['new_price'] : ''),
                 'old_price'  => (isset($data['old_price']) ? $data['old_price'] : ''),
-                'sale'       => (isset($data['sale'])) ? $data['sale'] : 0
-            ]);*/
+                'sale'       => (isset($data['sale'])) ? $data['sale'] : 0,
+                'name'       => (isset($data['name'])) ? $data['name'] : null
+            ]);
+    }
+
+    public function save(array $data, $product)
+    {
+        $key = ((isset($data['key']) &&  $data['key'] != null) ? $data['key'] : null);
+        $price = self::getModel()->firstOrNew(array('key'=>$key));
+        $price->product_id = $product->id;
+        $price->lot_id     = $product->lot_id;
+        $price->new_price  = (isset($data['new_price']) ? $data['new_price'] : '');
+        $price->old_price  = (isset($data['old_price']) ? $data['old_price'] : '');
+        $price->sale       = (isset($data['sale'])) ? $data['sale'] : 0;
+        $price->name       = (isset($data['name']) ? $data['name'] : ''); 
+        $price->key        = (isset($data['key']) ? $data['key'] : '');
+        $price->save();
+        return $price;
     }
 
     public function update($spec, array $data)

@@ -20,7 +20,7 @@ class Meta extends KeyhunterRepository
      * @var array
      */
     protected $fillable = [
-        'metaable_id', 'metaable_type', 'key', 'value', 'group'
+        'metaable_id', 'metaable_type', 'key', 'value', 'group','key_unique'
     ];
 
     /**

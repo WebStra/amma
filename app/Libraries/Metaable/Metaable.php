@@ -19,7 +19,6 @@ trait Metaable
         } else {
             $meta = $this->whereKey($key)->active()->first();
         }
-
         return ($meta) ? ($asModel) ? $meta : $meta->value : '';
     }
 

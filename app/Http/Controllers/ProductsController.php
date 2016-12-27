@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Session\Store;
 use App\Repositories\ProductsRepository;
+use App\Repositories\CurrenciesRepository;
 use XmlParser;
 use Storage;
 
@@ -61,6 +62,7 @@ class ProductsController extends Controller
      */
     protected $improvedSpecs;
     protected $specPrice;
+    protected $currencies;
 
     /**
      * ProductsController constructor.
@@ -80,7 +82,8 @@ class ProductsController extends Controller
         InvolvedRepository $involvedRepository,
         LotRepository $lotRepository,
         ImprovedSpecRepository $improvedSpecRepository,
-        SpecPriceRepository $specPriceRepository
+        SpecPriceRepository $specPriceRepository,
+        CurrenciesRepository $currenciesRepository
     )
     {
         $this->session       = $session;
@@ -91,6 +94,7 @@ class ProductsController extends Controller
         $this->lots          = $lotRepository;
         $this->improvedSpecs = $improvedSpecRepository;
         $this->specPrice     = $specPriceRepository;
+        $this->currencies    = $currenciesRepository;
 
     }
 
@@ -104,9 +108,9 @@ class ProductsController extends Controller
         $product = $this->products->saveProduct($product, $request->all());
 
         if (!empty($spec_price = $request->get('spec_price')))
-            $this->saveSpecificationsAll($request,$product);
+            $this->saveSpecificationsPrice($request,$product);
 
-       /* if (!empty($spec = $request->get('spec')))
+        if (!empty($spec = $request->get('spec')))
             $this->saveSpecifications($spec, $product);
 
         if (!empty($fileInput = $request->file('image')))
@@ -114,13 +118,13 @@ class ProductsController extends Controller
                 $this->addImage($image, $product);
             });
 
-        if (!empty($specs = $request->get('i_spec')))
-            $this->saveImprovedSpecifications($specs, $product);
-*/
+       /* if (!empty($specs = $request->get('i_spec')))
+            $this->saveImprovedSpecifications($specs, $product);*/
+
         $json = array(
             'respons' => true
         );
-         return response($json);
+        return response($json);
         //return view('lots.partials.form.product', [ 'lot' => $lot, 'product' => $product]);
     }
 
@@ -133,13 +137,9 @@ class ProductsController extends Controller
     public function show($product)
     {
         $itemPercentage = $this->getSalledPercent($product->id);
-
-        $lot = $this->lots->find($product->lot_id);
-
-        $productInLot=$this->products->countInLotProduct($product->lot_id);
-
-        $same_products = $this->products->getSameProduct($product->sub_category_id);
-
+        $lot            = $this->lots->find($product->lot_id);
+        $productInLot   = $this->products->countInLotProduct($product->lot_id);
+        $same_products  = $this->products->getSameProduct($product->sub_category_id);
         $view = view('product.show',['item'=>$product,'lot'=>$lot,'similar'=>$same_products ,'productItem'=> $itemPercentage,'productinlot'=>$productInLot]);
 
         if(Auth::check()) {
@@ -212,15 +212,21 @@ class ProductsController extends Controller
      */
     public function remove(Request $request, Lot $lot)
     {
-
-        $product = $this->products->find($request->get('product_id'));
+        $product    = $this->products->find($request->get('product_id'));
         if ($product) {
+            foreach ($product->specPrice as $key => $price) {
+                $price->removeMetaGroupById('price', $price->id);
+            }
             $product->removeMetaGroupById('spec', $request->get('product_id'));
         }
         $this->products->delete($request->get('product_id'));
 
         /*if($this->lots->checkIfPossibleToChangeCategory($lot))
             return 'enable_cat';*/
+        $json = array(
+            'respons' => true
+        );
+        return response($json);
     }
 
     /**
@@ -232,12 +238,14 @@ class ProductsController extends Controller
     private function saveSpecifications($specifications, Product $product)
     {
         array_walk($specifications, function ($meta) use ($product) {
-            $product->setMeta($meta['key'], $meta['value'], 'spec');
+            if ($meta['key'] != null  && $meta['value'] != null) {
+                $product->setMeta($meta, 'spec');
+            }
         });
     }
 
 
-    private function saveSpecificationsAll($request, Product $product)
+    private function saveSpecificationsPrice($request, Product $product)
     {
         //dd($request->get('spec_price'));
         //dd(collect($request->get('spec_price'))->first());
@@ -248,25 +256,32 @@ class ProductsController extends Controller
         })->values();
         dd($filtered->all());*/
         if (!empty($spec = $request->get('spec_price'))) {
-            array_walk($spec, function($data) use ($product,$request) {
-                if (($data['new_price'] >= 0 && $data['old_price'] >= 0) && ($data['new_price'] != null && $data['old_price'] != null)) {
-                    $specPriceInsert = $this->specPrice->save($data, $product);
-                    if (!empty($specSize = $request->get('spec_size'))) {
-                        array_walk($specSize, function($data) use ($specPriceInsert,$request) {
-                            if ($data['size'] >= 0  && $data['size'] != null) {
-                                $specSizeInsert = $this->improvedSpecs->create($data, $specPriceInsert);
-                                if (!empty($specColor = $request->get('spec_color'))) {
-                                    array_walk($specColor, function($data) use ($specSizeInsert,$request) {
-                                        if ($data['color_hash'] != null  or ($data['amount'] >= 0 && $data['amount'] != null)) {
-                                            $specColorInsert = $this->modelColors->create($data, $specSizeInsert);
+            foreach ($spec as $key => $price) {
+                if (($price['new_price'] >= 0 && $price['old_price'] >= 0) && ($price['new_price'] != null && $price['old_price'] != null)) {
+                    $specPriceInsert = $this->specPrice->save($price, $product);
+                    if (!empty($specMeta = $price['spec_desc'])) {
+                        foreach ($specMeta as $meta) {
+                            if ($meta['key'] != null  && $meta['value'] != null) {
+                                $specPriceInsert->setMeta($meta, 'price');
+                            }
+                        }
+                    }
+                    if (!empty($specSize = $price['size'])) {
+                        foreach ($specSize as $key => $size) {
+                            if ($size['size'] >= 0  && $size['size'] != null) {
+                                $specSizeInsert = $this->improvedSpecs->save($size, $specPriceInsert);
+                                if (!empty($specColor = $size['color'])) {
+                                    foreach ($specColor as $key => $color) {
+                                        if ($color['color_hash'] != null  or ($color['amount'] >= 0 && $color['amount'] != null)) {
+                                            $specColorInsert = $this->modelColors->save($color, $specSizeInsert);
                                         }
-                                    });
+                                    }
                                 }
                             }
-                        });
+                        }
                     }
                 }
-            });
+            }
         }
     }
 
@@ -290,8 +305,12 @@ class ProductsController extends Controller
     {
         $product = $this->products->find($request->get('product_id'));
         if ($product) {
-            $product->removeMetaById($request->get('spec_id'));
+            $product->removeMetaByKey($request->get('key'));
         }
+        $json = array(
+            'respons' => true
+        );
+        return response($json);
         
     }
 
@@ -411,5 +430,73 @@ class ProductsController extends Controller
 
             $image->setRank($oldsort[$position]['rank']);
         });
+    }
+
+
+
+    public function loadSpecPrice(Request $request, Lot $lot)
+    {
+        $key_spec   = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
+        $product    = $this->products->find($request->get('product_id'));
+        $currencies = $this->currencies->getPublic();
+        return view('lots.partials.form.specification_price', ['currencies' => $currencies,'lot' => $lot,'product' => $product,'key_spec' => $key_spec]);
+    }
+    public function loadSpecPriceDescription(Request $request)
+    {
+        $key_desc = ($request->has('key_desc')) ? $request->get('key_desc') : 1;
+        $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
+        return view('lots.partials.form.description_specs', ['key_spec' => $key_spec,'key_desc' => $key_desc]);
+    }
+    public function loadImprovedSpecPrice(Request $request)
+    {
+        $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
+        $key_size = ($request->has('key_size')) ? $request->get('key_size') : 1;
+        return view('lots.partials.form.size_specs', ['key_spec' => $key_spec,'key_size' => $key_size]);
+    }
+    public function loadSpecPriceColor(Request $request)
+    {
+        $key_spec  = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
+        $key_size  = ($request->has('key_size')) ? $request->get('key_size') : 1;
+        $key_color = ($request->has('key_color')) ? $request->get('key_color') : 1;
+        return view('lots.partials.form.color_specs', ['key_spec' => $key_spec,'key_size' => $key_size,'key_color' => $key_color]);
+    }
+    public function loadSpec(Request $request)
+    {
+        $key_spec_product  = ($request->has('key_spec_product')) ? $request->get('key_spec_product') : 1;
+        return view('lots.partials.form.specification', ['key_spec_product' => $key_spec_product]);
+    }
+
+    public function removeGroupPrice(Request $request)
+    {
+        $spec = $this->specPrice->findKey($request->get('key'));
+        if ($spec) {
+            $spec->removeMetaGroupById('price', $spec->id);
+            $this->specPrice->delete($spec->id);
+        }
+        return response(array('type' => true));
+    }   
+    public function removeSpecPriceDescription(Request $request)
+    {
+        $spec = $this->specPrice->findKey($request->get('key_price'));
+        if ($spec) {
+            $spec->removeMetaByKey($request->get('key'));
+        }
+        return response(array('type' => true));
+    }
+    public function removeGroupSizeColor(Request $request)
+    {
+        $spec = $this->improvedSpecs->findKey($request->get('key'));
+        if ($spec) {
+            $this->improvedSpecs->delete($spec);
+        }
+        return response(array('type' => true));
+    }
+    public function removeSpecPriceColor(Request $request)
+    {
+        $spec = $this->modelColors->findKey($request->get('key'));
+        if ($spec) {
+            $this->modelColors->delete($spec);
+        }
+        return response(array('type' => true));
     }
 }

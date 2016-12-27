@@ -25,7 +25,37 @@ class ModelColorsRepository extends Repository
                 'amount'     => (isset($data['amount']) ? $data['amount'] : '')
             ]);
     }
+    public function save(array $data, $specSize)
+    {
+        $key = ((isset($data['key']) &&  $data['key'] != null) ? $data['key'] : null);
+        $color             = self::getModel()->firstOrNew(array('key'=>$key));
+        $color->size_id    = $specSize->id;
+        $color->product_id = $specSize->product_id;
+        $color->color_hash = (isset($data['color_hash']) ? $data['color_hash'] : '');
+        $color->amount     = (isset($data['amount']) ? $data['amount'] : '');
+        $color->key         = (isset($data['key']) ? $data['key'] : '');
+        $color->save();
+        return $color;
+    }
 
+    public function find($slug)
+    {
+        if (is_numeric($slug))
+            return $this->getModel()
+                ->whereId((int) $slug)
+                ->first();
+
+        return $this->getModel()
+            ->whereSlug($slug)
+            ->first();
+    }
+    
+    public function findKey($key)
+    {
+        return $this->getModel()
+            ->whereKey($key)
+            ->first();
+    }
     /**
      * Delete color.
      *
