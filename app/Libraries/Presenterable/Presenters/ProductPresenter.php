@@ -117,7 +117,7 @@ class ProductPresenter extends Presenter
         if($onlyPrice)
             return ($price != 0) ? $price : '';
 
-        return sprintf('%s %s', $price,$currency);
+        return sprintf('%s %s', $price, $currency);
     }
 
     public function getSaledPrice()

@@ -135,6 +135,17 @@ Route::multilingual(function () {
         'as' => 'view_product',
         'uses' => 'ProductsController@show'
     ]);
+    Route::post('product/specification', [
+        'as' => 'product_specification',
+        'middleware' => 'accept-ajax',
+        'uses' => 'ProductsController@getSpecifications'
+    ]);
+
+    Route::post('product/specification/color', [
+        'as' => 'product_specification_color',
+        'middleware' => 'accept-ajax',
+        'uses' => 'ProductsController@getSpecificationsColor'
+    ]);
 
     Route::get('blog', [
         'as' => 'view_blog',

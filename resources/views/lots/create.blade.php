@@ -4,7 +4,6 @@
     {{--{!!Html::style('/assets/css/dropzone.css')!!}--}}
     {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker.min.css')!!}
     {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker-plus.min.css')!!}
-
 @endsection
 
 @section('content')
@@ -23,7 +22,6 @@
                                 <input type="text" class="iText" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
                             </div>
                         </div>
-
                         @if(count($categories))
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">

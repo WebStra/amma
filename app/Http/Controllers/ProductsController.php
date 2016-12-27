@@ -185,6 +185,23 @@ class ProductsController extends Controller
     }
 
 
+    public function getSpecifications() {
+
+        $request =  \Request::all();
+        $getSpecification = $this->improvedSpecs->getById($request['id']);
+
+        return json_encode($getSpecification);
+    }
+
+    public function getSpecificationsColor() {
+
+        $request =  \Request::all();
+        $getSpecificationColor = $this->modelColors->getById($request['id']);
+
+        return json_encode($getSpecificationColor);
+    }
+
+
     /**
      * Delete products..
      *

@@ -49,6 +49,12 @@ class ModelColorsRepository extends Repository
             ->first();
     }
 
+    public function getById($id) {
+        return self::getModel()
+            ->where('size_id',$id)
+            ->get();
+    }
+
     /**
      * Check if product has this color.
      *

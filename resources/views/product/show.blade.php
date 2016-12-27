@@ -23,6 +23,7 @@
                             <hr>
                             <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>
                             <br>
+                            <!---Status---->
                             @if($item->lot->verify_status != 'expired')
                                 <div class="row">
                                     <div class="col l3 m3 s12">
@@ -39,20 +40,70 @@
                                 <br>
                                 @if($lot->vendor->user->id !== \Auth::id())
                                     {{--@if(! $user_is_involved)--}}
-                                    <form method="post"
-                                          action="{{ route('involve_product', ['product' => $item->id]) }}">
-                                        <div class="row">
-                                            <div class="col l3 m3 s12">
-                                                <h5>Produs:</h5>
+                                    <form method="post" action="{{ route('involve_product', ['product' => $item->id]) }}">
+                                        <input type="hidden" id="color_product" name="color_product" value="@if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0){{$item->specPrice->first()->improvedSpecs->first()->specColors->first()->id}}@endif">
+                                        <input type="hidden" id="sizes_product" name="sizes_product" value="@if(count($item->specPrice->first()->improvedSpecs) > 0) {{$item->specPrice->first()->improvedSpecs->first()->id}} @endif ">
+                                        @if(count($item->specPrice) > 0)
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Produs:</h5>
+                                                </div>
+                                                <div class="product_select col l6 m9 s12">
+                                                    <select class="select_product_quantity browser-default"
+                                                            name="select_product">
+                                                        @foreach($item->specPrice as $prodSpec)
+                                                            <option data-product-id="{{$prodSpec->id}}"
+                                                                    data-old-price="{{$prodSpec->old_price}}"
+                                                                    data-new-price="{{$prodSpec->new_price}}"
+                                                                    data-sale="{{$prodSpec->sale}}"
+                                                                    data-currency="{{$item->lot->currency->title}}"
+                                                                    value="{{$prodSpec->id}}">{{$prodSpec->name}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="product_select col l6 m9 s12">
-                                                <select name="select_product" class="browser-default">
-                                                    <option value="0" selected> Select Box</option>
-                                                    <option value="1">Short Option</option>
-                                                    <option value="2">This Is A Longer Option</option>
-                                                </select>
+                                            <br>
+                                        @endif
+                                    <!--sizes--->
+                                        @if(count($item->specPrice) > 0)
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Marimi:</h5>
+                                                </div>
+                                                <div class="col l6 m9 s12 ">
+                                                    <ul class="sizes_product">
+                                                        @if(count($item->specPrice->first()->improvedSpecs) > 0)
+                                                            <?php $i = 1; ?>
+                                                            @foreach($item->specPrice->first()->improvedSpecs as $size)
+                                                                <li class="<?php if ($i == 1) {
+                                                                    echo 'active';
+                                                                } ?>" data-id="{{$size->id}}">{{$size->size}}</li>
+                                                                <?php $i++; ?>
+                                                            @endforeach
+                                                        @endif
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <br>
+                                        @endif
+                                    <!---Color---->
+                                        @if(count($item->colors) > 0)
+                                            <div class="row">
+                                                <div class="col l3 m3 s12">
+                                                    <h5>Culori:</h5>
+                                                </div>
+                                                <div class="col l19 m9 s12">
+                                                    <ul class="color_product" style="height: 30px;">
+                                                        @if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0)
+                                                            @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
+                                                                <li style="background: {{$color->color_hash}};"></li>
+                                                            @endforeach
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
                                         <br>
                                         <div class="row">
                                             <div class="col l3 m3 s12">
@@ -109,12 +160,18 @@
                                                 </div>
                                                 <div class="col l6 m9 s8">
                                                     <div class="display-table td_bordered_right display-list_bloks-m-down">
+                                                        @if(count($item->specPrice) > 0)
+                                                            <div class="td">
+                                                                <p class="price">
+                                                                    <span>{{ $item->specPrice->first()->new_price }}</span> {{$item->lot->currency->title}}
+                                                                </p>
+                                                                <p class="old_price">
+                                                                    <span>{{ $item->specPrice->first()->old_price }}</span> {{$item->lot->currency->title}}
+                                                                </p>
+                                                            </div>
+                                                        @endif
                                                         <div class="td">
-                                                            <p class="price">{{ $item->present()->renderPriceWithSale() }}</p>
-                                                            <p class="old_price">{{ $item->present()->renderOldPrice() }}</p>
-                                                        </div>
-                                                        <div class="td">
-                                                            <span class="conver_mdl"> ≈ 5220 MDL</span>
+                                                            <div class="conver_mdl">≈<span> {{ $item->specPrice->first()->new_price * $usd }}</span> MDL</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,14 +196,19 @@
                                                     <p>{{ count($item->involved()->active()->get()) }}</p>
                                                     <h6>REZERVARI</h6>
                                                 </div>
-                                                <div class="td col m3 s6">
-                                                    <p>{{ $item->present()->renderSale() }}</p>
-                                                    <h6>REDUCERE</h6>
-                                                </div>
-                                                <div class="td col m3 s6">
-                                                    <p>{{ $item->present()->economyPrice() }}</p>
-                                                    <h6>ECONOMISEȘTI</h6>
-                                                </div>
+                                                @if(count($item->specPrice) > 0)
+                                                    <div class="td col m3 s6">
+                                                        <p id="salePrice">
+                                                            <span>{{ $item->specPrice->first()->sale }}</span> %</p>
+                                                        <h6>REDUCERE</h6>
+                                                    </div>
+                                                    <div class="td col m3 s6">
+                                                        <p id="economy">
+                                                            <span>{{$item->specPrice->first()->old_price - $item->specPrice->first()->new_price}}</span> {{$item->lot->currency->title}}
+                                                        </p>
+                                                        <h6>ECONOMISEȘTI</h6>
+                                                    </div>
+                                                @endif
                                                 <div class="td col m3 s6">
                                                     <p>{{ $item->present()->renderCountItem() }}</p>
                                                     <h6>CANTITATE</h6>
@@ -241,3 +303,4 @@
     </section>
     @include('partials.fb-comments')
 @endsection
+
