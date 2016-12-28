@@ -40,9 +40,12 @@
                                 <br>
                                 @if($lot->vendor->user->id !== \Auth::id())
                                     {{--@if(! $user_is_involved)--}}
-                                    <form method="post" action="{{ route('involve_product', ['product' => $item->id]) }}">
-                                        <input type="hidden" id="color_product" name="color_product" value="@if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0){{$item->specPrice->first()->improvedSpecs->first()->specColors->first()->id}}@endif">
-                                        <input type="hidden" id="sizes_product" name="sizes_product" value="@if(count($item->specPrice->first()->improvedSpecs) > 0) {{$item->specPrice->first()->improvedSpecs->first()->id}} @endif ">
+                                    <form method="post"
+                                          action="{{ route('involve_product', ['product' => $item->id]) }}">
+                                        <input type="hidden" id="color_product" name="color_product"
+                                               value="@if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0){{$item->specPrice->first()->improvedSpecs->first()->specColors->first()->id}}@endif">
+                                        <input type="hidden" id="sizes_product" name="sizes_product"
+                                               value="@if(count($item->specPrice->first()->improvedSpecs) > 0) {{$item->specPrice->first()->improvedSpecs->first()->id}} @endif ">
                                         @if(count($item->specPrice) > 0)
                                             <div class="row">
                                                 <div class="col l3 m3 s12">
@@ -158,6 +161,7 @@
                                                 <div class="col l3 m3 s4">
                                                     <h5>Suma:</h5>
                                                 </div>
+
                                                 <div class="col l6 m9 s8">
                                                     <div class="display-table td_bordered_right display-list_bloks-m-down">
                                                         @if(count($item->specPrice) > 0)
@@ -170,9 +174,14 @@
                                                                 </p>
                                                             </div>
                                                         @endif
-                                                        <div class="td">
-                                                            <div class="conver_mdl">≈<span> {{ $item->specPrice->first()->new_price * $usd }}</span> MDL</div>
-                                                        </div>
+                                                        @if($lot->currency->title != 'MDL')
+                                                            <div class="td">
+                                                                <div class="conver_mdl">
+                                                                    ≈<span>{{$item->present()->convertAmount($item)}}</span>
+                                                                    MDL
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 @if($user_is_involved)

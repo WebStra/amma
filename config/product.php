@@ -1,5 +1,5 @@
 <?php 
 
 return [
-    'times' => 3
+    'times' => 10
 ];

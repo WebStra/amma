@@ -4,6 +4,7 @@ namespace App\Libraries\Presenterable\Presenters;
 
 use App\Traits\HasImagesPresentable;
 use Carbon\Carbon;
+use File;
 
 class ProductPresenter extends Presenter
 {
@@ -111,6 +112,7 @@ class ProductPresenter extends Presenter
 
     public function renderPriceWithSale($onlyPrice = false)
     {
+        //$this->model->specPrice->first()->new_price
         $price = $this->reformatPrice($this->model->price);
 //        $price = $this->getPriceAmountSale();
         $currency = $this->renderCurrency();
@@ -258,6 +260,25 @@ class ProductPresenter extends Presenter
         
         return $this->renderPrice($summ);
     }
+
+    public function convertAmount($item) {
+
+        $currency = json_decode(File::get(storage_path('app/json_currency.json')));
+
+        $money = ['euro'=>$currency->EUR,'usd'=>$currency->USD];
+
+        if($item->lot->currency_id == 1){
+            return $item->specPrice->first()->new_price * $money['usd'];
+        }
+        elseif($item->lot->currency_id == 2) {
+            return $item->specPrice->first()->new_price * $money['euro'];
+        }
+        else {
+            return '';
+        }
+
+    }
+
 
     public function getInfoLabel()
     {

@@ -60,6 +60,13 @@ class SpecPriceRepository extends Repository
         return $this->find($id)->delete();
     }
 
+    public function getPriceById($specId) {
+        return self::getModel()
+            ->where('id', $specId)
+            ->pluck('new_price')
+            ->first();
+    }
+
     /**
      * Update suite of improved specs.
      * 

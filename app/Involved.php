@@ -40,4 +40,10 @@ class Involved extends Repository
         return $this->hasOne(Lot::class, 'id', 'lot_id');
     }
 
+    public function involvedColor()
+    {
+        return $this->hasOne(ModelColors::class, 'id' , 'color_id');
+    }
+
+
 }

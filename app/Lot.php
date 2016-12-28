@@ -179,4 +179,5 @@ class Lot extends Repository
             ->where('status', self::STATUS_COMPLETE)
             ->where('verify_status', self::STATUS_VERIFY_ACCEPTED);
     }
+
 }
