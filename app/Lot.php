@@ -185,9 +185,12 @@ class Lot extends Repository
             ->where('verify_status', self::STATUS_VERIFY_ACCEPTED);
     }
 
+<<<<<<< HEAD
     public function price()
     {
         //return $this->hasManyThrough(SpecPrice::class, Involved::class,'lot_id','id','price_id');
         //return $this->belongsToMany('App\Role');
     }
+=======
+>>>>>>> 892680e93a628c041dadd37bd0c0d47ae2e7d15d
 }

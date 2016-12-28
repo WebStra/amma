@@ -10,14 +10,11 @@
         </div>
         <div class="col l6 m6 s12">
             <div class="colors cf">
-                <span class="small">Colors:</span>
+                <span class="small">Color:</span>
                 <ul>
-                    @foreach($item->colors as $color)
-                        <li>
-                            <span class="color_view"
-                                  style="background-color:{{ $color->color_hash }}; border-color:#e0e0e0;"></span>
-                        </li>
-                    @endforeach
+                    <li>
+                        <span class="color_view" style="background-color:green; border-color:#e0e0e0;"></span>
+                    </li>
                 </ul>
                 <br>
                 <span class="small">Items: {{$involved->count}}</span>

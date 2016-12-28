@@ -161,4 +161,5 @@ class Product extends Repository
             $q->whereIn('normalized', $normalized);
         });
     }
+
 }

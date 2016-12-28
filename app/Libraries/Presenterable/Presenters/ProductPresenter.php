@@ -4,6 +4,7 @@ namespace App\Libraries\Presenterable\Presenters;
 
 use App\Traits\HasImagesPresentable;
 use Carbon\Carbon;
+use File;
 
 class ProductPresenter extends Presenter
 {
@@ -60,7 +61,7 @@ class ProductPresenter extends Presenter
 
     public function renderOldPrice()
     {
-        if($price = $this->model->old_price) {
+        if($price = $this->model->specPrice->first()->old_price) {
             $currency = $this->renderCurrency();
             return sprintf('%s %s', $price,$currency);
         }
@@ -111,13 +112,12 @@ class ProductPresenter extends Presenter
 
     public function renderPriceWithSale($onlyPrice = false)
     {
-        $price = $this->reformatPrice($this->model->price);
-//        $price = $this->getPriceAmountSale();
+        $price = $this->reformatPrice($this->model->specPrice->first()->new_price);
         $currency = $this->renderCurrency();
         if($onlyPrice)
             return ($price != 0) ? $price : '';
 
-        return sprintf('%s %s', $price, $currency);
+        return sprintf('%s %s', ($price) ? $price : '', $currency);
     }
 
     public function getSaledPrice()
@@ -258,6 +258,25 @@ class ProductPresenter extends Presenter
         
         return $this->renderPrice($summ);
     }
+
+    public function convertAmount($item) {
+
+        $currency = json_decode(File::get(storage_path('app/json_currency.json')));
+
+        $money = ['euro'=>$currency->EUR,'usd'=>$currency->USD];
+
+        if($item->lot->currency_id == 1){
+            return round($item->specPrice->first()->new_price * $money['usd']);
+        }
+        elseif($item->lot->currency_id == 2) {
+            return round($item->specPrice->first()->new_price * $money['euro']);
+        }
+        else {
+            return '';
+        }
+
+    }
+
 
     public function getInfoLabel()
     {
