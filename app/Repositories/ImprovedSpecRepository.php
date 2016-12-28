@@ -62,6 +62,7 @@ class ImprovedSpecRepository extends Repository
             ->where('price_spec_id',(int)$id)
             ->get();
     }
+    
 
     /**
      * Update suite of improved specs.
