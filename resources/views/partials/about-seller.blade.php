@@ -201,10 +201,11 @@
                 data: {id: id},
                 success: function (data) {
                     var out = JSON.parse(data);
+                    var count =1;
                     $.each(out, function (i, val) {
                         $('.color_product').append('<li data-id="' + val.id + '" style="background:' + val.color_hash + ';"></li>');
-
                     });
+                    $('ul.color_product li:first-child').addClass('active');
                 },
                 complete: function () {
                     $('ul.sizes_product li').removeClass('notclickable');

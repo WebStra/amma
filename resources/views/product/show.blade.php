@@ -99,8 +99,12 @@
                                                 <div class="col l19 m9 s12">
                                                     <ul class="color_product" style="height: 30px;">
                                                         @if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0)
+                                                            <?php $i = 1; ?>
                                                             @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
-                                                                <li style="background: {{$color->color_hash}};"></li>
+                                                                <li class="<?php if ($i == 1) echo 'active'; ?>"
+                                                                    data-id="{{$color->id}}"
+                                                                    style="background: {{$color->color_hash}};"></li>
+                                                                <?php $i++; ?>
                                                             @endforeach
                                                         @endif
                                                     </ul>
@@ -241,49 +245,7 @@
                         </div>
                     </div>
                 </div><!--product_info-->
-                <div class="col l3 m12 s12 product_vendor_block">
-                    <div class="bordered divide-top hide-on-small-only">
-                        <div class="block_title">DESPRE LOT</div>
-                        <div class="person_card">
-                            <div class="about_lot_single_prod">
-                                <span class="c-gray">Denumire:</span>
-                                <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}"
-                                   target="_blank">{{ $lot->present()->renderName() }}</a>
-                            </div>
-                            <?php $category = $lot->category; ?>
-                            @if($category)
-                                <div class="about_lot_single_prod">
-                                    <span class="c-gray">Categoria:</span>
-                                    <a href="{{ route('view_category', [ 'category' => $category->slug ]) }}">{{ $category->present()->renderName() }}</a>
-                                </div>
-                            @endif
-                            <?php $vendor = $lot->vendor; ?>
-                            <div class="about_lot_single_prod">
-                                <span class="c-gray">Suma lotului:</span> {{ $lot->yield_amount }}
-                            </div>
-                            <div class="about_lot_single_prod">
-                                <span class="c-gray">Nr. de produse in lot:</span> {{ $productinlot }}
-                            </div>
-                            <span class="c-gray">Data expirarii:</span>
-                            @if(! empty($lot->present()->endDate()))
-                                <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
-                                    <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>
-                                    <span class="hours">{{ $lot->present()->diffEndDate()->h }}</span>
-                                    <span class="minutes">{{ $lot->present()->diffEndDate()->i }}</span>
-                                    <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
-                                </div>
-                            @endif
-                            <div class="buttons row">
-                                <div class="col s12 padd_r_half">
-                                    <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}" target="_blank"
-                                       class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
-                                        lotul</a>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
+                @include('partials.about-lot')
                 @if($lot = $item->lot)
                     @if($vendor = $lot->vendor)
                         <div class="col l3 m12 s12 product_vendor_block">

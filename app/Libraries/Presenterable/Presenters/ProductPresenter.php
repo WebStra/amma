@@ -61,7 +61,7 @@ class ProductPresenter extends Presenter
 
     public function renderOldPrice()
     {
-        if($price = $this->model->old_price) {
+        if($price = $this->model->specPrice->first()->old_price) {
             $currency = $this->renderCurrency();
             return sprintf('%s %s', $price,$currency);
         }
@@ -112,14 +112,12 @@ class ProductPresenter extends Presenter
 
     public function renderPriceWithSale($onlyPrice = false)
     {
-        //$this->model->specPrice->first()->new_price
-        $price = $this->reformatPrice($this->model->price);
-//        $price = $this->getPriceAmountSale();
+        $price = $this->reformatPrice($this->model->specPrice->first()->new_price);
         $currency = $this->renderCurrency();
         if($onlyPrice)
             return ($price != 0) ? $price : '';
 
-        return sprintf('%s %s', $price, $currency);
+        return sprintf('%s %s', ($price) ? $price : '', $currency);
     }
 
     public function getSaledPrice()
@@ -268,10 +266,10 @@ class ProductPresenter extends Presenter
         $money = ['euro'=>$currency->EUR,'usd'=>$currency->USD];
 
         if($item->lot->currency_id == 1){
-            return $item->specPrice->first()->new_price * $money['usd'];
+            return round($item->specPrice->first()->new_price * $money['usd']);
         }
         elseif($item->lot->currency_id == 2) {
-            return $item->specPrice->first()->new_price * $money['euro'];
+            return round($item->specPrice->first()->new_price * $money['euro']);
         }
         else {
             return '';
