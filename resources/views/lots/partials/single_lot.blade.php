@@ -40,9 +40,23 @@
                     </div>
                 </div>
             @endif
-            <div class="label">
-                <div class="c-gray">Status: <span class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
-            </div>
+            @if(Route::currentRouteName() == 'my_lots')
+                <div class="label">
+                    <div class="c-gray">Status: <span class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{$lot->currency->title}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Comision: <span>{{$lot->comision}} {{$lot->currency->title}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Suma acumulata: <span>{{$lot->involvedTotalPrice->sum('price')}} {{$lot->currency->title}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span></div>
+                </div>
+            @endif
             @if(! empty($lot->present()->endDate()))
                 <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
                     <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">

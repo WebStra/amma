@@ -34,6 +34,11 @@ class SpecPrice extends Repository
         return $this->hasMany(ImprovedSpec::class, 'price_spec_id', 'id');
     }
 
+
+    public function price()
+    {
+        return $this->hasMany(Involved::class, 'price_id', 'id');
+    }
     /**
      * @var bool
      */

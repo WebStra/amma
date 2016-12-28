@@ -14,7 +14,7 @@
                 <span class="label">{{ $meta->getMeta('form_lot_sold') }}</span>
                 <input type="text" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][color][{{ isset($key_color) ? $key_color : 1 }}][amount]" value="{{ isset($color->amount) ? $color->amount : '' }}" placeholder="0">
                 
-                <input type="hidden" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][color][{{ isset($key_color) ? $key_color : 1 }}][key]" value="{{ isset($color->key) ? $color->key : md5(microtime().rand()) }}"/>
+                <input type="hidden" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][color][{{ isset($key_color) ? $key_color : 1 }}][key]" value="{{ isset($color->key) && !empty($color->key) ? $color->key : md5(microtime().rand()) }}"/>
             </div>
         </div>
         <div class="col l1 m2 s2">

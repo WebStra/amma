@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 @include('partials.dashboard.nav-bar')
-                <div class="col l8 m7 s12 list-lots">
+                <div class="col l9 m7 s12 list-lots">
                     @if(count($lots))
                         @foreach($lots as $lot)
                             @include('lots.partials.single_lot')

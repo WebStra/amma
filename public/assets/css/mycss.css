@@ -45,7 +45,7 @@ span.line .c_gray {
 
 .list-lots .lot .lot-info .lot-info-bottom .label {
   display: inline-block;
-  float: left;
+/*   float: left; */
   line-height: 21px;
   margin: 8px 20px 0 0;
 }

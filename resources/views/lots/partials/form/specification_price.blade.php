@@ -9,7 +9,7 @@
             <input type="text" class="iText" required="required" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][name]"
             value="{{ isset($spec->name) ? $spec->name : '' }}"
             placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
-            <input type="hidden" class="js-remove-group-price" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][key]" value="{{ isset($spec->key) ? $spec->key : md5(microtime().rand()) }}"/>
+            <input type="hidden" class="js-remove-group-price" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][key]" value="{{ isset($spec->key) && !empty($spec->key) ? $spec->key : md5(microtime().rand()) }}"/>
         </div>
     </div>
 

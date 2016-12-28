@@ -83,6 +83,11 @@ class Lot extends Repository
         return $this->hasMany(Involved::class, 'lot_id', 'id')->active();
     }
 
+    public function involvedTotalPrice()
+    {
+        return $this->belongsToMany(SpecPrice::class, 'involved', 'lot_id','price_id')->selectRaw('product_specifications_price.new_price * involved.count as price')->wherePivot('active', 1);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -178,5 +183,11 @@ class Lot extends Repository
         return $query
             ->where('status', self::STATUS_COMPLETE)
             ->where('verify_status', self::STATUS_VERIFY_ACCEPTED);
+    }
+
+    public function price()
+    {
+        //return $this->hasManyThrough(SpecPrice::class, Involved::class,'lot_id','id','price_id');
+        //return $this->belongsToMany('App\Role');
     }
 }

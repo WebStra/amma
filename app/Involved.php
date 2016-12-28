@@ -40,4 +40,9 @@ class Involved extends Repository
         return $this->hasOne(Lot::class, 'id', 'lot_id');
     }
 
+/*    public function priceBlea()
+    {
+        return $this->belongsToMany(SpecPrice::class, 'involved','lot_id','price_id');
+    }*/
+
 }

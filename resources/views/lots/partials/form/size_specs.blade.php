@@ -5,7 +5,7 @@
                 <span class="label">{{ $meta->getMeta('form_lot_size') }}</span>
                 <input type="text" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][size]" value="{{ isset($item_spec->size) ? $item_spec->size : '' }}" placeholder="Size">
 
-                <input type="hidden" class="js-group-size-color" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][key]" value="{{ isset($item_spec->key) ? $item_spec->key : md5(microtime().rand()) }}"/>
+                <input type="hidden" class="js-group-size-color" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][key]" value="{{ isset($item_spec->key) && !empty($item_spec->key) ? $item_spec->key : md5(microtime().rand()) }}"/>
             </div>
         </div>
         @if(isset($item_spec) && count($colors = $item_spec->specColors))

@@ -13,7 +13,7 @@
             <span class="label">{{ $meta->getMeta('description_spec') }}</span>
             <input type="text" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][value]"
                    value="{{ isset($spec['value']) ? $spec['value'] : '' }}">
-            <input type="hidden" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][key_unique]" value="{{ isset($spec['key_unique']) ? $spec['key_unique'] : md5(microtime().rand()) }}"/>
+            <input type="hidden" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][key_unique]" value="{{ isset($spec['key_unique']) && !empty($spec['key_unique']) ? $spec['key_unique'] : md5(microtime().rand()) }}"/>
         </div>
     </div>
 
