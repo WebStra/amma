@@ -156,9 +156,16 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\ObserverServiceProvider::class,
 
         Keyhunter\Administrator\ServiceProvider::class,
-        Cviebrock\EloquentSluggable\SluggableServiceProvider::class
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
+        Jenssegers\Date\DateServiceProvider::class,
+        App\Providers\SocialiteServiceProvider::class,
+        Chencha\Share\ShareServiceProvider::class,
+        Conner\Likeable\LikeableServiceProvider::class,
+        Cviebrock\EloquentTaggable\ServiceProvider::class,
+        Orchestra\Parser\XmlServiceProvider::class
     ],
 
     /*
@@ -204,7 +211,22 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Date' => Jenssegers\Date\Date::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Share' => Chencha\Share\ShareFacade::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Observer Logs
+    |--------------------------------------------------------------------------
+    |
+    | If is enabled(true), then all fired methods will be recorded to
+    | storage/laravel.log
+    |
+    */
+
+    'observers_logs' => true,
 ];

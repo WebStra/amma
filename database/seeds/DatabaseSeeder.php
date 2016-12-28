@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
         BannersTableSeeder::class,
         UsersTableSeeder::class,
         PagesTableSeeder::class,
-        SellersTableSeeder::class,
-        ProductsTableSeeder::class
+        VendorsTableSeeder::class,
+        ProductsTableSeeder::class,
+        CategoriesTableSeeder::class,
+        PostsTableSeeder::class,
+        FaqTableSeeder::class
     ];
 
     /**

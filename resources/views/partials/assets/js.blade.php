@@ -1,23 +1,27 @@
-<!-- jQuery -->
-<script src="assets/js/jquery-2.1.1.min.js"></script>
+<!-- Initialize jQuery -->
+{!!Html::script('/assets/js/jquery-2.1.1.min.js')!!}
+<!-- End of initialize jQuery plugin -->
 
-<!-- Scripts -->
-<script type="text/javascript" src="assets/plugins/owl/owl.carousel.js"></script>
-<script type="text/javascript" src="assets/plugins/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
-<script type="text/javascript" src="assets/plugins/fancybox/jquery.fancybox.js"></script>
-<script type="text/javascript" src="assets/plugins/flexslider/shCore.js"></script>
-<script type="text/javascript" src="assets/plugins/flexslider/shBrushXml.js"></script>
-<script type="text/javascript" src="assets/plugins/flexslider/shBrushJScript.js"></script>
-<script type="text/javascript" src="assets/plugins/flexslider/jquery.flexslider.js"></script>
-<script type="text/javascript" src="/assets/plugins/nouislider/nouislider.js"></script>
-<script type="text/javascript" src="/assets/plugins/nouislider/wNumb.js"></script>
-<script type="text/javascript" src="/assets/plugins/toastr/toastr.js"></script>
-<script type="text/javascript" src="assets/plugins/imagezoom/imagezoom.js" id="magnifier"></script>
-<script type="text/javascript" src="assets/plugins/jStarbox/jstarbox.js"></script>
-<script type="text/javascript" src="assets/js/js_materialize/bin/materialize.js"></script>
+<!-- Initialize other plugins -->
+{!!Html::script('/assets/plugins/owl/owl.carousel.js')!!}
+{!!Html::script('/assets/plugins/fancybox/jquery.mousewheel-3.0.6.pack.js')!!}
+{!!Html::script('/assets/plugins/fancybox/jquery.fancybox.js')!!}
+{!!Html::script('/assets/plugins/flexslider/shCore.js')!!}
+{!!Html::script('/assets/plugins/flexslider/shBrushXml.js')!!}
+{!!Html::script('/assets/plugins/flexslider/shBrushJScript.js')!!}
+{!!Html::script('/assets/plugins/flexslider/jquery.flexslider.js')!!}
+{!!Html::script('/assets/plugins/nouislider/nouislider.js')!!}
+{!!Html::script('/assets/plugins/nouislider/wNumb.js')!!}
+{!!Html::script('/assets/plugins/jquery-validation/dist/jquery.validate.min.js')!!}
+{!!Html::script('/assets/plugins/jquery-validation/dist/additional-methods.min.js')!!}
+{!!Html::script('/assets/plugins/jquery-validation/src/localization/messages_'. Lang::slug().'.js')!!}
+{!!Html::script('/assets/plugins/imagezoom/imagezoom.js')!!}
+{!!Html::script('/assets/plugins/jStarbox/jstarbox.js')!!}
+{!!Html::script('/assets/plugins/materialize/js/materialize.min.js')!!}
+{!!Html::script('/assets/plugins/qtip/jquery.qtip.min.js')!!}
+{!!Html::script('/assets/plugins/toastr/build/toastr.min.js')!!}
+<!-- End of initialize other plugins -->
 
-<!-- google map -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
-<script type="text/javascript" src="assets/js/init.js"></script>
-
-@yield('js')
+<!-- Adding other scripts -->
+{!!Html::script('/assets/js/init.js')!!}
+<!-- End adding other scripts -->

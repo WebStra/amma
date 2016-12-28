@@ -25,8 +25,8 @@ Edit
 
     <tr>
         <td colspan="2" class="text-center">
-            <input type="submit" name="save"        value="Save" class="btn btn-flat bg-purple" />
-            <input type="submit" name="save_return" value="Save &amp; Return" class="btn btn-flat bg-purple" />
+            <input type="submit" name="save"        value="Save" class="btn btn-flat bg-yellow" />
+            <input type="submit" name="save_return" value="Save &amp; Return" class="btn btn-flat bg-yellow" />
             <input type="submit" name="save_create" value="Save &amp; Create new" class="btn btn-flat" />
         </td>
     </tr>

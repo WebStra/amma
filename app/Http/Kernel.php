@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\ViewPostThrottleMiddleware::class,
     ];
 
     /**
@@ -28,9 +29,11 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\VerifyCsrfTokenForRoutes::class,
+            \App\Http\Middleware\DraftedProductsCleaner::class,
+            \App\Http\Middleware\UserConfirmed::class
         ],
-
+        
         'api' => [
             'throttle:60,1',
         ],
@@ -49,5 +52,10 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'accept-ajax' => \App\Http\Middleware\AcceptsAjaxOnly::class,
+        'can_handle_action' => \App\Http\Middleware\CanHandleActionMiddleware::class,
+        'can_involve_product' => \App\Http\Middleware\UserCanInvolveProduct::class,
+        'unscribe' => \App\Http\Middleware\UnscribeRequestToken::class,
+        'add_lot_filter' => \App\Http\Middleware\AddLotMiddleware::class
     ];
 }

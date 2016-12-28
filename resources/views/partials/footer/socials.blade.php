@@ -1,4 +1,4 @@
-<h6>Urmărește-ne pe rețele de socializare</h6>
+<h6>{!! $meta->getMeta('footer_social_title') !!}</h6>
 
 <ul class="social">
     @foreach($socials as $social)

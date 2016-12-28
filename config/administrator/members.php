@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Keyhunter\Administrator\Model\Role;
-
+use App\Wallet;
 return [
     'title'  => 'Members',
     'model'  => 'App\User',
@@ -40,16 +40,21 @@ return [
             }
         ],
         'dates' => [
+            'title'=> 'Wallet',
             'elements' =>
             [
-                'created_at' => ['output' => function($row)
-                {
-                    return $row->created_at->diffForHumans();
+                'Current Amount' => [
+                    'output' => function($row){
+
+                    $ammount = Wallet::where('user_id',$row->id)->pluck('amount')->first();
+                    return sprintf('%s',$ammount);
                 }],
-                'updated_at' => ['output' => function($row)
-                {
-                    return $row->updated_at->diffForHumans();
-                }]
+
+                'Add Amount' => ['output' => function($row)
+                {   $id = Wallet::where('user_id',$row->id)->pluck('id')->first();
+                    return sprintf('%s','<a href="/admin/wallet/'.$id.'/edit">Click</a>');
+                }],
+
             ]
         ]
     ],
@@ -162,10 +167,6 @@ return [
             'type' => 'text'
         ],
 
-        'active' => [
-            'title' => 'Active',
-            'type' => 'select',
-            'options' => ['Disable', 'Active']
-        ]
+        'active' => form_boolean()
     ]
 ];

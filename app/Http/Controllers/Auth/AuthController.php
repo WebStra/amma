@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Events\UserCreationRequestSent;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
+use App\Orders\CreateWalletOrder;
+use App\Repositories\UserRepository;
+use App\Repositories\WalletRepository;
+use Auth;
 use Validator;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -31,42 +39,184 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
+     * @var UserRepository
      */
-    public function __construct()
+    protected $users;
+
+    /**
+     * @var WalletRepository
+     */
+    protected $wallets;
+
+    /**
+     * Login by email.
+     * 
+     * @var string
+     */
+    public $username = 'email';
+
+    /**
+     * AuthController constructor.
+     *
+     * @param UserRepository $userRepository
+     * @param WalletRepository $walletRepository
+     */
+    public function __construct(
+        UserRepository $userRepository = null,
+        WalletRepository $walletRepository = null
+    )
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->users = $userRepository;
+        $this->wallets = $walletRepository;
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Get recover password page.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function validator(array $data)
+    public function getRecover()
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+        return view('auth.recover');
+    }
+
+    public function modalLogin(Request $request)
+    {   
+        $validation = Validator::make($request->all(), [
+            $this->loginUsername() => 'required',
+            'password' => 'required'
         ]);
+
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return json_encode(['errors' => [
+                $this->loginUsername() => [$this->getLockoutErrorMessage($this->secondsRemainingOnLockout($request))]
+            ]]);
+        }
+
+        if($validation->fails()) {
+            if ($throttles && ! $lockedOut)
+                $this->incrementLoginAttempts($request);
+
+            return json_encode(['errors' => $validation->errors()]);
+        }
+        
+        $credentials = $this->getCredentials($request);
+
+        if(Auth::validate($credentials))
+        {
+            if(! $this->users->getByEmail($credentials['email'])->active)
+                return json_encode(['errors' => ['This account has blocked. Please contact the support.']]);
+        }
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+            if ($throttles) {
+                $this->clearLoginAttempts($request);
+            }
+
+            $user = Auth::user();
+
+            (new CreateWalletOrder($user));
+
+            if(! $user->confirmed)
+                return json_encode(['redirect' => route('resend_verify_email_form')]);
+            
+            return json_encode([]);
+        }
+    }
+
+    public function modalRegister(Request $request, Dispatcher $events)
+    {
+        $validation = Validator::make(
+            $request->all(), RegisterUserRequest::getRules()
+        );
+        if($validation->fails())
+            return json_encode(['errors' => $validation->errors()]);
+
+        $user = $this->users->createSimpleUser($request->all());
+        
+        $events->fire(new UserCreationRequestSent($user));
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return json_encode(['redirect' => route('resend_verify_email_form')]); 
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
+     * @param LoginUserRequest $request
+     * @param Dispatcher $events
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    protected function create(array $data)
+    public function postLogin(LoginUserRequest $request, Dispatcher $events)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        $credentials = $this->getCredentials($request);
+
+        if(Auth::validate($credentials))
+        {
+            if(! $this->users->getByEmail($credentials['email'])->active)
+                return redirect()->back()
+                    ->withErrors(['account' => 'This account has blocked. Please contact the support.']);
+        }
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+            if ($throttles) {
+                $this->clearLoginAttempts($request);
+            }
+
+            if (method_exists($this, 'authenticated')) {
+                return $this->authenticated($request, Auth::guard($this->getGuard())->user());
+            }
+
+            // todo: HIGH. Fix it!!!
+//            if(session()->pull('url.intended', '/') == route('admin_login'))
+//                return redirect()->to('/');
+
+            $user = Auth::user();
+
+            (new CreateWalletOrder($user));
+
+            if(! $user->confirmed)
+                return redirect()->route('resend_verify_email_form');
+            
+            return redirect()->intended($this->redirectPath());
+        }
+
+        if ($throttles && ! $lockedOut) {
+            $this->incrementLoginAttempts($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Post register.
+     *
+     * @param RegisterUserRequest $request
+     * @param Dispatcher $events
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postRegister(RegisterUserRequest $request, Dispatcher $events)
+    {
+        $user = $this->users->createSimpleUser($request->all());
+        
+        $events->fire(new UserCreationRequestSent($user));
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return redirect()->route('resend_verify_email_form');
     }
 }

@@ -108,12 +108,6 @@ return [
 
         'rank' => ['type' => 'text'],
         
-        'active' => [
-            'type' => 'select',
-            'options' => [
-                0 => 'No',
-                1 => 'Yes'
-            ]
-        ]
+        'active' => form_boolean()
     ]
 ];

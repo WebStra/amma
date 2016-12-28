@@ -16,8 +16,7 @@
         zoomviewmargin: 10,
         zoomviewborder: 'none',
         magnification: 1.925
-    };
-
+};
     var imagezoomCursor, imagezoomView, settings, imageWidth, imageHeight, offset;
     var methods = {
         init: function(options) {
@@ -127,8 +126,9 @@
             $.error(method);
         }
     }
-
-    $(document).ready(function() {
-        $('[data-imagezoom]').imageZoom();
-    });
+    if($(window).width() > 768){
+        $(document).ready(function() {
+            $('[data-imagezoom]').imageZoom();
+        });
+    }
 })(jQuery);

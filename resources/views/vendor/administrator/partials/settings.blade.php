@@ -17,7 +17,7 @@
     @else
         <?php list($page, $title) = each($settingsPages);?>
         <a href="{{ route('admin_settings_edit', ['page' => $page]) }}">
-            <span>{{ trans('Settings') }}</span>
+            <span><i class="fa fa-gear"></i> {{ trans('Settings') }}</span>
         </a>
     @endif
 </li>

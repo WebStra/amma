@@ -23,6 +23,16 @@ return [
 
         'name',
 
+        'image' => [
+            'title' => 'Logo',
+            'output' => function($row)
+            {
+                $image = $row->images()->cover()->first();
+
+                return $image ? output_image($image->image) : '';
+            }
+        ],
+
         'link' => [
             'title' => 'Link',
             'output' => function ($row){
@@ -92,7 +102,27 @@ return [
     |
     */
     'filters' => [
-        //
+        'id' => filter_hidden(),
+
+        'show_in_footer' => [
+            'label' => 'Show only in footer',
+            'type' => 'select',
+            'options' => [
+                '' => '-- Any --',
+                1 => '-- Yes --',
+                0 => '-- No --'
+            ]
+        ],
+
+        'active' => [
+            'label' => 'Active',
+            'type' => 'select',
+            'options' => [
+                '' => '-- Any --',
+                1 => '-- Active --',
+                0 => '-- None Active --'
+            ]
+        ]
     ],
 
     /*
@@ -117,9 +147,6 @@ return [
 
         'rank' => form_text(),
 
-        'active' => form_select('Active', [
-            '1' => '-- Yes --',
-            '0' => '-- No --'
-        ]),
+        'active' => form_boolean()
     ]
 ];

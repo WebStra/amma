@@ -31,7 +31,12 @@
 
                 @include('administrator::partials.settings')
 
-                @include('administrator::partials.user')
+                <li>
+                    <a href="{{ url('admin/logout') }}">
+                        <i class="glyphicon glyphicon-log-out"></i> {{ trans('Logout') }}
+                    </a>
+                </li>
+                {{--@include('administrator::partials.user')--}}
                 {{--todo: implement header pages ..--}}
             </ul>
         </div>

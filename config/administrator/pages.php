@@ -24,11 +24,25 @@ return [
             'slug'
         ]),
 
-        'body',
-
         'active' => column_element('Active', false, function($row)
         {
             return output_boolean($row);
+        }),
+
+        'show_in_header' => column_element('Show in header', false, function($row)
+        {
+        	if($row->show_in_header)
+            	return output_boolean($row, 'show_in_header');
+
+            return '';
+        }),
+
+        'show_in_footer' => column_element('Show in footer', false, function($row)
+        {
+        	if($row->show_in_footer)
+            	return output_boolean($row, 'show_in_footer');
+
+            return '';
         }),
 
         'dates' => [
@@ -111,16 +125,18 @@ return [
         'id'       => form_key(),
 
         'slug'     => form_text(),
+        'page_type' => [
+            'label' => 'Page Type',
+            'type' => 'select',
+            'options' => ['' => '-- Any --', '1'=>'Despre noi', '2'=>'Ajutor', '3'=>'Aspecte generale']
+        ],
 
         'title'    => form_text() + translatable(),
 
-//        'body'    => form_ckeditor() + translatable(),
         'body'    => form_wysi_html5() + translatable(),
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
-
+        'active' => form_boolean(),
+        'show_in_header' => form_boolean(),
+        'show_in_footer' => form_boolean()
     ]
 ];

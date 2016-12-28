@@ -41,39 +41,118 @@ return [
             ]
         ]
     ],
+
     'Content' => [
-        'page_header' => 'main content site',
+        'page_header' => 'Lots and Vendors',
         'pages' => [
-            'pages' => [
-                'icon' => 'fa fa-file-text-o'
-            ],
-            'products' => [
-                'icon' => 'fa fa-shopping-cart'
-            ],
-            'sellers' => [
+            'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
+            ],
+            'lot' => [
+                'icon' => 'fa fa-users'
+            ],
+            /*'products' => [
+                'icon' => 'fa fa-shopping-cart'
+            ],*/
+        ]
+    ],
+    'Categories' => [
+        'icon' => 'fa fa-list',
+        'pages' => [
+            'categories' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+
+            'sub_categories' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+
+//            'category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+//
+//            'sub_category_filters' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+//            'category_rel' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+//            'category_images' => [
+//                'icon' => 'fa fa-circle-o'
+//            ]
+        ]
+    ],
+    'Tags' => [
+        'icon' => 'fa fa-tags',
+        'pages' => [
+            'taggs' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+
+//            'taggable_products' => [
+//                'icon' => 'fa fa-circle-o'
+//            ],
+
+            'taggable_subcategories' => [
+                'icon' => 'fa fa-circle-o'
             ]
         ]
     ],
-    'Advanced Content' => [
-        'page_header' => 'advanced content site',
+    'Blog' => [
+        'icon' => 'fa fa-archive',
         'pages' => [
-            'socials' => [
-                'icon' => 'fa fa-hashtag'
+            'posts' => [
+                'icon' => 'fa fa-file-text-o'
             ],
-            'partners' => [
-                'icon' => 'fa fa-group'
+
+            'post_images' => [
+                'icon' => 'fa fa-file-text-o'
+            ]
+        ]
+    ],
+    'Secondary Content' => [
+        'page_header' => 'secondary content site',
+        'pages' => [
+            'pages' => [
+                'icon' => 'fa fa-clone'
             ],
             'banners' => [
                 'icon' => 'fa fa-object-group'
+            ],
+            'socials' => [
+                'icon' => 'fa fa-facebook'
+            ],
+            'faq' => [
+                'icon' => 'fa fa-comment'
             ]
         ]
     ],
-    'Relations' => [
-        'page_header' => 'relationship tables',
-        'icon' => 'fa fa-sitemap',
+    'Partners' => [
+        'icon' => 'fa fa-group',
         'pages' => [
-            'users_products' => [
+            'partners' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+            'partners_images' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+        ]
+    ],
+    'translate' => [
+        'icon' => 'fa fa-graduation-cap'
+    ],
+    'General settings' => [
+        'icon' => 'fa fa-gears',
+        'pages' => [
+            'method-delivery' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+            'method-payment' => [
+                'icon' => 'fa fa-circle-o'
+            ],
+            'video' => [
                 'icon' => 'fa fa-circle-o'
             ]
         ]

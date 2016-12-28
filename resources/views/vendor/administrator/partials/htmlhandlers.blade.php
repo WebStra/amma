@@ -13,6 +13,13 @@ $(function()
         multidate: true
     });
 
+    $('[data-input-type="text_dropdown"]').dropdown({
+        allowAdditions: true
+    });
+
+    $("input[name=group]").on('change', function(){
+        console.log($(this).val());
+    });
 
     $('input[data-filter-type="number_range"]').slider({
         //
@@ -31,6 +38,14 @@ $(function()
                 fn.addClass('hidden');
             }
         });
-    })
+    });
+
+    $(document).ready(function(){
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_minimal-yellow',
+            radioClass: 'iradio_minimal-yellow',
+            increaseArea: '20%' // optional
+        });
+    });
 });
 </script>

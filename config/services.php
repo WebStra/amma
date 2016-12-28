@@ -19,6 +19,10 @@ return [
         'secret' => env('MAILGUN_SECRET'),
     ],
 
+    'sendgrid' => [
+        'secret' => env('SENDGRID_SECRET'),
+    ],
+
     'ses' => [
         'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
@@ -35,4 +39,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    //Socialite
+    'facebook' => [
+        'client_id'     => '641211512703285',
+        'client_secret' => '94adcc1aa4e0af5b2f16c8037f0b3634',
+        'redirect'      => 'http://localhost:8000/social/login/callback/facebook', // todo: change on production.
+    ],
 ];

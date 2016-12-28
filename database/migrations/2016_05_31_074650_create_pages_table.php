@@ -17,6 +17,8 @@ class CreatePagesTable extends Migration
             $table->increments('id');
             $table->string('slug', 225)->unique();
             $table->boolean('active')->default(1)->index();
+            $table->boolean('show_in_footer')->default(0)->index();
+            $table->boolean('show_in_header')->default(0)->index();
             $table->timestamps();
         });
 

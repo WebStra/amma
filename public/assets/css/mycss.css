@@ -1,0 +1,414 @@
+.wrap-img img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+span.line {
+  width: 100%;
+  display: inline-block;
+}
+
+span.line .c_gray {
+  border-bottom: 1px solid #eee;
+}
+
+.block-inline {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.list-lots .lot {
+  border: 1px solid #eee;
+  padding: 10px;
+}
+
+.list-lots .lot .wrap-img img {
+  display: block;
+  width: 100%;
+}
+
+.list-lots .lot .lot-info {
+  width: 100%;
+  border-bottom: 4px double #bbb;
+}
+
+.list-lots .lot .lot-info .lot-name {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3em;
+  padding-bottom: 8px;
+}
+
+.list-lots .lot .lot-info .lot-info-bottom {
+  padding-bottom: 12px;
+}
+
+.list-lots .lot .lot-info .lot-info-bottom .label {
+  display: inline-block;
+  float: left;
+  line-height: 21px;
+  margin: 8px 20px 0 0;
+}
+
+.list-lots .lot .lot-info .lot-info-bottom .countdown {
+  float: right;
+  margin-left: 5px;
+}
+
+.list-lots .lot .lot-info .lot-info-bottom .countdown span {
+  width: 21px;
+  height: 21px;
+  line-height: 22px;
+  font-size: 12px;
+}
+
+.list-lots .lot .lot-info .lot-info-bottom .wrap-countdown {
+  padding-top: 3px;
+}
+
+.list-lots .lot .product .product-content {
+  min-height: 130px;
+  font-size: 12px;
+  position: relative;
+  padding-left: 140px;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-lots .lot .product .block-inline {
+  margin-bottom: 10px;
+}
+
+.list-lots .lot .product .name {
+  width: 100%;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 6px 0;
+}
+
+.list-lots .lot .product .wrap-img {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  z-index: 100;
+  top: 4px;
+  left: 4px;
+  border: 1px solid #ddd;
+  padding: 4px;
+}
+
+.list-lots .lot .product .wrap-img img {
+  display: inline-block;
+  max-width: 96%;
+  max-height: 96%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.list-lots .lot .product input[type='text'] {
+  border: 1px solid #aaa;
+  width: 36px;
+  font-size: 14px;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 3px;
+}
+
+.list-lots .lot .product input[type='text']:focus {
+  box-shadow: none;
+}
+
+.list-lots .lot .product .label {
+  display: inline-block;
+  text-align: left;
+}
+
+.list-lots .lot .product .group-labels .label {
+  vertical-align: top;
+}
+
+.list-lots .lot .product .group-labels .label span {
+  width: 100%;
+  display: inline-block;
+}
+
+.list-lots .lot .product .group-labels .label.label-available {
+  max-width: 80px;
+}
+
+.list-lots .lot .product .group-labels .label.label-size {
+  max-width: 180px;
+}
+
+.list-lots .lot .product .group-labels .label.label-color {
+  max-width: 200px;
+}
+
+.list-lots .lot .product .group-labels.model-2 .label {
+  text-align: left;
+  margin: 0 10px 0 0;
+}
+
+.list-lots .lot .product .group-labels.model-2 .label span {
+  vertical-align: top;
+}
+
+.list-lots .lot .product .group-colors {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.list-lots .lot .product .group-colors .item {
+  display: inline-block;
+  vertical-align: top;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  padding: 0;
+}
+
+.list-lots .lot .product .group-colors .item:before {
+  border-width: 0;
+}
+
+.list-lots .lot .product .group-colors input {
+  opacity: 0;
+  display: none;
+  left: -9000px;
+  position: absolute;
+}
+
+.list-lots .lot .product .group-colors input:checked + .item {
+  box-shadow: 0 0 2px 3px rgba(100, 100, 100, 0.3);
+}
+
+.list-lots .lot .product.collapse {
+  display: none;
+}
+
+.list-lots .lot .btn-see-all {
+  font-size: 24px;
+  height: 40px;
+  cursor: pointer;
+  margin: 4px auto 4px;
+  width: 280px;
+  line-height: 40px;
+  display: block;
+  padding: 0 10px;
+  text-align: center;
+  color: #fff;
+  background-color: #ff6f00;
+}
+
+.list-lots .lot .btn-see-all .show {
+  display: inline-block;
+}
+
+.list-lots .lot .btn-see-all .hidden {
+  display: none;
+}
+
+.list-lots .lot .btn-see-all.active {
+  background-color: #444;
+  color: #fff;
+}
+
+.list-lots .lot .btn-see-all.active .show {
+  display: none;
+}
+
+.list-lots .lot .btn-see-all.active .hidden {
+  display: inline-block;
+}
+
+.list-lots .pagination {
+  width: 100%;
+  text-align: center;
+}
+
+.user-rating {
+  position: relative;
+  line-height: 21px;
+  color: #ff6f00;
+}
+
+.user-rating .stars {
+  position: relative;
+  width: 98px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background-image: url("../images/ico-rating.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.user-rating .bg {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 99%;
+  max-width: 99%;
+  height: 100%;
+  background-color: #ff6f00;
+}
+
+.user-rating span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.c-gray {
+  color: #aaa;
+}
+
+section.produs {
+  text-align: left;
+}
+
+section.produs .product-name {
+  font-size: 24px;
+  font-family: "robotobold", sans-serif;
+}
+
+section.produs .label {
+  float: left;
+  text-align: left;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding-right: 25px;
+}
+
+section.produs .label > span {
+  width: auto;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+}
+
+section.produs .label.lot-info {
+  width: 100%;
+}
+
+section.produs .label.wrap-countdown .countdown {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+section.produs .label.wrap-countdown .countdown span {
+  margin-right: 0;
+}
+
+section.produs .label.price-old {
+  font-weight: 300;
+  text-decoration: line-through;
+}
+
+section.produs .label.price-new {
+  font-weight: 500;
+  color: #ff6f00;
+}
+
+section.produs .label.label-color > span {
+  width: 67px;
+}
+
+section.produs .color-select {
+  display: inline-block;
+  vertical-align: middle;
+  vertical-align: top;
+}
+
+section.produs .color-select li label {
+  width: 25px;
+  height: 25px;
+}
+
+section.produs .tabs .tab a.active {
+  font-size: 20px;
+}
+
+section.produs .counting .wrapp_input {
+  height: 36px;
+}
+
+section.produs .counting .wrapp_input .in {
+  height: 36px;
+}
+
+section.produs .counting .wrapp_input input {
+  height: 36px;
+}
+
+section.produs .btn_base.put_in_basket {
+  height: 36px;
+  padding: 0 15px;
+}
+
+@media (min-width: 991px) {
+  section.produs .label.lot-info, section.produs .label.wrap-countdown, section.produs .label.label-color, section.produs .label.subcategory {
+    width: 50%;
+  }
+  section.produs .label.lot-size {
+    maw-width: 180px;
+  }
+}
+
+@media (max-width: 620px) {
+  .list-lots .lot .product .product-content {
+    padding-left: 0;
+  }
+  .list-lots .lot .product .product-content .wrap-img {
+    width: 96%;
+    margin: 15px auto 15px;
+    max-width: 420px;
+    position: relative;
+    height: auto;
+    border: none;
+  }
+  .list-lots .lot .product .product-content .wrap-img img {
+    position: relative;
+  }
+  .product_info .sell_info h5 {
+    font-size: 12px;
+  }
+  .sell_info p {
+    font-size: 16px;
+  }
+}
+
+section.produs.single_produs .lot .lot-info .lot-name {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3em;
+  padding-bottom: 8px;
+}
+
+section.produs.single_produs .lot .lot-info {
+
+}
+
+section.produs.single_produs .label {
+  float: none;
+  text-align: left;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding-right: 19px;
+}
+section.produs.single_produs .countdown {
+  display: inline;
+}
+.about_lot_single_prod {
+  margin: 4px 0;
+}
+
+.show_single_lot.list-lots .lot{
+  box-shadow: none;
+  margin-top: 0;
+}

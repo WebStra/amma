@@ -1,0 +1,9 @@
+diff a/app/Libraries/Presenterable/Presenters/LotPresenter.php b/app/Libraries/Presenterable/Presenters/LotPresenter.php	(rejected hunks)
+@@ -92,7 +92,6 @@
+      */
+ 
+ 
+-        }
+     public function getExpireDateAsString($format = 'd.m.Y')
+     {
+         Date::setLocale(\Lang::slug());

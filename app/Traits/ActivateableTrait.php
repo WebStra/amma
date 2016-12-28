@@ -8,21 +8,11 @@ trait ActivateableTrait
      * Scope where active.
      *
      * @param $query
+     * @param $active
      * @return mixed
      */
-    public function scopeActive($query)
+    public function scopeActive($query, $active = true)
     {
-        return $query->whereActive(1);
-    }
-
-    /**
-     * Scope where deactive.
-     * 
-     * @param $query
-     * @return mixed
-     */
-    public function scopeDeactivated($query)
-    {
-        return $query->whereActive(0);
+        return $query->whereActive((int)$active);
     }
 }

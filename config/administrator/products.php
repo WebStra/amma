@@ -1,5 +1,10 @@
 <?php
 
+use App\Lot;
+use Illuminate\Database\Eloquent\Builder;
+use App\Currency;
+use App\SubCategory;
+
 return [
     'title' => 'Products',
 
@@ -19,7 +24,26 @@ return [
     'columns' => [
         'id',
 
+        'image' => [
+            'title' => 'Imagine',
+            'output' => function($row)
+            {
+                $image = $row->images()->cover()->first();
+
+                return $image ? output_image($image->image, null, ['width' => '100']) : '';
+            }
+        ],
+
         'name',
+
+        'lot_id' => [
+            'title' =>'Lot',
+            'output' => function ($row) {
+                if($lot = $row->lot_id)
+                    $lotname = Lot::where('id',$lot)->first();
+                return sprintf('%s','<a href="/admin/lot?id='.$row->lot_id.'">'.$lotname['name'].'</a>');
+            }
+        ],
 
         'price_info' => [
             'title' => 'Price Information',
@@ -27,7 +51,9 @@ return [
                 'price' => [
                     'title' => 'Current Price',
                     'output' => function ($row) {
-                        return sprintf('%s MDL', ceil($row->price));
+                        $lotid = lot::where('id',$row->lot_id)->pluck('currency_id')->first();
+                        $currency = Currency::where('id',$lotid)->pluck('sign')->first();
+                        return sprintf('%s%s', ceil($row->price) ,$currency);
                     }
                 ],
                 'sale' => [
@@ -39,51 +65,21 @@ return [
                 'new_price' => [
                     'title' => 'Price with sale',
                     'output' => function ($row) {
-                        return sprintf('%s MDL', ( // calc percent.
-                            ceil($row->price - ($row->price * ($row->sale / 100))))
+                        $lotid = lot::where('id',$row->lot_id)->pluck('currency_id')->first();
+                        $currency = Currency::where('id',$lotid)->pluck('sign')->first();
+                        return sprintf('%s%s', ( // calc percent.
+                            ceil($row->price - ($row->price * ($row->sale / 100)))),$currency
                         );
                     }
                 ],
                 'count' => [
                     'title' => 'Remains',
                     'output' => function ($row) {
-                        return sprintf('%s штук.', $row->count);
+                        return sprintf('%s unit.', $row->count);
                     }
                 ]
             ]
         ],
-
-        'tags' => [
-            'elements' => [
-                'type',
-                'status' => [
-                    'output' => function ($row){
-                        switch ($row->status) {
-                            case 'published':
-                                $status = '<b style="color: #0c84bf;">Publish</b>';
-                                break;
-                            case 'drafted':
-                                $status = '<b style="color: #d07e3a">Drafted</b>';
-                                break;
-                            case 'completed':
-                                $status = '<b style="color: #00a65a">Completed</b>';
-                                break;
-                        }
-
-                        return $status;
-                    }
-                ]
-            ]
-        ],
-
-        'dates' => [
-            'elements' => [
-                'published_date',
-                'expiration_date',
-                'created_at',
-                'updated_at',
-            ]
-        ]
     ],
 
     /*
@@ -118,7 +114,11 @@ return [
     | Extend the main scaffold index query
     |
     */
-    'query' => function ($query) {
+    'query' => function (Builder $query) {
+
+        if(request('lot_id'))
+        return $query->where('lot_id',request('lot_id'));
+
         return $query;
     },
 
@@ -133,40 +133,11 @@ return [
     'filters' => [
         'id' => filter_hidden(),
 
-        'name' => filter_text(),
 
         'price' => filter_number_range('Price Range', [
             'min' => '100',
             'max' => '10000'
-        ]
-        ),
-
-        'type' => filter_select('Type', [
-            '' => '-- Any --',
-            'old_product' => '-- Old --',
-            'new' => '-- New --',
-        ], function ($query, $value){
-            // This stuff is hardcoded, it used because keyword 'old' is reserved.
-            if ($value == 'old_product')
-                return $query->whereType('old');
-        }),
-
-        'status' => filter_select('Status', [
-            '' => '-- Any --',
-            'published' => '-- Published --',
-            'drafted' => '-- Drafted --',
-            'completed' => '-- Completed --'
         ]),
-
-        'active' => filter_select('Active', [
-            '' => '-- Any --',
-            '1' => '-- Active --',
-            '0' => '-- None Active --',
-        ]),
-
-        'created_at' => filter_daterange('Created period'),
-        'published_date' => filter_daterange('Published date'),
-        'expiration_date' => filter_daterange('Expiration date')
     ],
 
     /*
@@ -181,11 +152,31 @@ return [
 
         'id' => form_key(),
 
-        'name' => form_ckeditor(),
+        'sub_category_id' => form_select('Subcategoria', function () {
+            $items = [];
 
-        'active' => filter_select('Active', [
-            0 => 'No',
-            1 => 'Yes'
-        ]),
+            $collection = SubCategory::select('*')->active()->get();
+
+            foreach ($collection as $item)
+            {
+                $items[$item->id] = $item->name;
+            }
+
+            return $items;
+        }),
+
+        'name' => form_text(),
+
+        'description' => form_ckeditor(),
+
+        'price' => form_text(),
+
+        'sale' => form_text(),
+
+        'old_price' => form_text(),
+
+        'count' => form_text(),
+
+        'active' => form_boolean()
     ]
 ];

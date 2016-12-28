@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
     <title>E-commerce</title>
     <!-- IE6-10 -->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
     <!-- other browsers -->
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="/favicon.ico">
 
     @include('partials.assets.css')
+    @yield('meta')
 </head>
 
 <body>
 @include('partials.header.index')
+
+@if(Breadcrumbs::exists())
+    <div class="container">
+        {!! Breadcrumbs::render() !!}
+    </div>
+@endif
+
+@include('partials.notification')
 
 @yield('content')
 
@@ -22,4 +31,9 @@
 
 <!-- Scripts -->
 @include('partials.assets.js')
+{{--Load additional js libraries--}}
+@yield('js')
+{{--Load additional scripts--}}
+@yield('scripts')
+
 </body>

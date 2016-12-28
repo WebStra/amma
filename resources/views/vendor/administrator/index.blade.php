@@ -13,7 +13,7 @@
         @foreach($globalActions as $action)
         <div class="pull-right">
             @if ($action->isReservedUrl())
-            <a href="{{ route('admin_model_create', ['page' => $modelName]) . $queryString }}" class="btn btn-link">{{ $action->getTitle() }}</a>
+                <a href="{{ route('admin_model_create', ['page' => $modelName]) . $queryString }}" class="btn btn-link">{{ $action->getTitle() }}</a>
             @else
                 <button class="btn btn-link" name="action" value="{{ $action->getName() }}">{{ $action->getTitle() }}</button>
             @endif
