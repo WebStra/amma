@@ -1,0 +1,5 @@
+[TODO]
+
+-Specification add validators for key and values;
+-On edit save as new specification;
+-Change date input to jqueryui or bootstrap datapicker;
