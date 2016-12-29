@@ -2,7 +2,7 @@
     <div class="item product">
         <div class="display-table">
             <div class="wrapp_img with_hover td wrapp_countdown">
-                @include('product.partials.recommended.item.countdown')
+                @include('product.partials.recommended.item.countdown',['lot'=>$item->lot])
                 <img src="{{$item->present()->cover()}}" alt="" width="145" height="120"/>
             </div>
         </div>
@@ -12,12 +12,12 @@
                 <div class="curent_price">{!! $item->present()->renderPriceWithSale() !!}</div>
                 <div class="old_price">{!! $item->present()->renderOldPrice()!!}</div>
             </div>
-            <div class="stock">
+            {{--<div class="stock">
                 {{ $item->involved->sum('count') }} / {{$item->count}}
                 <div class="progress">
                     <div class="determinate" style="width:{{($item->count) ?  number_format((100 * $item->involved->sum('count'))  / $item->count) : 0 }}%"></div>
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
 @endforeach

@@ -6,6 +6,7 @@ use App\Http\Requests\InvolveProductRequest;
 use App\Http\Requests\ExitProductRequest;
 use App\Repositories\InvolvedRepository;
 use App\Repositories\LotRepository;
+use App\Repositories\ModelColorsRepository;
 use App\Repositories\SpecPriceRepository;
 use Illuminate\Http\Request;
 
@@ -27,13 +28,21 @@ class UsersController extends Controller
     protected $specs;
 
     /**
+     * @var ModelColorsRepository
+     */
+    protected $color;
+
+    /**
      * UsersController constructor.
      * @param InvolvedRepository $involvedRepository
      */
     public function __construct(InvolvedRepository $involvedRepository,
                                 LotRepository $lotRepository,
-                                SpecPriceRepository $specPriceRepository)
+                                SpecPriceRepository $specPriceRepository,
+                                ModelColorsRepository $modelColorsRepository
+    )
     {
+        $this->color = $modelColorsRepository;
         $this->involved = $involvedRepository;
         $this->lot = $lotRepository;
         $this->specs = $specPriceRepository;
@@ -49,6 +58,7 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
+        dd($request->all());
 
         $this->involved->create($request->all(), $product);
 
@@ -73,6 +83,9 @@ class UsersController extends Controller
      */
     public function exitProductOffer(ExitProductRequest $request, $involve, $product)
     {
+
+        /*$this->color->where('id',$request->id)->update(['amount'=>])*/
+
         $selledPrice = $this->countInvolvedLot($product);
 
         $involve = $this->involved->update($involve, ['active' => 0]);

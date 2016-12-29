@@ -671,3 +671,9 @@ span.pending{
 span.expired{
     color: #ea0b0b;
 }
+
+img.bascket_img  {
+    width: auto;
+    max-height: 170px;
+    margin: auto;
+}

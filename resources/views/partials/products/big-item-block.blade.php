@@ -1,7 +1,7 @@
 <li class="product_card">
     <div class="wrapp_img wrapp_countdown">
         @include('partials.products.item.info-label')
-        <a href="{{ route('view_product', ['product' => $item->id]) }}"><img src="{{ $item->present()->cover() }}"></a>
+        <a href="{{ route('view_product', ['product' => $item->id]) }}"><img class="img-responsive bascket_img" src="{{ $item->present()->cover() }}"></a>
     </div>
     <div class="content">
         @include('partials.products.item.name')
@@ -10,23 +10,16 @@
         </div>
         <div class="col l6 m6 s12">
             <div class="colors cf">
-                <span class="small">Color:</span>
-                <ul>
-                    <li>
-                        <span class="color_view" style="background-color:green; border-color:#e0e0e0;"></span>
-                    </li>
-                </ul>
-                <br>
-                <span class="small">Items: {{$involved->count}}</span>
+                <span class="small">Itemi: {{$involved->count}}</span>
                 <br>
                 @if($item->lot->verify_status == 'verified')
-
                     @include('partials.products.item.countdown')
                 @else
                     <span style="display: block; color: red;">Oferta a expirat</span>
                 @endif
             </div>
         </div>
+        @if($item->lot->verify_status != 'expired')
         <div class="col l6 m6 s12">
             <form class="row childs_margin_top" method="post"
                   action="{{ route('involve_product_cancel', ['involved' => $involved->id, 'product'=>$item->id]) }}">
@@ -35,6 +28,7 @@
                 </button>
             </form>
         </div>
+        @endif
         <div class="col s12">
             @include('partials.products.item.stock')
         </div>

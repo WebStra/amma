@@ -42,7 +42,7 @@ class ProductsRepository extends Repository
     {
         if (is_numeric($slug))
             return $this->getModel()
-                ->whereId((int) $slug)
+                ->whereId((int)$slug)
 //                ->whereIn('status', ['published', 'drafted', 'notverified', 'completed'])
                 ->first();
 
@@ -54,7 +54,7 @@ class ProductsRepository extends Repository
 
     /**
      * Create product.
-     * 
+     *
      * @param array $data
      * @return Product
      */
@@ -84,20 +84,20 @@ class ProductsRepository extends Repository
      */
     public function update($product, $data)
     {
-        if(! $product instanceof Model)
-            throw new Exception('First argument MUST be an instance of '.Model::class);
+        if (!$product instanceof Model)
+            throw new Exception('First argument MUST be an instance of ' . Model::class);
 
         $product->fill([
-            'name'            => (isset($data['name']) ? $data['name'] : $product->name),
-            'price'           => (isset($data['price']) ? $data['price'] : $product->price),
-            'sale'            => (isset($data['sale'])) ? $this->formatSale($data['sale']) : $product->sale,
-            'count'           => (isset($data['count'])) ? $data['count'] : $product->count,
-            'description'     => (isset($data['description'])) ? $data['description'] : $product->description,
-            'type'            => (isset($data['type'])) ? $data['type'] : 'new',
-            'status'          => ($product->status == 'drafted') ? 'notverified' : $product->status,
-            'published_date'  => (isset($data['published_date']) ? $this->dateToTimestamp($data['published_date']) : $product->published_date),
+            'name' => (isset($data['name']) ? $data['name'] : $product->name),
+            'price' => (isset($data['price']) ? $data['price'] : $product->price),
+            'sale' => (isset($data['sale'])) ? $this->formatSale($data['sale']) : $product->sale,
+            'count' => (isset($data['count'])) ? $data['count'] : $product->count,
+            'description' => (isset($data['description'])) ? $data['description'] : $product->description,
+            'type' => (isset($data['type'])) ? $data['type'] : 'new',
+            'status' => ($product->status == 'drafted') ? 'notverified' : $product->status,
+            'published_date' => (isset($data['published_date']) ? $this->dateToTimestamp($data['published_date']) : $product->published_date),
             'expiration_date' => (isset($data['expiration_date']) ? $this->dateToTimestamp($data['expiration_date']) : $product->published_date),
-            'active'          => 1
+            'active' => 1
         ]);
 
         $product->save();
@@ -184,7 +184,7 @@ class ProductsRepository extends Repository
 
     /**
      * Get drafted product by id.
-     * 
+     *
      * @param $id
      * @return mixed
      */
@@ -207,7 +207,7 @@ class ProductsRepository extends Repository
     public function countInLotProduct($id)
     {
         return self::getModel()
-            ->where('lot_id',$id)
+            ->where('lot_id', $id)
             ->count();
     }
 
@@ -216,28 +216,26 @@ class ProductsRepository extends Repository
 
         $product = $filters['search'];
 
-        if(isset($filters['category']))
+        if (isset($filters['category']))
             $category = $filters['category'];
 
-        if(empty($product) && (!isset($category)))
+        if (empty($product) && (!isset($category)))
             return null;
 
-        if(isset($category))
-        {
+        if (isset($category)) {
             $query = $this->getModel()
                 ->select('products.*', 'categoryable.category_id')
-                ->where('products.name', 'like', '%'.$product.'%')
+                ->where('products.name', 'like', '%' . $product . '%')
                 ->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
                 ->where('categoryable.categoryable_type', get_class(self::getModel()))
                 ->where('categoryable.category_id', $category);
-        } else
-        {
+        } else {
             $query = $this->getModel()
-                ->where('name', 'like', '%'.$product.'%');
+                ->where('name', 'like', '%' . $product . '%');
         }
 
         $query->where('products.active', 1);
-            /*->whereIn('active', ['published', 'completed']);*/
+        /*->whereIn('active', ['published', 'completed']);*/
 
         return $query->get();
     }
@@ -252,7 +250,7 @@ class ProductsRepository extends Repository
     {
         list($sale, $percent) = explode('%', $sale);
 
-        return (int) $sale;
+        return (int)$sale;
     }
 
     /**
@@ -260,13 +258,13 @@ class ProductsRepository extends Repository
      *
      * @param mixed
      */
-    public function getSameProduct($id,$limit=10)
+    public function getSameProduct($id, $limit = 10)
     {
         $query = $this->getModel()
             ->select('products.*')
-            ->where('sub_category_id',$id)
+            ->where('sub_category_id', $id)
             ->where('products.active', 1)
-            /*->where('lots.expire_date', '>', Carbon::now())*/
+            ->where('lots.expire_date', '>', Carbon::now())
             ->limit($limit);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
@@ -284,12 +282,18 @@ class ProductsRepository extends Repository
      */
     public function getPublicLatest($count = 8)
     {
-        return $this->getModel()
-            ->active()
-//            ->published() // todo: on production back it.
-            ->orderBy('id', self::DESC)
-            ->take($count)
-            ->get();
+        $query = $this->getModel()
+            ->select('products.*')
+            ->where('products.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
+            ->orderBy('lots.expire_date', self::DESC)
+            ->take($count);
+
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->orderBy('lots.id', self::DESC)
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
+
+        return $query->get();
     }
 
     /**
@@ -297,15 +301,19 @@ class ProductsRepository extends Repository
      *
      * @return mixed
      */
-    public function getFeaturedPublic($count = 8)
+    public function getFeaturedPublic($limit = 8)
     {
-        return $this->getModel()
-//            ->published()
-            ->featured()
-            ->active()
+        $query = $this->getModel()
+            ->select('products.*')
+            ->where('products.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
             ->orderBy('id', self::DESC)
-            ->take($count)
-            ->get();
+            ->limit($limit);
+
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
+
+        return $query->get();
     }
 
     /**
@@ -316,14 +324,17 @@ class ProductsRepository extends Repository
      */
     public function getPublicExpireSoon($count = 8)
     {
-        return $this->getModel()
-//            ->published()
-            ->active()
-//            ->where('expiration_date', '>', Carbon::now())
-//            ->orderBy('expiration_date', self::ASC)
-            ->orderBy('id', self::ASC)
-            ->take($count)
-            ->get();
+        $query = $this->getModel()
+            ->select('products.*')
+            ->where('products.active', 1)
+            ->where('lots.expire_date', '>', Carbon::now())
+            ->orderBy('lots.expire_date', self::ASC)
+            ->limit($count);
+
+        $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
+
+        return $query->get();
     }
 
     /**
@@ -340,21 +351,20 @@ class ProductsRepository extends Repository
             ->where('lots.expire_date', '>', Carbon::now())
             ->orderBy('lots.expire_date', self::ASC);
 
-        if(request()->get('name'))
+        if (request()->get('name'))
             $query->orderBy('products.name', request()->get('name') == self::ASC ? self::ASC : self::DESC);
 
-        if(request()->get('created_at'))
+        if (request()->get('created_at'))
             $query->orderBy('products.created_at', request()->get('created_at') == self::ASC ? self::ASC : self::DESC);
 
-        if(request()->get('price'))
+        if (request()->get('price'))
             $query->orderBy('products.price', request()->get('price') == self::ASC ? self::ASC : self::DESC);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
             ->where('lots.status', Lot::STATUS_COMPLETE)
             ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
-//        return $query->orderBy('id', self::ASC)
-            return $query->paginate($paginate);
+        return $query->paginate($paginate);
     }
 
     /**
@@ -368,7 +378,7 @@ class ProductsRepository extends Repository
         $product = self::getModel()
             ->create([
                 'lot_id' => $lot->id,
-                'uniqid' => substr(str_replace('.','',uniqid('00'.rand(),true)),0,10)
+                'uniqid' => substr(str_replace('.', '', uniqid('00' . rand(), true)), 0, 10)
 
             ]);
         /*$spec_price =  SpecPrice::create([

@@ -33,6 +33,9 @@
                     <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
                 </div>
             @endif
+            <div class="about_lot_single_prod">
+                <span class="c-gray">{{$lot->description_delivery}}</span>
+            </div>
             <div class="buttons row">
                 <div class="col s12 padd_r_half">
                     <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}" target="_blank"

@@ -17,7 +17,6 @@
                     <i class="like material-icons {{($vendor->wasLiked('like')) ? 'vote_active' : '' }}">thumb_up</i>
                     <span>{{ count($vendor->getLikes('like')) }} </span>
                 </span>
-
                 <span class="set_vote" data-type="dislike"
                       data-action="{{ route('vote_vendor', ['vendor' => $vendor->slug, 'like_type' => 'dislike']) }}">
                     <i class="unlike material-icons {{($vendor->wasLiked('dislike')) ? 'vote_active' : '' }}">thumb_down</i>
@@ -26,9 +25,6 @@
                 <div id="#something"></div>
                 <p class="small"><span class="likes_count">{{ $vendor->likes->count() }}</span> păreri /
                     <span class="likes_percent"> {{ $vendor->present()->renderPozitiveVotes() }} </span> % positive</p>
-                <p class="small"><a
-                            href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}">{{ $vendor->present()->activeCount() }}
-                        active</a> / {{ $vendor->present()->totalCount() }} total</p>
             </div>
         </div>
         <div class="buttons row">
@@ -67,7 +63,7 @@
                                 like_btn.find('span').html(out.likes);
                                 dislike_btn.find('span').html(out.dislikes);
                                 $('.likes_count').html(out.likes_count);
-                                $('.likes_percent').html(out.likes_percent);
+                                $('.likes_percent').html(Math.round(out.likes_percent));
                                 if (out.was_liked == 'like') {
                                     $('.like').addClass('vote_active');
                                     $('.unlike').removeClass('vote_active');
@@ -156,19 +152,19 @@
     <script>
         $('select.select_product_quantity').change(function () {
             var element = $(this).find(":selected");
-            $('.price span').html(element.data('new-price'));
-            $('.old_price span').html(element.data('old-price'));
+            var currency = element.data('currency');
+            $('.price span').html(element.data('new-price') + ' ' + currency);
+            $('.old_price span').html(element.data('old-price') + ' ' + currency);
             $('#salePrice span').html(element.data('sale'));
             $('#economy span').html(element.data('old-price') - element.data('new-price'));
-            var currency = element.data('currency');
-            if(currency == 'USD') {
+            if (currency == 'USD') {
 
                 var valute = '{{$usd}}';
             }
             else {
                 var valute = '{{$euro}}';
             }
-            $('.conver_mdl span').html(element.data('new-price') * valute);
+            $('.conver_mdl span').html(Math.round(element.data('new-price') * valute));
 
             $('ul.sizes_product li').remove();
             $('ul.color_product li').remove();
@@ -181,7 +177,6 @@
                     var out = JSON.parse(data);
                     $.each(out, function (i, val) {
                         $('ul.sizes_product').append('<li data-id="' + val.id + '">' + val.size + '</li>');
-
                     });
                 }
             });
@@ -201,11 +196,14 @@
                 data: {id: id},
                 success: function (data) {
                     var out = JSON.parse(data);
-                    var count =1;
                     $.each(out, function (i, val) {
-                        $('.color_product').append('<li data-id="' + val.id + '" style="background:' + val.color_hash + ';"></li>');
+                        $('.color_product').append('<li data-count="' + val.amount + '" data-id="' + val.id + '" style="background:' + val.color_hash + ';"></li>');
                     });
                     $('ul.color_product li:first-child').addClass('active');
+                    var count = $('ul.color_product li:first-child').data('count');
+                    $('#color_product').val(count);
+                    $('.amount_products').html(count);
+                    $('.counting input').attr('max',''+count);
                 },
                 complete: function () {
                     $('ul.sizes_product li').removeClass('notclickable');
@@ -215,6 +213,8 @@
         $('ul.color_product').delegate('li', 'click', function () {
             $('ul.color_product li.active').removeClass('active');
             var id = $(this).data('id');
+            var count = $('.amount_products').html($(this).data('count'));
+            $('.counting input').attr('max',''+count);
             $('#color_product').val(id);
             $(this).addClass('active');
 

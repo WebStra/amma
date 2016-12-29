@@ -45,24 +45,7 @@ return [
             'label' => 'Support skype'
         ],
 
-/*        'site::video1' => [
-            'type' => 'text',
-            'label' => 'Cum functioneaza link1'
-        ],
-        'site::video2' => [
-            'type' => 'text',
-            'label' => 'Cum functioneaza link2'
-        ],*/
-        //'video1' =>  form_text('Cum functioneaza link1') + translatable(),
-
-        //'video2' => form_text('Cum functioneaza link2') + translatable(),
-
         'site::about' => ['type' => 'textarea'],
-
-//        'site::roles' => [
-//            'type'    => 'select',
-//            'options' => ['guest', 'member', 'admin', 'content manager']
-//        ],
 
         'homepage::popular_category' => [
             'required',
@@ -83,10 +66,8 @@ return [
             'options' => function () {
                 return Category::select("*")
                     ->active()
-//                    ->translated()
                     ->get()
                     ->pluck('name', 'id');
-                    /*->prepend('-- No --', '');*/
             }
         ],
 
@@ -97,10 +78,8 @@ return [
             'options' => function () {
                 return Category::select("*")
                     ->active()
-//                    ->translated()
                     ->get()
                     ->pluck('name', 'id');
-                    /*->prepend('-- No --', '');*/
             }
         ],
 

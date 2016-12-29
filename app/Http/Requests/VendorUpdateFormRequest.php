@@ -40,7 +40,7 @@ class VendorUpdateFormRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:250|unique:vendors,name,' . $this->route('vendor')->id,
+            'name' => 'required|min:2|max:250|unique:vendors,name,' . $this->route('vendor')->id,
             'email' => 'email',
             'phone' => 'required|digits:8',
             'description' => 'min:10|max:250'

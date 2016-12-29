@@ -46,7 +46,6 @@ class PostsRepository extends Repository
      */
     public function getPopularPublic($count = 4)
     {
-        // todo: popular featured posts.
        return $this->getModel()
            ->published()
            ->active()

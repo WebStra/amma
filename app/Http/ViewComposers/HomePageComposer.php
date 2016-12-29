@@ -60,7 +60,7 @@ class HomePageComposer extends Composer
                     ->with('recommended', [
                         'name' => 'oferte recomandate',
                         'data' => function () {
-                            return $this->products->getFeaturedPublic(5);
+                            return $this->products->getFeaturedPublic(4);
                         }
                     ])
                     ->with('posts', [
@@ -79,7 +79,7 @@ class HomePageComposer extends Composer
                     ->with('popular', [
                         'name' => 'produse populare',
                         'data' => function () {
-                            return $this->products->getFeaturedPublic(8);
+                            return $this->products->getFeaturedPublic(15);
                         }
                     ])
                     ->with('category_1', [

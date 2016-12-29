@@ -23,15 +23,6 @@ class VendorPresenter extends Presenter
     /**
      * @return int
      */
-    public function activeCount()
-    {
-//        return count(
-//            $this->model->products()
-//                ->where('expiration_date', '>', Carbon::now())
-//                ->active()
-//                ->get()
-//        );
-    }
 
     /**
      * @return int
@@ -40,9 +31,4 @@ class VendorPresenter extends Presenter
     {
         return count($this->model->products);
     }
-
-//    public function percentPositiveVotes()
-//    {
-//        
-//    }
 }

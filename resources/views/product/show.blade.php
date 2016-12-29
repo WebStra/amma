@@ -16,6 +16,8 @@
                         <div class="col l4 m4 s12">
                             @if(count($item->images))
                                 @include('product.partials.item.gallery-slider')
+                                @else
+                                <img class="img-responsive" src="/assets/images/product.jpg" alt="">
                             @endif
                         </div>
                         <div class="col l8 m8 s12 product_info">
@@ -43,9 +45,9 @@
                                     <form method="post"
                                           action="{{ route('involve_product', ['product' => $item->id]) }}">
                                         <input type="hidden" id="color_product" name="color_product"
-                                               value="@if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0){{$item->specPrice->first()->improvedSpecs->first()->specColors->first()->id}}@endif">
+                                               value="">
                                         <input type="hidden" id="sizes_product" name="sizes_product"
-                                               value="@if(count($item->specPrice->first()->improvedSpecs) > 0) {{$item->specPrice->first()->improvedSpecs->first()->id}} @endif ">
+                                               value="@if(count($item->specPrice->first()->improvedSpecs) > 0){{$item->specPrice->first()->improvedSpecs->first()->id}}@endif ">
                                         @if(count($item->specPrice) > 0)
                                             <div class="row">
                                                 <div class="col l3 m3 s12">
@@ -69,7 +71,7 @@
                                             <br>
                                         @endif
                                     <!--sizes--->
-                                        @if(count($item->specPrice) > 0)
+                                        @if(count($item->improvedSpecs) > 0)
                                             <div class="row">
                                                 <div class="col l3 m3 s12">
                                                     <h5>Marimi:</h5>
@@ -102,7 +104,7 @@
                                                             <?php $i = 1; ?>
                                                             @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
                                                                 <li class="<?php if ($i == 1) echo 'active'; ?>"
-                                                                    data-id="{{$color->id}}"
+                                                                    data-id="{{$color->id}}" data-count="{{$color->amount}}"
                                                                     style="background: {{$color->color_hash}};"></li>
                                                                 <?php $i++; ?>
                                                             @endforeach
@@ -123,22 +125,22 @@
                                                                         class="icon-minus"></i></span>
                                                         <input type="number" readonly="readonly" value="1"
                                                                name="count"
-                                                               max="{{$item->count - $item->involved->sum('count')}}">
+                                                               max="{{ $item->present()->renderCountItem() }}">
                                                         <span class="plus right in"><i class="icon-plus"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col l12 m12 s12">
-                                                @if($item->involved->sum('count') != $item->count)
+                                                {{--@if(!is_int($item->present()->renderCountItem()))--}}
                                                     <button type="submit"
                                                             class="btn_ full_width btn_base put_in_basket product_involve">
                                                         <span>Participa</span>
                                                     </button>
-                                                @else
+                                                 {{--@else
                                                     <span class="btn_ full_width btn_base product_involve" disabled>
                                                         <span>vindut complet</span>
                                                     </span>
-                                                @endif
+                                                @endif--}}
                                             </div>
                                         </div>
                                     </form>
@@ -165,23 +167,22 @@
                                                 <div class="col l3 m3 s4">
                                                     <h5>Suma:</h5>
                                                 </div>
-
                                                 <div class="col l6 m9 s8">
                                                     <div class="display-table td_bordered_right display-list_bloks-m-down">
                                                         @if(count($item->specPrice) > 0)
                                                             <div class="td">
                                                                 <p class="price">
-                                                                    <span>{{ $item->specPrice->first()->new_price }}</span> {{$item->lot->currency->title}}
+                                                                    <span>{{ $item->present()->renderPriceWithSale() }}</span>
                                                                 </p>
                                                                 <p class="old_price">
-                                                                    <span>{{ $item->specPrice->first()->old_price }}</span> {{$item->lot->currency->title}}
+                                                                    <span>{{ $item->present()->renderOldPrice() }}</span>
                                                                 </p>
                                                             </div>
                                                         @endif
                                                         @if($lot->currency->title != 'MDL')
                                                             <div class="td">
                                                                 <div class="conver_mdl">
-                                                                    ≈<span>{{$item->present()->convertAmount($item)}}</span>
+                                                                    ≈<span>{{$item->present()->convertAmount()}}</span>
                                                                     MDL
                                                                 </div>
                                                             </div>
@@ -217,13 +218,13 @@
                                                     </div>
                                                     <div class="td col m3 s6">
                                                         <p id="economy">
-                                                            <span>{{$item->specPrice->first()->old_price - $item->specPrice->first()->new_price}}</span> {{$item->lot->currency->title}}
+                                                            <span>{{$item->present()->economyPrice()}}</span> {{$item->lot->currency->title}}
                                                         </p>
                                                         <h6>ECONOMISEȘTI</h6>
                                                     </div>
                                                 @endif
                                                 <div class="td col m3 s6">
-                                                    <p>{{ $item->present()->renderCountItem() }}</p>
+                                                    <p class="amount_products">{{ $item->present()->renderCountItem() }}</p>
                                                     <h6>CANTITATE</h6>
                                                 </div>
                                             </div>

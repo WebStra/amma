@@ -22,18 +22,10 @@
                         </div>
                     @endif
                     <div class="label" style="width:70px;"><span class="c-gray">New Price:</span>
-                        {{ $item->present()->renderPrice(
-                            $item->present()->renderNewPrice(),
-                            $item->present()->renderCurrency('sign')
-                            )
-                        }}
+                        {{ $item->present()->renderPriceWithSale()}}
                     </div>
                     <div class="label" style="width:70px;"><span class="c-gray">Old Price:</span>
-                        {{ $item->present()->renderPrice(
-                            $item->present()->renderOldPrice(),
-                            $item->present()->renderCurrency('sign')
-                            )
-                        }}
+                        {{ $item->present()->renderOldPrice() }}
                     </div>
                     <div class="label" style="width:50px;"><span
                                 class="c-gray">Sale:</span>{{ $item->present()->renderSalePercent() }}%
@@ -58,7 +50,6 @@
                             }
                     });
                     ?>
-
                     @if(! empty($sizes))
                         <div class="label label-size">
                             <span class="c-gray">Size: </span>&nbsp;{{ $sizes }}

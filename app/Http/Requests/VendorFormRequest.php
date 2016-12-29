@@ -22,7 +22,7 @@ class VendorFormRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:vendors|min:3|max:250',
+            'name' => 'required|unique:vendors|min:2|max:250',
             'email' => 'email',
             'phone' => 'required|digits:8',
             'description' => 'min:10|max:250'

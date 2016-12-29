@@ -9,9 +9,12 @@ trait LikeablePresentorTrait
      */
     public function renderPozitiveVotes()
     {
-        if ($this->model->likes()->count())
-            return ($this->model->likes()->count() - $this->model->getLikes('dislike')->count()) /
+        if ($this->model->likes()->count()) {
+            $render = ($this->model->likes()->count() - $this->model->getLikes('dislike')->count()) /
             $this->model->likes()->count() * 100;
+
+        return round($render);
+        }
 
         return 0;
     }
