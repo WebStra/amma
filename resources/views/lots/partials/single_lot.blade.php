@@ -30,7 +30,6 @@
                     <span class="c-gray">Vendor:</span>&nbsp;
                     <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
-
                 <div class="label" style=''>
                     <div class="user-rating">
                         <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>

@@ -43,7 +43,7 @@
                             <a href="{{ route('social_auth', 'facebook') }}" class="btn btn_facebook full_width">
                                 <i class="icon-facebook"></i>&nbsp;{!!$meta->getMeta('login_fb')!!}
                             </a>
-                            <a href="#" class="btn btn_gplus full_width">
+                            <a style="display: none;" href="#" class="btn btn_gplus full_width">
                                 <i class="icon-google-plus"></i>&nbsp;{!!$meta->getMeta('login_gplus')!!}
                             </a>
                             <p class="center">{!!$meta->getMeta('am_deja_account')!!} <a href="{{ route('get_login') }}" class="c_base

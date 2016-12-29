@@ -18,7 +18,7 @@
                 </div>
                 <div class="col s12">
                     <div class="input-field">
-                        <p class="left-align autologin" style="margin-bottom: 25px;">
+                        <p class="left-align autologin" style="margin: 0 0 20px 0;">
                             <input type="checkbox" id="check1" name="remember">
                             <label for="check1">Vreau să intru automat</label>
                             <br>
@@ -28,15 +28,15 @@
                     </div>
                 </div>
                 <div class="col s12">
-                        <p>Ai uitat parola?<a href="{{ route('get_recover') }}" class="c_base">&nbsp;Restabilești-o</a></p>
-                        <hr class="hr-text" data-content="OR">
+                        <!-- <hr class="hr-text" data-content="OR"> -->
                     <div class="input-field">
                         <a href="{{ route('social_auth', 'facebook') }}" class="btn btn_facebook full_width">
                             <i class="icon-facebook"></i>&nbsp;Intră cu ajutorul Facebook
                         </a>
-                        <a href="#" class="btn btn_gplus full_width">
+                        <a style="display: none;" href="#" class="btn btn_gplus full_width">
                             <i class="icon-google-plus"></i>&nbsp;Intră cu ajutorul Google+
                         </a>
+                        <p>Ai uitat parola?<a href="{{ route('get_recover') }}" class="c_base">&nbsp;Restabilești-o</a></p>
                         @if(request()->route()->getName() == 'get_login') 
                                 <p>Nu ai cont? <a href="{{ route('get_register') }}" class="c_base">Registrarea</a></p> 
                         @endif

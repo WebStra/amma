@@ -73,6 +73,12 @@ class UserRepository extends Repository
         return $user;
     }
 
+    public function create(array $data)
+    {
+        return self::getModel()
+            ->create($data);
+    }
+    
     /**
      * @param array $data
      * @return \App\User
@@ -138,7 +144,12 @@ class UserRepository extends Repository
             ->whereEmail($email)
             ->first();
     }
-
+    public function getById($id)
+    {
+        return $this->getModel()
+            ->whereId($id)
+            ->first();
+    }
     /**
      * @param array $data
      */

@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use App\Repositories\ProfileRepository;
+use App\Repositories\RolesRepository;
 use App\Socialite;
 use Auth;
 use Laravel\Socialite\Contracts\User as ProviderUser;
@@ -20,12 +22,19 @@ class SocialiteUser
      */
     private $provider;
 
+    private $roles;
+
+    private $profile;
+
     /**
      * SocialiteUser constructor.
      */
-    public function __construct()
+    public function __construct(RolesRepository $rolesRepository = null, ProfileRepository $profileRepository = null)
     {
         $this->socialRepository = $this->getSocialiteRepository();
+        $this->userRepository   = $this->getUserRepository();
+        $this->roles            = $rolesRepository;
+        $this->profile          = $profileRepository;
     }
 
     /**
@@ -54,18 +63,18 @@ class SocialiteUser
             $s_user = $this->socialRepository->getUserByProvider(
                 $this->getProvider(), $this->user()->getId()
             );
-
-            if($user = $s_user->user)
+            if($user = $s_user->user){
                 return $user;
-
+            }
             return $this;
         }
-
         $social = $this->getOrCreateEmptySocialUser();
 
-        if($this->checkEmail())
-            return $this->createSocialUserWithEmail($social);
-
+        if($this->checkEmail()){
+            $user = $this->createSocialUserWithEmail($social);
+            //$this->init($this->getProvider(), $user);
+            return $user;
+        }
         return $this;
     }
 
@@ -160,8 +169,7 @@ class SocialiteUser
     private function associateSocialiteUser($account, $email = null)
     {
         if(! $email)
-            $email = $this->user()->getEmail();
-
+        $email = $this->user()->getEmail();
         $user = $this->getUserRepository()->getByEmail($email);
         $account->user()->associate($user);
         $account->save();
@@ -185,7 +193,7 @@ class SocialiteUser
      */
     public function tryToAssociateUser($social, $email = null)
     {
-        if(! $email)
+        if(!$email)
             $email = $this->user()->getEmail();
 
         if($this->getUserRepository()->checkIfUserExists($email))
@@ -202,16 +210,23 @@ class SocialiteUser
      */
     private function createSocialUserWithEmail(Socialite $social)
     {
-        $this->tryToAssociateUser($social);
         $names = $this->getFirstAndLustNames();
-
-        return $this->getUserRepository()->create([
-            'email' => $this->user()->getEmail(),
-            'name' => $this->user()->getName(),
-            'password' => $this->users->hashPassword(str_random(45)),
+        $user = $this->getUserRepository()->create([
+            'email'     => $this->user()->getEmail(),
+            'name'      => $this->user()->getName(),
+            'password'  => $this->userRepository->hashPassword(str_random(45)),
+            'role_id'   => $this->roles->getSimpleUserRole()->id,
+            'firstname' => @$names[0],
+            'lastname'  => @$names[1],
+            'confirmed' => 1
+        ]);
+        $this->profile->create([
+            'user_id' => $user->id,
             'firstname' => @$names[0],
             'lastname' => @$names[1]
         ]);
+        $this->tryToAssociateUser($social,$this->user()->getEmail());
+        return $user;
     }
 
     /**

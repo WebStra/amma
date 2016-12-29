@@ -43,6 +43,6 @@ return [
     'facebook' => [
         'client_id'     => '641211512703285',
         'client_secret' => '94adcc1aa4e0af5b2f16c8037f0b3634',
-        'redirect'      => 'http://localhost:8000/social/login/callback/facebook', // todo: change on production.
+        'redirect'      => 'http://localhost/social/login/callback/facebook', // todo: change on production.
     ],
 ];

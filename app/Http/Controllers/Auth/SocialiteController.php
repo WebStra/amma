@@ -81,10 +81,10 @@ class SocialiteController extends Controller
         $this->service->init($provider, $callback);
         list($frst_n, $last_n) = $this->service->getFirstAndLustNames($callback->name);
         $user = $this->users->createSimpleUser([
-            'email' => $request->get('email'),
-            'password' => $this->users->hashPassword(str_random(45)),
+            'email'     => $request->get('email'),
+            'password'  => $this->users->hashPassword(str_random(45)),
             'firstname' => $frst_n,
-            'lastname' => $last_n
+            'lastname'  => $last_n
         ], (int)true);
         $this->service->tryToAssociateUser($social, $request->get('email'));
 
@@ -92,7 +92,7 @@ class SocialiteController extends Controller
 
         $this->service->avatar($callback->avatar);
 
-        return redirect()->route('home')->withStatus('Logged in success.');
+        return redirect()->route('home')->withStatus('Logged in success.')->withColor('green');;
     }
 
     /**
@@ -107,7 +107,6 @@ class SocialiteController extends Controller
             $user = $this->service
                 ->init($provider, $s_user)
                 ->register();
-
             if ($user instanceof SocialiteUser) {
                 return redirect()->route('social_auth_email', [
                     'provider' => $user->getProvider(),
@@ -115,15 +114,13 @@ class SocialiteController extends Controller
                 ]);
             } elseif ($user instanceof User) {
                 $this->service->login($user);
-
                 if(! $user->checkAvatar())
                     $this->service->avatar($s_user->getAvatar());
-
                 return redirect()->route('home');
             }
 
         } else {
-            return redirect()->route('login')->withStatus('Something wrong. Try the default register.');
+            return redirect()->route('login')->withStatus('Something wrong. Try the default register.')->withColor('green');
         }
     }
 

@@ -14,4 +14,9 @@ class ProfileRepository extends Repository
     {
         return new Profile();
     }
+    public function create(array $data)
+    {
+        return self::getModel()
+            ->create($data);
+    }
 }
