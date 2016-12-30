@@ -5,10 +5,12 @@
             @if(Route::currentRouteName() == 'my_lots')
                 <div style="float: right; font-size: 12px;">
                     @if(in_array($lot->verify_status, array('expired','declined')))
-                        <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
+                        <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i
+                                    class="small material-icons" style="color: black">mode_edit</i></a>
                     @endif
                     @if(in_array($lot->verify_status, array('expired','declined')))
-                        <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');">
+                        <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot"
+                           onclick="return confirm('Are you sure ?');">
                             <i class="small material-icons" style="color: black">delete</i>
                         </a>
                     @endif
@@ -24,36 +26,10 @@
                 </div>
             @endif
             <?php $vendor = $lot->vendor; ?>
-
             @if($vendor)
                 <div class="label">
                     <span class="c-gray">Vendor:</span>&nbsp;
                     <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
-                </div>
-                <div class="label" style=''>
-                    <div class="user-rating">
-                        <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
-                        <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
-                        <span>{{ $positivePercent }}</span>
-                        <span class="c-gray"> ({{ $vendor->likes()->count() }} de votari)</span>
-                    </div>
-                </div>
-            @endif
-            @if(Route::currentRouteName() == 'my_lots')
-                <div class="label">
-                    <div class="c-gray">Status: <span class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
-                </div>
-                <div class="label">
-                    <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{$lot->currency->title}}</span></div>
-                </div>
-                <div class="label">
-                    <div class="c-gray">Comision: <span>{{$lot->comision}} {{$lot->currency->title}}</span></div>
-                </div>
-                <div class="label">
-                    <div class="c-gray">Suma acumulata: <span>{{$lot->involvedTotalPrice->sum('price')}} {{$lot->currency->title}}</span></div>
-                </div>
-                <div class="label">
-                    <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span></div>
                 </div>
             @endif
             @if(! empty($lot->present()->endDate()))
@@ -66,6 +42,39 @@
                     </div>
                 </div>
             @endif
+            @if(Route::currentRouteName() == 'my_lots')
+                <div class="label">
+                    <div class="c-gray">Status: <span
+                                class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Comision: <span>{{$lot->comision}} {{$lot->currency->title}}</span></div>
+                </div>
+            @endif
+            <br>
+            @if($vendor)
+                <div class="label" style=''>
+                    <div class="user-rating">
+                        <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
+                        <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
+                        <span>{{ $positivePercent }}</span>
+                        <span class="c-gray"> ({{ $vendor->likes()->count() }} voturi)</span>
+                    </div>
+                </div>
+            @endif
+            <div class="label">
+                <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{$lot->currency->title}}</span>
+                </div>
+            </div>
+            <div class="label">
+                <div class="c-gray">Suma acumulata:
+                    <span>{{$lot->involvedTotalPrice->sum('price')}} {{$lot->currency->title}}</span></div>
+            </div>
+            <div class="label">
+                <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span>
+                </div>
+            </div>
+
             <div class="clearfix"></div>
         </div>
     </div> {{-- /.lot-info --}}
