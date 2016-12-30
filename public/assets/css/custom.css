@@ -674,3 +674,8 @@ img.bascket_img  {
     max-height: 170px;
     margin: auto;
 }
+.product_thumbs img{
+    display: block;
+    float: left;
+    margin: 0 4px 4px 0;
+}
