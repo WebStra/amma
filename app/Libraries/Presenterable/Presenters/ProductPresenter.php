@@ -30,7 +30,7 @@ class ProductPresenter extends Presenter
      */
     public function renderName()
     {
-        if($this->model->specPrice->first()->name)
+        if(isset($this->model->specPrice->first()->name))
             return strtoupper(str_limit($this->model->specPrice->first()->name, $limit = 35, $end = '..'));
 
         return $this->renderDraftedName();

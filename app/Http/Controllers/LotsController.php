@@ -203,6 +203,7 @@ class LotsController extends Controller
 
     public function updateLot(SaveLotRequest $request, Lot $lot)
     {
+        dd('dsd');
         $lot = $this->lots->save($lot, $request->all());
         $method = [];
         if ($request->input('method')) {

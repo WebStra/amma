@@ -184,7 +184,9 @@
         $('input.input-amount').keyup(function (event) {
             var procent = $('#parent_category').find(':selected').data('procent');
             var sum = $(this).val();
+
             var comision = Math.round(sum / 100 * procent).toFixed(0);
+            //console.log({{ $usd }});
             $('.comision-val').text(comision);
             $('.js-comision').val(comision);
         });
