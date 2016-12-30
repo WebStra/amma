@@ -32,6 +32,37 @@
                     <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
             @endif
+            @if(Route::currentRouteName() == 'my_lots')
+                <div class="label">
+                    <div class="c-gray">Status: <span
+                                class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
+                </div>
+                <div class="label">
+                    <div class="c-gray">Comision: <span>{{$lot->comision}} {{isset($lot->currency->title) ? $lot->currency->title : ''}}</span></div>
+                </div>
+            @endif
+<!--             @if($vendor)
+    <div class="label" style=''>
+        <div class="user-rating">
+            <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
+            <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
+            <span>{{ $positivePercent }}</span>
+            <span class="c-gray"> ({{ $vendor->likes()->count() }} voturi)</span>
+        </div>
+    </div>
+@endif -->
+            <div class="label">
+                <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{isset($lot->currency->title) ? $lot->currency->title : ''}}</span>
+                </div>
+            </div>
+            <div class="label">
+                <div class="c-gray">Suma acumulata:
+                    <span>{{$lot->involvedTotalPrice->sum('price')}} {{isset($lot->currency->title) ? $lot->currency->title : ''}}</span></div>
+            </div>
+            <div class="label">
+                <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span>
+                </div>
+            </div>
             @if(! empty($lot->present()->endDate()))
                 <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
                     <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
@@ -42,39 +73,6 @@
                     </div>
                 </div>
             @endif
-            @if(Route::currentRouteName() == 'my_lots')
-                <div class="label">
-                    <div class="c-gray">Status: <span
-                                class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
-                </div>
-                <div class="label">
-                    <div class="c-gray">Comision: <span>{{$lot->comision}} {{$lot->currency->title}}</span></div>
-                </div>
-            @endif
-            <br>
-            @if($vendor)
-                <div class="label" style=''>
-                    <div class="user-rating">
-                        <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
-                        <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
-                        <span>{{ $positivePercent }}</span>
-                        <span class="c-gray"> ({{ $vendor->likes()->count() }} voturi)</span>
-                    </div>
-                </div>
-            @endif
-            <div class="label">
-                <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{$lot->currency->title}}</span>
-                </div>
-            </div>
-            <div class="label">
-                <div class="c-gray">Suma acumulata:
-                    <span>{{$lot->involvedTotalPrice->sum('price')}} {{$lot->currency->title}}</span></div>
-            </div>
-            <div class="label">
-                <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span>
-                </div>
-            </div>
-
             <div class="clearfix"></div>
         </div>
     </div> {{-- /.lot-info --}}

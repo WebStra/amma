@@ -78,7 +78,7 @@
                                 <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
                                 <input type="text" class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
-                                <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span></i></span>
+                                <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span> MDL</i></span>
                                 <input type="hidden" class="js-comision" value="{{$lot->comision}}" name="comision">
                                 @if(count($currencies))
                                     <span class="currency_type" style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
@@ -223,16 +223,6 @@
             });
         }
         initColor();
-        $("select[name=currency]").on('change', function() // change globaly currency.
-        {
-            var $this = $(this);
-
-            $('span.currency_type')
-                    .html($this
-                            .find(':selected')
-                            .data('title')
-                    );
-        });
 
         (function ($) // On change category save.
         {
@@ -541,7 +531,6 @@
             if(confirm('Remove group size color ?'))
             {
                     var key   = block.find('input.js-group-size-color').val();
-                    console.log(key);
                     $.ajax({
                         url: "{{ route('remove-group-size-color', [ $lot]) }}",
                         data: { key: key},
@@ -645,11 +634,10 @@
             var total_file = input.files.length;
             var cover = $this.parent().find('img.cover_image_product');
 //            cover_image_product
-//            for(var i=0;i<total_file;i++)
-//            {
-//                thumbs_wrap.append('<img src="'+URL.createObjectURL(event.target.files[i])+'" width="75" height="70">');
-//            }
-
+           for(var i=0;i<total_file;i++)
+           {
+               thumbs_wrap.append('<img src="'+URL.createObjectURL(event.target.files[i])+'" width="55" height="50" onclick="removeImage(this);return false;">');
+           }
             cover.attr('src', URL.createObjectURL(event.target.files[0]));
         }
 
@@ -668,15 +656,18 @@
             {
                 var $img = $(img);
                 var image_id = $img.data('image');
+                if (typeof image_id !== typeof undefined && image_id !== false) {
+                    $.ajax({
+                        url: "{{ route('remove_product_image', [ $lot->id ]) }}",
+                        data: { image_id: image_id },
+                        method: 'post',
+                        success: function () {
+                            
+                        }
+                    });
+                }
+                $img.remove();
 
-                $.ajax({
-                    url: "{{ route('remove_product_image', [ $lot->id ]) }}",
-                    data: { image_id: image_id },
-                    method: 'post',
-                    success: function () {
-                        $img.remove();
-                    }
-                });
             }
         }
         function publishedLot(form)

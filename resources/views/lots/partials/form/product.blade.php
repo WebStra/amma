@@ -15,7 +15,7 @@
                             <img class="materialboxed img-responsive cover_image_product" src="http://placehold.it/350x350">
                         @endif
 
-                        <div class="product_thumbs" style="margin-top: 5px;">
+                        <div class="product_thumbs" style="margin-top: 4px;">
                             @if(count($images = $product->images))
                                 @foreach($images as $image)
                                     <img src="{{ $image->present()->image() }}" onclick="removeImage(this);return false;" data-image="{{ $image->id }}" class="lots_product thumb" width="55" height="50">

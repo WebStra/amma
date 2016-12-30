@@ -175,30 +175,43 @@
             var curent_product = $(this).parents('.inner_product');
             curent_product.animate({borderColor: '#26a69a'}, 1000).delay(500).animate({borderColor: '#e9e9e9'}, 2000);
         });
-        $('.currency').change(function (event) {
-            var simbol = $(this).find(':selected').data('simbol');
+
+        $("select[name=currency]").on('change', function (event) {
+            $('span.currency_type').html($(this).find(':selected').data('title'));
+            var simbol      = $(this).find(':selected').data('simbol');
+            var procent     = $('#parent_category').find(':selected').data('procent');
+            var sum         = $('input.input-amount').val();
+            var currency_id = $(this).val()
             $('.new_price, .old_price, .input-amount').attr('placeholder', simbol);
             curent_currency.value = simbol;
+            comisionForLot(currency_id,sum,procent);
         });
 
         $('input.input-amount').keyup(function (event) {
-            var procent = $('#parent_category').find(':selected').data('procent');
-            var sum = $(this).val();
-
-            var comision = Math.round(sum / 100 * procent).toFixed(0);
-            //console.log({{ $usd }});
-            $('.comision-val').text(comision);
-            $('.js-comision').val(comision);
+            var procent     = $('#parent_category').find(':selected').data('procent');
+            var sum         = $(this).val();
+            var currency_id = $("select[name=currency]").find(':selected').val();
+            comisionForLot(currency_id,sum,procent);
         });
 
-        $('#parent_category').change(function (event) {
-            var procent = $(this).find(':selected').data('procent');
-            var sum = $('input.input-amount').val();
-            var comision = Math.round(sum / 100 * procent).toFixed(0);
+        function comisionForLot(currency_id=null, sum, procent){
+            var comision = sum / 100 * procent;
+            if (currency_id == 1) {
+                comision *= parseFloat("{{ $usd }}");
+            }else if(currency_id == 2){
+                comision *= parseFloat("{{ $eur }}");
+            }
+            var comision = Math.round(comision).toFixed(0);
             $('.comision-val').text(comision);
             $('.js-comision').val(comision);
-        });
+        }
 
+        $('#parent_category').on('change', function (event) {
+            var procent     = $(this).find(':selected').data('procent');
+            var sum         = $('input.input-amount').val();
+            var currency_id = $("select[name=currency]").find(':selected').val();
+            comisionForLot(currency_id,sum,procent);
+        });
 
         /*$('.remove-added-spec')
          .on('click', function () {
