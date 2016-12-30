@@ -98,7 +98,7 @@
                                                 <div class="col l3 m3 s12">
                                                     <h5>Culori:</h5>
                                                 </div>
-                                                <div class="col l19 m9 s12">
+                                                <div class="col l9 m9 s12">
                                                     <ul class="color_product" style="height: 30px;">
                                                         @if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0)
                                                             <?php $i = 1; ?>
@@ -181,10 +181,7 @@
                                                         @endif
                                                         @if($lot->currency->title != 'MDL')
                                                             <div class="td">
-                                                                <div class="conver_mdl">
-                                                                    ≈<span>{{$item->present()->convertAmount()}}</span>
-                                                                    MDL
-                                                                </div>
+                                                                <div class="conver_mdl">≈<span>{{$item->present()->convertAmount()}}</span> MDL</div>
                                                             </div>
                                                         @endif
                                                     </div>

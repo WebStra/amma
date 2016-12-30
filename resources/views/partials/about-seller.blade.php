@@ -201,7 +201,8 @@
                     });
                     $('ul.color_product li:first-child').addClass('active');
                     var count = $('ul.color_product li:first-child').data('count');
-                    $('#color_product').val(count);
+                    var colorId = $('ul.color_product li:first-child').data('id');
+                    $('#color_product').val(colorId);
                     $('.amount_products').html(count);
                     $('.counting input').attr('max',''+count);
                 },

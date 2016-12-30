@@ -586,11 +586,8 @@ i.ico_menu_ {
 }
 .conver_mdl {
     display: block;
-    font-size: 18px;
     font-weight: 700;
-    position: relative;
-    top: -12px;
-    right: 5px;
+    margin: -22px 10px 0;
 }
 
 .top_block .wrapp_img.categorie .text {

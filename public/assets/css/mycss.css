@@ -133,6 +133,7 @@ span.line .c_gray {
 .list-lots .lot .product .group-labels .label span {
   width: 100%;
   display: inline-block;
+  text-align: center;
 }
 
 .list-lots .lot .product .group-labels .label.label-available {

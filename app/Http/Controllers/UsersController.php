@@ -58,8 +58,6 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
-        dd($request->all());
-
         $this->involved->create($request->all(), $product);
 
         $selledPrice = $this->countInvolvedLot($product);
