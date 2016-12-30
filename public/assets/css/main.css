@@ -291,7 +291,7 @@ ul {
 
 /* line 200, ../sass/main.scss */
 .display-table {
-/*  display: table;*/
+ display: table;
   width: 100%;
 }
 /* line 204, ../sass/main.scss */

@@ -168,7 +168,7 @@
                                                     <h5>Suma:</h5>
                                                 </div>
                                                 <div class="col l6 m9 s8">
-                                                    <div class="display-table td_bordered_right display-list_bloks-m-down">
+                                                    <div class="td_bordered_right display-list_bloks-m-down">
                                                         @if(count($item->specPrice) > 0)
                                                             <div class="td">
                                                                 <p class="price">

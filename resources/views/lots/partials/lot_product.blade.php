@@ -24,7 +24,7 @@
                     <div class="group-labels">
                         <div class="label" style="width: 160px;">
                             <span class="c-gray"
-                                  style="text-align: left;">Nume: {{ str_limit($specs->name,$limit=30,$end='..')}}</span>
+                                  style="text-align: left; color: inherit;">{{ str_limit($specs->name,$limit=30,$end='..')}}</span>
                         </div>
                         <div class="label" style="width:80px;">
                             <span class="c-gray">New Price:</span>
