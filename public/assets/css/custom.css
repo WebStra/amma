@@ -654,12 +654,12 @@ ul.color_product > li.active{
     }
 }
 span.status-lot{
-    text-transform:capitalize;
+    text-transform:uppercase;
 }
 span.declined{
     color: #ea0b0b;
 }
-span.verified{
+span.verified, span.accept{
     color: #00a65a;
 }
 span.pending{

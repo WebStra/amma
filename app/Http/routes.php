@@ -28,15 +28,21 @@ use App\Repositories\SubscribeRepository;
  */
 
 Route::bind('category', function ($slug) {
-    return (new CategoryRepository)->findBySlug($slug);
+    if ($category = (new CategoryRepository)->findBySlug($slug))
+        return $category;
+    abort('404');
 });
 
 Route::bind('sub_category', function ($slug) {
-    return (new SubCategoriesRepository())->findBySlug($slug);
+    if ($sub_category = (new SubCategoriesRepository())->findBySlug($slug))
+        return $sub_category;
+    abort('404');
 });
 
 Route::bind('post', function ($slug) {
-    return (new PostsRepository)->findBySlug($slug);
+    if ($post = (new PostsRepository)->findBySlug($slug))
+        return $post;
+    abort('404');
 });
 
 Route::bind('product', function ($id) {
@@ -44,23 +50,29 @@ Route::bind('product', function ($id) {
 });
 
 Route::bind('lot', function ($id) {
-    return (new LotRepository())->find($id);
+    if ($lot = (new LotRepository())->find($id))
+        return $lot;
+    abort('404');
 });
 
 Route::bind('vendor', function ($slug) {
-    return (new VendorRepository)->find($slug);
+    if ($vendor = (new VendorRepository)->find($slug))
+        return $vendor;
+    abort('404');
 });
-
 Route::bind('static_page', function ($slug) {
-    return (new PagesRepository())->find($slug);
+    if ($static_page = (new PagesRepository())->find($slug))
+        return $static_page;
+    abort('404');
 });
 
 Route::bind('involved', function ($id) {
-    return (new InvolvedRepository())->find($id);
+    if ($involved = (new InvolvedRepository())->find($id))
+        return $involved;
+    abort('404');
 });
 
 Route::bind('token', function ($token){
-
     return (new RecoverPasswordRepository())->getByToken($token);
 });
 
@@ -297,6 +309,7 @@ Route::multilingual(function () {
 
             Route::get('lots/{lot}/edit', [
                 'as' => 'edit_lot',
+                'middleware' => 'edit_lot_filter',
                 'uses' => 'LotsController@edit'
             ]);
 
@@ -332,6 +345,15 @@ Route::multilingual(function () {
             Route::post('lots/update/{lot}', [
                 'as' => 'update_lot',
                 'uses' => 'LotsController@updateLot'
+            ]);
+
+            Route::post('lots/{lot}/declined', [
+                'as' => 'declined_sell',
+                'uses' => 'LotsController@sellStatus'
+            ]);
+            Route::post('lots/{lot}/accept', [
+                'as' => 'accept_sell',
+                'uses' => 'LotsController@sellStatus'
             ]);
             Route::post('lots/published/{lot}', [
                 'as' => 'published_lot',

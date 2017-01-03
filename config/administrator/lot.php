@@ -111,7 +111,7 @@ return [
     */
     'query' => function ($query) {
 
-        return $query->orderBy('verify_status','asc')->orderBy('public_date','desc');
+        return $query->where('status','complete')->orderBy('verify_status','asc')->orderBy('public_date','desc');
     },
 
     /*

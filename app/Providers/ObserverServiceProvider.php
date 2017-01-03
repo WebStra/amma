@@ -10,7 +10,9 @@ use App\Listeners\Observers\ProductObserver;
 use App\Listeners\Observers\SubCategoryObserver;
 use App\Listeners\Observers\TagObserver;
 use App\Listeners\Observers\VendorsObserver;
+use App\Listeners\Observers\LotObserver;
 use App\Product;
+use App\Lot;
 use App\Vendor;
 use App\SubCategory;
 use App\Tag;
@@ -24,12 +26,13 @@ class ObserverServiceProvider extends ServiceProvider
      * @var array
      */
     protected $observers = [
-        Image::class => ImageObserver::class,
-        Product::class => ProductObserver::class,
-        Category::class => CategoryObserver::class,
+        Image::class       => ImageObserver::class,
+        Product::class     => ProductObserver::class,
+        Category::class    => CategoryObserver::class,
         SubCategory::class => SubCategoryObserver::class,
-        Tag::class => TagObserver::class,
-        Vendor::class => VendorsObserver::class
+        Tag::class         => TagObserver::class,
+        Vendor::class      => VendorsObserver::class,
+        Lot::class         => LotObserver::class
     ];
 
     /**
