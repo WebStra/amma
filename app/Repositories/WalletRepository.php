@@ -43,4 +43,8 @@ class WalletRepository extends Repository
             'amount' => $amount,
         ]);
     }
+    public function find($user_id)
+    {
+        return $this->getModel()->whereUserId($user_id)->first();
+    }
 }

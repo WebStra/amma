@@ -201,6 +201,17 @@ class LotsController extends Controller
             ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
     }
 
+    /**
+     * @param sellStatus $request
+     * @param Lot $lot
+     * @return mixed
+     */
+    public function sellStatus(SaveLotRequest $request, Lot $lot)
+    {
+        $lot = $this->lots->save($lot, $request->all());
+        return redirect()->route('edit_lot', [ $lot ])
+            ->withStatus('You created lot successefully. Waiting for moderator verify it. You will be notificated!');
+    }
     public function updateLot(SaveLotRequest $request, Lot $lot)
     {
         $lot = $this->lots->save($lot, $request->all());
@@ -221,7 +232,6 @@ class LotsController extends Controller
             $method  = $request->input('method');
         }
         $lotMethod = $this->lot_method->save($lot, $method);
-
         return response(array('respons'=>true,'status'=>$lot->status));
         
     }

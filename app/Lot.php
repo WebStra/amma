@@ -16,12 +16,17 @@ class Lot extends Repository
     const STATUS_COMPLETE = 'complete';
     const STATUS_DELETED = 'deleted';
     
+    
 
     /** `verify_status` field options */
     const STATUS_VERIFY_ACCEPTED = 'verified';
     const STATUS_VERIFY_DECLINED = 'declined';
     const STATUS_VERIFY_PENDING = 'pending';
 
+    /** `sell_status` field options */
+    const STATUS_SELL_DEFAULT = 'default';
+    const STATUS_ACCEPT_DECLINED = 'accept';
+    const STATUS_SELL_DECLINED = 'declined';
     /**
      * @var string
      */
@@ -49,7 +54,9 @@ class Lot extends Repository
         'active',
         'comision',
         'description_delivery',
-        'description_payment'
+        'description_payment',
+        'sell_status',
+        'comision_extract'
     ];
 
     protected $dates = [

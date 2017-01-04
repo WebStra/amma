@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
         'can_handle_action' => \App\Http\Middleware\CanHandleActionMiddleware::class,
         'can_involve_product' => \App\Http\Middleware\UserCanInvolveProduct::class,
         'unscribe' => \App\Http\Middleware\UnscribeRequestToken::class,
-        'add_lot_filter' => \App\Http\Middleware\AddLotMiddleware::class
+        'add_lot_filter' => \App\Http\Middleware\AddLotMiddleware::class,
+        'edit_lot_filter' => \App\Http\Middleware\EditLotMiddleware::class
     ];
 }

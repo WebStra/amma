@@ -99,8 +99,10 @@ class LotRepository extends Repository
         $lots = $this->getModel()
             ->whereIn('vendor_id', $vendors)
             ->where('status', '!=', $model::STATUS_DELETED)
-            ->orderBy('expire_date', 'desc')
-            ->orderBy('status', 'asc')
+
+            ->orderByRaw("FIELD(sell_status, \"default\", \"declined\", \"accept\")")
+            ->orderByRaw("FIELD(verify_status, \"expired\", \"declined\", \"pending\", \"verified\")")
+            ->orderBy('expire_date', self::ASC)
             ->paginate($perPage);
 
         return ($lots->count()) ? $lots : null;
