@@ -19,7 +19,7 @@
                 @endif
             </div>
         </div>
-        @if($item->lot->verify_status != 'expired')
+        {{--@if($item->lot->verify_status != 'expired')--}}
         <div class="col l6 m6 s12">
             <form class="row childs_margin_top" method="post"
                   action="{{ route('involve_product_cancel', ['involved' => $involved->id, 'product'=>$item->id]) }}">
@@ -28,7 +28,7 @@
                 </button>
             </form>
         </div>
-        @endif
+        {{--@endif--}}
         <div class="col s12">
             @include('partials.products.item.stock')
         </div>

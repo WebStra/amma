@@ -626,9 +626,9 @@ ul.color_product > li{
 
 ul.color_product > li.active{
     content: url('/assets/images/ok.png');
-    width:30px;
-    height:30px;
-    opacity: 0.9;
+    width:25px;
+    height:25px;
+    padding: 6px;
 }
 
 .notclickable {
