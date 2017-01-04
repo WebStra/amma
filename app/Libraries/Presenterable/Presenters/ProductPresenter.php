@@ -30,7 +30,7 @@ class ProductPresenter extends Presenter
      */
     public function renderName()
     {
-        if(isset($this->model->specPrice->first()->name))
+        if (isset($this->model->specPrice->first()->name))
             return strtoupper(str_limit($this->model->specPrice->first()->name, $limit = 35, $end = '..'));
 
         return $this->renderDraftedName();
@@ -60,8 +60,9 @@ class ProductPresenter extends Presenter
      */
     public function renderCountItem()
     {
-        if (count($this->model->specPrice->first()->improvedSpecs()->get()) > 0)
-            return $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first()->amount;
+        if (isset($this->model->specPrice->first()->improvedSpecs))
+            if (count($this->model->specPrice->first()->improvedSpecs()->get()) > 0)
+                return $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first()->amount;
 
         return '-';
     }
@@ -197,17 +198,18 @@ class ProductPresenter extends Presenter
      */
     public function convertAmount()
     {
-
         $currency = json_decode(File::get(storage_path('app/json_currency.json')));
-
         $money = ['euro' => $currency->EUR, 'usd' => $currency->USD];
-
-        if ($this->model->lot->currency_id == 1) {
-            return round($this->model->specPrice->first()->new_price * $money['usd']);
-        } elseif ($this->model->lot->currency_id == 2) {
-            return round($this->model->specPrice->first()->new_price * $money['euro']);
+        if (isset($this->model->specPrice) && count($this->model->specPrice) > 0) {
+            if ($this->model->lot->currency_id == 1) {
+                return round($this->model->specPrice->first()->new_price * $money['usd']);
+            } elseif ($this->model->lot->currency_id == 2) {
+                return round($this->model->specPrice->first()->new_price * $money['euro']);
+            } else {
+                return '';
+            }
         } else {
-            return '';
+            return '0';
         }
 
     }

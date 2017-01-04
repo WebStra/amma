@@ -47,7 +47,7 @@
                                         <input type="hidden" id="color_product" name="color_product"
                                                value="">
                                         <input type="hidden" id="sizes_product" name="sizes_product"
-                                               value="@if(count($item->specPrice->first()->improvedSpecs) > 0){{$item->specPrice->first()->improvedSpecs->first()->id}}@endif ">
+                                               value="@if(isset($item->specPrice->first()->improvedSpecs)){{$item->specPrice->first()->improvedSpecs->first()->id}}@endif ">
                                         @if(count($item->specPrice) > 0)
                                             <div class="row">
                                                 <div class="col l3 m3 s12">

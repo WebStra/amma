@@ -1,7 +1,7 @@
 <li class="product">
     <div class="collapsible-header {{ $i == 1 ? 'active' : '' }}">
-        <span>{{ $item->count }}</span>
-        <p>{{ $item->name }}</p>
+        <span>{{ $item->id }}</span>
+        <p>{{ $item->present()->renderName() }}</p>
         <span class="line_animate"></span>
     </div>
     <div class="collapsible-body">
