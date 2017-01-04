@@ -182,16 +182,19 @@ class AuthController extends Controller
             }
 
             // todo: HIGH. Fix it!!!
-//            if(session()->pull('url.intended', '/') == route('admin_login'))
-//                return redirect()->to('/');
-
+/*           if(session()->pull('url.intended', '/') == route('admin_login'))
+               return redirect()->to('/');*/
+            if (stripos(session()->get('url.intended'),"/involve/product/")){
+                $url = str_replace("involve/", "", session()->get('url.intended'));
+                session()->put('url.intended', $url);
+            }
             $user = Auth::user();
 
             (new CreateWalletOrder($user));
 
             if(! $user->confirmed)
                 return redirect()->route('resend_verify_email_form');
-            
+            //dd($url.'   '.session()->get('url.intended'));
             return redirect()->intended($this->redirectPath());
         }
 
