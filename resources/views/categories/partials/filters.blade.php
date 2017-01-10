@@ -1,5 +1,6 @@
 <div class="col l3 m5 s12">
     <form class="bordered divide-top filtre sidebar_search" action="" method="get">
+
         @if(count($subCategories = $category->subCategories))
             <div class="filtru subcategories_filters">
                 <h5>Sub Categories</h5>

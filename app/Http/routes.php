@@ -30,7 +30,7 @@ use App\Repositories\SubscribeRepository;
 Route::bind('category', function ($slug) {
     if ($category = (new CategoryRepository)->findBySlug($slug))
         return $category;
-    abort('404');
+        abort('404');
 });
 
 Route::bind('sub_category', function ($slug) {

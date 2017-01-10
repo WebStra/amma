@@ -233,6 +233,7 @@ class LotRepository extends Repository
     public function getLatestLot($limit = 10)
     {
         return self::getModel()
+            ->where('verify_status','verified')
             ->orderBy('id','DESC')
             ->active()
             ->limit($limit)
@@ -244,6 +245,7 @@ class LotRepository extends Repository
         $query = $this->getModel()
             ->select('lots.*')
             ->where('lots.active', 1)
+            ->where('verify_status','verified')
             ->where('lots.expire_date', '>', Carbon::now())
             ->orderBy('lots.expire_date', self::ASC);
 

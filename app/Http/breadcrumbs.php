@@ -102,7 +102,7 @@ Breadcrumbs::register('vendors', function ($breadcrumbs, $key = 'breadcrumbs_ven
 
 Breadcrumbs::register('add_lot', function ($breadcrumbs, $vendor) {
     //todo: dashoboard.
-    $breadcrumbs->parent('view_vendor', $vendor);
+    //$breadcrumbs->parent('view_vendor', $vendor);
     $breadcrumbs->push('Create lot', route('add_lot', $vendor->slug));
 });
 
