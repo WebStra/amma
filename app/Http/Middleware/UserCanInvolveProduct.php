@@ -20,7 +20,7 @@ class UserCanInvolveProduct
         $this->product = $request->route()->getParameter('product');
         $times = config('product.times');
 
-        if ((!empty($times)) && ($this->getUserInvolvesTimes() < 3))
+        if ((!empty($times)) && ($this->getUserInvolvesTimes() < config('product.times')))
             return $next($request);
 
         return redirect()->back()->withStatus('Sorry! But you can\'t involve this product.');

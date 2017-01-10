@@ -15,6 +15,13 @@ class ModelColorsRepository extends Repository
         return new Color();
     }
 
+    public function findRowById($id){
+        return self::getModel()
+            ->where('id',$id)
+            ->first();
+}
+
+
     public function create(array $data,$specSize)
     {
         return self::getModel()

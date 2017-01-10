@@ -34,15 +34,17 @@ class InvolvedRepository extends Repository
                 'product_id' => $product->id,
                 'lot_id' => $product->lot_id,
                 'price_id' => $data['select_product'],
-                'color_id' => $data['color_product'],
-                'size_id'=>$data['sizes_product'],
+                'color_id' => (isset($data['color_product'])) ? $data['color_product'] : '',
+                'size_id' => (isset($data['sizes_product'])) ? $data['sizes_product'] : '',
+                'type' => $data['type'],
+                'product_hash' => str_random(15),
                 'count' => isset($data['count']) ? $data['count'] : 1
             ]);
     }
 
     /**
      * Update involve status.
-     * 
+     *
      * @param Involved $involve
      * @param array $data
      * @return $this
@@ -61,7 +63,7 @@ class InvolvedRepository extends Repository
 
     /**
      * Check if auth-cate user is involved to this product.
-     * 
+     *
      * @param Product $product
      * @return bool
      */
@@ -69,7 +71,7 @@ class InvolvedRepository extends Repository
     {
         $model = $this->getModelByUserAndProduct($product);
 
-        return (bool) $model;
+        return (bool)$model;
     }
 
     /**
@@ -79,9 +81,9 @@ class InvolvedRepository extends Repository
      */
     public function createOrUpdate(array $data, $product)
     {
-        if($this->checkIfAuthInvolved($product))
+        if ($this->checkIfAuthInvolved($product))
             return $this->update($product, $data);
-        
+
         return $this->create($data, $product);
     }
 
@@ -116,7 +118,7 @@ class InvolvedRepository extends Repository
 
     /**
      * Count rules.
-     * 
+     *
      * @return string
      */
     public function countRules()
@@ -141,14 +143,21 @@ class InvolvedRepository extends Repository
             ->sum('count');
     }
 
-    public function getInvolvedProductforUser() {
+    public function getInvolvedProductforUser()
+    {
 
-        return  $this->getModel()
-                ->active()
-                ->where('user_id',\Auth::user()->id)
-                ->get();
-
-
+        return $this->getModel()
+            ->active()
+            ->where('user_id', \Auth::user()->id)
+            ->get();
     }
+
+    public function getByHash($hash)
+    {
+        return self::getModel()
+            ->where('product_hash', $hash)
+            ->first();
+    }
+
 
 }

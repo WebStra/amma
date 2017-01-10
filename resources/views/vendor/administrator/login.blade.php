@@ -17,6 +17,7 @@
 </head>
 <body class="hold-transition login-page">
 @include('administrator::partials.messages')
+
 <div class="login-box">
     <div class="login-logo">
         <a href="/"><i class="fa fa-home"></i></a>&#160;<span>{!! config('administrator.title') !!}</span>
@@ -31,47 +32,21 @@
             <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
             {!! Form::text($identity, null, ['class' => 'form-control', 'placeholder' => 'Username']) !!}
         </div>
-
+        <br>
         <div class="input-group has-feedback">
             <span class="input-group-addon"><i class="fa fa-key"></i></span>
             {!! Form::password($credential, ['class' => 'form-control', 'placeholder' => 'Password']) !!}
         </div>
 
         <div class="row">
-            <div class="col-xs-8">
-                <div class="checkbox icheck">
-                    <label>
-                        <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"
-                             style="position: relative;"><input type="checkbox"
-                                                                style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
-                            <ins class="iCheck-helper"
-                                 style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                        </div>
-                        Remember Me
-                    </label>
-                </div>
-            </div>
             <!-- /.col -->
-            <div class="col-xs-4">
+            <div class="col-xs-offset-8 col-xs-4">
+                <br>
                 <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
             </div>
             <!-- /.col -->
         </div>
         {!! Form::close() !!}
-
-        <div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in
-                using
-                Facebook</a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in
-                using
-                Google+</a>
-        </div>
-        <!-- /.social-auth-links -->
-
-        <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
 
     </div>
     <!-- /.login-box-body -->

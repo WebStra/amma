@@ -9,7 +9,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function () {
     |-------------------------------------------------------
     */
     Route::get('login', 'Keyhunter\Administrator\AuthController@getLogin');
-    Route::post('login', 'Keyhunter\Administrator\AuthController@postLogin');
+    Route::post('loginn', 'Keyhunter\Administrator\AuthController@postLogin');
     Route::get('logout', 'Keyhunter\Administrator\AuthController@logout');
 });
 

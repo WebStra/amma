@@ -1,7 +1,8 @@
 <li class="product_card">
     <div class="wrapp_img wrapp_countdown">
         @include('partials.products.item.info-label')
-        <a href="{{ route('view_product', ['product' => $item->id]) }}"><img class="img-responsive bascket_img" src="{{ $item->present()->cover() }}"></a>
+        <a href="{{ route('view_product', ['product' => $item->id]) }}"><img class="img-responsive bascket_img"
+                                                                             src="{{ $item->present()->cover() }}"></a>
     </div>
     <div class="content">
         @include('partials.products.item.name')
@@ -17,6 +18,8 @@
                 @else
                     <span style="display: block; color: red;">Oferta a expirat</span>
                 @endif
+                <a class="put_in_basket"
+                   href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}">Vezi Produsul</a>
             </div>
         </div>
         {{--@if($item->lot->verify_status != 'expired')--}}

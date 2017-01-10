@@ -17,7 +17,7 @@ class Involved extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'product_id','lot_id', 'active', 'count','price_id','color_id','size_id'];
+    protected $fillable = ['user_id', 'product_id','lot_id', 'active', 'count','price_id','color_id','size_id','product_hash','type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,7 +42,17 @@ class Involved extends Repository
 
     public function involvedColor()
     {
-        return $this->hasOne(ModelColors::class, 'id' , 'color_id');
+        return $this->hasOne(ModelColors::class, 'id' ,'color_id');
+    }
+
+    public function specPrice()
+    {
+        return $this->hasOne(SpecPrice::class, 'id' ,'price_id');
+    }
+
+    public function improvedSpec()
+    {
+        return $this->hasOne(ImprovedSpec::class, 'id', 'size_id');
     }
 
 }

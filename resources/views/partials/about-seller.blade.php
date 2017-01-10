@@ -214,7 +214,8 @@
         $('ul.color_product').delegate('li', 'click', function () {
             $('ul.color_product li.active').removeClass('active');
             var id = $(this).data('id');
-            var count = $('.amount_products').html($(this).data('count'));
+            var count = $(this).data('count');
+            $('.amount_products').html(count);
             $('.counting input').attr('max',''+count);
             $('#color_product').val(id);
             $(this).addClass('active');

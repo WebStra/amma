@@ -21,6 +21,14 @@
             <div class="about_lot_single_prod">
                 <span class="c-gray">Livrare:</span> {{ $lot->yield_amount }}
             </div>
+            @if(count($lot->lotDeliveryPayment))
+            <div class="about_lot_single_prod">
+                <span class="c-gray">Metoda de plata:</span>
+                @foreach($lot->lotDeliveryPayment as $item)
+                    {{ $item->title }}
+                @endforeach
+            </div>
+            @endif
             <div class="about_lot_single_prod">
                 <span class="c-gray">Nr. de produse in lot:</span> {{ $productinlot }}
             </div>

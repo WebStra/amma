@@ -92,14 +92,15 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function myInvolved()
+    public function myInvolved($type)
     {
-        $involved = $this->auth->user()->involved()->active()->get();
+        $involved = $this->auth->user()->involved()->active()->where('type',$type)->get();
 
         $product = $this->sortInvolvedProducts($involved);
 
-        return view('dashboard.my-involved', compact('product'));
+        return view('dashboard.my-involved', compact('product','type'));
     }
+
 
     public function sortInvolvedProducts($involved) {
 

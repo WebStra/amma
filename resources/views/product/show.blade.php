@@ -16,7 +16,7 @@
                         <div class="col l4 m4 s12">
                             @if(count($item->images))
                                 @include('product.partials.item.gallery-slider')
-                                @else
+                            @else
                                 <img class="img-responsive" src="/assets/images/product.jpg" alt="">
                             @endif
                         </div>
@@ -27,34 +27,25 @@
                             <br>
                             <!---Status---->
                             @if($item->lot->verify_status != 'expired')
-                                <div class="row">
-                                    <div class="col l3 m3 s12">
-                                        <h5>Status:</h5>
-                                    </div>
-                                    <div class="col l19 m9 s12">
-                                        <div class="td sell_amount">
-                                            <div class="pie" data-procent="{{$productItem[0]['totalItems']}}"
-                                                 style="animation-delay: -{{ $productItem[0]['salePercent'] - 0.1 }}s"></div>
-                                            <span>{{ $productItem[0]['salePercent'] }} % este vândut</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
                                 @if($lot->vendor->user->id !== \Auth::id())
                                     {{--@if(! $user_is_involved)--}}
                                     <form method="post"
                                           action="{{ route('involve_product', ['product' => $item->id]) }}">
-                                        <input type="hidden" id="color_product" name="color_product"
-                                               value="">
-                                        <input type="hidden" id="sizes_product" name="sizes_product"
-                                               value="@if(isset($item->specPrice->first()->improvedSpecs)){{$item->specPrice->first()->improvedSpecs->first()->id}}@endif ">
+                                        @if(count($item->colors) > 0)
+                                            <input type="hidden" id="color_product" name="color_product"
+                                                   value="{{(isset($item->colors)) ? $item->colors->first()->id : ''}}">
+                                        @endif
+                                        @if(count($item->improvedSpecs))
+                                            <input type="hidden" id="sizes_product" name="sizes_product"
+                                                   value="{{(isset($item->improvedSpecs)) ? $item->improvedSpecs->first()->id : ''}} ">
+                                        @endif
                                         @if(count($item->specPrice) > 0)
-                                            <div class="row">
+                                            <div class="row display_form_items_inline">
                                                 <div class="col l3 m3 s12">
                                                     <h5>Produs:</h5>
                                                 </div>
                                                 <div class="product_select col l6 m9 s12">
-                                                    <select class="select_product_quantity browser-default"
+                                                    <select class="select_product_quantity"
                                                             name="select_product">
                                                         @foreach($item->specPrice as $prodSpec)
                                                             <option data-product-id="{{$prodSpec->id}}"
@@ -72,7 +63,7 @@
                                         @endif
                                     <!--sizes--->
                                         @if(count($item->improvedSpecs) > 0)
-                                            <div class="row">
+                                            <div class="row display_form_items_inline">
                                                 <div class="col l3 m3 s12">
                                                     <h5>Marimi:</h5>
                                                 </div>
@@ -83,7 +74,8 @@
                                                             @foreach($item->specPrice->first()->improvedSpecs as $size)
                                                                 <li class="<?php if ($i == 1) {
                                                                     echo 'active';
-                                                                } ?>" data-id="{{$size->id}}">{{$size->size}}</li>
+                                                                } ?>"
+                                                                    data-id="{{$size->id}}">{{$size->size}}</li>
                                                                 <?php $i++; ?>
                                                             @endforeach
                                                         @endif
@@ -94,27 +86,26 @@
                                         @endif
                                     <!---Color---->
                                         @if(count($item->colors) > 0)
-                                            <div class="row">
+                                            <div class="row display_form_items_inline">
                                                 <div class="col l3 m3 s12">
                                                     <h5>Culori:</h5>
                                                 </div>
                                                 <div class="col l9 m9 s12">
                                                     <ul class="color_product" style="height: 30px;">
-                                                        @if(count($item->specPrice->first()->improvedSpecs->first()->specColors) > 0)
-                                                            <?php $i = 1; ?>
-                                                            @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
-                                                                <li class="<?php if ($i == 1) echo 'active'; ?>"
-                                                                    data-id="{{$color->id}}" data-count="{{$color->amount}}"
-                                                                    style="background: {{$color->color_hash}};"></li>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        @endif
+                                                        <?php $i = 1; ?>
+                                                        @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
+                                                            <li class="<?php if ($i == 1) echo 'active'; ?>"
+                                                                data-id="{{$color->id}}"
+                                                                data-count="{{$color->amount}}"
+                                                                style="background: {{$color->color_hash}};"></li>
+                                                            <?php $i++; ?>
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
                                         @endif
                                         <br>
-                                        <div class="row">
+                                        <div class="row display_form_items_inline">
                                             <div class="col l3 m3 s12">
                                                 <h5>Cantitate:</h5>
                                             </div>
@@ -126,25 +117,27 @@
                                                         <input type="number" readonly="readonly" value="1"
                                                                name="count"
                                                                max="{{ $item->present()->renderCountItem() }}">
-                                                        <span class="plus right in"><i class="icon-plus"></i></span>
+                                                        <span class="plus right in"><i
+                                                                    class="icon-plus"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col l12 m12 s12">
-                                                {{--@if(!is_int($item->present()->renderCountItem()))--}}
-                                                    <button type="submit"
-                                                            class="btn_ full_width btn_base put_in_basket product_involve">
-                                                        <span>Participa</span>
-                                                    </button>
-                                                 {{--@else
-                                                    <span class="btn_ full_width btn_base product_involve" disabled>
-                                                        <span>vindut complet</span>
-                                                    </span>
-                                                @endif--}}
-                                            </div>
                                         </div>
+                                            <div class="product_submit_button">
+                                                <button type="submit" name="type"
+                                                        class="full_width btn_base product_involve" value="involve">
+                                                    <span>Participa</span>
+                                                </button>
+                                                <button type="submit" name="type"
+                                                        class="btn_buy full_width btn_base product_involve"
+                                                        value="buy">
+                                                    <span>Cumpara</span>
+                                                </button>
+                                            </div>
+                                           {{-- <div class="product_submit_button">
+                                                    <span style="color: red; font-size: 16px; font-weight: 600;" class="full_width product_involve">Stock epuizat!</span>
+                                            </div>--}}
                                     </form>
-                                    {{--@endif--}}
                                 @endif
                             @else
                                 <div class="row">
@@ -164,10 +157,10 @@
                                     <div class="product_price_block">
                                         <div class="first_block_product">
                                             <div class="row">
-                                                <div class="col l3 m3 s4">
+                                                <div class="col l3 m3 s12">
                                                     <h5>Suma:</h5>
                                                 </div>
-                                                <div class="col l6 m9 s8">
+                                                <div class="col l6 m9 s12">
                                                     <div class="td_bordered_right display-list_bloks-m-down">
                                                         @if(count($item->specPrice) > 0)
                                                             <div class="td">
@@ -181,24 +174,14 @@
                                                         @endif
                                                         @if($lot->currency->title != 'MDL')
                                                             <div class="td">
-                                                                <div class="conver_mdl">≈<span>{{$item->present()->convertAmount()}}</span> MDL</div>
+                                                                <div class="conver_mdl">
+                                                                    ≈<span>{{$item->present()->convertAmount()}}</span>
+                                                                    MDL
+                                                                </div>
                                                             </div>
                                                         @endif
                                                     </div>
                                                 </div>
-                                                @if($user_is_involved)
-                                                    @if($item->lot->verify_status =! 'expired')
-                                                        <div class="col l3 m3 s12">
-                                                            <form method="post"
-                                                                  action="{{ route('involve_product_cancel', ['involved' => $involved->id]) }}">
-                                                                <button type="submit"
-                                                                        class="btn_ full_width btn_base  put_in_basket">
-                                                                    <span class="hide-on-med-only">Exit</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    @endif
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="sell_info display-table td_bordered_right">

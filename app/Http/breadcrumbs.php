@@ -7,6 +7,7 @@ Breadcrumbs::register('home', function ($breadcrumbs, $key = 'breadcrumbs_home')
     $breadcrumbs->push($repository->getKey($key)->value, route('home'));
 });
 
+
 Breadcrumbs::register('expire_soon_products', function ($breadcrumbs, $key = 'breadcrumbs_offerts') {
     $repository = new TranslateRepository();
     $breadcrumbs->parent('home');
@@ -59,11 +60,6 @@ Breadcrumbs::register('view_category', function ($breadcrumbs, $category) {
     $breadcrumbs->push($category->present()->renderName(), route('view_category', [ $category->slug ]));
 });
 
-Breadcrumbs::register('view_vendor', function ($breadcrumbs, $vendor) {
-    $breadcrumbs->parent('home');
-    $breadcrumbs->push($vendor->present()->renderTitle(), route('view_vendor', $vendor->slug));
-});
-
 Breadcrumbs::register('view_sub_category', function ($breadcrumbs, $category, $subcategory) {
     $breadcrumbs->parent('view_category', $category);
     $breadcrumbs->push($subcategory->present()->renderName(), route('view_sub_category', [ $category->slug, $subcategory->slug ]));
@@ -91,6 +87,11 @@ Breadcrumbs::register('my_vendors', function ($breadcrumbs) {
 Breadcrumbs::register('create_vendor', function ($breadcrumbs) {
     //todo: dashoboard.
     $breadcrumbs->push('Vendor Create', route('create_vendor'));
+});
+
+Breadcrumbs::register('view_single_prod_spec', function ($breadcrumbs,$involve) {
+    //todo: dashoboard.
+    $breadcrumbs->push('Produs Comandat', route('view_single_prod_spec',['involve'=>$involve]));
 });
 
 Breadcrumbs::register('vendors', function ($breadcrumbs, $key = 'breadcrumbs_vendors') {

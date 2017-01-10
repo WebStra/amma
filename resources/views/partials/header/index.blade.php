@@ -1,8 +1,12 @@
 <header>
     <div class="top_bar">
         <div class="container cf">
-            <div class="left"><i class="icon-phone"></i>{!! $meta->getMeta('top_bar_phone') !!}  {{ settings()->getOption('contact_info::sellPhone') }}</div>
-            <div class="left"><i class="icon-pin"></i>{!! $meta->getMeta('top_bar_adress') !!}  {{ settings()->getOption('contact_info::adress') }}</div>
+            <div class="left"><i
+                        class="icon-phone"></i>{!! $meta->getMeta('top_bar_phone') !!}  {{ settings()->getOption('contact_info::sellPhone') }}
+            </div>
+            <div class="left"><i
+                        class="icon-pin"></i>{!! $meta->getMeta('top_bar_adress') !!}  {{ settings()->getOption('contact_info::adress') }}
+            </div>
             @include('partials.header.language-bar')
 
             @include('partials.header.profile-bar')
@@ -95,11 +99,14 @@
                         </a>
                     </div>
                 </nav>
-                {{--<a href="#" class="cart btn_"><span><i class="icon-basket"></i>În coș (2) </span></a>--}}
                 @if(Auth::check())
-                    <?php $count = count(Auth::user()->involved()->active()->get()) ?>
+                    <?php $basket = count(Auth::user()->involved()->active()->where('type', 'buy')->get()) ?>
+                    <a href="{{ route('my_involved',['type'=>'buy']) }}" class="cart btn_"><span>{{--<i class="icon-basket"></i>--}}
+                            În coș ({{$basket >= 1 ? $basket : 0}}) </span></a>
 
-                    <a href="{{ route('my_involved') }}" class="cart btn_">{!! $meta->getMeta('top_menu_particip') !!} ({{ $count >= 1 ? $count : 0 }})</a>
+                    <?php $involved = count(Auth::user()->involved()->active()->where('type', 'involve')->get()) ?>
+                    <a href="{{ route('my_involved',['type'=>'involve']) }}" class="cart btn_"><span>{!! $meta->getMeta('top_menu_particip') !!}
+                            ({{ $involved >= 1 ? $involved : 0 }})</span></a>
                 @endif
             </div>
             <div class="top_categories row cf">
@@ -113,7 +120,8 @@
                         <div class="form_white_area cf">
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">
-                                <input placeholder="{!! $meta->getMeta('top_menu_search_placeholder') !!}" name="search" type="text"
+                                <input placeholder="{!! $meta->getMeta('top_menu_search_placeholder') !!}" name="search"
+                                       type="text"
                                        value="{{ (isset($_GET['search'])) ? $_GET['search'] : '' }}">
                             </div>
                         </div>

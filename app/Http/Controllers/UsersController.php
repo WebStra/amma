@@ -8,6 +8,7 @@ use App\Repositories\InvolvedRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ModelColorsRepository;
 use App\Repositories\SpecPriceRepository;
+use File;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -58,14 +59,27 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
+
+        $color = $this->color->findRowById($request->color_product);
+
+        if (isset($color->amount) && $color->amount <= 0) {
+            return redirect()->back()->with(['status' => 'Stock epuizat!', 'color' => 'red']);
+        } else {
+            if (isset($request->color_product)) {
+                if ($request->count > $color->amount) {
+                    return redirect()->back()->with(['status'=>'Ati intrecut limita de produse','color'=>'red']);
+                }
+                $refactorAmount = $color->amount - $request->count;
+                $color->update(['amount' => $refactorAmount]);
+            }
+        }
+
         $this->involved->create($request->all(), $product);
 
         $selledPrice = $this->countInvolvedLot($product);
 
         if ($selledPrice >= $product->lot->yield_amount) {
-
             $product->lot->update(['verify_status' => 'expired']);
-
             return redirect()->back()->with(['status' => 'Oferta este finisata!', 'color' => 'green']);
         }
 
@@ -81,34 +95,64 @@ class UsersController extends Controller
      */
     public function exitProductOffer(ExitProductRequest $request, $involve, $product)
     {
-
-        /*$this->color->where('id',$request->id)->update(['amount'=>])*/
-
-        $selledPrice = $this->countInvolvedLot($product);
+        $this->amountRefactoringExitProduct($involve);
 
         $involve = $this->involved->update($involve, ['active' => 0]);
 
         $remaining = config('product.times') - $this->involved->getInvolveTimesProduct($involve->product);
 
-        if ($selledPrice < $product->lot->yield_amount) {
+        if ($this->countInvolvedLot($product) < $product->lot->yield_amount) {
             $product->lot->update(['verify_status' => 'verified']);
         }
-
-
-        return redirect()->back()->with(['status'=>'Success! You are exit from product offer. Remaining attempts (' . $remaining . ')','color'=>'green']);
+        return redirect()->back()->with(['status' => 'Success! You are exit from product offer. Remaining attempts (' . $remaining . ')', 'color' => 'green']);
     }
 
     /**
      * @param $product
      * @return number
      */
+
+    public function amountRefactoringExitProduct($involve)
+    {
+            $color = $this->color->findRowById($involve->color_id);
+
+            if($color != Null){
+                $refactorAmount = $color->amount + $involve->count;
+                $color->update(['amount' => $refactorAmount]);
+            }
+    }
+
+
     public function countInvolvedLot($product)
     {
         $count = $product->lot->involved;
+        $currency = $this->currency($product->lot->currency->title);
 
-        foreach ($count as $item) {
-            $changes[] = $item->count * $this->specs->getPriceById($item->price_id);
+        if (count($count) > 0) {
+            if ($currency['title'] == 'USD' || $currency['title'] == 'EUR') {
+                foreach ($count as $item) {
+                    $changes[] = ($item->count * $this->specs->getPriceById($item->price_id)) * $currency['currency'];
+                }
+                return array_sum($changes);
+            } else {
+                foreach ($count as $item) {
+                    $changes[] = ($item->count * $this->specs->getPriceById($item->price_id));
+                }
+                return array_sum($changes);
+            }
         }
-        return array_sum($changes);
     }
+
+    public function currency($title)
+    {
+        $currency = json_decode(File::get(storage_path('app/json_currency.json')));
+
+        if ($title == 'USD')
+            return ['currency' => $currency->USD, 'title' => $title];
+
+        if ($title == 'EUR')
+            return ['currency' => $currency->EUR, 'title' => $title];
+    }
+
+
 }

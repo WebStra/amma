@@ -697,12 +697,13 @@ body {
   padding: 3px;
   color: #ff6f00;
   margin-top: 5px;
+  margin-right: 5px;
 }
 /* line 565, ../sass/main.scss */
 .btn_.cart span {
   display: block;
   border: 1px solid #eee;
-  padding: 4px 4px 4px 0;
+  padding: 4px 5px 4px 5px;
 }
 
 /* line 572, ../sass/main.scss */

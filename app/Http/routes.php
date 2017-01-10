@@ -423,9 +423,14 @@ Route::multilingual(function () {
             'uses' => 'DashboardController@myProducts'
         ]);
 
-        Route::get('my-involved', [
+        Route::get('my-involved/{type?}', [
             'as' => 'my_involved',
             'uses' => 'DashboardController@myInvolved'
+        ]);
+
+        Route::get('single-prod-spec/{involve}', [
+            'as' => 'view_single_prod_spec',
+            'uses' => 'ProductsController@singleProdSpec'
         ]);
 
         Route::get('settings', [
