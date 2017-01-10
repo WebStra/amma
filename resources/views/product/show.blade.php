@@ -23,7 +23,7 @@
                         <div class="col l8 m8 s12 product_info">
                             <h1>{{ $item->present()->renderName() }}</h1>
                             <hr>
-                            <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>
+                            {{--<span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>--}}
                             <br>
                             <!---Status-->
                             @if($item->lot->verify_status != 'expired')

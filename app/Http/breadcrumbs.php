@@ -66,10 +66,11 @@ Breadcrumbs::register('view_sub_category', function ($breadcrumbs, $category, $s
 });
 
 Breadcrumbs::register('view_lot', function ($breadcrumbs, $lot) {
-    if($lot->vendor)
-        $breadcrumbs->parent('view_vendor', $lot->vendor);
 
-    $breadcrumbs->push($lot->present()->renderName(), route('view_lot', $lot->id));
+    if($lot->vendor)
+        $breadcrumbs->parent('view_lot', $lot->vendor);
+
+    $breadcrumbs->push($lot->name, route('view_lot', $lot->id));
 });
 
 Breadcrumbs::register('view_product', function ($breadcrumbs, $product) {
