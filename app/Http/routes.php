@@ -517,10 +517,6 @@ Route::multilingual(function () {
      *  Auth routes.
      * ----------------------------------------------
      */
-    Route::get('login', [
-        'as' => 'get_login',
-        'uses' => 'Auth\AuthController@getLogin'
-    ]);
 
     Route::post('modal_login', [
         'as' => 'auth_modal_login',
@@ -593,7 +589,10 @@ Route::multilingual(function () {
         'as' => 'post_login',
         'uses' => 'Auth\AuthController@postLogin'
     ]);
-
+    Route::get('login', [
+        'as' => 'get_login',
+        'uses' => 'Auth\AuthController@getLogin'
+    ]);
     Route::get('logout', [
         'as' => 'logout',
         'uses' => 'Auth\AuthController@logout'

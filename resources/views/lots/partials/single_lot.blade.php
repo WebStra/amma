@@ -1,7 +1,8 @@
 <div class="lot">
     <div class="lot-info">
         <div class="lot-name">
-            {{ $lot->present()->renderName() }}
+            
+        <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}">{{ $lot->present()->renderName() }}</a>
             @if(Route::currentRouteName() == 'my_lots' && (in_array($lot->verify_status, array('expired','declined')) or $lot->status == 'drafted'))
                 @if($lot->sell_status != 'default' or $lot->status == 'drafted')
                     <div style="float: right; font-size: 12px;">

@@ -673,22 +673,31 @@
         function publishedLot(form)
         {
             var serialize = $(form).serialize();
-            $.ajax({
-                url: "{{ route('published_lot', [$lot->id]) }}",
-                data: serialize,
-                method: 'post',
-                success: function (respons) {
-                    if (respons.status == 'complete') {
-                        window.location.href = "{{route('my_lots')}}";
-                    }else{
-                        Materialize.toast('{{ $meta->getMeta('msg_published_lot') }}', 6000, 'green');
+            if(!$("#parent_category").valid()){
+              $("#parent_category").prevAll('input.select-dropdown').addClass('iText error');
+            }else{
+                $("#parent_category").prevAll('input.select-dropdown').removeClass('iText error');
+            }
+            if ($(form).valid()) {
+                $.ajax({
+                    url: "{{ route('published_lot', [$lot->id]) }}",
+                    data: serialize,
+                    method: 'post',
+                    success: function (respons) {
+                        if (respons.status == 'complete') {
+                            window.location.href = "{{route('my_lots')}}";
+                        }else{
+                            Materialize.toast('{{ $meta->getMeta('msg_published_lot') }}', 6000, 'green');
+                        }
+                    },
+                    error: function(respons){
+                        // Error...
+                        Materialize.toast('{{ $meta->getMeta('no_amount') }}', 3000, 'red');
                     }
-                },
-                error: function(respons){
-                    // Error...
-                    Materialize.toast('{{ $meta->getMeta('no_amount') }}', 3000, 'red');
-                }
-            });
+                });
+            }else{
+                $("html, body").animate({ scrollTop: "200px" });
+            }
         }
 
         function createLot(form) // On create product.
@@ -702,14 +711,16 @@
                ignore: []
         });
 
-        var form_lot = $('#create_form_lot');
-        form_lot.validate({
-                onkeyup: false,
-                errorClass: 'error',
-                validClass: 'valid', 
-        });
+        function validateForm(form){
+            $(form).validate({
+                    onkeyup: false,
+                    errorClass: 'error',
+                    validClass: 'valid', 
+            }); 
+        }
+        validateForm('#create_form_lot');
 
-        form_lot.submit(function(event) {
+       $('#create_form_lot').submit(function(event) {
             event.preventDefault();
             current = $(this);
             var serialize = current.serialize();

@@ -25,7 +25,7 @@
                             <hr>
                             <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>
                             <br>
-                            <!---Status---->
+                            <!---Status-->
                             @if($item->lot->verify_status != 'expired')
                                 @if($lot->vendor->user->id !== \Auth::id())
                                     {{--@if(! $user_is_involved)--}}
@@ -61,7 +61,7 @@
                                             </div>
                                             <br>
                                         @endif
-                                    <!--sizes--->
+                                    <!--sizes-->
                                         @if(count($item->improvedSpecs) > 0)
                                             <div class="row display_form_items_inline">
                                                 <div class="col l3 m3 s12">
@@ -84,7 +84,7 @@
                                             </div>
                                             <br>
                                         @endif
-                                    <!---Color---->
+                                    <!---Color-->
                                         @if(count($item->colors) > 0)
                                             <div class="row display_form_items_inline">
                                                 <div class="col l3 m3 s12">
@@ -244,9 +244,9 @@
                     <div class="elements bordered">
                         <div class="title">{{ strtoupper('same products') }}</div>
                         <div class="owl-carousel l-4">
-                            <!----Related---->
+                            <!--Related-->
                         @include('product.partials.recommended.related')
-                        <!---END Related---->
+                        <!---END Related-->
                         </div>
                     </div>
                 </div>

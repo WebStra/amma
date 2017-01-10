@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <h2>Verify Your Email Address</h2>
+        <h2>{!! $meta->getMeta('verify_your_email_address') !!}</h2>
 
         <div>
             @yield('content')

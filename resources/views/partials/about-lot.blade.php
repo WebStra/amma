@@ -46,8 +46,7 @@
             </div>
             <div class="buttons row">
                 <div class="col s12 padd_r_half">
-                    <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}" target="_blank"
-                       class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
+                    <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}" class="btn_ btn_base waves-effect waves-light f_small left full_width">Vezi
                         lotul</a>
                 </div>
             </div>
