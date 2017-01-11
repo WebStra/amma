@@ -15,6 +15,13 @@
 </head>
 
 <body>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="loading-animation">&nbsp;</div>
+</div>
+<!-- /Preloader -->
+
 @include('partials.header.index')
 
 @if(Breadcrumbs::exists())

@@ -24,6 +24,23 @@ $(document).ready(function () {
         //alignment: 'left' // Displays dropdown with edge aligned to the left of button
     });
 
+    $(window).load(function() {
+
+        var preloaderDelay = 350,
+            preloaderFadeOutTime = 200;
+
+        function hidePreloader() {
+            var loadingAnimation = $('#loading-animation'),
+                preloader = $('#preloader');
+
+            loadingAnimation.fadeOut();
+            preloader.delay(preloaderDelay).fadeOut(preloaderFadeOutTime);
+        }
+
+        hidePreloader();
+
+    });
+
     //add hover for product card
 
     $(".product_card .add_hover").click(function () {

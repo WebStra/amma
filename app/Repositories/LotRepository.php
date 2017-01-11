@@ -234,6 +234,7 @@ class LotRepository extends Repository
     {
         return self::getModel()
             ->where('verify_status','verified')
+            ->where('expire_date', '>', Carbon::now())
             ->orderBy('id','DESC')
             ->active()
             ->limit($limit)

@@ -24,4 +24,9 @@ class LotDeliveryPayment extends Repository
     {
         return $this->hasMany(Lot::class, 'lot_id', 'id');
     }
+
+    public function methodDelivery()
+    {
+        return $this->hasOne(MethodDeliveryPayment::class, 'id', 'method_id');
+    }
 }

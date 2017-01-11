@@ -111,9 +111,14 @@ class Lot extends Repository
         return $this->hasMany(Product::class, 'lot_id', 'id');
     }
 
+    public function lotDelivery()
+    {
+        return $this->hasMany(LotDeliveryPayment::class, 'lot_id', 'id')->where('method_type','delivery');
+    }
+
     public function lotDeliveryPayment()
     {
-        return $this->hasMany(LotDeliveryPayment::class, 'lot_id', 'id');
+        return $this->hasMany(LotDeliveryPayment::class, 'lot_id', 'id')->where('method_type','payment');
     }
 
     public function subCategories()

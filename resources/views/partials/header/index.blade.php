@@ -99,11 +99,8 @@
                         </a>
                     </div>
                 </nav>
-                @if(Auth::check())
-                    <?php $basket = count(Auth::user()->involved()->active()->where('type', 'buy')->get()) ?>
-                    <a href="{{ route('my_involved',['type'=>'buy']) }}" class="cart btn_"><span>{{--<i class="icon-basket"></i>--}}
-                            În coș ({{$basket >= 1 ? $basket : 0}}) </span></a>
 
+                @if(Auth::check())
                     <?php $involved = count(Auth::user()->involved()->active()->where('type', 'involve')->get()) ?>
                     <a href="{{ route('my_involved',['type'=>'involve']) }}" class="cart btn_"><span>{!! $meta->getMeta('top_menu_particip') !!}
                             ({{ $involved >= 1 ? $involved : 0 }})</span></a>

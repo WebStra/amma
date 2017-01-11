@@ -11,6 +11,10 @@ use App\Repositories\SpecPriceRepository;
 use File;
 use Illuminate\Http\Request;
 
+/**
+ * Class UsersController
+ * @package App\Http\Controllers
+ */
 class UsersController extends Controller
 {
     /**
@@ -67,7 +71,7 @@ class UsersController extends Controller
         } else {
             if (isset($request->color_product)) {
                 if ($request->count > $color->amount) {
-                    return redirect()->back()->with(['status'=>'Ati intrecut limita de produse','color'=>'red']);
+                    return redirect()->back()->with(['status' => 'Ati intrecut limita de produse', 'color' => 'red']);
                 }
                 $refactorAmount = $color->amount - $request->count;
                 $color->update(['amount' => $refactorAmount]);
@@ -114,45 +118,27 @@ class UsersController extends Controller
 
     public function amountRefactoringExitProduct($involve)
     {
-            $color = $this->color->findRowById($involve->color_id);
+        $color = $this->color->findRowById($involve->color_id);
 
-            if($color != Null){
-                $refactorAmount = $color->amount + $involve->count;
-                $color->update(['amount' => $refactorAmount]);
-            }
-    }
-
-
-    public function countInvolvedLot($product)
-    {
-        $count = $product->lot->involved;
-        $currency = $this->currency($product->lot->currency->title);
-
-        if (count($count) > 0) {
-            if ($currency['title'] == 'USD' || $currency['title'] == 'EUR') {
-                foreach ($count as $item) {
-                    $changes[] = ($item->count * $this->specs->getPriceById($item->price_id)) * $currency['currency'];
-                }
-                return array_sum($changes);
-            } else {
-                foreach ($count as $item) {
-                    $changes[] = ($item->count * $this->specs->getPriceById($item->price_id));
-                }
-                return array_sum($changes);
-            }
+        if ($color != NULL) {
+            $refactorAmount = $color->amount + $involve->count;
+            $color->update(['amount' => $refactorAmount]);
         }
     }
 
-    public function currency($title)
+    /**
+     * @param $product
+     * @return number
+     */
+    public function countInvolvedLot($product)
     {
-        $currency = json_decode(File::get(storage_path('app/json_currency.json')));
+        $count = $product->lot->involved;
 
-        if ($title == 'USD')
-            return ['currency' => $currency->USD, 'title' => $title];
-
-        if ($title == 'EUR')
-            return ['currency' => $currency->EUR, 'title' => $title];
+        if (count($count) > 0) {
+            foreach ($count as $item) {
+                $changes[] = ($item->count * $this->specs->getPriceById($item->price_id));
+            }
+            return array_sum($changes);
+        }
     }
-
-
 }

@@ -89,7 +89,6 @@ Route::bind('social', function ($provider, $router) {
 Route::bind('provider', function($provider){
     if(config("services.$provider"))
         return $provider;
-
     abort('404');
 });
 

@@ -48,6 +48,12 @@ return [
             'allvendors' => [
                 'icon' => 'fa fa-shopping-bag'
             ],
+            'lotpending' => [
+                'icon' => 'fa fa-users'
+            ],
+            'verifiedlot' => [
+                'icon' => 'fa fa-users'
+            ],
             'lot' => [
                 'icon' => 'fa fa-users'
             ],

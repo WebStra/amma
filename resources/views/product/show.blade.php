@@ -123,20 +123,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <div class="product_submit_button">
-                                                <button type="submit" name="type"
-                                                        class="full_width btn_base product_involve" value="involve">
-                                                    <span>Participa</span>
-                                                </button>
-                                                <button type="submit" name="type"
-                                                        class="btn_buy full_width btn_base product_involve"
-                                                        value="buy">
-                                                    <span>Cumpara</span>
-                                                </button>
-                                            </div>
-                                           {{-- <div class="product_submit_button">
-                                                    <span style="color: red; font-size: 16px; font-weight: 600;" class="full_width product_involve">Stock epuizat!</span>
-                                            </div>--}}
+                                        <div class="product_submit_button">
+                                            <button type="submit" name="type"
+                                                    class="full_width btn_base product_involve" value="involve">
+                                                <span>Participa</span>
+                                            </button>
+                                            {{--<button type="submit" name="type"
+                                                    class="btn_buy full_width btn_base product_involve"
+                                                    value="buy">
+                                                <span>Cumpara</span>
+                                            </button>--}}
+                                        </div>
+                                        {{-- <div class="product_submit_button">
+                                                 <span style="color: red; font-size: 16px; font-weight: 600;" class="full_width product_involve">Stock epuizat!</span>
+                                         </div>--}}
                                     </form>
                                 @endif
                             @else
@@ -226,18 +226,26 @@
                         </div>
                     </div>
                 </div><!--product_info-->
-                @include('partials.about-lot')
-                @if($lot = $item->lot)
-                    @if($vendor = $lot->vendor)
-                        <div class="col l3 m12 s12 product_vendor_block">
-                            @include('partials.about-seller')
+                <div class="col l3 m3 s12">
+                    <div class="row">
+                        <div class="col l12 m12 s12 product_vendor_block">
+                            @include('partials.about-lot')
                         </div>
-                    @endif
-                @endif
-                <div class="col l3 m12 s12 product_vendor_block">
-                    @include('share.index')
+                        @if($lot = $item->lot)
+                            @if($vendor = $lot->vendor)
+                                <div class="col l12 m12 s12 product_vendor_block">
+                                    @include('partials.about-seller')
+                                </div>
+                            @endif
+                        @endif
+                        <div class="col l12 m12 s12 product_vendor_block">
+                            @include('share.index')
+                        </div>
+                        <div class="col l12 m12 s12">
+                            @include('product.partials.item.involved_list')
+                        </div>
+                    </div>
                 </div>
-                @include('product.partials.item.involved_list')
             </div>
             <div class="cf row">
                 <div class="col l12 m12 s12 divide-top">

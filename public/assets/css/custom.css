@@ -707,3 +707,30 @@ img.bascket_img  {
     float: left;
     margin: 0 4px 4px 0;
 }
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 10001;
+}
+
+#loading-animation {
+    width: 120px;
+    height: 128px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image:url('/assets/images/loading-animation.GIF');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -60px 0 0 -64px;
+}
+
+.delivery_list_method li{
+    list-style-type: circle;
+    margin-left: 18px;
+}
