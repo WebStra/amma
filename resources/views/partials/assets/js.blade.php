@@ -20,6 +20,7 @@
 {!!Html::script('/assets/plugins/materialize/js/materialize.min.js')!!}
 {!!Html::script('/assets/plugins/qtip/jquery.qtip.min.js')!!}
 {!!Html::script('/assets/plugins/toastr/build/toastr.min.js')!!}
+{!!Html::script('/assets/plugins/countdown/jquery.countdown.min.js')!!}
 <!-- End of initialize other plugins -->
 
 <!-- Adding other scripts -->

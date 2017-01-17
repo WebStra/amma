@@ -253,4 +253,11 @@ class LotRepository extends Repository
         return $query->paginate($paginate);
     }
 
+    public function getByStatus($status){
+        return self::getModel()
+            ->where('verify_status',$status)
+            ->count();
+
+    }
+
 }

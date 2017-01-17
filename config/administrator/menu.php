@@ -22,16 +22,13 @@
  *	)
  */
 return [
-//     'App' => [
-//          'page_header' => 'Some Title' // work only for parent category
-//          'dashboard' => [
-//          'icon'  => 'fa-dashboard',
-//          'route' => 'admin_dashboard',
-//          ]
-//     ]
+
+    'dashboard' => [
+        'icon' => 'fa fa-dashboard'
+    ],
+
     'Roles' => [
         'page_header' => 'memberships',
-//        'icon' => 'fa fa-circle-o',
         'pages' => [
             'admins' => [
                 'icon' => 'fa fa-graduation-cap'
@@ -45,21 +42,18 @@ return [
     'Content' => [
         'page_header' => 'Lots and Vendors',
         'pages' => [
-            'allvendors' => [
-                'icon' => 'fa fa-shopping-bag'
-            ],
             'lotpending' => [
-                'icon' => 'fa fa-users'
+                'icon' => 'fa fa-spinner'
             ],
             'verifiedlot' => [
-                'icon' => 'fa fa-users'
+                'icon' => 'fa fa-check-square-o'
+            ],
+            'allvendors' => [
+                'icon' => 'fa fa-shopping-bag'
             ],
             'lot' => [
                 'icon' => 'fa fa-users'
             ],
-            /*'products' => [
-                'icon' => 'fa fa-shopping-cart'
-            ],*/
         ]
     ],
     'Categories' => [

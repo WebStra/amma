@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ProductsRepository;
+use Request;
+use App\Visitors;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers
+ */
 class HomeController extends Controller
 {
     /**
@@ -25,14 +31,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if($filters = request()->all())
-        {
+        $this->registerVisit();
+
+        if ($filters = request()->all()) {
             $products = $this->products->search($filters);
-            
+
             return view('home.search_result', compact('products'));
         }
 
         return view('home.index');
+    }
+
+    /**
+     * Get Client Ip and register in Database
+     */
+    public function registerVisit()
+    {
+        $ip = \Request::ip();
+        $verify = Visitors::where('ip', $ip)->first();
+        if (count($verify) == 0) {
+            Visitors::create(['ip' => $ip]);
+        }
+
     }
 
 }

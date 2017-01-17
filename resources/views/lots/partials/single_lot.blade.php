@@ -28,16 +28,6 @@
                     <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
             @endif
-<!--             @if($vendor)
-    <div class="label" style=''>
-        <div class="user-rating">
-            <?php $positivePercent = sprintf('%s%%', $vendor->present()->renderPozitiveVotes()); ?>
-            <span class="stars"><span class="bg" style="width: {{ $positivePercent }}"></span></span>
-            <span>{{ $positivePercent }}</span>
-            <span class="c-gray"> ({{ $vendor->likes()->count() }} voturi)</span>
-        </div>
-    </div>
-@endif -->
             <div class="label">
                 <div class="c-gray">Suma vinzari: <span>{{$lot->yield_amount}} {{isset($lot->currency->title) ? $lot->currency->title : ''}}</span>
                 </div>
@@ -56,13 +46,8 @@
                 </div>
             </div>
             @if(! empty($lot->present()->endDate()))
-                <div class="label wrap-countdown" style=''><span class="c-gray">Data expirari:</span>
-                    <div class="countdown" data-endtime="{{ $lot->present()->endDate() }}">
-                        <span class="days">{{ $lot->present()->diffEndDate()->d }}</span>
-                        <span class="hours">{{ $lot->present()->diffEndDate()->h }}</span>
-                        <span class="minutes">{{ $lot->present()->diffEndDate()->i }}</span>
-                        <span class="seconds">{{ $lot->present()->diffEndDate()->s }}</span>
-                    </div>
+                <div class="label wrap-countdown" style=''><span class="c-gray">Timp ramas:</span>
+                    @include('partials.countdown')
                 </div>
             @endif
             @if(Route::currentRouteName() == 'my_lots')

@@ -24,7 +24,7 @@ $(document).ready(function () {
         //alignment: 'left' // Displays dropdown with edge aligned to the left of button
     });
 
-    $(window).load(function() {
+    $(window).load(function () {
 
         var preloaderDelay = 350,
             preloaderFadeOutTime = 200;
@@ -39,6 +39,22 @@ $(document).ready(function () {
 
         hidePreloader();
 
+    });
+
+    //countdown
+    //timer
+    $('.countdown[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        var days = $(this).data('days');
+        var hours = $(this).data('hours');
+        $this.countdown(finalDate, function (event) {
+            console.log(12);
+            if (event.strftime('%D') > 0) {
+                $this.html(event.strftime('%D '+days+' %H:%M:%S'));
+            } else {
+                $this.html(event.strftime('%H '+hours+' %M:%S'));
+            }
+        });
     });
 
     //add hover for product card
@@ -147,59 +163,6 @@ $(document).ready(function () {
                 items: 4
             }
         }
-    });
-
-
-    //timer countdown
-
-
-    //return time remaining
-    function getTimeRemaining(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
-
-    // general function
-    $.fn.countdown = function () {
-        var clock = $(this);
-        var daysSpan = $('.days', this);
-        var hoursSpan = $('.hours', this);
-        var minutesSpan = $('.minutes', this);
-        var secondsSpan = $('.seconds', this);
-        var endtime = $(this).attr("data-endtime");
-
-        function updateClock() {
-            var t = getTimeRemaining(endtime);
-            daysSpan.html(t.days);
-            hoursSpan.html(('0' + t.hours).slice(-2));
-            minutesSpan.html(('0' + t.minutes).slice(-2));
-            secondsSpan.html(('0' + t.seconds).slice(-2));
-            if (t.total <= 0) {
-                daysSpan.html("0");
-                hoursSpan.html("0");
-                minutesSpan.html("0");
-                secondsSpan.html("0");
-                clearInterval(timeinterval);
-
-            }
-        }
-
-        updateClock(); // run function once at first to avoid delay
-        var timeinterval = setInterval(updateClock, 1000);
-    }
-
-    $('.countdown').each(function () {
-        $(this).countdown();
     });
 
     //slider with thumbnails
@@ -644,6 +607,6 @@ $(document).ready(function () {
         if (typeof(mylink) == 'string') href = mylink; else href = mylink.href;
         window.open(href, windowname, 'width=400,height=200,scrollbars=yes');
         return false;
-        }
+    }
 
 }); // end of document ready

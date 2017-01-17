@@ -42,7 +42,7 @@ return [
             'output' => function ($row){
                 switch ($row->verify_status) {
                     case 'verified':
-                        $status = '<b style="color: #00a65a">Verified</b>';
+                        $status = '<span class="label label-success">Verified</span>';
                         break;
 
                     default:

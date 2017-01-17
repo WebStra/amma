@@ -41,6 +41,7 @@ Route::group(['prefix' => 'admin'
             ]);
     });
 
+
     /*
     |-------------------------------------------------------
     | Main Scaffolding routes
@@ -56,10 +57,6 @@ Route::group(['prefix' => 'admin'
         | goes here.
         |
         */
-//        Route::controllers([
-//            'test' => 'App\Http\Controllers\Admin\TestController'
-//        ]);
-
 
         /*
         |-------------------------------------------------------
@@ -70,9 +67,8 @@ Route::group(['prefix' => 'admin'
         Route::get('dashboard',
             [
                 'as' => 'admin_dashboard',
-                'uses' => 'Keyhunter\Administrator\Controller@dashboard'
+                'uses' => 'App\Http\administrator\DashboardStatisticController@dashboard'
             ]);
-
         // Index
         Route::get('{page}',
             [
