@@ -11,50 +11,6 @@
         })
     });
 
-    $(function () // Calculate sealed price.
-    {
-        //var sale_zero = '0%';
-        var sale_zero = '0';
-
-        function validateSale($sale) {
-            if ($sale > 0) {
-                //return Math.round($sale).toFixed(0) + '%';
-                return parseFloat($sale.toFixed(2));
-            }
-
-            return sale_zero;
-        }
-
-        $(document).ready(function () {
-            $('body').delegate("input.old_price, input.new_price, input.create_sale", "blur keyup change", function (event) {
-                var curent_product = $(this).parents('.specification_price_item');
-
-                var sale = curent_product.find('input.create_sale');
-                var old_price = curent_product.find('input.old_price');
-                var new_price = curent_product.find('input.new_price');
-
-                var val_sale = sale.val();
-                var val_old_price = old_price.val();
-                var val_new_price = new_price.val();
-                var target = $(event.target);
-                if (target.is("input.old_price") || target.is('input.new_price')) {
-                    var diff = ((val_old_price - val_new_price) / val_old_price);
-
-                    if (diff == 1 || diff == 0) {
-                        return sale.val(sale_zero);
-                    }
-                    var calc = diff * 100;
-                    var result = validateSale(calc);
-                } else if (target.is('input.create_sale') && !isNaN(val_sale) && !isNaN(val_old_price)) {
-                    var result = validateSale(val_old_price - (val_old_price / 100 * val_sale));
-                    return new_price.val(result);
-                }
-
-                return sale.val(result);
-            });
-        });
-    });
-
     $(function () // Add/remove specification.
     {
         function sortable() {

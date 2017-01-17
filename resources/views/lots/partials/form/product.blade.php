@@ -32,18 +32,9 @@
 
                 <div class="col l8 m6 s12">
                     <div class="row">
-                        <!-- <div class="col l6 s12">
-                            <div class="input-field">
-                                <span class="label">{{ $meta->getMeta('label_name') }}</span>
-                                <input type="text" required="required" name="name"
-                                       value="{{ ($product->name) ? : '' }}"
-                                       placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
-                            </div>
-                        </div> -->
-
                         @if($lot->category_id)
                             @if(count($sub_categories = $lot->category->subCategories))
-                                <div class="col l12 s12">
+                                <div class="col l12">
                                     <div class="input-field">
                                         <span class="label">{{ $meta->getMeta('subcategory') }}</span>
                                         <select class="subcategories" name="sub_category"
@@ -58,6 +49,12 @@
                                 </div><!-- Subcategories -->
                             @endif
                         @endif
+                        <div class="col l12">
+                            <div class="input-field">
+                                <span class="label">{{ $meta->getMeta('label_name') }}</span>
+                                <input class="iText" title="{{ $meta->getMeta('label_name') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." type="text" required="required" name="name" value="{{ ($product->name) ? : '' }}" placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
+                            </div>
+                        </div>
 <!-- 
                         <div class="col l4 s12">
                             <div class="input-field">

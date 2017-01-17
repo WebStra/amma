@@ -12,7 +12,7 @@
 {!!Html::script('/assets/plugins/flexslider/jquery.flexslider.js')!!}
 {!!Html::script('/assets/plugins/nouislider/nouislider.js')!!}
 {!!Html::script('/assets/plugins/nouislider/wNumb.js')!!}
-{!!Html::script('/assets/plugins/jquery-validation/dist/jquery.validate.min.js')!!}
+{!!Html::script('/assets/plugins/jquery-validation/dist/jquery.validate.js')!!}
 {!!Html::script('/assets/plugins/jquery-validation/dist/additional-methods.min.js')!!}
 {!!Html::script('/assets/plugins/jquery-validation/src/localization/messages_'. Lang::slug().'.js')!!}
 {!!Html::script('/assets/plugins/imagezoom/imagezoom.js')!!}

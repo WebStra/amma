@@ -19,15 +19,14 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('lot_name') }}</span>
-                                <input type="text" class="iText" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
+                                <input type="text" title="{{ $meta->getMeta('lot_name') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="iText" required="required" name="name" value="{{ old('name') ? old('name') : $lot->present()->renderName() }}" placeholder="{{ $meta->getMeta('placeholder_lot_name') }}">
                             </div>
                         </div>
                         @if(count($categories))
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
                                     <span class="label">{{ $meta->getMeta('category_lot') }}</span>
-                                    <select class="iText" id="parent_category"
-                                            name="category" required="required">
+                                    <select class="iText" id="parent_category" name="category" required="required" title="{{ $meta->getMeta('category_lot') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
                                         <option value=''>{{ $meta->getMeta('label_select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option data-procent="{{ $category->present()->renderTax() }}"
@@ -76,7 +75,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
-                                <input type="text" class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
+                                <input type="text" title="{{ $meta->getMeta('sum_complet') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
                                 <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span> MDL</i></span>
                                 <input type="hidden" class="js-comision" value="{{$lot->comision}}" name="comision">
@@ -177,6 +176,61 @@
     @include('html.partials.js')
 
     <script>
+$.validator.setDefaults({
+       ignore: []
+});
+//tooltips
+$(document).ready(function() {
+    $.each($('select[data-tooltip]'),function() {
+        var curent       = $(this);
+        var data_tooltip = curent.attr('data-tooltip');
+        var title        = curent.attr('title');
+        curent.prevAll('input:first').attr('title', title).attr('data-tooltip', data_tooltip);
+        curent.removeAttr('data-tooltip');
+    });
+    $.each($('[data-tooltip]'),function() {
+        var curent       = $(this);
+        var data_tooltip = curent.attr('data-tooltip');
+        var title        = curent.attr('title');
+        curent.qtip({
+                 content: {
+                    attr: 'data-tooltip',
+                    title: title,
+
+                     /*text: $(this_id)*/
+                 },
+            /*position: {
+             viewport: $(window)
+            },*/
+            hide: {
+                delay: 200,
+                fixed: true, // <--- add this
+                effect: function() { $(this).fadeOut(250); }
+            },
+            show: {
+                effect: function() { $(this).fadeIn(250); }
+            },
+            position: {
+                at: 'top center',
+                my: 'bottom center',
+                effect: false,
+                viewport: $(window),
+                target: $(this),
+                adjust: {
+                    method: 'flip flip'
+                }
+            },
+            style: {
+                classes: 'qtip-dark qtip-shadow',
+                // tip: {
+                //     corner: true,
+                //     width: 10,
+                //     height: 5
+                // },
+            }
+             });
+         });
+});
         var category_input = '#parent_category';
 
         $('#lot_btn_add_product').on('click', function() // load product's block.
@@ -303,6 +357,67 @@
             return false;
         }
 
+        $(function () // Calculate sealed price.
+        {
+            //var sale_zero = '0%';
+            var sale_zero = '0';
+
+            function validateSale($sale) {
+                if ($sale > 0 && $sale <= 100) {
+                    //return Math.round($sale).toFixed(0) + '%';
+                    return parseFloat($sale.toFixed(2));
+                }
+
+                return sale_zero;
+            }
+
+            $(document).ready(function () {
+                $('body').delegate("input.old_price, input.new_price, input.create_sale", "blur change", function (event) {
+                    var curent_product = $(this).parents('.specification_price_item');
+                    var sale      = curent_product.find('input.create_sale');
+                    var old_price = curent_product.find('input.old_price');
+                    var new_price = curent_product.find('input.new_price');
+
+                    var val_sale      = parseFloat(sale.val()).toFixed(2);
+                    var val_old_price = parseFloat(old_price.val()).toFixed(2);
+                    var val_new_price = parseFloat(new_price.val()).toFixed(2);
+                    sale.val(val_sale);
+                    old_price.val(val_old_price);
+                    new_price.val(val_new_price);
+                    $(this).parents('form:first').valid();
+                });
+                $('body').delegate("input.old_price, input.new_price, input.create_sale", "keyup", function (event) {
+                    var curent_product = $(this).parents('.specification_price_item');
+
+                    var sale      = curent_product.find('input.create_sale');
+                    var old_price = curent_product.find('input.old_price');
+                    var new_price = curent_product.find('input.new_price');
+
+                    var val_sale      = parseFloat(sale.val());
+                    var val_old_price = parseFloat(old_price.val());
+                    var val_new_price = parseFloat(new_price.val());
+
+                    var target = $(event.target);
+                    if (target.is('input.new_price') && val_new_price > val_old_price) {
+                        $(this).parents('form:first').valid();
+                    }
+                    if (target.is("input.old_price") || target.is('input.new_price')) {
+                        var diff = ((val_old_price - val_new_price) / val_old_price);
+
+                        if (diff == 1 || diff == 0) {
+                            return sale.val(sale_zero);
+                        }
+                        var calc = diff * 100;
+                        var result = validateSale(calc);
+                        sale.val(result);
+                    } else if (target.is('input.create_sale')) {
+                        var result =  parseFloat(val_old_price - (val_old_price / 100 * val_sale)).toFixed(2);
+                        return new_price.val(result);
+                    }
+                    //return sale.val(result);
+                });
+            });
+        });
 
         function validateProduct(form){
             $(form).validate({
@@ -310,8 +425,26 @@
                 errorClass: 'error',
                 validClass: 'valid'
             });
+            $.validator.addMethod("check_new_price", function(value, element) {
+                var old_price = parseFloat($(form).find('input.old_price').val());
+                var new_price = parseFloat($(form).find('input.new_price').val());
+                return old_price >= new_price && new_price >= 0;
+            },'AAAAAAAAAAAAAAAAA');
+            $(form).find("input.create_sale").rules("add", {
+                    required: true,
+                    range: [0, 100]
+            });
+            $(form).find("input.old_price").rules("add", {
+                    required: true,
+                    range: [0, 1000000]
+            });
+            $(form).find("input.new_price").rules("add", {
+                    required: true,
+                    range: [0, 1000000],
+                    check_new_price:true
+            });
         }
-        validateProduct('form');
+        validateProduct($('form.form-product'));
         function saveProductBlock(form) // On save product.
         {
             (function ($) {
@@ -707,15 +840,18 @@
             //
         }
 
-        $.validator.setDefaults({
-               ignore: []
-        });
 
         function validateForm(form){
             $(form).validate({
                     onkeyup: false,
                     errorClass: 'error',
                     validClass: 'valid', 
+                    rules:{
+                        yield_amount:{
+                            required: true,
+                            range: [2, 1000000],
+                        }
+                    }
             }); 
         }
         validateForm('#create_form_lot');
