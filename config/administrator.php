@@ -44,7 +44,7 @@ return [
      *
      * @type string
      */
-    'home_page'       => 'admin/members',
+    'home_page'       => 'admin/dashboard',
     'show_user_panel' => false,
     'show_search_bar' => false, //todo: repair this stuff
     /**

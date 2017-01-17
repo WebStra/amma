@@ -16,6 +16,8 @@
     <!-- Theme style -->
     <link href="<?= asset($assets . '/css/AdminLTE.min.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= asset($assets . '/css/skins/skin-yellow-light.min.css') ?>" rel="stylesheet" type="text/css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="<?= asset($assets .'/plugins/morris/morris.css') ?>">
     <!-- Datapicker & Datarangepicker -->
     <link href="<?= asset($assets . '/plugins/datepicker/datepicker3.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= asset($assets . '/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
@@ -111,6 +113,10 @@
 <!-- Semantic UI Dropdown -->
 <script src="<?= asset($assets . '/plugins/semantic_dropdown/dropdown.min.js') ?>" type="text/javascript"></script>
 <script src="<?= asset($assets . '/plugins/semantic_transition/transition.min.js') ?>" type="text/javascript"></script>
+<!--Morris Chart-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="<?= asset($assets . '/plugins/morris/morris.min.js') ?>"></script>
+<!--Morris Chart-->
 
 @yield('js')
 

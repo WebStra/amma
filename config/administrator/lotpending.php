@@ -43,7 +43,7 @@ return [
                 switch ($row->verify_status) {
 
                     case 'pending':
-                        $status = '<b style="color: #ffb336">Not Verified</b>';
+                        $status = '<span class="label label-warning">Not Verified</span>';
                         break;
 
                     default:

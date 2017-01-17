@@ -42,13 +42,13 @@ return [
             'output' => function ($row){
                 switch ($row->verify_status) {
                     case 'verified':
-                        $status = '<b style="color: #00a65a">Verified</b>';
+                        $status = '<span class="label label-success">Verified</span>';
                         break;
                     case 'pending':
-                        $status = '<b style="color: #ffb336">Not Verified</b>';
+                        $status = '<span class="label label-warning">Not Verified</span>';
                         break;
                     case 'declined':
-                        $status = '<b style="color: #ea0b0b">Declined</b>';
+                        $status = '<span class="label label-danger">Declined</span>';
                         break;
 
                     default:
