@@ -46,7 +46,10 @@ return [
         ],
 
         'site::about' => ['type' => 'textarea'],
-
+        'site::yield_amount' => [
+            'type' => 'text',
+            'label' => 'Comis. min în lei pentru realizarea vânzării'
+        ],
         'homepage::popular_category' => [
             'required',
             'type' => 'select',

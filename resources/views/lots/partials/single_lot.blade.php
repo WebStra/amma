@@ -3,14 +3,12 @@
         <div class="lot-name">
             
         <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}">{{ $lot->present()->renderName() }}</a>
-            @if(Route::currentRouteName() == 'my_lots' && (in_array($lot->verify_status, array('expired','declined')) or $lot->status == 'drafted'))
-                @if($lot->sell_status != 'default' or $lot->status == 'drafted')
-                    <div style="float: right; font-size: 12px;">
-                        <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
-                        <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');"> <i class="small material-icons" style="color: black">delete</i>
-                        </a>
-                    </div>
-                @endif
+            @if(Route::currentRouteName() == 'my_lots' && in_array($lot->verify_status, array('expired','declined','drafted')))
+                <div style="float: right; font-size: 12px;">
+                    <a href="{{ route('edit_lot', [ 'lot' => $lot->id ]) }}" title="Edit lot"><i class="small material-icons" style="color: black">mode_edit</i></a>
+                    <a href="{{ route('delete_lot', [ 'lot' => $lot->id ]) }}" title="Delete lot" onclick="return confirm('Are you sure ?');"> <i class="small material-icons" style="color: black">delete</i>
+                    </a>
+                </div>
             @endif
         </div>
         <div class="lot-info-bottom">
@@ -24,7 +22,7 @@
             <?php $vendor = $lot->vendor; ?>
             @if($vendor)
                 <div class="label">
-                    <span class="c-gray">Vendor:</span>&nbsp;
+                    <span class="c-gray">Vinzatorul:</span>&nbsp;
                     <a href="{{ route('view_vendor', [ 'vendor' => $vendor->slug ]) }}">{{ $vendor->present()->renderTitle() }}</a>
                 </div>
             @endif
@@ -54,7 +52,7 @@
                 <div class="label">
                     <div class="c-gray">Statutul ofertei: <span class="status-lot {{$lot->verify_status}}">{{$lot->verify_status}}</span></div>
                 </div>
-                @if($lot->verify_status == 'expired' && $lot->sell_status == 'default' && $lot->status != 'drafted')
+                @if($lot->verify_status == 'expired' && $lot->sell_status == 'default')
                     <a href="" class="waves-effect waves-light btn">Vând</a>
                     <a href="" class="waves-effect waves-light btn red">Nu vând</a>
                 @endif

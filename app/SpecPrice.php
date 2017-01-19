@@ -17,7 +17,7 @@ class SpecPrice extends Repository
     /**
      * @var array
      */
-    protected $fillable = ['lot_id','product_id','new_price','old_price','sale','name'];
+    protected $fillable = ['lot_id','product_id','new_price','old_price','sale','name','unit'];
 
     protected $presenter = SpecPricePresenter::class;
 

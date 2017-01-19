@@ -45,19 +45,23 @@ class AddLotMiddleware
             /*if($lot->status == Lot::STATUS_DRAFTED)
             {*/
                 /*$category = $lot->category;*/
-                if($this->issetAmount($lot, $request->get('comision')))
-                {
+                if ($request->get('action') == 'drafted') {
                     $lot->status           = Lot::STATUS_COMPLETE;
-                    $lot->verify_status    = Lot::STATUS_VERIFY_PENDING;
-                    $lot->sell_status      = Lot::STATUS_SELL_DEFAULT;
-                    $lot->comision_extract = 'No';
-                    $lot->save();
-                    return $next($request);
-                } else {
-                    //return redirect()->back()->withErrors('No amount');
-                    return response('No amount',402);
+                    $lot->verify_status    = Lot::STATUS_DRAFTED;
+                     
                 }
-            //}
+                elseif($request->get('action') == 'published'){
+                    if ($this->issetAmount($lot, $request->get('comision'))) {
+                        $lot->status           = Lot::STATUS_COMPLETE;
+                        $lot->verify_status    = Lot::STATUS_VERIFY_PENDING;
+                        $lot->sell_status      = Lot::STATUS_SELL_DEFAULT;
+                        $lot->comision_extract = 'No';
+                    }
+                    return response('No amount',402);
+
+                }
+                $lot->save();
+                return $next($request);
         }
 
         return redirect()->back()->withSuccess('Something Wrong!');

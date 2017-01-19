@@ -2,7 +2,7 @@
      data-suite-spec="{{ isset($key_spec_product) ? $key_spec_product : 1 }}">
     <div class="col l6 m12 s12">
         <div class="input-field spec_name">
-            <span class="label">{{ $meta->getMeta('label_name') }}</span>
+            <span class="label">{{ $meta->getMeta('label_spec') }}</span>
             <input type="text" name="spec[{{ isset($key_spec_product) ? $key_spec_product : 1 }}][key]"
                    value="{{ isset($spec['key']) ? $spec['key'] : '' }}">
         </div>

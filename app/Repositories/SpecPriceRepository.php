@@ -81,6 +81,7 @@ class SpecPriceRepository extends Repository
             ->create([
                 'lot_id'     => $product->lot_id,
                 'product_id' => $product->id,
+                'unit'       => (isset($data['unit']) ? $data['unit'] : ''),
                 'new_price'  => (isset($data['new_price']) ? $data['new_price'] : ''),
                 'old_price'  => (isset($data['old_price']) ? $data['old_price'] : ''),
                 'sale'       => (isset($data['sale'])) ? $data['sale'] : 0,
@@ -90,10 +91,11 @@ class SpecPriceRepository extends Repository
 
     public function save(array $data, $product)
     {
-        $key = ((isset($data['key']) &&  $data['key'] != null) ? $data['key'] : null);
-        $price = self::getModel()->firstOrNew(array('key'=>$key));
+        $key               = ((isset($data['key']) &&  $data['key'] != null) ? $data['key'] : null);
+        $price             = self::getModel()->firstOrNew(array('key'=>$key));
         $price->product_id = $product->id;
         $price->lot_id     = $product->lot_id;
+        $price->unit       = (isset($data['unit'])) ? $data['unit'] : 0;
         $price->new_price  = (isset($data['new_price']) ? $data['new_price'] : '');
         $price->old_price  = (isset($data['old_price']) ? $data['old_price'] : '');
         $price->sale       = (isset($data['sale'])) ? $data['sale'] : 0;
