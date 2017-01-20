@@ -48,7 +48,6 @@ $(document).ready(function () {
         var days = $(this).data('days');
         var hours = $(this).data('hours');
         $this.countdown(finalDate, function (event) {
-            console.log(12);
             if (event.strftime('%D') > 0) {
                 $this.html(event.strftime('%D '+days+' %H:%M:%S'));
             } else {
@@ -373,7 +372,7 @@ $(document).ready(function () {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 
     if (($(".send-form").length != 0)) {
         $('.send-form').each(function () {
@@ -608,5 +607,44 @@ $(document).ready(function () {
         window.open(href, windowname, 'width=400,height=200,scrollbars=yes');
         return false;
     }
+
+    $('.send_vendor_message').click(function (event) {
+        event.preventDefault();
+        var form = $(this).parents('form').serialize();
+        var btn = $(this);
+        btn.attr('disabled', true);
+        $.ajax({
+            url: $(this).parents('form').data('action'),
+            method: 'POST',
+            dataType: 'json',
+            data: form,
+            success: function (data) {
+               $('.message_sent_succesful').html('Mesajul a fost trimis cu succes!');
+            },
+            error: function(data) {
+                var value = JSON.parse(data.responseText);
+                jQuery.each( value, function( i, val ) {
+                    var input = $('#contact-modal input[name='+i+']');
+                    input.addClass('invalid');
+                    input.parents('.input-field').children('label').attr('data-error', val[0]);
+                });
+            },
+            complete: function () {
+                if (btn.attr("disabled")) {
+                    btn.attr("disabled", false);
+                }
+            }
+        });
+    });
+
+    $('.contact_modal').click(function () {
+        $('#contact-modal').openModal();
+        $('.modal-trigger').leanModal({
+            dismissible: true,
+            opacity: .5,
+            in_duration: 300,
+            out_duration: 200,
+        });
+    });
 
 }); // end of document ready

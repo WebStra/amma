@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VendorFormRequest;
 use App\Http\Requests\VendorUpdateFormRequest;
 use App\Repositories\VendorRepository;
+use App\Http\Requests\VendorContactRequest;
+use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 
 class VendorController extends Controller
 {
@@ -140,5 +143,21 @@ class VendorController extends Controller
             'likes_percent' => $positive_like_percent,
             'was_liked' => $was_liked
         ]);
+    }
+
+    public function contactVendor(VendorContactRequest $request, $vendor){
+
+        $this->sendEmail($request,$vendor->email);
+
+        return json_encode('succes');
+
+    }
+
+    private function sendEmail($request,$vendor)
+    {
+        \Mail::send('email.vendor-contact', compact('request'), function (Message $message) use ($request,$vendor) {
+            $message->to($vendor, sprintf('%s %s', $request->email, $request->token))
+                ->subject("Amma message!");
+        });
     }
 }

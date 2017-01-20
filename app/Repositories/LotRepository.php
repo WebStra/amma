@@ -6,6 +6,10 @@ use App\Lot;
 use App\Vendor;
 use Carbon\Carbon;
 
+/**
+ * Class LotRepository
+ * @package App\Repositories
+ */
 class LotRepository extends Repository
 {
     /**
@@ -30,6 +34,10 @@ class LotRepository extends Repository
             ]);
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function find($slug)
     {
         if (is_numeric($slug))
@@ -40,10 +48,6 @@ class LotRepository extends Repository
         return $this->getModel()
             ->whereSlug($slug)
             ->first();
-    }
-
-    public function statusChange(){
-
     }
 
     /**
@@ -107,7 +111,12 @@ class LotRepository extends Repository
         return ($lots->count()) ? $lots : null;
     }
 
-    public function userLotsPendingComision($user,$lotId=null)
+    /**
+     * @param $user
+     * @param null $lotId
+     * @return int
+     */
+    public function userLotsPendingComision($user, $lotId=null)
     {
 
         $model = self::getModel();
@@ -182,6 +191,11 @@ class LotRepository extends Repository
         return $new_date;
     }
 
+    /**
+     * @param $lot
+     * @param array $data
+     * @return mixed
+     */
     public function save($lot, array $data)
     {
         $lot->fill([
@@ -229,6 +243,10 @@ class LotRepository extends Repository
         return false;
     }
 
+    /**
+     * @param int $limit
+     * @return mixed
+     */
     public function getLatestLot($limit = 10)
     {
         return self::getModel()
@@ -240,6 +258,10 @@ class LotRepository extends Repository
             ->get();
     }
 
+    /**
+     * @param int $paginate
+     * @return mixed
+     */
     public function getExpireSoon($paginate = 10)
     {
         $query = $this->getModel()
@@ -252,6 +274,10 @@ class LotRepository extends Repository
         return $query->paginate($paginate);
     }
 
+    /**
+     * @param $status
+     * @return mixed
+     */
     public function getByStatus($status){
         return self::getModel()
             ->where('verify_status',$status)

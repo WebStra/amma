@@ -10,6 +10,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Mockery\CountValidator\Exception;
 
+/**
+ * Class ProductsRepository
+ * @package App\Repositories
+ */
 class ProductsRepository extends Repository
 {
     /**
@@ -196,6 +200,10 @@ class ProductsRepository extends Repository
             ->first();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getCount($id)
     {
         return self::getModel()
@@ -204,6 +212,10 @@ class ProductsRepository extends Repository
             ->first();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function countInLotProduct($id)
     {
         return self::getModel()
@@ -211,6 +223,10 @@ class ProductsRepository extends Repository
             ->count();
     }
 
+    /**
+     * @param $filters
+     * @return null
+     */
     public function search($filters)
     {
 
@@ -268,7 +284,8 @@ class ProductsRepository extends Repository
             ->limit($limit);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
-            ->where('lots.verify_status', 'verified');
+            ->where('lots.status', Lot::STATUS_COMPLETE)
+            ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
         return $query->get();
 
@@ -291,6 +308,7 @@ class ProductsRepository extends Repository
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
             ->orderBy('lots.id', self::DESC)
+            ->where('lots.status', Lot::STATUS_COMPLETE)
             ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
         return $query->get();
@@ -311,6 +329,7 @@ class ProductsRepository extends Repository
             ->limit($limit);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.status', Lot::STATUS_COMPLETE)
             ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
         return $query->get();
@@ -332,6 +351,7 @@ class ProductsRepository extends Repository
             ->limit($count);
 
         $query->join('lots', 'lots.id', '=', 'products.lot_id')
+            ->where('lots.status', Lot::STATUS_COMPLETE)
             ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
 
         return $query->get();
@@ -381,17 +401,15 @@ class ProductsRepository extends Repository
                 'uniqid' => substr(str_replace('.', '', uniqid('00' . rand(), true)), 0, 10)
 
             ]);
-        /*$spec_price =  SpecPrice::create([
-            'product_id' => $product->id
-        ]);
-        ImprovedSpec::create([
-            'product_id' => $product->id,
-            'price_spec_id' => $spec_price->id
-        ]);*/
 
         return $product;
     }
 
+    /**
+     * @param $product
+     * @param array $data
+     * @return mixed
+     */
     public function saveProduct($product, array $data)
     {
         $product->fill([
