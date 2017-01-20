@@ -283,16 +283,12 @@ class LotsController extends Controller
     public function getBuyers(Request $request)
     {
         $lot = $this->lots->find($request->get('lot_id'));
-        //dd($lot);
         if($lot) {
-            dd($lot->involved->groupBy('user_id')->buyer);
-            $buyers = $lot->involved->groupBy('user_id')->buyer;
-            //$buyers = $this->involved->find(318)->buyers->profile;
-            dd($buyers);
-            if ($buyers) {
-                return view('lots.partials.buyers.users', ['buyers' => $buyers, 'lot' => $lot]);
+            $involved = $lot->involved->unique('user_id');
+            if (!$involved->isEmpty()) {
+                return view('lots.partials.buyers.users', ['involved' => $involved, 'lot' => $lot]);
             }
         }
-        return false;
+        return 'false';
     }
 }
