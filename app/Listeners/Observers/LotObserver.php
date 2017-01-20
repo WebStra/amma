@@ -20,6 +20,10 @@ class LotObserver extends Observer
                 $lot->save();
             }
         }
+        elseif($lot->verify_status == 'declined') {
+            $lot->status = 'drafted';
+            $lot->save();
+        }
     }
 
     /**

@@ -6,6 +6,10 @@
             <li><a href="{{ route('logout') }}">{!! $meta->getMeta('top_bar_logout') !!}</a></li>
         </ul>
     </div>
+    <?php $current= Route::currentRouteName();?>
+    <div class="right">
+        <a {{ $current == 'my_lots' ? 'class=active' : '' }} href="{{ route('my_lots') }}">{!! $meta->getMeta('top_bar_mylots') !!}</a>
+    </div>
     <div class="right">
         <a href='{{ route('create_vendor') }}'>{!! $meta->getMeta('top_bar_create_vendor') !!}</a>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\CurrenciesRepository;
+use App\Repositories\UnitRepository;
 use App\Repositories\LotRepository;
 use Illuminate\Contracts\View\View;
 
@@ -23,7 +24,10 @@ class AddLotComposer extends Composer
      * @var CurrenciesRepository
      */
     protected $currencies;
-
+    /**
+     * @var UnitRepository
+     */
+    protected $units;
     /**
      * AddLotComposer constructor.
      * @param LotRepository $lotRepository
@@ -33,11 +37,13 @@ class AddLotComposer extends Composer
     public function __construct(
         LotRepository $lotRepository,
         CategoryRepository $categoryRepository,
-        CurrenciesRepository $currenciesRepository
+        CurrenciesRepository $currenciesRepository,
+        UnitRepository $unitsRepository
     ) {
         $this->lots = $lotRepository;
         $this->categories = $categoryRepository;
         $this->currencies = $currenciesRepository;
+        $this->units = $unitsRepository;
     }
 
     /**
@@ -50,9 +56,11 @@ class AddLotComposer extends Composer
     {
         $categories = $this->categories->getPublic();
         $currencies = $this->currencies->getPublic();
+        $units      = $this->units->getPublic();
 
         return $view
             ->with('categories', $categories)
-            ->with('currencies', $currencies);
+            ->with('currencies', $currencies)
+            ->with('units', $units);
     }
 }

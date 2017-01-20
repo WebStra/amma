@@ -232,6 +232,7 @@ class LotsController extends Controller
             $method  = $request->input('method');
         }
         $lotMethod = $this->lot_method->save($lot, $method);
+        //dd($lot->status);
         return response(array('respons'=>true,'status'=>$lot->status));
         
     }

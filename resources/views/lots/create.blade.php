@@ -77,8 +77,8 @@
                                 <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
                                 <input type="text" title="{{ $meta->getMeta('sum_complet') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
-                                <span class="comision info-label"><i>{{ $meta->getMeta('label_comision') }}: <span class="comision-val">{{$lot->comision}}</span> MDL</i></span>
-                                <input type="hidden" class="js-comision" value="{{$lot->comision}}" name="comision">
+                                <span class="comision info-label"><i>{{ $meta->getMeta('label_comision').' '.settings()->getOption('site::yield_amount')}} MDL: <span class="comision-val">{{($lot->comision >= settings()->getOption('site::yield_amount'))? $lot->comision : settings()->getOption('site::yield_amount')}}</span> MDL</i></span>
+                                <input type="hidden" class="js-comision" value="{{($lot->comision >= settings()->getOption('site::yield_amount'))? $lot->comision : settings()->getOption('site::yield_amount')}}" name="comision">
                                 @if(count($currencies))
                                     <span class="currency_type" style="position: absolute;top:31px;right: 15px;color: #ff6f00;">{{ ($lot->currency) ? $lot->currency->title : $currencies->first()->title }}</span>
                                 @endif
@@ -155,8 +155,10 @@
 
             <div class="row">
                 <div class="margin15">
-                    <div class="col l4 m6 s12 offset-l8 offset-m6 right-align-600">
-                        <button id="publish_lot" onclick="publishedLot('#create_form_lot'); return false;" class="btn"><i class="material-icons left">save</i>{{ $meta->getMeta('btn_publish_oferta') }}</button>
+                    <div class="col l5 m6 s12 offset-l7 offset-m6 right-align-600">
+                        <button id="publish_lot" onclick="publishedLot('#create_form_lot','drafted'); return false;" class="btn amber darken-4"><i class="material-icons left">save</i>{{ $meta->getMeta('btn_save_to_draft') }}</button>
+                        <button id="publish_lot" onclick="publishedLot('#create_form_lot','published'); return false;" class="btn"><i class="material-icons left">save</i>{{ $meta->getMeta('btn_publish_oferta') }}</button>
+                        <p>{{ $meta->getMeta('label_lot_footer_condtion') }}</p>
                     </div>
                 </div>
             </div>
@@ -803,14 +805,16 @@ $(document).ready(function() {
 
             }
         }
-        function publishedLot(form)
+        function publishedLot(form,action)
         {
-            var serialize = $(form).serialize();
+            var serialize = $(form).serialize()+'&action='+action;
+
             if(!$("#parent_category").valid()){
               $("#parent_category").prevAll('input.select-dropdown').addClass('iText error');
             }else{
                 $("#parent_category").prevAll('input.select-dropdown').removeClass('iText error');
             }
+            console.log(serialize);
             if ($(form).valid()) {
                 $.ajax({
                     url: "{{ route('published_lot', [$lot->id]) }}",
@@ -820,7 +824,8 @@ $(document).ready(function() {
                         if (respons.status == 'complete') {
                             window.location.href = "{{route('my_lots')}}";
                         }else{
-                            Materialize.toast('{{ $meta->getMeta('msg_published_lot') }}', 6000, 'green');
+                            //Materialize.toast('{{ $meta->getMeta('msg_published_lot') }}', 6000, 'green');
+                            window.location.href = "{{route('my_lots')}}";
                         }
                     },
                     error: function(respons){

@@ -1,10 +1,8 @@
 <?php
-
-use Illuminate\Database\Eloquent\Builder;
-
+use App\Unit;
 return [
-    'title'  => 'Translate',
-    'model'  => \App\Translate::class,
+    'title'  => 'Add unit',
+    'model'  => Unit::class,
 
     /*
     |-------------------------------------------------------
@@ -17,23 +15,7 @@ return [
     */
     'columns' => [
         'id',
-
-        'meta' => [
-            'title'     => 'Meta',
-            'elements'  => [
-                'key',
-                'value'
-            ]
-        ],
-
-        'type',
-
-        'active' => [
-            'visible' => function() {},
-            'output' => function($row) {
-                return output_boolean($row);
-            }
-        ]
+        'name'
     ],
 
     /*
@@ -42,9 +24,10 @@ return [
     |-------------------------------------------------------
     |
     | Global actions
-    |
+    | @todo
     */
-    'actions' => [],
+    'actions' => [
+    ],
 
     /*
     |-------------------------------------------------------
@@ -64,7 +47,11 @@ return [
     | Extend the main scaffold index query
     |
     */
-    'query' => function(Builder $query)
+    /*'query' => function(Builder $query)
+    {
+        $query->where('role_id', '!=', Role::whereName('admin')->first()->id);
+    },*/
+    'query' => function($query)
     {
         return $query->orderBy('id', 'desc');
     },
@@ -73,27 +60,12 @@ return [
     |-------------------------------------------------------
     | Global filter
     |-------------------------------------------------------
+    |
+    | Filters should be defined here
+    |
     */
     'filters' => [
-        //'id' => filter_hidden(),
-
-        'key' => filter_text('Name', function ($query, $value) {
-            return $query->select('*')
-                ->where('key', 'like', '%' . $value . '%');
-                //->translated();
-        }),
-        'active' => [
-            'type' => 'select',
-            'options' => [
-                '' => '-- Any --',
-                0 => 'No',
-                1 => 'Yes'
-            ]
-        ],
-
-        'created_at' => [
-            'type' => 'date'
-        ]
+        'id' => filter_hidden(),
     ],
 
     /*
@@ -105,21 +77,7 @@ return [
     |
     */
     'edit_fields' => [
-        'id'       => ['type' => 'key'],
-
-        'key' => form_text(),
-
-        'type' => form_text('Group'),
-
-        'value' => form_textarea() + translatable(),
-
-        'active' => [
-            'title' => 'Active',
-            'type' => 'select',
-            'options' => [
-                1 => 'Keep enabled',
-                0 => 'Keep disabled',
-            ]
-        ]
+        'id'   => ['type' => 'key'],
+        'name' => form_text() + translatable()
     ]
 ];

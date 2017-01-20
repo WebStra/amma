@@ -2,7 +2,7 @@
 
         <div class="col l6 m12 s12">
             <div class="input-field spec_name">
-                <span class="label">{{ strtoupper('Specificatia') }}</span>
+                <span class="label">{{ $meta->getMeta('label_spec') }}</span>
                 <input type="text" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][spec_desc][{{ isset($key_desc) ? $key_desc : 1 }}][key]"
                 value="{{ isset($spec->key) ? $spec->key : '' }}">
             </div>

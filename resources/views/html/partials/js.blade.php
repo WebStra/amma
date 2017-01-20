@@ -157,7 +157,10 @@
             }else if(currency_id == 2){
                 comision *= parseFloat("{{ $eur }}");
             }
-            var comision = Math.round(comision).toFixed(0);
+            comision = Math.round(comision).toFixed(0);
+            if (comision < parseInt("{{settings()->getOption('site::yield_amount')}}")) {
+                comision = "{{settings()->getOption('site::yield_amount')}}";
+            }
             $('.comision-val').text(comision);
             $('.js-comision').val(comision);
         }
@@ -184,19 +187,19 @@
          });
          });*/
     });
-
+    moment.locale('ro');
     $(function (){
-        var $from = $(".datepicker-from");
-        var $to = $(".datepicker-to");
+        var $from   = $(".datepicker-from");
+        var $to     = $(".datepicker-to");
         var __$from = {};
-        var __$to = {};
+        var __$to   = {};
         $from.pickadate({
             selectMonths: true,
             selectYears: 2,
             format: 'dd.mm.yyyy',
             closeOnSelect: true,
             closeOnClear: true,
-            min: 1,
+            //min: 1,
             today:'',
             onRender: function () {
                 __$from = this;
@@ -210,7 +213,15 @@
                 //picker.close();
             },
             onOpen: function(){
-                __$from.set('max', __$to.get());
+                var min_date = 1;
+                var max_date = 30;
+                if (__$to.get() != '' && __$to.get() > moment().format("DD.MM.YYYY")) {
+                    max_date = moment(__$to.get(), "DD.MM.YYYY").add(-1, 'days').format('L');
+                }
+                __$from.set('min', min_date);
+                __$from.set('max', max_date);
+               // __$from.set('max', moment().add(1, 'days').add(1, 'month').locale('ro').format('L'));
+                //__$from.set('max', __$to.get());
             },
             onClose: function() {
                 $(document.activeElement).blur()
@@ -223,8 +234,8 @@
             format: 'dd.mm.yyyy',
             closeOnSelect: true,
             closeOnClear: true,
-            min: 1,
-            max: 30,
+            //min: 1,
+            //max: 30,
             today:'',
             onRender: function () {
                 __$to = this;
@@ -235,10 +246,14 @@
                 $(document.activeElement).blur();
             },
             onOpen: function(){
-                var new_date = moment(__$from.get(), "DD.MM.YYYY").add(5, 'days').locale('ro');
-                console.log(new Date());
-                console.log(moment());
-                __$to.set('min', new_date.format('L'));
+                var min_date = 5;
+                var max_date = 30;
+                if (__$from.get() != '' && __$from.get() > moment().format("DD.MM.YYYY")) {
+                    min_date = moment(__$from.get(), "DD.MM.YYYY").add(5, 'days').format('L');
+                    max_date = moment(__$from.get(), "DD.MM.YYYY").add(5, 'days').add(1, 'month').format('L');
+                }
+                __$to.set('min', min_date);
+                __$to.set('max', max_date);
             },
             onSet: function (ele) {
                 var picker = this;
