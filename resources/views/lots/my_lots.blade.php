@@ -19,7 +19,6 @@
                     @endif
                 </div>
             </div>
-
             @if(count($lots))
                 <div class="row">
                     <div class="col l9 m7 s12">

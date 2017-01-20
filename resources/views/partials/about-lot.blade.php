@@ -1,4 +1,4 @@
-<div class="bordered divide-top hide-on-small-only">
+<div class="bordered divide-top">
     <div class="block_title">DESPRE LOT</div>
     <div class="person_card">
         <div class="about_lot_single_prod">
@@ -43,9 +43,6 @@
         <div class="about_lot_single_prod">
             <span class="c-gray">Nr. de produse in lot:</span> {{ $productinlot }}
         </div>
-        {{--<div class="about_lot_single_prod">
-            <span class="c-gray">{{$lot->description_delivery}}</span>
-        </div>--}}
         <div class="buttons row">
             <div class="col s12 padd_r_half">
                 <a href="{{ route('view_lot', [ 'id' => $lot->id ]) }}"

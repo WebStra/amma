@@ -200,6 +200,15 @@ Route::multilingual(function () {
         'uses' => 'LotsController@show'
     ]);
 
+    Route::post('vendor/send-message/{vendor}', [
+        'as' => 'vendor_send_message',
+        'middleware' => [
+            'accept-ajax',
+            'auth'
+        ],
+        'uses' => 'VendorController@contactVendor'
+    ]);
+
     /* ----------------------------------------------
      *  Auth routes.
      * ----------------------------------------------
@@ -218,6 +227,7 @@ Route::multilingual(function () {
             'as' => 'post_create_vendor',
             'uses' => 'VendorController@postCreate'
         ]);
+
 
         Route::get('my-vendors', [
             'as' => 'my_vendors',

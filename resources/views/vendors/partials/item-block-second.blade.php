@@ -14,7 +14,7 @@
                         <div class="user-rating">
                             <span class="stars"><span class="bg" style="width: {{ $item->present()->renderPozitiveVotes() }}%"></span></span>
                             <span>{{ $item->present()->renderPozitiveVotes() }}%</span>
-                            <span class="c-gray"> ({{ $item->present()->getLikesNumber() }} de votari)</span>
+                            <span class="c-gray"> ({{ $item->present()->getLikesNumber() }} voturi)</span>
                         </div>
                     </div>
                 </div>

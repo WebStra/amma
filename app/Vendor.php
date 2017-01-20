@@ -53,6 +53,6 @@ class Vendor extends Repository implements SluggableInterface
      */
     public function lots()
     {
-        return $this->hasMany(Lot::class, 'vendor_id', 'id');
+        return $this->hasMany(Lot::class, 'vendor_id', 'id')->where('status','complete')->where('verify_status','verified');
     }
 }

@@ -50,22 +50,6 @@ span.line .c_gray {
   margin: 8px 20px 0 0;
 }
 
-.list-lots .lot .lot-info .lot-info-bottom .countdown {
-  float: right;
-  margin-left: 5px;
-}
-
-.list-lots .lot .lot-info .lot-info-bottom .countdown span {
-  width: 21px;
-  height: 21px;
-  line-height: 22px;
-  font-size: 12px;
-}
-
-.list-lots .lot .lot-info .lot-info-bottom .wrap-countdown {
-  padding-top: 3px;
-}
-
 .list-lots .lot .product .product-content {
   min-height: 130px;
   font-size: 12px;
@@ -402,8 +386,10 @@ section.produs.single_produs .label {
   margin-bottom: 10px;
   padding-right: 19px;
 }
-section.produs.single_produs .countdown {
+
+.countdown {
   display: inline;
+  color: #ff6f00;
 }
 .about_lot_single_prod {
   margin: 4px 0;
@@ -412,4 +398,41 @@ section.produs.single_produs .countdown {
 .show_single_lot.list-lots .lot{
   box-shadow: none;
   margin-top: 0;
+}
+
+.contact_vendor_.modal {
+  max-width: 500px;
+  overflow-x: hidden;
+}
+
+#contact-modal label {
+  width: 100%;
+}
+#contact-modal label:after {
+  -moz-transition-property: all !important;
+  -o-transition-property: all !important;
+  -webkit-transition-property: all !important;
+  transition-property: all !important;
+  font-size: 0.8rem;
+  -moz-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+  -webkit-transform: none;
+  transform: none;
+}
+
+#contact-modal label:not(.active):after {
+  -moz-transform: translateY(-140%);
+  -ms-transform: translateY(-140%);
+  -o-transform: translateY(-140%);
+  -webkit-transform: translateY(-140%);
+  transform: translateY(-140%);
+}
+
+.message_sent_succesful {
+  clear: both;
+  margin: 5px auto;
+  text-align: center;
+  color: green!important;
+  font-size: 16px;
 }

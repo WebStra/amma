@@ -14,11 +14,25 @@
                 <div class="col l9 m12 s12">
                     <div class="row">
                         <div class="col l4 m4 s12">
-                            @if(count($item->images))
-                                @include('product.partials.item.gallery-slider')
-                            @else
-                                <img class="img-responsive" src="/assets/images/product.jpg" alt="">
-                            @endif
+                            <div class="row">
+                                <div class="col l12 m12 s12">
+                                    @if(count($item->images))
+                                        @include('product.partials.item.gallery-slider')
+                                    @else
+                                        <img class="img-responsive" src="/assets/images/product.jpg" alt="">
+                                    @endif
+                                </div>
+                                <div class="col l12 m12 s12 product_vendor_block">
+                                    <div class="bordered divide-top hide-on-small-only">
+                                        <div class="block_title">DESCRIEREA LOTULUI</div>
+                                        <div class="person_card">
+                                            <div class="about_lot_single_prod">
+                                                <span class="c-gray">{{$lot->description_delivery}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col l8 m8 s12 product_info">
                             <h1>{{ $item->present()->renderName() }}</h1>
@@ -226,7 +240,7 @@
                         </div>
                     </div>
                 </div><!--product_info-->
-                <div class="col l3 m3 s12">
+                <div class="col l3 m12 s12">
                     <div class="row">
                         <div class="col l12 m12 s12 product_vendor_block">
                             @include('partials.about-lot')

@@ -14,7 +14,7 @@
                 <span class="small">Itemi: {{$involved->count}}</span>
                 <br>
                 @if($item->lot->verify_status == 'verified')
-                    @include('partials.products.item.countdown')
+                    @include('partials.countdown')
                 @else
                     <span style="display: block; color: red;">Oferta a expirat</span>
                 @endif
@@ -22,7 +22,7 @@
                    href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}">Vezi Produsul</a>
             </div>
         </div>
-        {{--@if($item->lot->verify_status != 'expired')--}}
+        @if($item->lot->verify_status != 'expired')
         <div class="col l6 m6 s12">
             <form class="row childs_margin_top" method="post"
                   action="{{ route('involve_product_cancel', ['involved' => $involved->id, 'product'=>$item->id]) }}">
@@ -31,7 +31,7 @@
                 </button>
             </form>
         </div>
-        {{--@endif--}}
+        @endif
         <div class="col s12">
             @include('partials.products.item.stock')
         </div>

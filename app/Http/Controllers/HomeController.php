@@ -48,11 +48,10 @@ class HomeController extends Controller
     public function registerVisit()
     {
         $ip = \Request::ip();
-        $verify = Visitors::where('ip', $ip)->first();
-        if (count($verify) == 0) {
+
+        if (count(Visitors::where('ip', $ip)->first()) == 0) {
             Visitors::create(['ip' => $ip]);
         }
-
     }
 
 }

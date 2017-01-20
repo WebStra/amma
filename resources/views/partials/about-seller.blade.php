@@ -1,5 +1,5 @@
 @include('auth.auth_modal')
-<div class="bordered divide-top hide-on-small-only">
+<div class="bordered divide-top">
     <div class="block_title">DESPRE VÂNZĂTOR</div>
     <?php if (!$vendor) {
         $vendor = $item->lot->vendor;
@@ -27,6 +27,9 @@
                     <span class="likes_percent"> {{ $vendor->present()->renderPozitiveVotes() }} </span> % positive</p>
             </div>
         </div>
+        <br><span class="c-gray" style="text-align:left; font-size: 12px;">Telefon: <strong>(+373) {{$vendor->phone}}</strong></span>
+        <br><span class="c-gray" style="text-align:left; font-size: 12px;">Email: <strong>{{$vendor->email}}</strong></span>
+        @include('vendors.partials.contact-modal')
         <div class="buttons row">
             <div class="col s6 padd_r_half">
                 <a href="{{ route('view_vendor', ['vendor' => $vendor->slug]) }}"
@@ -34,12 +37,11 @@
                     magazinul</a>
             </div>
             <div class="col s6 padd_l_half">
-                <a href="#" class="btn_ btn_white waves-effect waves-teal f_small right full_width">Contactează-ne</a>
+                <a href="javascript:void(0)" class="btn_ btn_white waves-effect waves-teal f_small right full_width {{(Auth::user()) ? 'contact_modal' : 'set_vote'}}">Contactează-ne</a>
             </div>
         </div>
     </div>
 </div>
-
 @section('scripts')
     @if(Auth::user())
         <script type="text/javascript">
@@ -116,7 +118,6 @@
                 data: form,
                 success: function (data) {
                     var wrap = $('form[data-authtype=' + authtype + '] .auth_errors');
-
                     if (data.errors) {
                         $.each(data.errors, function (input_name, errors) {
                             if ($.isArray(errors)) {
@@ -204,7 +205,7 @@
                     var colorId = $('ul.color_product li:first-child').data('id');
                     $('#color_product').val(colorId);
                     $('.amount_products').html(count);
-                    $('.counting input').attr('max',''+count);
+                    $('.counting input').attr('max', '' + count);
                 },
                 complete: function () {
                     $('ul.sizes_product li').removeClass('notclickable');
@@ -216,7 +217,7 @@
             var id = $(this).data('id');
             var count = $(this).data('count');
             $('.amount_products').html(count);
-            $('.counting input').attr('max',''+count);
+            $('.counting input').attr('max', '' + count);
             $('#color_product').val(id);
             $(this).addClass('active');
 
