@@ -158,6 +158,11 @@ class InvolvedRepository extends Repository
             ->where('product_hash', $hash)
             ->first();
     }
-
+    public function find($id)
+    {
+        return $this->getModel()
+            ->whereId((int) $id)
+            ->first();
+    }
 
 }

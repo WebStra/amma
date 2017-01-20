@@ -3,6 +3,7 @@
 <!-- End of initialize jQuery plugin -->
 
 <!-- Initialize other plugins -->
+{!!Html::script('/assets/plugins/loading-overlay/src/loadingoverlay.min.js')!!}
 {!!Html::script('/assets/plugins/owl/owl.carousel.js')!!}
 {!!Html::script('/assets/plugins/fancybox/jquery.mousewheel-3.0.6.pack.js')!!}
 {!!Html::script('/assets/plugins/fancybox/jquery.fancybox.js')!!}
@@ -21,6 +22,7 @@
 {!!Html::script('/assets/plugins/qtip/jquery.qtip.min.js')!!}
 {!!Html::script('/assets/plugins/toastr/build/toastr.min.js')!!}
 {!!Html::script('/assets/plugins/countdown/jquery.countdown.min.js')!!}
+
 <!-- End of initialize other plugins -->
 
 <!-- Adding other scripts -->

@@ -12,6 +12,7 @@ use App\Repositories\SubCategoriesRepository;
 use App\Repositories\MethodDeliveryPaymentRepository;
 use App\Repositories\LotDeliveryPaymentRepository;
 use App\Repositories\CurrenciesRepository;
+use App\Repositories\InvolvedRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -51,6 +52,8 @@ class LotsController extends Controller
 
     protected $currencies;
 
+    protected $involved;
+
     /**
      * LotsController constructor.
      * @param LotRepository $lotRepository
@@ -67,6 +70,7 @@ class LotsController extends Controller
         MethodDeliveryPaymentRepository $methodDeliveryPaymentRepository,
         LotDeliveryPaymentRepository $lotDeliveryPaymentRepository,
         CurrenciesRepository $currenciesRepository,
+        InvolvedRepository $involvedRepository,
         Guard $auth
     ) {
         $this->lots          = $lotRepository;
@@ -78,6 +82,7 @@ class LotsController extends Controller
         $this->method        = $methodDeliveryPaymentRepository;
         $this->lot_method    = $lotDeliveryPaymentRepository;
         $this->currencies    = $currenciesRepository;
+        $this->involved      = $involvedRepository;
     }
 
     /**
@@ -274,5 +279,20 @@ class LotsController extends Controller
     public function getUser()
     {
         return $this->auth->user();
+    }
+    public function getBuyers(Request $request)
+    {
+        $lot = $this->lots->find($request->get('lot_id'));
+        //dd($lot);
+        if($lot) {
+            dd($lot->involved->groupBy('user_id')->buyer);
+            $buyers = $lot->involved->groupBy('user_id')->buyer;
+            //$buyers = $this->involved->find(318)->buyers->profile;
+            dd($buyers);
+            if ($buyers) {
+                return view('lots.partials.buyers.users', ['buyers' => $buyers, 'lot' => $lot]);
+            }
+        }
+        return false;
     }
 }

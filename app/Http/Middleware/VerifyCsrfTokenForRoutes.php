@@ -37,7 +37,8 @@ class VerifyCsrfTokenForRoutes extends BaseVerifier
         'published_lot',
         'product_specification',
         'product_specification_color',
-        'remove-spec-price-desc'
+        'remove-spec-price-desc',
+        'getBuyers'
 //        'save_product'
     ];
 

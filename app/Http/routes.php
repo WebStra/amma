@@ -238,6 +238,12 @@ Route::multilingual(function () {
             'uses' => 'LotsController@myLots'
         ]);
 
+        Route::post('get-buyers', [
+            'as'         => 'getBuyers',
+            'middleware' => 'accept-ajax',
+            'uses'       => 'LotsController@getBuyers'
+        ]);
+
         Route::get('lots/create/{vendor}', [
             'as' => 'add_lot',
             'uses' => 'LotsController@create'

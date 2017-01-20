@@ -42,7 +42,7 @@ class EditLotMiddleware
     {
         if($lot = $request->route('lot'))
         {
-            if (in_array($lot->verify_status, array('expired','declined')) or $lot->status == 'drafted') {
+            if (in_array($lot->verify_status, array('expired','declined','drafted')) or $lot->status == 'drafted') {
                return $next($request);
             }else{
                 abort('404');

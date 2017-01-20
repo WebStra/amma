@@ -40,8 +40,8 @@
                 </div>
             @endif
             <div class="label">
-                <div class="c-gray">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span>
-                </div>
+                <!-- Modal Trigger -->
+                <div class="c-gray"><a data-lot-id="{{$lot->id}}" data-target="modal" href="#number-buyers">Nr. de cumparatori: <span>{{$lot->involved->groupBy('user_id')->count()}}</span></a></div>
             </div>
             @if(! empty($lot->present()->endDate()))
                 <div class="label wrap-countdown" style=''><span class="c-gray">Timp ramas:</span>

@@ -75,7 +75,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('sum_complet') }}</span>
-                                <input type="text" title="{{ $meta->getMeta('sum_complet') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
+                                <input type="text" maxlength="9" title="{{ $meta->getMeta('sum_complet') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="input-amount iText" required="" name="yield_amount" value="{{ old('yield_amount') ? old('yield_amount') : $lot->yield_amount }}"
                                        placeholder="0.00">
                                 <span class="comision info-label"><i>{{ $meta->getMeta('label_comision').' '.settings()->getOption('site::yield_amount')}} MDL: <span class="comision-val">{{($lot->comision >= settings()->getOption('site::yield_amount'))? $lot->comision : settings()->getOption('site::yield_amount')}}</span> MDL</i></span>
                                 <input type="hidden" class="js-comision" value="{{($lot->comision >= settings()->getOption('site::yield_amount'))? $lot->comision : settings()->getOption('site::yield_amount')}}" name="comision">
@@ -438,11 +438,11 @@ $(document).ready(function() {
             });
             $(form).find("input.old_price").rules("add", {
                     required: true,
-                    range: [0, 1000000]
+                    range: [0, 100000000]
             });
             $(form).find("input.new_price").rules("add", {
                     required: true,
-                    range: [0, 1000000],
+                    range: [0, 100000000],
                     check_new_price:true
             });
         }
@@ -854,7 +854,7 @@ $(document).ready(function() {
                     rules:{
                         yield_amount:{
                             required: true,
-                            range: [2, 1000000],
+                            range: [2, 1000000000],
                         }
                     }
             }); 

@@ -143,7 +143,7 @@
             comisionForLot(currency_id,sum,procent);
         });
 
-        $('input.input-amount').keyup(function (event) {
+        $('input.input-amount').on('blur change keyup', function (event) {
             var procent     = $('#parent_category').find(':selected').data('procent');
             var sum         = $(this).val();
             var currency_id = $("select[name=currency]").find(':selected').val();
@@ -151,15 +151,18 @@
         });
 
         function comisionForLot(currency_id=null, sum, procent){
-            var comision = sum / 100 * procent;
-            if (currency_id == 1) {
-                comision *= parseFloat("{{ $usd }}");
-            }else if(currency_id == 2){
-                comision *= parseFloat("{{ $eur }}");
-            }
-            comision = Math.round(comision).toFixed(0);
-            if (comision < parseInt("{{settings()->getOption('site::yield_amount')}}")) {
-                comision = "{{settings()->getOption('site::yield_amount')}}";
+            var comision = "{{settings()->getOption('site::yield_amount')}}";
+            if (!isNaN(sum)) {
+                comision = sum / 100 * procent;
+                if (currency_id == 1) {
+                    comision *= parseFloat("{{ $usd }}");
+                }else if(currency_id == 2){
+                    comision *= parseFloat("{{ $eur }}");
+                }
+                comision = Math.round(comision).toFixed(0);
+                if (comision < parseInt("{{settings()->getOption('site::yield_amount')}}")) {
+                    comision = "{{settings()->getOption('site::yield_amount')}}";
+                }
             }
             $('.comision-val').text(comision);
             $('.js-comision').val(comision);
@@ -187,6 +190,7 @@
          });
          });*/
     });
+
     moment.locale('ro');
     $(function (){
         var $from   = $(".datepicker-from");
@@ -205,6 +209,7 @@
                 __$from = this;
             },
             onSet: function (ele) {
+                $($from).valid();
                 var picker = this;
                 __$to.set('min', picker.get());
                 if(ele.select){
@@ -256,6 +261,7 @@
                 __$to.set('max', max_date);
             },
             onSet: function (ele) {
+                $($to).valid();
                 var picker = this;
                 //picker.close();
                 if(ele.select){

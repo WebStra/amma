@@ -27,6 +27,10 @@ class Involved extends Repository
         return $this->belongsTo(User::class);
     }
 
+    public function buyer()
+    {
+        return $this->hasOne(User::class, 'user_id', 'id');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

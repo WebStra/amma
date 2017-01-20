@@ -33,4 +33,52 @@
             @endif
         </div>
     </div>
+    <!-- Modal Structure -->
+    <div id="number-buyers" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+@endsection
+
+@section('js')
+    <script>
+          $(document).ready(function(){
+            var inProcess = false;
+            $('a[data-target="modal"]').click(function(event) {
+                //$.LoadingOverlay("show", {color: "rgba(255, 255, 255, 0.9)"});
+                 if (!inProcess) {
+                    var id = $(this).data('lot-id');
+                    $.ajax({
+                        url: "{{route('getBuyers')}}",
+                        data: {lot_id:id},
+                        method: 'post',
+                        beforeSend: function () {
+                            inProcess = true;
+                        },
+                        success: function (respons) {
+                            if (respons) {
+                                $('#number-buyers .modal-content').html(response);
+                                $.LoadingOverlay("hide")
+                                $('#number-buyers').openModal({dismissible: true,opacity: .5,in_duration: 300,out_duration: 200});
+                            }else{
+                                $('#number-buyers .modal-content').html("<h3>Nothing</h3>");
+                            }
+                        },
+                        error: function(respons){
+
+                        }
+                    }).done(function( data ) {
+                        inProcess = false;
+                    });
+                }else{
+                    //$("html, body").animate({ scrollTop: "200px" });
+                }
+            });
+          });
+    </script>
 @endsection

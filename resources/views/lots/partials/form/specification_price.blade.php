@@ -26,7 +26,7 @@
     <div class="col l4 s12">
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('old_price') }}</span>
-            <input type="text" title="{{ $meta->getMeta('old_price') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." required="required" maxlength="7" class="old_price iText" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][old_price]"
+            <input type="text" title="{{ $meta->getMeta('old_price') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." required="required" maxlength="9" class="old_price iText" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][old_price]"
                    value="{{ isset($spec->old_price) ? $spec->old_price : '' }}"
                    placeholder="0.00">
             @if(count($currencies))
@@ -39,7 +39,7 @@
     <div class="col l4 s12 ">
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('new_price') }}</span>
-            <input type="text" title="{{ $meta->getMeta('new_price') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." required="required" maxlength="7" class="new_price iText" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][new_price]"
+            <input type="text" title="{{ $meta->getMeta('new_price') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." required="required" maxlength="9" class="new_price iText" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][new_price]"
                    value="{{ isset($spec->new_price) ? $spec->new_price : '' }}"
                    placeholder="0.00">
             @if(count($currencies))
