@@ -57,6 +57,7 @@ class CategoriesController extends Controller
      */
     public function show(Request $request, $category, $subcategory = null)
     {
+        //dd($subcategory);
         $groups = $this->tags->getCategoryTagGroups($category, $subcategory);
 
         $filtered = $this->applyFilter($request, $category, $subcategory, 12);

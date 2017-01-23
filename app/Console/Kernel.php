@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\GetCurrency::class,
+        Commands\UpdateStatusLot::class,
     ];
 
     /**
@@ -25,5 +26,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('get:currency')->everyMinute();
+        $schedule->command('update:verify_status')->everyMinute();
     }
 }

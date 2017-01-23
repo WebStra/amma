@@ -56,7 +56,8 @@ class Lot extends Repository
         'description_delivery',
         'description_payment',
         'sell_status',
-        'comision_extract'
+        'comision_extract',
+        'expired_status'
     ];
 
     protected $dates = [
