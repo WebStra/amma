@@ -149,6 +149,46 @@ class UsersController extends Controller
 
     /**
      * @param $lot
+     * @return array
+     */
+    public function getUserProducstInvolved($lot)
+    {
+        $array = [];
+
+        foreach ($lot->involved->unique('user_id') as $item) {
+            $array[] = [
+                'user' => [
+                    'id'        => $item->user->id,
+                    'firstname' => $item->user->profile->firstname,
+                    'lastname'  => $item->user->profile->lastname,
+                    'email'     => $item->user->email,
+                    'phone'     => $item->user->profile->phone,
+                    'count'     => $item->count,
+                    'products'  => $this->getProductsInvolved($item->lot_id, $item->user_id)
+                ],
+            ];
+        }
+        return $array;
+    }
+
+    public function getProductsInvolved($lot_id, $user_id)
+    {
+        $products = [];
+        $getUserInvolved = $this->involved->getUserInvolved($lot_id, $user_id);
+        foreach ($getUserInvolved as $item) {
+            $products[] = [
+                'name'         => $item->price->name,
+                'price'        => $item->price->new_price,
+                'count'        => $item->count,
+                'color'        => $item->involvedColor->color_hash,
+                'size'         => $item->improvedSpec->size,
+                'product_hash' => $item->product_hash,
+            ];
+        }
+        return $products;
+    }
+    /**
+     * @param $lot
      */
     public function sendVendorMessage($lot)
     {
@@ -163,10 +203,12 @@ class UsersController extends Controller
     /**
      * @param $lot
      */
+
     public function sendUsersMessage($lot)
     {
         $users = $this->userinvolvedList($lot);
-
+        /*$users = $this->getUserProducstInvolved($lot);
+        $send_email = array_pluck($users, 'email');*/
         $emails = [];
 
         foreach ($users as $item) {

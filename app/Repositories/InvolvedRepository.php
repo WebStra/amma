@@ -117,6 +117,20 @@ class InvolvedRepository extends Repository
     }
 
     /**
+     * @param $lot_id
+     * @param user_id
+     * @return mixed
+     */
+    public function getUserInvolved($lot_id, $user_id, $active = true)
+    {
+        return $this->getModel()
+            ->where('lot_id', $product->id)
+            ->where('user_id', $user_id)
+            ->active($active)
+            ->get();
+    }
+
+    /**
      * Count rules.
      *
      * @return string
