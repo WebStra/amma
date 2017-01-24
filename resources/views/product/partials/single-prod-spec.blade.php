@@ -24,16 +24,16 @@
                             <div class="" >
                                 <div class="" style="padding: 0 25px 25px;">
 
-                                    <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>
-                                    <br>
-                                    <!---Status---->
+                                    <!-- <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span> 
+                                    <br>-->
+                                    <!---Status-->
                                     <div class="row display_form_items_inline">
                                         <div class="col l12 m12 s12">
                                             <h5>Produs: <strong>{{$comand->specPrice->name}}</strong></h5>
                                         </div>
                                     </div>
                                     <br>
-                                    <!--sizes--->
+                                    <!--sizes-->
                                     @if(isset($comand->improvedSpec))
                                     <div class="row">
                                         <div class="col l12 m12 s12">
@@ -43,7 +43,7 @@
                                     <br>
                                     @endif
                                     @if(isset($comand->involvedColor))
-                                    <!---Color---->
+                                    <!---Color-->
                                     <div class="row">
                                         <div class="col l12 m12 s12">
                                             <h5>Culoare: <strong
