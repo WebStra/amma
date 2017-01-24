@@ -135,7 +135,6 @@ class VendorController extends Controller
             $positive_like_percent = 0; 
         }
 
-
         return json_encode([
             'likes' => $vendor->getLikes('like')->count(),
             'dislikes' => $vendor->getLikes('dislike')->count(),
@@ -155,7 +154,7 @@ class VendorController extends Controller
 
     private function sendEmail($request,$vendor)
     {
-        \Mail::send('email.vendor-contact', compact('request'), function (Message $message) use ($request,$vendor) {
+        \Mail::send('emails.vendor-contact', compact('request'), function (Message $message) use ($request,$vendor) {
             $message->to($vendor, sprintf('%s %s', $request->email, $request->token))
                 ->subject("Amma message!");
         });

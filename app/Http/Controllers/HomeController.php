@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CategoryRepository;
 use App\Repositories\ProductsRepository;
 use Request;
 use App\Visitors;
@@ -16,6 +17,11 @@ class HomeController extends Controller
      * @var ProductsRepository
      */
     protected $products;
+
+    /**
+     * @var CategoryRepository
+     */
+    protected $category;
 
     /**
      * HomeController constructor.
@@ -38,6 +44,8 @@ class HomeController extends Controller
 
             return view('home.search_result', compact('products'));
         }
+
+        $category = $this->category;
 
         return view('home.index');
     }

@@ -8,8 +8,11 @@ use App\Repositories\InvolvedRepository;
 use App\Repositories\LotRepository;
 use App\Repositories\ModelColorsRepository;
 use App\Repositories\SpecPriceRepository;
+use App\Repositories\UserRepository;
 use File;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 
 /**
  * Class UsersController
@@ -38,18 +41,25 @@ class UsersController extends Controller
     protected $color;
 
     /**
+     * @var UserRepository
+     */
+    protected $user;
+
+    /**
      * UsersController constructor.
      * @param InvolvedRepository $involvedRepository
      */
     public function __construct(InvolvedRepository $involvedRepository,
                                 LotRepository $lotRepository,
                                 SpecPriceRepository $specPriceRepository,
-                                ModelColorsRepository $modelColorsRepository
+                                ModelColorsRepository $modelColorsRepository,
+                                UserRepository $userRepository
     )
     {
         $this->color = $modelColorsRepository;
         $this->involved = $involvedRepository;
         $this->lot = $lotRepository;
+        $this->user = $userRepository;
         $this->specs = $specPriceRepository;
     }
 
@@ -63,7 +73,6 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
-
         $color = $this->color->findRowById($request->color_product);
 
         if (isset($color->amount) && $color->amount <= 0) {
@@ -84,6 +93,8 @@ class UsersController extends Controller
 
         if ($selledPrice >= $product->lot->yield_amount) {
             $product->lot->update(['verify_status' => 'expired']);
+            $this->sendVendorMessage($product->lot);
+            $this->sendUsersMessage($product->lot);
             return redirect()->back()->with(['status' => 'Oferta este finisata!', 'color' => 'green']);
         }
 
@@ -109,6 +120,64 @@ class UsersController extends Controller
             $product->lot->update(['verify_status' => 'verified']);
         }
         return redirect()->back()->with(['status' => 'Success! You are exit from product offer. Remaining attempts (' . $remaining . ')', 'color' => 'green']);
+    }
+
+    /**
+     * @param $lot
+     * @return array
+     */
+    public function userinvolvedList($lot)
+    {
+        $array = [];
+
+        foreach ($lot->involved as $item) {
+
+            $array[] = [
+                'user' => [
+                    'id' => $item->user->id,
+                    'firstname' => $item->user->profile->firstname,
+                    'lastname' => $item->user->profile->lastname,
+                    'email' => $item->user->email,
+                    'phone' => $item->user->profile->phone,
+                    'count' => $item->count,
+                    'product_hash' => $item->product_hash,
+                ],
+            ];
+        }
+        return $array;
+    }
+
+    /**
+     * @param $lot
+     */
+    public function sendVendorMessage($lot)
+    {
+        $users = $this->userinvolvedList($lot);
+
+        \Mail::send('emails.lot-expired-vendor', compact('users','lot'), function (Message $message) use ($users, $lot) {
+            $message->to($lot->vendor->email)
+                ->subject("Lotul a expirat");
+        });
+    }
+
+    /**
+     * @param $lot
+     */
+    public function sendUsersMessage($lot)
+    {
+        $users = $this->userinvolvedList($lot);
+
+        $emails = [];
+
+        foreach ($users as $item) {
+            $emails[] = $item['user']['email'];
+        }
+
+        $vendor = $lot->vendor;
+
+        \Mail::send('emails.lot-expired-users', compact('emails','vendor','lot'), function (Message $message) use ($emails,$vendor,$lot) {
+            $message->to(array_unique($emails))->subject('Oferta este finisata!');
+        });
     }
 
     /**

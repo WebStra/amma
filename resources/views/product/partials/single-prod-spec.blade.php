@@ -23,9 +23,6 @@
                         <div class="col s8">
                             <div class="" >
                                 <div class="" style="padding: 0 25px 25px;">
-
-                                    <span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>
-                                    <br>
                                     <!---Status---->
                                     <div class="row display_form_items_inline">
                                         <div class="col l12 m12 s12">

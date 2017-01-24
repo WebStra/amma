@@ -620,6 +620,7 @@ $(document).ready(function () {
             data: form,
             success: function (data) {
                $('.message_sent_succesful').html('Mesajul a fost trimis cu succes!');
+                btn.parents('form')[0].reset();
             },
             error: function(data) {
                 var value = JSON.parse(data.responseText);

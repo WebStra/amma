@@ -166,29 +166,7 @@ class ProductsController extends Controller
             $view = abort(404);
         }
         return  $view;
-
-//        window.open('{{route('view_single_prod_spec',['involve'=>$involved])}}', 'Product', 'width=400, height=550'); return false;
     }
-
-
-    /*    public function convertAmount(){
-            $xml = XmlParser::load('http://www.bnm.org/ro/official_exchange_rates?get_xml=1&date='.date("d.m.Y"));
-
-            $parsed = $xml->parse([
-                'cursToDay' => ['uses' => 'Valute[CharCode,Value]'],
-            ]);
-
-            $currency = array('EUR','USD');
-            $json = array();
-            foreach ($parsed as $key => $item) {
-                foreach ($item as $key => $val) {
-                    if (in_array($val['CharCode'], $currency)) {
-                        $json[$val['CharCode']] = $val['Value'];
-                    }
-                }
-            }
-            $put = Storage::put('json_currency.json', json_encode($json));
-        }*/
 
     public function getSalledPercent($id)
     {
