@@ -92,6 +92,10 @@ Route::bind('provider', function($provider){
     abort('404');
 });
 
+Route::get('emails',function (){
+   return view('emails.lot-expired-users');
+});
+
 Route::multilingual(function () {
     Route::get('lot', function(){
         return view('html.lot');

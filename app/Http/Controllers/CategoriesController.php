@@ -11,8 +11,14 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+    /**
+     *
+     */
     const FILTER_DYNAMIC = 'dynamic';
 
+    /**
+     *
+     */
     const FILTER_STATIC = 'static';
 
     /**

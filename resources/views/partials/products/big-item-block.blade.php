@@ -19,7 +19,7 @@
                     <span style="display: block; color: red;">Oferta a expirat</span>
                 @endif
                 <a class="put_in_basket"
-                   href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}">Vezi Produsul</a>
+                   href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}" style="font-size: 14px; color: #ff6f00;">Detalii</a>
             </div>
         </div>
         @if($item->lot->verify_status != 'expired')
