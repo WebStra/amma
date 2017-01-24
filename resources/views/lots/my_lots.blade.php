@@ -35,12 +35,11 @@
     <!-- Modal Structure -->
     <div id="number-buyers" class="modal">
         <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+            <h4>Nothing</h4>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+<!--         <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+</div> -->
     </div>
 @endsection
 
@@ -49,7 +48,7 @@
           $(document).ready(function(){
             var inProcess = false;
             $('a[data-target="modal"]').click(function(event) {
-                //$.LoadingOverlay("show", {color: "rgba(255, 255, 255, 0.9)"});
+                $.LoadingOverlay("show", {color: "rgba(255, 255, 255, 0.9)"});
                  if (!inProcess) {
                     var id = $(this).data('lot-id');
                     $.ajax({
@@ -59,19 +58,17 @@
                         beforeSend: function () {
                             inProcess = true;
                         },
-                        success: function (respons) {
-                            if (respons) {
-                                $('#number-buyers .modal-content').html(response);
+                        success: function (view) {
+                            if (view != 'false') {
+                                $('#number-buyers .modal-content').html(view);
                                 $.LoadingOverlay("hide")
                                 $('#number-buyers').openModal({dismissible: true,opacity: .5,in_duration: 300,out_duration: 200});
-                            }else{
-                                $('#number-buyers .modal-content').html("<h3>Nothing</h3>");
                             }
                         },
-                        error: function(respons){
+                        error: function(view){
 
                         }
-                    }).done(function( data ) {
+                    }).done(function( view ) {
                         inProcess = false;
                     });
                 }else{

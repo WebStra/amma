@@ -78,11 +78,11 @@ class TagRepository extends Repository
 
 //        if($category)
 //            $query->where('category_id', $category->id);
-
         $mixed_groups = $query
             ->active()
             ->pluck('group')
             ->toArray();
+
 
         $groups = [];
         array_walk($mixed_groups, function($group, $id) use (&$groups) {

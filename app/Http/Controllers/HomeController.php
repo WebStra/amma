@@ -6,7 +6,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ProductsRepository;
 use Request;
 use App\Visitors;
-
+use Carbon\Carbon;
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -38,7 +38,6 @@ class HomeController extends Controller
     public function index()
     {
         $this->registerVisit();
-
         if ($filters = request()->all()) {
             $products = $this->products->search($filters);
 
