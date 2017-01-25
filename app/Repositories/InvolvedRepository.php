@@ -124,7 +124,7 @@ class InvolvedRepository extends Repository
     public function getUserInvolved($lot_id, $user_id, $active = true)
     {
         return $this->getModel()
-            ->where('lot_id', $product->id)
+            ->where('lot_id', $lot_id)
             ->where('user_id', $user_id)
             ->active($active)
             ->get();

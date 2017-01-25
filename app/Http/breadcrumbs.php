@@ -142,3 +142,8 @@ Breadcrumbs::register('edit_vendor', function ($breadcrumbs, $vendor) {
     //todo: dashoboard.
     $breadcrumbs->push('Edit Vendor', route('edit_vendor', $vendor->id));
 });
+
+Breadcrumbs::register('my_history', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Istoria Cumparatorilor', route('my_history'));
+});

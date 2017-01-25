@@ -177,12 +177,13 @@ class UsersController extends Controller
         $getUserInvolved = $this->involved->getUserInvolved($lot_id, $user_id);
         foreach ($getUserInvolved as $item) {
             $products[] = [
-                'name'         => $item->price->name,
-                'price'        => $item->price->new_price,
+                'name'         => $item->specPrice->name,
+                'price'        => $item->specPrice->new_price,
                 'count'        => $item->count,
                 'color'        => $item->involvedColor->color_hash,
                 'size'         => $item->improvedSpec->size,
                 'product_hash' => $item->product_hash,
+                'total' => $item->specPrice->new_price * $item->count,
             ];
         }
         return $products;
@@ -206,20 +207,21 @@ class UsersController extends Controller
 
     public function sendUsersMessage($lot)
     {
-        $users = $this->userinvolvedList($lot);
-        /*$users = $this->getUserProducstInvolved($lot);
-        $send_email = array_pluck($users, 'email');*/
-        $emails = [];
-
-        foreach ($users as $item) {
-            $emails[] = $item['user']['email'];
-        }
+        $users = $this->getUserProducstInvolved($lot);
 
         $vendor = $lot->vendor;
 
-        \Mail::send('emails.lot-expired-users', compact('emails','vendor','lot'), function (Message $message) use ($emails,$vendor,$lot) {
-            $message->to(array_unique($emails))->subject('Oferta este finisata!');
-        });
+        foreach($users as $user)
+        {
+            $email = $user['user']['email'];
+
+            $products =$user['user']['products'];
+
+            \Mail::send('emails.lot-expired-users', compact('vendor','lot','products'), function (Message $message) use ($email,$vendor,$lot,$products) {
+                $message->to($email)->subject('Oferta este finisata!');
+            });
+        }
+
     }
 
     /**

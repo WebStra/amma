@@ -1,3 +1,3 @@
 @if(session()->has('status'))
-    <span class="hidden" data-color="red" data-notification>{{ session()->get('status') }}</span>
+    <span class="hidden" data-color="{{session()->get('color')}}" data-notification>{{ session()->get('status') }}</span>
 @endif

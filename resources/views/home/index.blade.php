@@ -40,7 +40,7 @@
                                     <a href="{{ route('view_category', ['category' => str_slug($popular_category->slug)]) }}" class="wrapp_img categorie img_hover_over">
                                         <div class="text">
                                             <h6>{{ $popular_category->present()->renderName(true) }}</h6>
-                                            <h3>CATEGORIE POPULARĂ</h3>
+                                            <h3>{{$meta->getMeta('home-popular-category')}}</h3>
                                         </div>
                                         <img src="{{ $popular_category->present()->cover() }}">
                                     </a>

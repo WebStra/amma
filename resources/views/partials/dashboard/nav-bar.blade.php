@@ -14,9 +14,9 @@
                 <?php $current= Route::currentRouteName();?>
                 <ul class="links_to">
                     <li><a {{ $current == 'how_work' ? 'class=active' : '' }} href="{{route('how_work')}}">Cum functioneaza Amma</a></li>
-                    <li><a href="#">Oferrtele active</a></li>
+                    <li><a {{ $current == 'my_involved' ? 'class=active' : '' }} href="{{ route('my_involved',['type'=>'involve']) }}">Oferrtele active</a></li>
                     <li><a href="#">Ofertele salvate</a></li>
-                    <li><a href="#">Istoria Cumparaturilor</a></li>
+                    <li><a {{ $current == 'my_history' ? 'class=active' : '' }} href="{{ route('my_history',['type'=>'involve']) }}">Istoria Cumparaturilor</a></li>
                     <li><a {{ $current == 'settings' ? 'class=active' : '' }} href="{{ route('settings') }}">{!! $meta->getMeta('top_bar_settings') !!}</a></li>
                 </ul>
             </div>

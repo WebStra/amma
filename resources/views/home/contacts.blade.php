@@ -86,7 +86,6 @@
         function initialize() {
             var mapCanvas = document.getElementById('map');
             var latlng = new google.maps.LatLng({{ settings()->getOption('contact_map::coords', '47.046820,28.888806') }});
-            /*  console.log(cordonate);*/
             var mapOptions = {
                 center: latlng,
                 zoom: 15,

@@ -2,7 +2,6 @@
 
 @section('content')
     @include('blog.partials.subscribe_form')
-
     <section class="produs">
         <div class="container">
             <div class="row">
@@ -16,13 +15,12 @@
                 <!--l9-->
                 <div class="col l3 m12 s12">
                     <div class="bordered  elements aside">
-                        <div class="block_title">ARTICOLE POPULARE</div>
+                        <div class="block_title">{{$meta->getMeta('blog-popular-articles')}}</div>
 
                         @include('blog.partials.popular-sidebar')
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col l9 m12 s12">
                     <div class="paginate_container">

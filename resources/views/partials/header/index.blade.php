@@ -99,9 +99,8 @@
                         </a>
                     </div>
                 </nav>
-
                 @if(Auth::check())
-                    <?php $involved = count(Auth::user()->involved()->active()->where('type', 'involve')->get()) ?>
+                    <?php $involved = $involvecount; ?>
                     <a href="{{ route('my_involved',['type'=>'involve']) }}" class="cart btn_"><span>{!! $meta->getMeta('top_menu_particip') !!}
                             ({{ $involved >= 1 ? $involved : 0 }})</span></a>
                 @endif
