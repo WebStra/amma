@@ -132,7 +132,6 @@
                         });
                         return;
                     }
-
                     if (data.redirect) {
                         window.location.href = data.redirect;
                         return;
@@ -158,15 +157,12 @@
             $('.old_price span').html(element.data('old-price') + ' ' + currency);
             $('#salePrice span').html(element.data('sale'));
             $('#economy span').html(element.data('old-price') - element.data('new-price'));
-            if (currency == 'USD') {
-
-                var valute = '{{$usd}}';
+            if(currency == 'USD') {
+                $('.conver_mdl span').html(Math.round(element.data('new-price') * '{{$usd}}'));
             }
             else {
-                var valute = '{{$euro}}';
+                $('.conver_mdl span').html(Math.round(element.data('new-price') * '{{$euro}}'));
             }
-            $('.conver_mdl span').html(Math.round(element.data('new-price') * valute));
-
             $('ul.sizes_product li').remove();
             $('ul.color_product li').remove();
             var id = element.data('product-id');
@@ -197,15 +193,11 @@
                 data: {id: id},
                 success: function (data) {
                     var out = JSON.parse(data);
-                    $.each(out, function (i, val) {
-                        $('.color_product').append('<li data-count="' + val.amount + '" data-id="' + val.id + '" style="background:' + val.color_hash + ';"></li>');
-                    });
+                    $('.color_product').html(out.colorHTML);
                     $('ul.color_product li:first-child').addClass('active');
-                    var count = $('ul.color_product li:first-child').data('count');
-                    var colorId = $('ul.color_product li:first-child').data('id');
-                    $('#color_product').val(colorId);
-                    $('.amount_products').html(count);
-                    $('.counting input').attr('max', '' + count);
+                    $('#color_product').val(out.colorId);
+                    $('.amount_products').html(out.colorAmount);
+                    $('.counting input').attr('max', '' + out.colorAmount);
                 },
                 complete: function () {
                     $('ul.sizes_product li').removeClass('notclickable');
@@ -220,7 +212,6 @@
             $('.counting input').attr('max', '' + count);
             $('#color_product').val(id);
             $(this).addClass('active');
-
         });
     </script>
 

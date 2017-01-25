@@ -26,6 +26,10 @@ use App\Repositories\UnitRepository;
 use XmlParser;
 use Storage;
 
+/**
+ * Class ProductsController
+ * @package App\Http\Controllers
+ */
 class ProductsController extends Controller
 {
     /**
@@ -62,8 +66,17 @@ class ProductsController extends Controller
      * @var ImprovedSpec
      */
     protected $improvedSpecs;
+    /**
+     * @var SpecPriceRepository
+     */
     protected $specPrice;
+    /**
+     * @var CurrenciesRepository
+     */
     protected $currencies;
+    /**
+     * @var UnitRepository
+     */
     protected $units;
 
     /**
@@ -89,16 +102,16 @@ class ProductsController extends Controller
         UnitRepository $unitsRepository
     )
     {
-        $this->session       = $session;
-        $this->products      = $productsRepository;
-        $this->categoryable  = $categoryableRepository;
-        $this->modelColors   = $modelColorsRepository;
-        $this->involved      = $involvedRepository;
-        $this->lots          = $lotRepository;
+        $this->session = $session;
+        $this->products = $productsRepository;
+        $this->categoryable = $categoryableRepository;
+        $this->modelColors = $modelColorsRepository;
+        $this->involved = $involvedRepository;
+        $this->lots = $lotRepository;
         $this->improvedSpecs = $improvedSpecRepository;
-        $this->specPrice     = $specPriceRepository;
-        $this->currencies    = $currenciesRepository;
-        $this->units         = $unitsRepository;
+        $this->specPrice = $specPriceRepository;
+        $this->currencies = $currenciesRepository;
+        $this->units = $unitsRepository;
 
     }
 
@@ -160,6 +173,10 @@ class ProductsController extends Controller
             ->withSame($same_products);
     }
 
+    /**
+     * @param $hash
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function singleProdSpec($hash)
     {
         $comand = $this->involved->getByHash($hash);
@@ -169,9 +186,13 @@ class ProductsController extends Controller
         } else {
             $view = abort(404);
         }
-        return  $view;
+        return $view;
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function getSalledPercent($id)
     {
         $count = $this->products->getCount($id);
@@ -182,6 +203,9 @@ class ProductsController extends Controller
     }
 
 
+    /**
+     * @return string
+     */
     public function getSpecifications()
     {
 
@@ -191,13 +215,30 @@ class ProductsController extends Controller
         return json_encode($getSpecification);
     }
 
+    /**
+     * @return string
+     */
     public function getSpecificationsColor()
     {
-
         $request = \Request::all();
         $getSpecificationColor = $this->modelColors->getById($request['id']);
+        $colors = $this->generateHtmColor($getSpecificationColor);
+        $thirstId = $getSpecificationColor->first();
 
-        return json_encode($getSpecificationColor);
+        return json_encode(['colorHTML' => $colors, 'colorId' => $thirstId->id, 'colorAmount' => $thirstId->amount]);
+    }
+
+    /**
+     * @param $colorColection
+     * @return array
+     */
+    public function generateHtmColor($colorColection)
+    {
+        $html = [];
+        foreach ($colorColection as $item) {
+            $html[] = "<li data-count=" . $item['amount'] . " data-id=" . $item['id'] . " style='background:" . $item['color_hash'] . ";'></li>";
+        }
+        return $html;
     }
 
 
@@ -244,6 +285,10 @@ class ProductsController extends Controller
     }
 
 
+    /**
+     * @param $request
+     * @param Product $product
+     */
     private function saveSpecificationsPrice($request, Product $product)
     {
         //dd($request->get('spec_price'));
@@ -284,6 +329,10 @@ class ProductsController extends Controller
         }
     }
 
+    /**
+     * @param $specs
+     * @param $product
+     */
     private function saveImprovedSpecifications($specs, $product)
     {
         array_walk($specs, function ($data, $product) {
@@ -313,6 +362,9 @@ class ProductsController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     */
     public function removeSpecPrice(Request $request)
     {
         $spec = $this->specPrice->find($request->get('spec_id'));
@@ -429,15 +481,24 @@ class ProductsController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param Lot $lot
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadSpecPrice(Request $request, Lot $lot)
     {
         $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
         $product = $this->products->find($request->get('product_id'));
         $currencies = $this->currencies->getPublic();
-        $units      = $this->units->getPublic();
+        $units = $this->units->getPublic();
         return view('lots.partials.form.specification_price', ['currencies' => $currencies, 'units' => $units, 'lot' => $lot, 'product' => $product]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadSpecPriceDescription(Request $request)
     {
         $key_desc = ($request->has('key_desc')) ? $request->get('key_desc') : 1;
@@ -445,6 +506,10 @@ class ProductsController extends Controller
         return view('lots.partials.form.description_specs', ['key_spec' => $key_spec, 'key_desc' => $key_desc]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadImprovedSpecPrice(Request $request)
     {
         $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
@@ -452,6 +517,10 @@ class ProductsController extends Controller
         return view('lots.partials.form.size_specs', ['key_spec' => $key_spec, 'key_size' => $key_size]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadSpecPriceColor(Request $request)
     {
         $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
@@ -460,12 +529,20 @@ class ProductsController extends Controller
         return view('lots.partials.form.color_specs', ['key_spec' => $key_spec, 'key_size' => $key_size, 'key_color' => $key_color]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadSpec(Request $request)
     {
         $key_spec_product = ($request->has('key_spec_product')) ? $request->get('key_spec_product') : 1;
         return view('lots.partials.form.specification', ['key_spec_product' => $key_spec_product]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function removeGroupPrice(Request $request)
     {
         $spec = $this->specPrice->findKey($request->get('key'));
@@ -476,6 +553,10 @@ class ProductsController extends Controller
         return response(array('type' => true));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function removeSpecPriceDescription(Request $request)
     {
         $spec = $this->specPrice->findKey($request->get('key_price'));
@@ -485,6 +566,10 @@ class ProductsController extends Controller
         return response(array('type' => true));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function removeGroupSizeColor(Request $request)
     {
         $spec = $this->improvedSpecs->findKey($request->get('key'));
@@ -494,6 +579,10 @@ class ProductsController extends Controller
         return response(array('type' => true));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function removeSpecPriceColor(Request $request)
     {
         $spec = $this->modelColors->findKey($request->get('key'));
