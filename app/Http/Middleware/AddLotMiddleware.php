@@ -56,9 +56,9 @@ class AddLotMiddleware
                         $lot->verify_status    = Lot::STATUS_VERIFY_PENDING;
                         $lot->sell_status      = Lot::STATUS_SELL_DEFAULT;
                         $lot->comision_extract = 'No';
+                    }else{
+                       return response('No amount',402);
                     }
-                    return response('No amount',402);
-
                 }
                 $lot->save();
                 return $next($request);
