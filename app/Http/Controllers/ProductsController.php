@@ -22,6 +22,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Session\Store;
 use App\Repositories\ProductsRepository;
 use App\Repositories\CurrenciesRepository;
+use App\Repositories\UnitRepository;
 use XmlParser;
 use Storage;
 
@@ -63,6 +64,7 @@ class ProductsController extends Controller
     protected $improvedSpecs;
     protected $specPrice;
     protected $currencies;
+    protected $units;
 
     /**
      * ProductsController constructor.
@@ -83,18 +85,20 @@ class ProductsController extends Controller
         LotRepository $lotRepository,
         ImprovedSpecRepository $improvedSpecRepository,
         SpecPriceRepository $specPriceRepository,
-        CurrenciesRepository $currenciesRepository
+        CurrenciesRepository $currenciesRepository,
+        UnitRepository $unitsRepository
     )
     {
-        $this->session = $session;
-        $this->products = $productsRepository;
-        $this->categoryable = $categoryableRepository;
-        $this->modelColors = $modelColorsRepository;
-        $this->involved = $involvedRepository;
-        $this->lots = $lotRepository;
+        $this->session       = $session;
+        $this->products      = $productsRepository;
+        $this->categoryable  = $categoryableRepository;
+        $this->modelColors   = $modelColorsRepository;
+        $this->involved      = $involvedRepository;
+        $this->lots          = $lotRepository;
         $this->improvedSpecs = $improvedSpecRepository;
-        $this->specPrice = $specPriceRepository;
-        $this->currencies = $currenciesRepository;
+        $this->specPrice     = $specPriceRepository;
+        $this->currencies    = $currenciesRepository;
+        $this->units         = $unitsRepository;
 
     }
 
@@ -430,7 +434,8 @@ class ProductsController extends Controller
         $key_spec = ($request->has('key_spec')) ? $request->get('key_spec') : 1;
         $product = $this->products->find($request->get('product_id'));
         $currencies = $this->currencies->getPublic();
-        return view('lots.partials.form.specification_price', ['currencies' => $currencies, 'lot' => $lot, 'product' => $product, 'key_spec' => $key_spec]);
+        $units      = $this->units->getPublic();
+        return view('lots.partials.form.specification_price', ['currencies' => $currencies, 'units' => $units, 'lot' => $lot, 'product' => $product]);
     }
 
     public function loadSpecPriceDescription(Request $request)

@@ -40,10 +40,10 @@ class AddLotComposer extends Composer
         CurrenciesRepository $currenciesRepository,
         UnitRepository $unitsRepository
     ) {
-        $this->lots = $lotRepository;
+        $this->lots       = $lotRepository;
         $this->categories = $categoryRepository;
         $this->currencies = $currenciesRepository;
-        $this->units = $unitsRepository;
+        $this->units      = $unitsRepository;
     }
 
     /**

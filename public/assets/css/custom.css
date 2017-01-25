@@ -736,3 +736,9 @@ img.bascket_img  {
     list-style-type: circle;
     margin-left: 18px;
 }
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
+}

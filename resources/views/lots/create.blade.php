@@ -521,6 +521,7 @@ $(document).ready(function() {
                 url: "{{ route('load_spec_price', [ $lot ]) }}",
                 success: function (view) {
                     form.find('.specification_price').append(view);
+                    form.find('select').material_select();
                     initColor();
                 }
             });

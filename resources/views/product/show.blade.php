@@ -277,14 +277,14 @@
     </section>
     @include('partials.fb-comments')
 @endsection
-@section('scripts')
+@section('js')
     <script>
     $(document).ready(function() {
         // Configure/customize these variables.
-        var showChar = 50;  // How many characters are shown by default
+        var showChar = 156;  // How many characters are shown by default
         var ellipsestext = "...";
-        var moretext = "Show more >";
-        var lesstext = "Show less";
+        var moretext = "{{ $meta->getMeta('show_more') }}";
+        var lesstext = "{{ $meta->getMeta('show_less') }}";
         
 
         $('.showmore').each(function() {
