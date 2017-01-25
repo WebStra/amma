@@ -3,7 +3,7 @@
 
         @if(count($subCategories = $category->subCategories))
             <div class="filtru subcategories_filters">
-                <h5>Sub Categories</h5>
+                <h5>{{$meta->getMeta('subcategories-title')}}</h5>
                 <p>
                     @foreach($subCategories as $subCategory)
                     <span style="display: block">
@@ -38,7 +38,7 @@
         @endif
 
         <div class="filtru">
-            <h5>Pretul</h5>
+            <h5>{{$meta->getMeta('filter-price')}}</h5>
             <div class="range_select">
                 <?php
                 $price_min_default = 0;

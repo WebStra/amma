@@ -47,6 +47,9 @@ return [
                     case 'pending':
                         $status = '<span class="label label-warning">Not Verified</span>';
                         break;
+                    case 'expired':
+                        $status = '<span class="label label-danger">Expired</span>';
+                        break;
                     case 'declined':
                         $status = '<span class="label label-danger">Declined</span>';
                         break;

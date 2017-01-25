@@ -26,7 +26,7 @@
                                     <!---Status-->
                                     <div class="row display_form_items_inline">
                                         <div class="col l12 m12 s12">
-                                            <h5>Produs: <strong>{{$comand->specPrice->name}}</strong></h5>
+                                            <h5>{{$meta->getMeta('single-prod-produs')}} <strong>{{$comand->specPrice->name}}</strong></h5>
                                         </div>
                                     </div>
                                     <br>
@@ -34,7 +34,7 @@
                                     @if(isset($comand->improvedSpec))
                                     <div class="row">
                                         <div class="col l12 m12 s12">
-                                            <h5>Marime: <strong>{{$comand->improvedSpec->size}}</strong></h5>
+                                            <h5>{{$meta->getMeta('single-prod-size')}} <strong>{{$comand->improvedSpec->size}}</strong></h5>
                                         </div>
                                     </div>
                                     <br>
@@ -43,7 +43,7 @@
                                     <!---Color-->
                                     <div class="row">
                                         <div class="col l12 m12 s12">
-                                            <h5>Culoare: <strong
+                                            <h5>{{$meta->getMeta('single-prod-color')}} <strong
                                                         style="width:20px; height:20px; display:inline-block; background:{{$comand->involvedColor->color_hash}};"></strong>
                                             </h5>
                                         </div>
@@ -53,13 +53,13 @@
                                     <!--Cantitate-->
                                     <div class="row display_form_items_inline">
                                         <div class="col l12 m12 s12">
-                                            <h5>Cantitate: <strong>{{$comand->count}}</strong></h5>
+                                            <h5>{{$meta->getMeta('single-prod-quantity')}}<strong>{{$comand->count}}</strong></h5>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
                                     <div class="col l12 m12 s12">
-                                        <h5>Suma: <del><span>{{$comand->specPrice->old_price}} {{$item->lot->currency->sign}}</span></del> / <strong>{{$comand->specPrice->new_price}} {{$item->lot->currency->sign}}</strong></h5>
+                                        <h5>{{$meta->getMeta('single-prod-sum')}} <del><span>{{$comand->specPrice->old_price}} {{$item->lot->currency->sign}}</span></del> / <strong>{{$comand->specPrice->new_price}} {{$item->lot->currency->sign}}</strong></h5>
                                     </div>
                                     </div>
                                 </div>

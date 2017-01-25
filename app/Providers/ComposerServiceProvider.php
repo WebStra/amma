@@ -13,6 +13,7 @@ use App\Http\ViewComposers\PagesComposer;
 use App\Http\ViewComposers\PartnerComposer;
 use App\Http\ViewComposers\SocialComposer;
 use App\Http\ViewComposers\MainComposer;
+use App\Http\ViewComposers\InvolvedCountComposer;
 use App\Http\ViewComposers\CurrencyComposer;
 
 use Illuminate\Support\ServiceProvider;
@@ -53,10 +54,9 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('*', function($view){
             return $view->with('meta', (new \App\Translate));
         });
-        view()->composer(
-            '*', 'App\Http\ViewComposers\CurrencyComposer'
-        );
+        view()->composer('*', 'App\Http\ViewComposers\CurrencyComposer');
 
+        view()->composer('*', InvolvedCountComposer::class);
     }
 
     /**

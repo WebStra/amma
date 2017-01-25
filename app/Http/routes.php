@@ -92,10 +92,6 @@ Route::bind('provider', function($provider){
     abort('404');
 });
 
-Route::get('emails',function (){
-   return view('emails.lot-expired-users');
-});
-
 Route::multilingual(function () {
     Route::get('lot', function(){
         return view('html.lot');
@@ -445,6 +441,11 @@ Route::multilingual(function () {
         Route::get('my-involved/{type?}', [
             'as' => 'my_involved',
             'uses' => 'DashboardController@myInvolved'
+        ]);
+
+        Route::get('my-history/{type?}', [
+            'as' => 'my_history',
+            'uses' => 'DashboardController@myHistory'
         ]);
 
         Route::get('single-prod-spec/{involve}', [

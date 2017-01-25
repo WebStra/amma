@@ -41,102 +41,103 @@
                             <br>
                             <!---Status-->
                             @if($item->lot->verify_status != 'expired')
-                                @if($lot->vendor->user->id !== \Auth::id())
-                                    {{--@if(! $user_is_involved)--}}
-                                    <form method="post"
-                                          action="{{ route('involve_product', ['product' => $item->id]) }}">
-                                        @if(count($item->colors) > 0)
-                                            <input type="hidden" id="color_product" name="color_product"
-                                                   value="{{(isset($item->colors)) ? $item->colors->first()->id : ''}}">
-                                        @endif
-                                        @if(count($item->improvedSpecs))
-                                            <input type="hidden" id="sizes_product" name="sizes_product"
-                                                   value="{{(isset($item->improvedSpecs)) ? $item->improvedSpecs->first()->id : ''}} ">
-                                        @endif
-                                        @if(count($item->specPrice) > 0)
-                                            <div class="row display_form_items_inline">
-                                                <div class="col l3 m3 s12">
-                                                    <h5>Produs:</h5>
-                                                </div>
-                                                <div class="product_select col l6 m9 s12">
-                                                    <select class="select_product_quantity"
-                                                            name="select_product">
-                                                        @foreach($item->specPrice as $prodSpec)
-                                                            <option data-product-id="{{$prodSpec->id}}"
-                                                                    data-old-price="{{$prodSpec->old_price}}"
-                                                                    data-new-price="{{$prodSpec->new_price}}"
-                                                                    data-sale="{{$prodSpec->sale}}"
-                                                                    data-currency="{{$item->lot->currency->title}}"
-                                                                    value="{{$prodSpec->id}}">{{$prodSpec->name}}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <br>
-                                        @endif
-                                    <!--sizes-->
-                                        @if(count($item->improvedSpecs) > 0)
-                                            <div class="row display_form_items_inline">
-                                                <div class="col l3 m3 s12">
-                                                    <h5>Marimi:</h5>
-                                                </div>
-                                                <div class="col l6 m9 s12 ">
-                                                    <ul class="sizes_product">
-                                                        @if(count($item->specPrice->first()->improvedSpecs) > 0)
-                                                            <?php $i = 1; ?>
-                                                            @foreach($item->specPrice->first()->improvedSpecs as $size)
-                                                                <li class="<?php if ($i == 1) {
-                                                                    echo 'active';
-                                                                } ?>"
-                                                                    data-id="{{$size->id}}">{{$size->size}}</li>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        @endif
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <br>
-                                        @endif
-                                    <!---Color-->
-                                        @if(count($item->colors) > 0)
-                                            <div class="row display_form_items_inline">
-                                                <div class="col l3 m3 s12">
-                                                    <h5>Culori:</h5>
-                                                </div>
-                                                <div class="col l9 m9 s12">
-                                                    <ul class="color_product" style="height: 30px;">
-                                                        <?php $i = 1; ?>
-                                                        @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
-                                                            <li class="<?php if ($i == 1) echo 'active'; ?>"
-                                                                data-id="{{$color->id}}"
-                                                                data-count="{{$color->amount}}"
-                                                                style="background: {{$color->color_hash}};"></li>
-                                                            <?php $i++; ?>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        @endif
-                                        <br>
+
+                                {{--@if(! $user_is_involved)--}}
+                                <form method="post"
+                                      action="{{ route('involve_product', ['product' => $item->id]) }}">
+                                    @if(count($item->colors) > 0)
+                                        <input type="hidden" id="color_product" name="color_product"
+                                               value="{{(isset($item->colors)) ? $item->colors->first()->id : ''}}">
+                                    @endif
+                                    @if(count($item->improvedSpecs))
+                                        <input type="hidden" id="sizes_product" name="sizes_product"
+                                               value="{{(isset($item->improvedSpecs)) ? $item->improvedSpecs->first()->id : ''}} ">
+                                    @endif
+                                    @if(count($item->specPrice) > 0)
                                         <div class="row display_form_items_inline">
                                             <div class="col l3 m3 s12">
-                                                <h5>Cantitate:</h5>
+                                                <h5>Produs:</h5>
                                             </div>
-                                            <div class="col l19 m9 s12">
-                                                <div class="counting">
-                                                    <div class="wrapp_input">
+                                            <div class="product_select col l6 m9 s12">
+                                                <select class="select_product_quantity"
+                                                        name="select_product">
+                                                    @foreach($item->specPrice as $prodSpec)
+                                                        <option data-product-id="{{$prodSpec->id}}"
+                                                                data-old-price="{{$prodSpec->old_price}}"
+                                                                data-new-price="{{$prodSpec->new_price}}"
+                                                                data-sale="{{$prodSpec->sale}}"
+                                                                data-currency="{{$item->lot->currency->title}}"
+                                                                value="{{$prodSpec->id}}">{{$prodSpec->name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    @endif
+                                <!--sizes-->
+                                    @if(count($item->improvedSpecs) > 0)
+                                        <div class="row display_form_items_inline">
+                                            <div class="col l3 m3 s12">
+                                                <h5>Marimi:</h5>
+                                            </div>
+                                            <div class="col l6 m9 s12 ">
+                                                <ul class="sizes_product">
+                                                    @if(count($item->specPrice->first()->improvedSpecs) > 0)
+                                                        <?php $i = 1; ?>
+                                                        @foreach($item->specPrice->first()->improvedSpecs as $size)
+                                                            <li class="<?php if ($i == 1) {
+                                                                echo 'active';
+                                                            } ?>"
+                                                                data-id="{{$size->id}}">{{$size->size}}</li>
+                                                            <?php $i++; ?>
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    @endif
+                                <!---Color-->
+                                    @if(count($item->colors) > 0)
+                                        <div class="row display_form_items_inline">
+                                            <div class="col l3 m3 s12">
+                                                <h5>Culori:</h5>
+                                            </div>
+                                            <div class="col l9 m9 s12">
+                                                <ul class="color_product" style="height: 30px;">
+                                                    <?php $i = 1; ?>
+                                                    @foreach($item->specPrice->first()->improvedSpecs->first()->specColors as $color)
+                                                        <li class="<?php if ($i == 1) echo 'active'; ?>"
+                                                            data-id="{{$color->id}}"
+                                                            data-count="{{$color->amount}}"
+                                                            style="background: {{$color->color_hash}};"></li>
+                                                        <?php $i++; ?>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <br>
+                                    <div class="row display_form_items_inline">
+                                        <div class="col l3 m3 s12">
+                                            <h5>Cantitate:</h5>
+                                        </div>
+                                        <div class="col l19 m9 s12">
+                                            <div class="counting">
+                                                <div class="wrapp_input">
                                                             <span class="minus left in"><i
                                                                         class="icon-minus"></i></span>
-                                                        <input type="number" readonly="readonly" value="1"
-                                                               name="count"
-                                                               max="{{ $item->present()->renderCountItem() }}">
-                                                        <span class="plus right in"><i
-                                                                    class="icon-plus"></i></span>
-                                                    </div>
+                                                    <input type="number" readonly="readonly" value="1"
+                                                           name="count"
+                                                           max="{{ $item->present()->renderCountItem() }}">
+                                                    <span class="plus right in"><i
+                                                                class="icon-plus"></i></span>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    @if($lot->vendor->user->id !== \Auth::id())
                                         <div class="product_submit_button">
                                             <button type="submit" name="type"
                                                     class="full_width btn_base product_involve" value="involve">
@@ -148,11 +149,12 @@
                                                 <span>Cumpara</span>
                                             </button>--}}
                                         </div>
-                                        {{-- <div class="product_submit_button">
-                                                 <span style="color: red; font-size: 16px; font-weight: 600;" class="full_width product_involve">Stock epuizat!</span>
-                                         </div>--}}
-                                    </form>
-                                @endif
+                                    @endif
+                                    {{-- <div class="product_submit_button">
+                                             <span style="color: red; font-size: 16px; font-weight: 600;" class="full_width product_involve">Stock epuizat!</span>
+                                     </div>--}}
+                                </form>
+
                             @else
                                 <div class="row">
                                     <div class="col l3 m3 s12">

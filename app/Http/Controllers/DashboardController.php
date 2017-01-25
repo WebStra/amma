@@ -15,6 +15,10 @@ use App\Video;
 use Illuminate\Http\UploadedFile;
 
 
+/**
+ * Class DashboardController
+ * @package App\Http\Controllers
+ */
 class DashboardController extends Controller
 {
     /**
@@ -32,8 +36,14 @@ class DashboardController extends Controller
      */
     private $auth;
 
+    /**
+     * @var LotRepository
+     */
     private $lots;
 
+    /**
+     * @var InvolvedRepository
+     */
     private $involved;
 
     /**
@@ -55,6 +65,9 @@ class DashboardController extends Controller
         $this->involved = $involvedRepository;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function howWork()
     {
 
@@ -94,27 +107,67 @@ class DashboardController extends Controller
      */
     public function myInvolved($type)
     {
-        $involved = $this->auth->user()->involved()->active()->where('type',$type)->get();
+        $involved = $this->auth->user()->involved()->active()->where('type', $type)->get();
 
         $product = $this->sortInvolvedProducts($involved);
 
-        return view('dashboard.my-involved', compact('product','type'));
+        return view('dashboard.my-involved', compact('product', 'type'));
     }
 
 
-    public function sortInvolvedProducts($involved) {
-
+    /**
+     * @param $involved
+     * @return array
+     */
+    public function sortInvolvedProducts($involved)
+    {
         if (count($involved)) {
+            $product = [];
             foreach ($involved as $item) {
                 if ($item->lot->verify_status == 'verified') {
-                    $product[] = ['date' =>$item->lot->public_date, 'product' => $item->product, 'involved' => $item];
-                }else {
-                    $product[] = ['date' =>date('dmy',strtotime('9999999')), 'product' => $item->product, 'involved' => $item];
+                    $product[] = ['date' => $item->lot->public_date, 'product' => $item->product, 'involved' => $item];
                 }
             }
-            usort($product, function ($product, $b) {
-                return date('dmy',strtotime($b['date'])) - date('dmy',strtotime($product['date']));
-            });
+            if (count($product) > 0) {
+                usort($product, function ($product, $b) {
+                    return date('dmy', strtotime($product['date'])) - date('dmy', strtotime($b['date']));
+                });
+            }
+            return $product;
+        }
+    }
+
+    /**
+     * @param $type
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function myHistory($type)
+    {
+        $involved = $this->auth->user()->involved()->active()->where('type', $type)->get();
+
+        $product = $this->sortHistoryProducts($involved);
+
+        return view('dashboard.my-involved', compact('product'));
+    }
+
+    /**
+     * @param $involved
+     * @return array
+     */
+    public function sortHistoryProducts($involved)
+    {
+        if (count($involved)) {
+            $product = [];
+            foreach ($involved as $item) {
+                if ($item->lot->verify_status == 'expired') {
+                    $product[] = ['date' => $item->lot->public_date, 'product' => $item->product, 'involved' => $item];
+                }
+            }
+            if (count($product) > 0) {
+                usort($product, function ($product, $b) {
+                    return date('dmy', strtotime($product['date'])) - date('dmy', strtotime($b['date']));
+                });
+            }
 
             return $product;
         }
@@ -130,6 +183,9 @@ class DashboardController extends Controller
         return view('dashboard.account-settings');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userPassword()
     {
         return view('dashboard.user-password');

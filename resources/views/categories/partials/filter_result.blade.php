@@ -42,5 +42,5 @@
         </div>
     </div>
 @else
-    <span>Upps, no products for selected filters...</span>
+    <span>{{$meta->getMeta('filter-no-products-filters')}}</span>
 @endif
