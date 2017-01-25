@@ -21,6 +21,6 @@ class ImagePresenter extends Presenter
                 $image = sprintf('%s_%s.%s', $pathName, $size, $mime);
             }
 
-        return $image;
+        return str_replace("\\", "/",$image);
     }
 }

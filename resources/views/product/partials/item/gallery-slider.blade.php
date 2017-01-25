@@ -9,6 +9,7 @@
                     @foreach($item->images()->ranked('asc')->get() as $image)
                             <li {{ ($i == 1) ? 'class="flex-active-slide"' : '' }}
                                 style="width: 362px; margin-right: 0px; float: left; display: block;">
+
                                 <img src="{{ $image->present()->image() }}" data-imagezoom="true"
                                      data-magnification="3" draggable="false">
                             </li>
