@@ -65,7 +65,7 @@ class ProductPresenter extends Presenter
             if (count($this->model->specPrice->first()->improvedSpecs()->get()) > 0){
                 $color = $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first();
                 if($color){
-                    $amount = $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first()->amount;
+                    $amount = $color->amount;
                 }
             }
 
