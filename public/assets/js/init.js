@@ -47,11 +47,16 @@ $(document).ready(function () {
         var $this = $(this), finalDate = $(this).data('countdown');
         var days = $(this).data('days');
         var hours = $(this).data('hours');
+        var min = $(this).data('min');
         $this.countdown(finalDate, function (event) {
             if (event.strftime('%D') > 0) {
                 $this.html(event.strftime('%D '+days+' %H:%M:%S'));
-            } else {
+            }
+            else if(event.strftime('%H') > 0) {
                 $this.html(event.strftime('%H '+hours+' %M:%S'));
+            }
+            else {
+                $this.html(event.strftime('%M '+min+' %S'));
             }
         });
     });

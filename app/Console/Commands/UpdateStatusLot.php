@@ -4,12 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Repositories\LotRepository;
+use App\Traits\EmailSendTrait;
 
 class UpdateStatusLot extends Command
 {
+    use EmailSendTrait;
     /**
-    * @var LotRepository
-    */
+     * @var LotRepository
+     */
     protected $lots;
 
     /**
@@ -36,8 +38,19 @@ class UpdateStatusLot extends Command
         parent::__construct();
         $this->lots = $lotRepository;
     }
+
+    /**
+     *
+     */
     public function handle()
     {
+        foreach ($this->lots->getExpiredLot() as $lot) {
+            $this->sendVendorMessage($lot);
+            $this->sendUsersMessage($lot);
+        }
+
         $this->lots->updateExpiredStatus('expired');
+
     }
+
 }

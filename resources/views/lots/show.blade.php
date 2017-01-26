@@ -5,12 +5,10 @@
 @section('content')
     <div class="container">
         <div class="row">
-                @if($vendor = $lot->vendor)
-                    <div class="col l3 m12 s12 product_vendor_block">
-                        @include('partials.about-seller')
-                    </div>
-                @endif
-            <div class="col l9 m12 s12  show_single_lot list-lots">
+            @if($vendor = $lot->vendor)
+                @include('vendors.partials.left-sidebar',['item'=>$lot->vendor])
+            @endif
+            <div class="col l8 m7 s12  show_single_lot list-lots">
                 <div class="lot">
                     <div class="lot-info">
                         <div class="lot-name">

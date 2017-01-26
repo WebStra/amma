@@ -22,27 +22,15 @@
                                         <img class="img-responsive" src="/assets/images/product.jpg" alt="">
                                     @endif
                                 </div>
-                                <div class="col l12 m12 s12 product_vendor_block">
-                                    <div class="bordered divide-top hide-on-small-only">
-                                        <div class="block_title">DESCRIEREA LOTULUI</div>
-                                        <div class="person_card">
-                                            <div class="about_lot_single_prod">
-                                                <span class="c-gray showmore">{{$lot->description_delivery}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('lots.partials.info.lot-description')
                             </div>
                         </div>
                         <div class="col l8 m8 s12 product_info">
                             <h1>{{ $item->present()->renderName() }}</h1>
                             <hr>
-                            {{--<span style="float: right; font-size: 13px; color: #aaa;">Codul produsului : <strong>{{$item->uniqid}}</strong></span>--}}
                             <br>
                             <!---Status-->
                             @if($item->lot->verify_status != 'expired')
-
-                                {{--@if(! $user_is_involved)--}}
                                 <form method="post"
                                       action="{{ route('involve_product', ['product' => $item->id]) }}">
                                     @if(count($item->colors) > 0)
@@ -279,46 +267,7 @@
     </section>
     @include('partials.fb-comments')
 @endsection
-@section('js')
-    <script>
-    $(document).ready(function() {
-        // Configure/customize these variables.
-        var showChar = 156;  // How many characters are shown by default
-        var ellipsestext = "...";
-        var moretext = "{{ $meta->getMeta('show_more') }}";
-        var lesstext = "{{ $meta->getMeta('show_less') }}";
-        
-
-        $('.showmore').each(function() {
-            var content = $(this).html();
-     
-            if(content.length > showChar) {
-     
-                var c = content.substr(0, showChar);
-                var h = content.substr(showChar, content.length - showChar);
-     
-                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
-     
-                $(this).html(html);
-            }
-     
-        });
-     
-        $(".morelink").click(function(){
-            if($(this).hasClass("less")) {
-                $(this).removeClass("less");
-                $(this).html(moretext);
-            } else {
-                $(this).addClass("less");
-                $(this).html(lesstext);
-            }
-            $(this).parent().prev().toggle();
-            $(this).prev().toggle();
-            return false;
-        });
-    });
-    </script>
-
-@endsection
-
+<!--Scripts Js-->
+@include('product.partials.js')
+<!--End Scripts-->
 

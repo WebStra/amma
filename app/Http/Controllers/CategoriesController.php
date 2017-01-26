@@ -63,7 +63,7 @@ class CategoriesController extends Controller
      */
     public function show(Request $request, $category, $subcategory = null)
     {
-        //dd($subcategory);
+
         $groups = $this->tags->getCategoryTagGroups($category, $subcategory);
 
         $filtered = $this->applyFilter($request, $category, $subcategory, 12);
@@ -105,8 +105,9 @@ class CategoriesController extends Controller
         {
             // todo: fix it, subcategory don;t incoming..
             $query = $query->where('products.sub_category_id', $subcategory->id);
-//            $query->where('products.sub_category_id', $subcategory->id);
+//          $query->where('products.sub_category_id', $subcategory->id);
         }
+
 
         return $query->where('products.active', 1)->paginate($perPage);
     }
@@ -128,7 +129,6 @@ class CategoriesController extends Controller
                 $q->whereBetween('products.price', array($filters['price_min'], $filters['price_max']));
             });
         }
-
         return $query;
     }
 
@@ -147,7 +147,6 @@ class CategoriesController extends Controller
         $dynamic_count = count($filters);
         array_walk($filters, function($filter_val, $filter) use (&$query, &$tags, $filters, $dynamic_count, &$i){
             list($group, $tag) = $this->parseDynamicFilter($filter);
-
             if($i !== $dynamic_count)
             {
                 $tags .= sprintf('%s,', $tag);
