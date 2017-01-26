@@ -37,7 +37,7 @@
                                 <div class="col l12">
                                     <div class="input-field">
                                         <span class="label">{{ $meta->getMeta('subcategory') }}</span>
-                                        <select class="subcategories" name="sub_category"
+                                        <select class="subcategories browser-default" name="sub_category"
                                                 required="required">
                                             @foreach($sub_categories as $sub_category)
                                                 <?php $selected = ($product->sub_category_id == $sub_category->id) ? 'selected' : ''; ?>

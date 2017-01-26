@@ -3,23 +3,13 @@
         <label style="float: right;"><a class="red-text" onclick="removeGroupPrice(this); return false;" href="#remove-group-price">Close</a></label>
     </div>
 
-    <div class="col l6 s12">
+    <div class="col l12 s12">
         <div class="input-field">
             <span class="label">{{ $meta->getMeta('label_name') }}</span>
             <input type="text" title="{{ $meta->getMeta('label_name') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod." class="iText" required="required" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][name]"
             value="{{ isset($spec->name) ? $spec->name : '' }}"
             placeholder="{{ $meta->getMeta('placeholder_product_name') }}">
             <input type="hidden" class="js-remove-group-price" name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][key]" value="{{ isset($spec->key) && !empty($spec->key) ? $spec->key : md5(microtime().rand()) }}"/>
-        </div>
-    </div>
-    <div class="col l6 s12">
-        <div class="input-field">
-            <span class="label">{{ $meta->getMeta('label_unitate_masura') }}</span>
-            <select name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][unit]" required class="unit iText" title="{{ $meta->getMeta('label_unitate_masura') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
-                @foreach($units as $unit)
-                    <option {{ (isset($spec->unit) && $spec->unit == $unit->id) ? 'selected' : ''}} value="{{ $unit->id }}">{{ $unit->name }}</option>
-                @endforeach
-            </select>
         </div>
     </div>
 

@@ -5,7 +5,6 @@
     {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker.min.css')!!}
     {!!Html::style('/assets/plugins/colorpicker/dist/css/bootstrap-colorpicker-plus.min.css')!!}
 @endsection
-
 @section('content')
     <section class="">
         <div class="container" id="lot_canvas">
@@ -14,8 +13,7 @@
             </div>
             <div class="padding15 border lot">
                 <div class="row">
-                    <form method="post" action="{{ route('create_lot', [ 'lot' => $lot->id ]) }}" id="create_form_lot" class="form form-lot"
-                          enctype="multipart/form-data">
+                    <form method="post" action="{{ route('create_lot', [ 'lot' => $lot->id ]) }}" id="create_form_lot" class="form form-lot" enctype="multipart/form-data">
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('lot_name') }}</span>
@@ -26,7 +24,7 @@
                             <div class="col l6 m6 s12" id="primary_category">
                                 <div class="input-field">
                                     <span class="label">{{ $meta->getMeta('category_lot') }}</span>
-                                    <select class="iText" id="parent_category" name="category" required="required" title="{{ $meta->getMeta('category_lot') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
+                                    <select class="iText browser-default" id="parent_category" name="category" required="required" title="{{ $meta->getMeta('category_lot') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
                                         <option value=''>{{ $meta->getMeta('label_select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option data-procent="{{ $category->present()->renderTax() }}"
@@ -61,7 +59,7 @@
                         <div class="col l6 m6 s12">
                             <div class="input-field">
                                 <span class="label">{{ $meta->getMeta('currency') }}</span>
-                                <select name="currency" required class="currency iText">
+                                <select name="currency" required class="browser-default currency iText">
                                     @foreach($currencies as $currency)
                                         <option data-sign="{{ $currency->sign }}" {{ ($lot->currency_id == $currency->id) ? 'selected' : ''}} data-title="{{ $currency->title }}" value="{{ $currency->id }}">{{ $currency->title }}</option>
                                     @endforeach
@@ -120,17 +118,15 @@
                                 </button>
                             </div>
                         </div>
-
                         {!! csrf_field() !!}
                     </form>
                 </div>
             </div>
+
             <div class="card-panel amber darken-4">
                 <span class="white-text">{{ $meta->getMeta('create_lot_step_2') }}</span>
             </div>
-
             @if(count($lot->products))
-
                 @foreach($lot->products as $product)
                     @include('lots.partials.form.product')
                 @endforeach
@@ -183,7 +179,7 @@ $.validator.setDefaults({
 });
 //tooltips
 $(document).ready(function() {
-    $.each($('select[data-tooltip]'),function() {
+    $.each($('select.initialized[data-tooltip]'),function() {
         var curent       = $(this);
         var data_tooltip = curent.attr('data-tooltip');
         var title        = curent.attr('title');
@@ -238,43 +234,51 @@ $(document).ready(function() {
         $('#lot_btn_add_product').on('click', function() // load product's block.
         {
             var url = $(this).data('action');
+            var form = $('#create_form_lot');
+            validateForm(form);
+            if (form.valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    success: function (response) {
+                        if(response != 'false')
+                        {
+                            form.submit();
+                            var formlast =  $('#lot_canvas').append(response).find('form:last');
+                            $('#lot_canvas').find('.materialboxed').materialbox();
+                            $('select').material_select();
+                            initColor();
+                            validateProduct(formlast);
+                            Materialize.toast('{{ $meta->getMeta('msg_add_product') }}', 2000, 'green');
+                            //var colorpicker = $('#lot_canvas').
+                          
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                success: function (response) {
-                    if(response != 'false')
-                    {
-                        var formlast =  $('#lot_canvas').append(response).find('form:last');
-                        $('#lot_canvas').find('.materialboxed').materialbox();
-                        $('select').material_select();
-                        initColor();
-                        validateProduct(formlast);
-                        Materialize.toast('{{ $meta->getMeta('msg_add_product') }}', 2000, 'green');
-                        //var colorpicker = $('#lot_canvas').
-                      
 
+                            //$(category_input).attr('disabled', '');
+                        } else {
+                            alert('Select category first');
 
-                        //$(category_input).attr('disabled', '');
-                    } else {
-                        alert('Select category first');
-
-                        $(category_input).focus();
+                            $(category_input).focus();
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                $("html, body").animate({ scrollTop: "200px" });
+                Materialize.toast('{{ $meta->getMeta('msg_save_lot') }}', 2000, 'red');
+
+            }
         });
         function initColor(){
-            var btn_colorpicker = $('.btn-colorpicker');
+            var btn_colorpicker = $('.colorpicker-component');
             btn_colorpicker.colorpickerplus();
             btn_colorpicker.on('changeColor', function(e,color){
                 if(color==null) {
                   //when select transparent color
-                  $(this).next().find('input').val('#fff');
-                  $(this).css('background-color', '#fff');//tranparent
+                  $(this).find('input').val('#fff');
+                  $(this).find('button').css('background-color', '#fff');//tranparent
                 } else {
-                    $(this).next().find('input').val(color);
-                    $(this).css('background-color', color);
+                    $(this).find('input').val(color);
+                    $(this).find('button').css('background-color', color);
                 }
             });
         }

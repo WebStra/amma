@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        @if(count($groups))
+        @if(isset($groups) && count($groups))
             @foreach($groups as $group)
                 <div class="filtru">
                     <h5>{{ $group }}</h5>

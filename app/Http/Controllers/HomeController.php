@@ -27,9 +27,10 @@ class HomeController extends Controller
      * HomeController constructor.
      * @param ProductsRepository $productsRepository
      */
-    public function __construct(ProductsRepository $productsRepository)
+    public function __construct(ProductsRepository $productsRepository,CategoryRepository $categoryRepository)
     {
         $this->products = $productsRepository;
+        $this->category = $categoryRepository;
     }
 
     /**
@@ -39,12 +40,15 @@ class HomeController extends Controller
     {
         $this->registerVisit();
         if ($filters = request()->all()) {
-            $products = $this->products->search($filters);
 
-            return view('home.search_result', compact('products'));
+            $category = $this->category->getModel()->find(request()->get('category'));
+            //$category = $this->category->getModel()->where('id',request()->get('category'))->first();
+
+            if ($category) {
+                $products = $this->products->search($filters);
+                return view('home.search_result', compact('products','category'));
+            }
         }
-
-        $category = $this->category;
 
         return view('home.index');
     }

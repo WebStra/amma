@@ -1,7 +1,7 @@
 <div class="color_sold_item overflow {{ isset($color->id) ? 'saved' : '' }}" data-suite-id="{{ isset($color->id) ? $color->id : '' }}" data-suite-spec="{{ isset($key_spec) ? $key_spec : 1 }}">
 
     <div class="col offset-l4 l4 m12 s12">
-        <div class="input-field">
+        <div class="input-field colorpicker-component colorpicker-element">
             <span class="label">{{ $meta->getMeta('form_lot_color') }}</span>
             <div class="file-field">
                 <button type="button" class="waves-effect waves-light btn btn-colorpicker" {{ isset($color->color_hash) ? 'style=background-color:'.$color->color_hash.'' : '' }}></button>

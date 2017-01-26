@@ -156,7 +156,7 @@ class Product extends Repository
     public function scopeWithAllTags(Builder $query, $tags)
     {
         $normalized = app(TagService::class)->buildTagArrayNormalized($tags);
-
+        //dd($normalized);
         return $query->has('tags', '=', count($normalized), 'and', function (Builder $q) use ($normalized) {
             $q->whereIn('normalized', $normalized);
         });

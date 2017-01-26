@@ -39,7 +39,7 @@ class CategoriesController extends Controller
     public function __construct(CategoryRepository $categoryRepository, TagRepository $tagRepository)
     {
         $this->categories = $categoryRepository;
-        $this->tags = $tagRepository;
+        $this->tags       = $tagRepository;
     }
 
     /**

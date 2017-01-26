@@ -13,6 +13,7 @@ use App\Repositories\MethodDeliveryPaymentRepository;
 use App\Repositories\LotDeliveryPaymentRepository;
 use App\Repositories\CurrenciesRepository;
 use App\Repositories\InvolvedRepository;
+use App\Repositories\CategoryableRepository;
 use App\Vendor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -25,7 +26,10 @@ class LotsController extends Controller
      * @var LotRepository
      */
     protected $lots;
-
+    /**
+     * @var CategoryableRepository
+     */
+    protected $categoryable;
     /**
      * @var Guard
      */
@@ -64,6 +68,7 @@ class LotsController extends Controller
     public function __construct(
         LotRepository $lotRepository,
         ProductsRepository $productsRepository,
+        CategoryableRepository $categoryableRepository,
         ImprovedSpecRepository $improvedSpecRepository,
         SpecPriceRepository $specPriceRepository,
         SubCategoriesRepository $subCategoriesRepository,
@@ -75,6 +80,7 @@ class LotsController extends Controller
     ) {
         $this->lots          = $lotRepository;
         $this->auth          = $auth;
+        $this->categoryable  = $categoryableRepository;
         $this->products      = $productsRepository;
         $this->improvedSpecs = $improvedSpecRepository;
         $this->specPrice     = $specPriceRepository;
@@ -166,7 +172,7 @@ class LotsController extends Controller
     {
         if($lot->category_id) {
             $product = $this->products->createPlain($lot);
-
+            $this->categoryable->create($lot->category_id, $product);
             return view('lots.partials.form.product', ['product' => $product, 'lot' => $lot]);
         }
 
