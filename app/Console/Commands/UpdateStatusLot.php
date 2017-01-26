@@ -48,9 +48,7 @@ class UpdateStatusLot extends Command
             $this->sendVendorMessage($lot);
             $this->sendUsersMessage($lot);
         }
-
         $this->lots->updateExpiredStatus('expired');
-
     }
 
 }
