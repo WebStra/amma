@@ -244,7 +244,10 @@ class ProductsRepository extends Repository
                 ->where('products.name', 'like', '%' . $product . '%')
                 ->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
                 ->where('categoryable.categoryable_type', get_class(self::getModel()))
-                ->where('categoryable.category_id', $category);
+                ->where('categoryable.category_id', $category)
+                ->join('lots', 'lots.id', '=', 'products.lot_id')
+                ->where('lots.status', Lot::STATUS_COMPLETE)
+                ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
         } else {
             $query = $this->getModel()
                 ->where('name', 'like', '%' . $product . '%');

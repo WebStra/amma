@@ -60,11 +60,16 @@ class ProductPresenter extends Presenter
      */
     public function renderCountItem()
     {
+        $amount = '-';
         if (isset($this->model->specPrice->first()->improvedSpecs))
-            if (count($this->model->specPrice->first()->improvedSpecs()->get()) > 0)
-                return $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first()->amount;
+            if (count($this->model->specPrice->first()->improvedSpecs()->get()) > 0){
+                $color = $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first();
+                if($color){
+                    $amount = $this->model->specPrice->first()->improvedSpecs()->first()->specColors()->first()->amount;
+                }
+            }
 
-        return '-';
+       return $amount;
     }
 
     /**
