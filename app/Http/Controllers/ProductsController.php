@@ -211,8 +211,22 @@ class ProductsController extends Controller
 
         $request = \Request::all();
         $getSpecification = $this->improvedSpecs->getById($request['id']);
+        $size = $this->generateHtmlSizes($getSpecification);
 
-        return json_encode($getSpecification);
+        return json_encode($size);
+    }
+
+    /**
+     * @param $getSpecification
+     * @return array
+     */
+    public function generateHtmlSizes($getSpecification)
+    {
+        $sizes = [];
+        foreach ($getSpecification as $item) {
+            $sizes[] = "<li data-id=" . $item['id'] . ">" . $item['size'] . "</li>";
+        }
+        return $sizes;
     }
 
     /**
