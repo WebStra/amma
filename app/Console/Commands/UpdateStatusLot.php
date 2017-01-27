@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Repositories\LotRepository;
+use App\Repositories\InvolvedRepository;
 use App\Traits\EmailSendTrait;
 
 class UpdateStatusLot extends Command
@@ -13,6 +14,11 @@ class UpdateStatusLot extends Command
      * @var LotRepository
      */
     protected $lots;
+
+    /**
+     * @var InvolvedRepository
+     */
+    protected  $involved;
 
     /**
      * The name and signature of the console command.
@@ -33,10 +39,12 @@ class UpdateStatusLot extends Command
      *
      * @return void
      */
-    public function __construct(LotRepository $lotRepository)
+    public function __construct(LotRepository $lotRepository,
+                                InvolvedRepository $involvedRepository)
     {
         parent::__construct();
         $this->lots = $lotRepository;
+        $this->involved = $involvedRepository;
     }
 
     /**
