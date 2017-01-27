@@ -158,13 +158,7 @@ class ProductsController extends Controller
         $productInLot = $this->products->countInLotProduct($product->lot_id);
         $same_products = $this->products->getSameProduct($product->sub_category_id);
 
-        if($product->lot->verify_status != 'verified' && $product->lot->vendor->user->id != \Auth::user()->id){
-
-            $view =  abort(404);
-        }
-        else {
-            $view = view('product.show', ['item' => $product, 'lot' => $lot, 'similar' => $same_products, 'productItem' => $itemPercentage, 'productinlot' => $productInLot]);
-        }
+        $view = view('product.show', ['item' => $product, 'lot' => $lot, 'similar' => $same_products, 'productItem' => $itemPercentage, 'productinlot' => $productInLot]);
 
         if (Auth::check()) {
             $auth_is_involved = $this->involved
