@@ -34,6 +34,21 @@ class CategoryableRepository extends Repository
     }
 
     /**
+     * Remove product row from table categoryable.
+     *
+     * @param $categoryable
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function delete($categoryable)
+    {
+        return self::getModel()->where([
+                'categoryable_id' => $categoryable->id,
+                'categoryable_type' => get_class($categoryable),
+            ])->delete();
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -52,6 +67,7 @@ class CategoryableRepository extends Repository
      */
     public function getByProductAndCategoryId($product, $category_id)
     {
+        //dd($category_id);
         return self::getModel()
             ->where('categoryable_id', $product->id)
             ->where('categoryable_type', get_class($product))

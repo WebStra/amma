@@ -22,6 +22,7 @@ class Lot extends Repository
     const STATUS_VERIFY_ACCEPTED = 'verified';
     const STATUS_VERIFY_DECLINED = 'declined';
     const STATUS_VERIFY_PENDING = 'pending';
+    const STATUS_VERIFY_EXPIRED = 'expired';
 
     /** `sell_status` field options */
     const STATUS_SELL_DEFAULT = 'default';

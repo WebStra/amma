@@ -102,16 +102,16 @@ class ProductsController extends Controller
         UnitRepository $unitsRepository
     )
     {
-        $this->session = $session;
-        $this->products = $productsRepository;
-        $this->categoryable = $categoryableRepository;
-        $this->modelColors = $modelColorsRepository;
-        $this->involved = $involvedRepository;
-        $this->lots = $lotRepository;
+        $this->session       = $session;
+        $this->products      = $productsRepository;
+        $this->categoryable  = $categoryableRepository;
+        $this->modelColors   = $modelColorsRepository;
+        $this->involved      = $involvedRepository;
+        $this->lots          = $lotRepository;
         $this->improvedSpecs = $improvedSpecRepository;
-        $this->specPrice = $specPriceRepository;
-        $this->currencies = $currenciesRepository;
-        $this->units = $unitsRepository;
+        $this->specPrice     = $specPriceRepository;
+        $this->currencies    = $currenciesRepository;
+        $this->units         = $unitsRepository;
 
     }
 
@@ -123,7 +123,10 @@ class ProductsController extends Controller
     public function save(SaveProductRequest $request, Lot $lot, Product $product)
     {
         $product = $this->products->saveProduct($product, $request->all());
-
+        if (!$this->categoryable->getByProductAndCategoryId($product, $lot->category_id)) {
+            $this->categoryable->create($lot->category_id, $product);
+        }
+        
         if (!empty($spec_price = $request->get('spec_price')))
             $this->saveSpecificationsPrice($request, $product);
 
@@ -272,8 +275,10 @@ class ProductsController extends Controller
                 $price->removeMetaGroupById('price', $price->id);
             }
             $product->removeMetaGroupById('spec', $request->get('product_id'));
+            $this->categoryable->delete($product);
+            $this->products->delete($request->get('product_id'));
         }
-        $this->products->delete($request->get('product_id'));
+        
 
         /*if($this->lots->checkIfPossibleToChangeCategory($lot))
             return 'enable_cat';*/
@@ -317,7 +322,7 @@ class ProductsController extends Controller
             foreach ($spec as $key => $price) {
                 if (($price['new_price'] >= 0 && $price['old_price'] >= 0) && ($price['new_price'] != null && $price['old_price'] != null)) {
                     $specPriceInsert = $this->specPrice->save($price, $product);
-                    if (!empty($specMeta = $price['spec_desc'])) {
+                    if (isset($price['spec_desc']) && !empty($specMeta = $price['spec_desc'])) {
                         foreach ($specMeta as $meta) {
                             if ($meta['key'] != null && $meta['value'] != null) {
                                 $specPriceInsert->setMeta($meta, 'price');
@@ -326,9 +331,9 @@ class ProductsController extends Controller
                     }
                     if (!empty($specSize = $price['size'])) {
                         foreach ($specSize as $key => $size) {
-                            if ($size['size'] >= 0 && $size['size'] != null) {
-                                $specSizeInsert = $this->improvedSpecs->save($size, $specPriceInsert);
-                                if (!empty($specColor = $size['color'])) {
+                            if ($size['size'] != null) {
+                                if (isset($size['color']) && !empty($specColor = $size['color'])) {
+                                    $specSizeInsert = $this->improvedSpecs->save($size, $specPriceInsert);
                                     foreach ($specColor as $key => $color) {
                                         if ($color['color_hash'] != null or ($color['amount'] >= 0 && $color['amount'] != null)) {
                                             $specColorInsert = $this->modelColors->save($color, $specSizeInsert);

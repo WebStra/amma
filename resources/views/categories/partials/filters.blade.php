@@ -1,40 +1,7 @@
 <div class="col l3 m5 s12">
     <form class="bordered divide-top filtre sidebar_search" action="" method="get">
-        @if(count($subCategories = $category->subCategories))
-            <div class="filtru subcategories_filters">
-                <h5>{{$meta->getMeta('subcategories-title')}}</h5>
-                <p>
-                    @foreach($subCategories as $subCategory)
-                    <span style="display: block">
-                        <a href="{{ route('view_sub_category', [ $category->slug , $subCategory->slug ]) }}"
-                           title="{{ $subCategory->present()->renderName() }}">{{ $subCategory->present()->renderName() }}</a>
-                    </span>
-                    @endforeach
-                </p>
-            </div>
-        @endif
 
-        @if(isset($groups) && count($groups))
-            @foreach($groups as $group)
-                <div class="filtru">
-                    <h5>{{ $group }}</h5>
-                    <p>
-                        @foreach($category->tags()->select('*')->translated()->whereGroup($group)->get() as $tag)
-                            <span>
-                                <?php
-                                    /* @warning: This stuff works only for checkbox input's. */
-                                    $name = (\App\Repositories\TagRepository::renderDynamicFilterName($group, $tag->normalized));
-                                    $id   = str_slug(sprintf("%s_%s", $group, $tag->name));
-                                ?>
-                                <input type="checkbox" data-value="{{ (isset($_GET[$name]) ? '1' : '0') }}" name="{{ $name }}" id="{{ $id }}"
-                                        {{ (isset($_GET[$name])) ? 'checked' : '' }}>
-                                <label for="{{ $id }}">{{ $tag->name }}</label>
-                            </span>
-                        @endforeach
-                    </p>
-                </div><!-- {{ $group }} filter -->
-            @endforeach
-        @endif
+
 
         <div class="filtru">
             <h5>{{$meta->getMeta('filter-price')}}</h5>
@@ -139,7 +106,7 @@
                 window.history.pushState(state, title, url + params);
             }
 
-            $("form.filtre input").on("change", function(){ // only checkbox
+/*            $("form.filtre input").on("change", function(){ // only checkbox
                 var $this = $(this); // this input changed
                 var form = $this.parents('form'); // serialize the form
                 var output_content = $('div.filter-result');
@@ -157,13 +124,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('view_category', ['category' => $category->slug]) }}',
+                    url: '{!--route('view_category', ['category' => $category->slug]) --}',
                     data: form.serialize(),
                     success: function(response){
                         $('div.filter-result').html(response);
                     }
                 });
-            });
+            });*/
         }(jQuery));
     </script>
 @endsection

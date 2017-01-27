@@ -5,7 +5,8 @@
                 <div class="col l12 s12">
                     <div class="input-field">
                         <span class="label">{{ $meta->getMeta('label_unitate_masura') }}</span>
-                        <select name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][size]" required class="unit browser-default iText" title="{{ $meta->getMeta('label_unitate_masura') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
+                        <select name="spec_price[{{ isset($key_spec) ? $key_spec : 1 }}][size][{{ isset($key_size) ? $key_size : 1 }}][size]" class="unit browser-default iText" title="{{ $meta->getMeta('label_unitate_masura') }}" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.">
+                            <option value="">Unitate de masura</option>
                             @foreach(trans('units') as $key1 => $unit)
                                 @if(is_array($unit))
                                     <optgroup label="{{ucwords($key1)}}">

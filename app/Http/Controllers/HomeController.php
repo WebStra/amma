@@ -39,18 +39,19 @@ class HomeController extends Controller
     public function index()
     {
         $this->registerVisit();
-        if ($filters = request()->all()) {
-
-            $category = $this->category->getModel()->find(request()->get('category'));
-            //$category = $this->category->getModel()->where('id',request()->get('category'))->first();
-
-            if ($category) {
-                $products = $this->products->search($filters);
-                return view('home.search_result', compact('products','category'));
-            }
-        }
-
         return view('home.index');
+    }
+
+    public function search()
+    {
+        if ($filters = request()->all()) {
+            $category = $this->category->getModel()->find(request()->get('category'));
+/*            if ($category) {
+            }*/
+            $products = $this->products->search($filters);
+            return view('home.search_result', compact('products','category'));
+        }
+        return redirect()->route('home');
     }
 
     /**
