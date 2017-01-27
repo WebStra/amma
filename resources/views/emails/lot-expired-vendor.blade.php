@@ -1,10 +1,5 @@
 @extends('emails.layout')
 
-
-@section('subject')
-
-@endsection
-
 @section('message')
     <p>Oferta <a href="{{route('view_lot',['lot'=>$lot->id])}}">{{$lot->name}}</a> a expirat!</p>
     <p>Cumparatori:</p>

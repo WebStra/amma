@@ -158,8 +158,11 @@ class ProductsController extends Controller
         $productInLot = $this->products->countInLotProduct($product->lot_id);
         $same_products = $this->products->getSameProduct($product->sub_category_id);
 
-        $view = view('product.show', ['item' => $product, 'lot' => $lot, 'similar' => $same_products, 'productItem' => $itemPercentage, 'productinlot' => $productInLot]);
-
+        if($lot->verify_status == 'drafted' && (!Auth::check() or  $lot->vendor->user->id != Auth::user()->id)) {
+            abort(404);
+        }else{
+            $view = view('product.show', ['item' => $product, 'lot' => $lot, 'similar' => $same_products, 'productItem' => $itemPercentage, 'productinlot' => $productInLot]);
+        }
         if (Auth::check()) {
             $auth_is_involved = $this->involved
                 ->checkIfAuthInvolved($product);
@@ -173,7 +176,7 @@ class ProductsController extends Controller
             ->withUserIsInvolved(false)
             ->withSame($same_products);
     }
-
+    
     /**
      * @param $hash
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
