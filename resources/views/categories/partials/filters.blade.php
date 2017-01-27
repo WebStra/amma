@@ -1,7 +1,7 @@
 <div class="col l3 m5 s12">
     <form class="bordered divide-top filtre sidebar_search" action="" method="get">
 
-        @if(count($subCategories = $category->subCategories))
+        @if(isset($category->subCategories) && count($subCategories = $category->subCategories))
             <div class="filtru subcategories_filters">
                 <h5>{{$meta->getMeta('subcategories-title')}}</h5>
                 <p>
@@ -10,6 +10,17 @@
                         <a href="{{ route('view_sub_category', [ $category->slug , $subCategory->slug ]) }}"
                            title="{{ $subCategory->present()->renderName() }}">{{ $subCategory->present()->renderName() }}</a>
                     </span>
+                    @endforeach
+                </p>
+            </div>
+        @else
+            <div class="filtru subcategories_filters">
+                <h5>{!! $meta->getMeta('search_bar_categories') !!}</h5>
+                <p>
+                    @foreach($categories as $category)
+                        <span style="display: block">
+                            <a href="{{ route('view_category', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                        </span>
                     @endforeach
                 </p>
             </div>

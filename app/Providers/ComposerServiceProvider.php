@@ -33,7 +33,7 @@ class ComposerServiceProvider extends ServiceProvider
 
         view()->composer('partials.banners.*', BannerComposer::class);
         
-        view()->composer(['partials.categories.*', 'product.partials.*'], CategoryComposer::class);
+        view()->composer(['partials.categories.*', 'product.partials.*', 'categories.partials.*'], CategoryComposer::class);
 
         view()->composer('partials.header.language-bar', LanguageComposer::class);
 
