@@ -168,7 +168,10 @@ class LotRepository extends Repository
      */
     public function getExpiredLot()
     {
-        $this->getModel()->where('expired_status', 'No')->where('expire_date', '<=', Carbon::now())->get();
+        return self::getModel()
+            ->where('expired_status', 'No')
+            ->where('expire_date', '<=', Carbon::now())
+            ->get();
     }
     /**
      * Convert string date to \Carbon/Carbon timestamp.

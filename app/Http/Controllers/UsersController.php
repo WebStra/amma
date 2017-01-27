@@ -74,7 +74,6 @@ class UsersController extends Controller
 
     public function involveProductOffer(InvolveProductRequest $request, $product)
     {
-        $this->sendVendorMessage($product->lot);
 
         $color = $this->color->findRowById($request->color_product);
 

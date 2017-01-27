@@ -3,8 +3,14 @@
 namespace App\Traits;
 use Illuminate\Mail\Message;
 
+/**
+ * Class EmailSendTrait
+ * @package App\Traits
+ */
 trait EmailSendTrait
 {
+
+
     /**
      * @param $lot
      * @return array
@@ -95,6 +101,7 @@ trait EmailSendTrait
 
     public function sendUsersMessage($lot)
     {
+
         $users = $this->getUserProducstInvolved($lot);
 
         $vendor = $lot->vendor;

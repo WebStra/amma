@@ -5,7 +5,9 @@
                                                                              src="{{ $item->present()->cover() }}"></a>
     </div>
     <div class="content">
-        @include('partials.products.item.name')
+        <h4 class="title">
+            <a class="product_name" href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}">{{ str_limit($item->present()->renderName(),$limit=20,$end='..') }}</a>
+        </h4>
         <div class="price_wrapp">
             @include('partials.products.item.price')
         </div>
@@ -18,8 +20,6 @@
                 @else
                     <span style="display: block; color: red;">{{$meta->getMeta('involved-epired')}}</span>
                 @endif
-                <a class="put_in_basket"
-                   href="{{route('view_single_prod_spec',['involve'=>$involved->product_hash])}}" style="font-size: 14px; color: #ff6f00;">{{$meta->getMeta('involved-product-details')}}</a>
             </div>
         </div>
         @if($item->lot->verify_status != 'expired')
