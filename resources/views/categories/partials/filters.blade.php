@@ -13,19 +13,17 @@
                 </p>
             </div>
         @endif
-
-        @if(isset($groups) && count($groups))
+       {{--@if(isset($groups) && count($groups))
             @foreach($groups as $group)
                 <div class="filtru">
                     <h5>{{ $group }}</h5>
                     <p>
                         @foreach($category->tags()->select('*')->translated()->whereGroup($group)->get() as $tag)
                             <span>
-                                <?php
-                                    /* @warning: This stuff works only for checkbox input's. */
+                                    <!-- open php tag -->
                                     $name = (\App\Repositories\TagRepository::renderDynamicFilterName($group, $tag->normalized));
                                     $id   = str_slug(sprintf("%s_%s", $group, $tag->name));
-                                ?>
+                              <!-- close php tag -->
                                 <input type="checkbox" data-value="{{ (isset($_GET[$name]) ? '1' : '0') }}" name="{{ $name }}" id="{{ $id }}"
                                         {{ (isset($_GET[$name])) ? 'checked' : '' }}>
                                 <label for="{{ $id }}">{{ $tag->name }}</label>
@@ -34,8 +32,7 @@
                     </p>
                 </div><!-- {{ $group }} filter -->
             @endforeach
-        @endif
-
+        @endif --}}
         <div class="filtru">
             <h5>{{$meta->getMeta('filter-price')}}</h5>
             <div class="range_select">
