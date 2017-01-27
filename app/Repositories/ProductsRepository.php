@@ -238,22 +238,21 @@ class ProductsRepository extends Repository
         if (empty($product) && (!isset($category)))
             return null;
 
-        if (isset($category)) {
-            $query = $this->getModel()
-                ->select('products.*', 'categoryable.category_id')
+        $query = $this->getModel()->select('products.*')
                 ->where('products.name', 'like', '%' . $product . '%')
-                ->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
-                ->where('categoryable.categoryable_type', get_class(self::getModel()))
-                ->where('categoryable.category_id', $category)
+                ->where('products.active', 1)
                 ->join('lots', 'lots.id', '=', 'products.lot_id')
                 ->where('lots.status', Lot::STATUS_COMPLETE)
-                ->where('lots.verify_status', Lot::STATUS_VERIFY_ACCEPTED);
-        } else {
-            $query = $this->getModel()
-                ->where('name', 'like', '%' . $product . '%');
-        }
+                ->where(function ($query) {
+                    $query->where('lots.verify_status',  Lot::STATUS_VERIFY_ACCEPTED)
+                          ->orWhere('lots.verify_status', Lot::STATUS_VERIFY_EXPIRED);
+                });
 
-        $query->where('products.active', 1);
+        if (isset($category)) {
+            $query->join('categoryable', 'products.id', '=', 'categoryable.categoryable_id')
+                ->where('categoryable.categoryable_type', get_class(self::getModel()))
+                ->where('categoryable.category_id', $category);
+        }
         /*->whereIn('active', ['published', 'completed']);*/
 
         return $query->get();

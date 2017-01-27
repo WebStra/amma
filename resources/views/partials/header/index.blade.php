@@ -112,7 +112,7 @@
                     @include('partials.categories.header_dropdown')
                 </div>
                 <div class="col l9 m9 s12">
-                    <form class="top_search cf" method="get">
+                    <form class="top_search cf" method="get" action="{{route('search')}}">
                         <div class="form_white_area cf">
                             @include('partials.categories.search_dropdown')
                             <div class="input-field search_field">

@@ -1,5 +1,6 @@
 <div class="col l3 m5 s12">
     <form class="bordered divide-top filtre sidebar_search" action="" method="get">
+
         @if(count($subCategories = $category->subCategories))
             <div class="filtru subcategories_filters">
                 <h5>{{$meta->getMeta('subcategories-title')}}</h5>
@@ -136,7 +137,7 @@
                 window.history.pushState(state, title, url + params);
             }
 
-            $("form.filtre input").on("change", function(){ // only checkbox
+/*            $("form.filtre input").on("change", function(){ // only checkbox
                 var $this = $(this); // this input changed
                 var form = $this.parents('form'); // serialize the form
                 var output_content = $('div.filter-result');
@@ -154,13 +155,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('view_category', ['category' => $category->slug]) }}',
+                    url: '{!--route('view_category', ['category' => $category->slug]) --}',
                     data: form.serialize(),
                     success: function(response){
                         $('div.filter-result').html(response);
                     }
                 });
-            });
+            });*/
         }(jQuery));
     </script>
 @endsection

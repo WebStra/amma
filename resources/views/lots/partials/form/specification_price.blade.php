@@ -63,23 +63,23 @@
         <label style="float: right;" class="label-add-spec-color">{{ $meta->getMeta('add_specifications') }} <a onclick="loadImprovedSpecPrice(this); return false;" href="#add-spec">{{ $meta->getMeta('add') }}</a></label>
     </div>
 
-    <div class="wrap_description_price">
-        @if(isset($spec) && count($specs = $spec->getMetaGroup('price')))
-            @foreach($specs as $key_desc => $spec)
-                @include('lots.partials.form.description_specs')
-            @endforeach
-            <?php unset($spec); $key_desc+=1;?>
-            @include('lots.partials.form.description_specs')
-        @else
-            <?php unset($spec);?>
-            @include('lots.partials.form.description_specs')
-        @endif
-    </div>
+   <!--  <div class="wrap_description_price">
+       @if(isset($spec) && count($specs = $spec->getMetaGroup('price')))
+           @foreach($specs as $key_desc => $spec)
+               @include('lots.partials.form.description_specs')
+           @endforeach
+           <?php unset($spec); $key_desc+=1;?>
+           @include('lots.partials.form.description_specs')
+       @else
+           <?php unset($spec);?>
+           @include('lots.partials.form.description_specs')
+       @endif
+   </div> 
 
 
 
     <div class="col l12 m12 s12">
         <label style="float: right;">{{ $meta->getMeta('form_lot_add_spec_prod') }} <a onclick="loadSpecPriceDescription(this); return false;" href="#add-spec-price-desc">{{ $meta->getMeta('add') }}</a></label>
-    </div>
+    </div>-->
 
 </div>

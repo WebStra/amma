@@ -106,7 +106,10 @@ Route::multilingual(function () {
         'as' => 'home',
         'uses' => 'HomeController@index'
     ]);
-
+    Route::get('search', [
+        'as' => 'search',
+        'uses' => 'HomeController@search'
+    ]);
     Route::get('expire-lots', [
         'as' => 'expire_soon_products',
         'uses' => 'PagesController@expireSoonLots'
